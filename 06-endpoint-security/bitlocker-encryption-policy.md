@@ -17,6 +17,7 @@ This lab validates that:
 - The Windows operating system drive can be encrypted using BitLocker.
 - The device can report successful BitLocker policy deployment in Intune.
 - The local device can confirm BitLocker protection using `manage-bde -status`.
+- The BitLocker recovery key can be backed up/escrowed and verified from Intune.
 
 ## Lab Environment
 
@@ -251,6 +252,26 @@ Final result:
 
 This confirmed that BitLocker was successfully enabled on the operating system drive.
 
+### Step 8: Verified BitLocker Recovery Key Backup
+
+After BitLocker was enabled, the recovery key page was checked from Intune:
+
+```text
+Intune admin center
+→ Devices
+→ Windows devices
+→ WIN-CORP-001
+→ Recovery keys
+```
+
+The recovery key entry was visible for:
+
+```text
+Drive type: Operating system drive
+```
+
+The actual BitLocker recovery key was hidden before uploading screenshots to GitHub.
+
 ## Test Result
 
 | Test item | Result |
@@ -265,6 +286,7 @@ This confirmed that BitLocker was successfully enabled on the operating system d
 | Percentage encrypted | 100.0% |
 | Protection status | Protection On |
 | Key protectors present | Numerical Password, TPM |
+| Recovery key escrow verified | Completed |
 
 ## Screenshots
 
@@ -276,31 +298,35 @@ screenshots/sanitized/endpoint-security/
 
 ### BitLocker status before policy
 
-![BitLocker before policy manage-bde status](../../screenshots/sanitized/endpoint-security/bitlocker-before-policy-manage-bde-status-sanitized.png)
+![BitLocker before policy manage-bde status](../screenshots/sanitized/endpoint-security/bitlocker-before-policy-manage-bde-status-sanitized.png)
 
 ### BitLocker pilot device group membership
 
-![BitLocker pilot device group membership](../../screenshots/sanitized/endpoint-security/bitlocker-pilot-device-group-membership-sanitized.png)
+![BitLocker pilot device group membership](../screenshots/sanitized/endpoint-security/bitlocker-pilot-device-group-membership-sanitized.png)
 
 ### BitLocker policy settings
 
-![BitLocker policy settings](../../screenshots/sanitized/endpoint-security/bitlocker-policy-settings-sanitized.png)
+![BitLocker policy settings](../screenshots/sanitized/endpoint-security/bitlocker-policy-settings-sanitized.png)
 
 ### BitLocker policy assignment
 
-![BitLocker policy assignment](../../screenshots/sanitized/endpoint-security/bitlocker-policy-assignment-sanitized.png)
+![BitLocker policy assignment](../screenshots/sanitized/endpoint-security/bitlocker-policy-assignment-sanitized.png)
 
 ### BitLocker policy review and create
 
-![BitLocker policy review and create](../../screenshots/sanitized/endpoint-security/bitlocker-policy-review-create-sanitized.png)
+![BitLocker policy review and create](../screenshots/sanitized/endpoint-security/bitlocker-policy-review-create-sanitized.png)
 
 ### BitLocker policy device status success
 
-![BitLocker policy device status success](../../screenshots/sanitized/endpoint-security/bitlocker-policy-device-status-success-sanitized.png)
+![BitLocker policy device status success](../screenshots/sanitized/endpoint-security/bitlocker-policy-device-status-success-sanitized.png)
 
 ### BitLocker status after policy
 
-![BitLocker after policy manage-bde status](../../screenshots/sanitized/endpoint-security/bitlocker-after-policy-manage-bde-status-sanitized.png)
+![BitLocker after policy manage-bde status](../screenshots/sanitized/endpoint-security/bitlocker-after-policy-manage-bde-status-sanitized.png)
+
+### BitLocker recovery key escrowed
+
+![BitLocker recovery key escrowed](../screenshots/sanitized/endpoint-security/bitlocker-recovery-key-escrowed-sanitized.png)
 
 ## Screenshot Files
 
@@ -312,6 +338,7 @@ bitlocker-policy-assignment-sanitized.png
 bitlocker-policy-review-create-sanitized.png
 bitlocker-policy-device-status-success-sanitized.png
 bitlocker-after-policy-manage-bde-status-sanitized.png
+bitlocker-recovery-key-escrowed-sanitized.png
 ```
 
 ## Security and Privacy Notes
@@ -381,6 +408,7 @@ BitLocker initially off
 → WIN-CORP-001 receives policy successfully
 → OS drive becomes BitLocker encrypted
 → manage-bde confirms Protection On
+→ Recovery key is visible in Intune recovery keys
 ```
 
 ## Current Lab Status
@@ -396,10 +424,7 @@ Completed:
 - Device-side BitLocker status confirmed 100% encrypted
 - Protection status confirmed as On
 - TPM and Numerical Password key protectors confirmed
-
-Optional follow-up:
-
-- Capture a recovery key escrow screenshot from Intune or Microsoft Entra ID without exposing the actual recovery key.
+- Recovery key escrow screenshot captured and sanitized
 
 ## Next Step
 
