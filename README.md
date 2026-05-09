@@ -22,6 +22,7 @@ This project demonstrates real-world Microsoft Intune administration skills, inc
 - Win32 app deployment
 - Microsoft 365 Apps deployment
 - Endpoint security policies
+- BitLocker disk encryption
 - Remote actions, monitoring, and troubleshooting
 
 ## Virtual Company Scenario
@@ -66,6 +67,9 @@ The project has moved from planning into active hands-on implementation.
 | Microsoft Store app deployment | Completed |
 | Win32 app deployment with 7-Zip | Completed |
 | Defender Antivirus endpoint security policy | Completed |
+| Windows Firewall endpoint security policy | Completed |
+| BitLocker disk encryption policy | Completed |
+| BitLocker recovery key escrow verification | Completed |
 | Windows Autopilot deployment profile | Completed |
 | Autopilot hardware hash import and profile assignment | Completed |
 | Autopilot user-driven OOBE enrollment verification | Completed |
@@ -74,7 +78,7 @@ The project has moved from planning into active hands-on implementation.
 | Word sign-in verification with User 01 | Completed |
 | Excel and PowerPoint installation as selected Microsoft 365 Apps | Completed |
 | BYOD enrollment labs | Planned |
-| Additional endpoint security labs | Planned |
+| Additional endpoint security labs: ASR and Security Baseline | Planned |
 | Remote actions and monitoring | Planned |
 | Troubleshooting labs | Planned |
 | Sanitized screenshots | Added as available |
@@ -264,38 +268,50 @@ Completed:
 
 - Microsoft Defender Antivirus endpoint security policy created
 - Core Defender Antivirus settings configured
-- Policy assigned to pilot users
-- WIN-CORP-001 reported policy status as Succeeded
+- Defender Antivirus policy assigned to pilot users
+- WIN-CORP-001 reported Defender Antivirus policy status as Succeeded
+- Windows Firewall endpoint security policy created
+- Firewall enabled for Domain, Private, and Public network profiles
+- Firewall policy assigned to pilot users
+- Firewall status verified in Intune
+- Firewall status verified locally on WIN-CORP-001
+- BitLocker disk encryption policy created
+- BitLocker policy assigned to a dedicated device-only pilot group
+- WIN-CORP-001 encrypted successfully with BitLocker
+- BitLocker protection confirmed as On
+- BitLocker recovery key escrow verified in Intune
 
-Main file:
+Main files:
 
 ```text
 06-endpoint-security/windows-defender-antivirus-policy.md
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
 ```
 
 ## Current Focus
 
-The current focus is to continue with the next endpoint security or management lab.
+The current focus is to continue expanding endpoint security and management depth.
 
 Recommended next labs:
 
 ```text
-06-endpoint-security/windows-firewall-policy.md
-06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
 ```
 
 ## Planned / Upcoming Labs
 
 Next planned work:
 
-1. Continue with Windows Firewall endpoint security policy.
-2. Continue with BitLocker encryption policy.
-3. Continue with Attack Surface Reduction policy.
-4. Continue with Windows Security Baseline.
-5. Continue with Windows BYOD enrollment.
-6. Continue with Android/iOS BYOD enrollment.
-7. Continue with remote actions and monitoring.
-8. Continue with troubleshooting labs.
+1. Continue with Attack Surface Reduction policy.
+2. Continue with Windows Security Baseline.
+3. Continue with Windows BYOD enrollment.
+4. Continue with Android/iOS BYOD enrollment.
+5. Continue with remote actions and monitoring.
+6. Continue with troubleshooting labs.
+7. Later create an advanced Windows Firewall Rules lab.
 
 Future planned labs:
 
@@ -304,11 +320,10 @@ Future planned labs:
 - iOS BYOD enrollment
 - Managed but noncompliant device test
 - Conditional Access enforced mode test
-- Windows Firewall endpoint security policy
-- BitLocker disk encryption policy
 - Attack Surface Reduction policy
 - Windows Security Baseline
 - Remote actions and monitoring
+- Advanced Windows Firewall Rules lab
 - Autopilot / motherboard replacement troubleshooting lab
 
 ## Repository Structure
@@ -390,6 +405,8 @@ It demonstrates practical experience with:
 - Application deployment
 - Microsoft 365 Apps deployment
 - Endpoint security
+- Windows Firewall policy management
+- BitLocker disk encryption
 - BYOD testing
 - Remote actions
 - Troubleshooting and documentation
@@ -399,21 +416,22 @@ It demonstrates practical experience with:
 The most recent completed milestone is:
 
 ```text
-Windows Autopilot user-driven enrollment
+Windows Firewall endpoint security policy
 +
-Microsoft 365 Apps deployment validation
+BitLocker disk encryption policy with recovery key escrow verification
 ```
 
 This proves the following workflow:
 
 ```text
-Autopilot hardware hash imported
-→ Autopilot profile assigned
-→ User 01 signs in during OOBE
-→ Device joins Microsoft Entra ID
-→ Device enrolls into Intune
-→ Microsoft 365 Apps install successfully
-→ Word opens and signs in with User 01
+Firewall policy created in Intune
+→ Firewall enabled for Domain, Private, and Public profiles
+→ WIN-CORP-001 confirmed firewall is on
+→ Dedicated BitLocker pilot device group created
+→ BitLocker policy assigned to WIN-CORP-001
+→ OS drive encrypted successfully
+→ manage-bde confirms Protection On
+→ BitLocker recovery key escrow verified in Intune
 ```
 
 ## Disclaimer
