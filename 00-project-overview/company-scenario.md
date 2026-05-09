@@ -43,13 +43,14 @@ The goal is to manage company and personal devices using Microsoft Intune and Mi
 This project demonstrates how an endpoint administrator can:
 
 - Enroll Windows devices into Intune
-- Register and provision Windows devices using Autopilot
+- Register and provision Windows devices using Windows Autopilot
 - Organize users and devices with Microsoft Entra groups
 - Apply configuration profiles
 - Create compliance policies
 - Use Conditional Access to require compliant devices
 - Test corporate and BYOD access scenarios
 - Deploy and manage apps
+- Deploy Microsoft 365 Apps to Autopilot-enrolled devices
 - Configure endpoint security policies
 - Document lab results with sanitized screenshots
 
@@ -61,6 +62,7 @@ The following hands-on tasks have been completed or started:
 - Microsoft Entra users and groups created
 - Intune licenses assigned
 - Microsoft 365 Business Premium trial activated for Office app testing
+- Microsoft 365 Business Premium license assigned to User 01
 - Corporate Windows device enrolled
 - WIN-CORP-001 confirmed as managed and compliant
 - Windows compliance policy created
@@ -72,15 +74,22 @@ The following hands-on tasks have been completed or started:
 - Microsoft Store app deployment completed
 - Win32 7-Zip deployment completed
 - Defender Antivirus endpoint security policy completed
+- Autopilot device group created
 - Autopilot deployment profile created
-- Autopilot device imported and profile assigned
+- Autopilot hardware hash imported
+- Autopilot device profile assigned
+- Autopilot OOBE enrollment completed with User 01
+- Autopilot device appeared in Intune Windows devices
+- Autopilot device confirmed as corporate and compliant
 - Microsoft 365 Apps deployment created for Autopilot lab
+- Microsoft 365 Apps installation verified
+- Word sign-in verified with User 01
 
 ## Learning Purpose
 
 This project is created to demonstrate hands-on learning for **MD-102: Endpoint Administrator**.
 
-The project is designed to show practical experience with Microsoft Intune, Microsoft Entra ID, Windows device management, BYOD scenarios, compliance, Conditional Access, configuration profiles, app deployment, endpoint security, Autopilot, and troubleshooting.
+The project is designed to show practical experience with Microsoft Intune, Microsoft Entra ID, Windows device management, BYOD scenarios, compliance, Conditional Access, configuration profiles, app deployment, endpoint security, Windows Autopilot, Microsoft 365 Apps deployment, and troubleshooting.
 
 ## Privacy and Security Note
 
