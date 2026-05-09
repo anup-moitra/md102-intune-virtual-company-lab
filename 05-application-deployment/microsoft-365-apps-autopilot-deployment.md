@@ -4,7 +4,7 @@ This file documents the Microsoft 365 Apps deployment created in Microsoft Intun
 
 ## Objective
 
-The objective of this lab is to deploy Microsoft 365 Apps to a Windows device during or after Windows Autopilot enrollment.
+The objective of this lab is to deploy selected Microsoft 365 Apps to a Windows device after Windows Autopilot enrollment.
 
 This lab validates that:
 
@@ -12,7 +12,8 @@ This lab validates that:
 - Microsoft 365 Apps can be created as an Intune app deployment.
 - Selected Office apps can be assigned as required apps.
 - The app deployment can support an Autopilot provisioning scenario.
-- Outlook, Excel, and PowerPoint can later be tested after Autopilot enrollment.
+- Word, Excel, and PowerPoint can be installed on an Autopilot-enrolled Windows device.
+- Word can be opened and signed in with User 01 after deployment.
 
 ## Lab Context
 
@@ -31,16 +32,22 @@ Windows Autopilot
 
 This app deployment is connected to the Autopilot lab because the user signs in during OOBE, the device enrolls into Intune, and assigned apps can then install automatically.
 
+Related Autopilot enrollment lab:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+```
+
 ## Why This Lab Matters
 
 In real organizations, newly provisioned corporate Windows laptops usually need productivity applications installed automatically.
 
 Common required apps include:
 
-- Outlook
+- Word
 - Excel
 - PowerPoint
-- Word
+- Outlook
 - Teams
 - OneDrive
 - Company Portal
@@ -48,7 +55,7 @@ Common required apps include:
 - VPN clients
 - Business applications
 
-For this lab, the focus is on Microsoft 365 Apps because the future troubleshooting scenario involves Outlook, Excel, and PowerPoint sign-in behavior after Autopilot or hardware changes.
+For this lab, the focus is on Microsoft 365 Apps because Microsoft Intune can deploy Office applications automatically to managed Windows devices after enrollment.
 
 ## Licensing Preparation
 
@@ -57,7 +64,7 @@ A Microsoft 365 Business Premium trial was activated for the lab tenant.
 The license was assigned to:
 
 ```text
-user01
+User 01
 ```
 
 The purpose of this license is to allow User 01 to use Microsoft 365 desktop apps and test sign-in/activation after Autopilot provisioning.
@@ -67,9 +74,9 @@ The purpose of this license is to allow User 01 to use Microsoft 365 desktop app
 | Item | Value |
 |---|---|
 | License product | Microsoft 365 Business Premium |
-| Assigned user | user01 |
+| Assigned user | User 01 |
 | Purpose | Enable Microsoft 365 Apps and productivity app testing |
-| Apps to test | Outlook, Excel, PowerPoint |
+| Apps selected for this lab | Word, Excel, PowerPoint |
 | Related lab | Windows Autopilot user-driven enrollment |
 
 ## App Deployment Details
@@ -82,9 +89,9 @@ The purpose of this license is to allow User 01 to use Microsoft 365 desktop app
 | Publisher | Microsoft |
 | Assignment type | Required |
 | Target group | GRP-Pilot-Users |
-| Test user | user01 |
+| Test user | User 01 |
 | Related device | Autopilot test device |
-| Install context | During or after Autopilot enrollment |
+| Install context | After Autopilot enrollment / during Intune app processing |
 
 ## Selected Microsoft 365 Apps
 
@@ -92,12 +99,12 @@ The following Microsoft 365 Apps were selected for this lab:
 
 | App | Purpose |
 |---|---|
-| Outlook | Email and Microsoft 365 sign-in testing |
-| Excel | Office activation and productivity app testing |
-| PowerPoint | Office activation and productivity app testing |
+| Word | Office sign-in and activation validation |
+| Excel | Productivity app installation validation |
+| PowerPoint | Productivity app installation validation |
 
 > [!NOTE]
-> Word, OneNote, Teams, Access, and Publisher were not the main focus of this lab. The selected apps match the future troubleshooting goal around Outlook, Excel, and PowerPoint behavior.
+> Outlook was not selected in this Microsoft 365 Apps deployment. This lab validates the selected apps: Word, Excel, and PowerPoint.
 
 ## App Suite Configuration
 
@@ -135,7 +142,7 @@ User 01 signs in during Autopilot
 → Device enrolls into Intune
 → Intune evaluates required app assignments
 → Microsoft 365 Apps deployment applies
-→ Outlook, Excel, and PowerPoint install or become available
+→ Word, Excel, and PowerPoint install or become available
 ```
 
 ## Steps Performed
@@ -151,7 +158,7 @@ This added Microsoft 365 Apps licensing capability to the lab tenant.
 The Microsoft 365 Business Premium license was assigned to:
 
 ```text
-user01
+User 01
 ```
 
 Navigation used:
@@ -160,7 +167,7 @@ Navigation used:
 Microsoft 365 admin center
 → Users
 → Active users
-→ user01
+→ User 01
 → Licenses and apps
 → Microsoft 365 Business Premium
 → Save changes
@@ -190,7 +197,7 @@ Microsoft 365 Apps for Windows - Autopilot Lab
 Description used:
 
 ```text
-Deploys Microsoft 365 Apps to Autopilot-enrolled Windows devices for the MD-102 lab.
+Deploys selected Microsoft 365 Apps to Autopilot-enrolled Windows devices for the MD-102 lab.
 ```
 
 ### Step 5: Selected Office Apps
@@ -198,7 +205,7 @@ Deploys Microsoft 365 Apps to Autopilot-enrolled Windows devices for the MD-102 
 The following apps were selected:
 
 ```text
-Outlook
+Word
 Excel
 PowerPoint
 ```
@@ -231,103 +238,94 @@ Target group:
 GRP-Pilot-Users
 ```
 
-### Step 8: Connected This App Deployment to Autopilot
+### Step 8: Completed Autopilot Enrollment
 
-The app assignment was created before completing the Autopilot OOBE test.
+The Autopilot device was successfully enrolled into Microsoft Intune using User 01.
 
-This allows the app deployment to be evaluated when User 01 signs in and the device enrolls into Intune.
+The device appeared in Intune as a corporate Windows device and showed compliant status.
 
-## Test Plan
+### Step 9: Verified Microsoft 365 Apps Installation
 
-The following test will be completed after Autopilot OOBE sign-in finishes.
+Microsoft 365 Apps installation was verified from two locations:
 
-| Test item | Expected result |
+```text
+Company Portal
+→ Downloads & updates
+→ Microsoft 365 Apps for Windows - Autopilot Lab
+→ Status: Installed
+```
+
+and:
+
+```text
+Intune admin center
+→ Apps
+→ All apps
+→ Microsoft 365 Apps for Windows - Autopilot Lab
+→ Monitor
+→ Device install status
+→ Status: Installed
+```
+
+### Step 10: Verified Word Sign-In
+
+Microsoft Word was opened on the Autopilot-enrolled device.
+
+Word showed User 01 signed in successfully.
+
+## Test Result
+
+| Test item | Result |
 |---|---|
-| Autopilot device enrolls into Intune | Device appears in Intune |
-| User 01 signs in during OOBE | Sign-in succeeds |
-| Device becomes Microsoft Entra joined | Join type shows Microsoft Entra joined |
-| Device becomes Intune managed | Managed by Intune |
-| Microsoft 365 Apps assignment applies | App install begins or completes |
-| Outlook opens | User 01 can sign in |
-| Excel opens | User 01 can sign in / activate |
-| PowerPoint opens | User 01 can sign in / activate |
-
-## Current Lab Status
-
-| Task | Status |
-|---|---|
-| Microsoft 365 Business Premium trial activated | Completed |
-| License assigned to user01 | Completed |
-| Microsoft 365 Apps deployment created | Completed |
-| Outlook selected | Completed |
-| Excel selected | Completed |
-| PowerPoint selected | Completed |
-| App assigned as Required to GRP-Pilot-Users | Completed |
-| Autopilot OOBE sign-in completed | Pending |
-| Microsoft 365 Apps install verified | Pending |
-| Outlook sign-in tested | Pending |
-| Excel sign-in tested | Pending |
-| PowerPoint sign-in tested | Pending |
-| Screenshots added | Pending |
+| Microsoft 365 Business Premium trial activated | Successful |
+| License assigned to User 01 | Successful |
+| Microsoft 365 Apps deployment created | Successful |
+| Word selected | Successful |
+| Excel selected | Successful |
+| PowerPoint selected | Successful |
+| App assigned as Required to GRP-Pilot-Users | Successful |
+| Autopilot OOBE sign-in completed | Successful |
+| Device enrolled into Intune | Successful |
+| Microsoft 365 Apps install status in Intune | Installed |
+| Microsoft 365 Apps shown in Company Portal | Installed |
+| Word sign-in with User 01 | Successful |
+| Excel availability | Installed as part of Microsoft 365 Apps |
+| PowerPoint availability | Installed as part of Microsoft 365 Apps |
+| Screenshots added | Completed |
 
 ## Screenshots
 
-The following screenshots should be added after sanitizing sensitive information.
+The following sanitized screenshots were captured for this lab.
 
 > [!NOTE]
-> Screenshots must be sanitized before upload. Hide tenant names, full email addresses, device IDs, serial numbers, object IDs, request IDs, correlation IDs, IP addresses, and any sensitive information.
+> Screenshots were sanitized before upload. Tenant names, full email addresses, device names, serial numbers, object IDs, request IDs, correlation IDs, IP addresses, and other sensitive information were hidden.
 
-### Microsoft 365 Business Premium license assigned to User 01
+### Microsoft 365 Apps installed in Company Portal
 
-![Microsoft 365 Business Premium license assigned](../screenshots/sanitized/application-deployment/m365-business-premium-license-user01-sanitized.jpg)
+![Microsoft 365 Apps installed in Company Portal](../screenshots/sanitized/application-deployment/m365-apps-installed-company-portal-sanitized.jpg)
 
-### Microsoft 365 Apps app information
+### Microsoft 365 Apps device install status in Intune
 
-![Microsoft 365 Apps app information](../screenshots/sanitized/application-deployment/m365-apps-autopilot-app-info-sanitized.jpg)
+![Microsoft 365 Apps device install status](../screenshots/sanitized/application-deployment/m365-apps-device-install-status-sanitized.jpg)
 
-### Microsoft 365 Apps selected apps
+### Word signed in with User 01
 
-![Microsoft 365 Apps selected apps](../screenshots/sanitized/application-deployment/m365-apps-selected-apps-sanitized.jpg)
-
-### Microsoft 365 Apps assignment
-
-![Microsoft 365 Apps assignment](../screenshots/sanitized/application-deployment/m365-apps-required-assignment-sanitized.jpg)
-
-### Microsoft 365 Apps install status
-
-![Microsoft 365 Apps install status](../screenshots/sanitized/application-deployment/m365-apps-install-status-sanitized.jpg)
-
-### Outlook sign-in test
-
-![Outlook sign-in test](../screenshots/sanitized/application-deployment/outlook-signin-test-sanitized.jpg)
-
-### Excel sign-in test
-
-![Excel sign-in test](../screenshots/sanitized/application-deployment/excel-signin-test-sanitized.jpg)
-
-### PowerPoint sign-in test
-
-![PowerPoint sign-in test](../screenshots/sanitized/application-deployment/powerpoint-signin-test-sanitized.jpg)
+![Word signed in with User 01](../screenshots/sanitized/application-deployment/word-user01-signed-in-sanitized.jpg)
 
 ## Screenshot Folder Path
 
-Screenshots for this lab should be stored in:
+Screenshots for this lab are stored in:
 
 ```text
 screenshots/sanitized/application-deployment/
 ```
 
-Suggested screenshot filenames:
+Screenshot filenames:
 
 ```text
-m365-business-premium-license-user01-sanitized.jpg
-m365-apps-autopilot-app-info-sanitized.jpg
-m365-apps-selected-apps-sanitized.jpg
-m365-apps-required-assignment-sanitized.jpg
-m365-apps-install-status-sanitized.jpg
-outlook-signin-test-sanitized.jpg
-excel-signin-test-sanitized.jpg
-powerpoint-signin-test-sanitized.jpg
+m365-apps-installed-company-portal-sanitized.jpg
+m365-apps-device-install-status-sanitized.jpg
+word-user01-signed-in-sanitized.jpg
 ```
 
 ## Troubleshooting Notes
@@ -344,7 +342,7 @@ If Microsoft 365 Apps do not install immediately, check the following:
 8. Restart the device if required.
 9. Wait for Intune check-in and Office installation processing.
 
-If Outlook, Excel, or PowerPoint opens but does not activate, check:
+If Word, Excel, or PowerPoint opens but does not activate, check:
 
 1. User 01 license assignment.
 2. Office activation status.
@@ -373,19 +371,19 @@ Do not upload sensitive information, including:
 
 ## What This Lab Proves
 
-This lab proves that Microsoft Intune can be used to deploy Microsoft 365 Apps to a Windows device as part of a modern Autopilot provisioning workflow.
+This lab proves that Microsoft Intune can be used to deploy selected Microsoft 365 Apps to a Windows device as part of a modern Autopilot provisioning workflow.
 
 Simple explanation:
 
 ```text
 Microsoft 365 Business Premium license assigned to User 01
 → Microsoft 365 Apps deployment created in Intune
-→ Outlook, Excel, and PowerPoint selected
+→ Word, Excel, and PowerPoint selected
 → App assigned as Required to GRP-Pilot-Users
 → User 01 signs in during Autopilot
 → Device enrolls into Intune
-→ Apps install or become available
-→ User signs in to Office apps
+→ Microsoft 365 Apps install successfully
+→ Word opens and signs in with User 01
 ```
 
 ## Future Troubleshooting Connection
@@ -397,28 +395,44 @@ Planned future scenario:
 ```text
 Autopilot / Intune-managed laptop after motherboard replacement
 → User signs in
-→ Outlook / Excel / PowerPoint sign-in issue occurs
+→ Microsoft 365 Apps sign-in or activation issue occurs
 → Troubleshoot Entra device identity, Intune enrollment, Autopilot record, TPM, and Office activation
 ```
 
 This will be documented later as a separate troubleshooting lab.
 
+## Current Lab Status
+
+Completed:
+
+- Microsoft 365 Business Premium trial activated.
+- License assigned to User 01.
+- Microsoft 365 Apps deployment created in Intune.
+- Word, Excel, and PowerPoint selected.
+- App assigned as Required to GRP-Pilot-Users.
+- Autopilot enrollment completed.
+- Microsoft 365 Apps install verified in Intune.
+- Microsoft 365 Apps install verified in Company Portal.
+- Word sign-in verified with User 01.
+- Sanitized screenshots added.
+
+Optional future validation:
+
+- Capture separate Excel open/sign-in screenshot.
+- Capture separate PowerPoint open/sign-in screenshot.
+
 ## Next Step
 
-Complete the Autopilot OOBE sign-in with:
+The Microsoft 365 Apps deployment for Autopilot lab is complete.
+
+The next recommended lab is to continue with another endpoint security or management task, such as:
 
 ```text
-user01
+06-endpoint-security/windows-firewall-policy.md
 ```
 
-Then verify:
+or:
 
 ```text
-Device appears in Intune
-Device is Microsoft Entra joined
-Device is managed by Intune
-Microsoft 365 Apps install status
-Outlook sign-in
-Excel sign-in
-PowerPoint sign-in
+06-endpoint-security/bitlocker-encryption-policy.md
 ```
