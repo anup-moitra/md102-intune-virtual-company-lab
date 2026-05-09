@@ -35,6 +35,7 @@ The lab includes:
 - BYOD user groups
 - Mobile user groups
 - Autopilot device groups
+- Device-only pilot groups for safer endpoint security testing
 
 ## Management Goal
 
@@ -52,6 +53,8 @@ This project demonstrates how an endpoint administrator can:
 - Deploy and manage apps
 - Deploy Microsoft 365 Apps to Autopilot-enrolled devices
 - Configure endpoint security policies
+- Configure Windows Firewall and disk encryption policies
+- Verify endpoint security results from both Intune and the local device
 - Document lab results with sanitized screenshots
 
 ## Current Lab Progress
@@ -74,6 +77,13 @@ The following hands-on tasks have been completed or started:
 - Microsoft Store app deployment completed
 - Win32 7-Zip deployment completed
 - Defender Antivirus endpoint security policy completed
+- Windows Firewall endpoint security policy completed
+- Firewall enabled for Domain, Private, and Public network profiles
+- Firewall status verified in Intune and on WIN-CORP-001
+- BitLocker disk encryption policy completed
+- WIN-CORP-001 encrypted successfully with BitLocker
+- BitLocker protection confirmed as On
+- BitLocker recovery key escrow verified in Intune
 - Autopilot device group created
 - Autopilot deployment profile created
 - Autopilot hardware hash imported
@@ -85,11 +95,24 @@ The following hands-on tasks have been completed or started:
 - Microsoft 365 Apps installation verified
 - Word sign-in verified with User 01
 
+## Current Endpoint Security Coverage
+
+The current endpoint security coverage includes:
+
+| Endpoint security area | Status |
+|---|---|
+| Microsoft Defender Antivirus policy | Completed |
+| Windows Firewall policy | Completed |
+| BitLocker disk encryption policy | Completed |
+| BitLocker recovery key escrow verification | Completed |
+| Attack Surface Reduction policy | Planned |
+| Windows Security Baseline | Planned |
+
 ## Learning Purpose
 
 This project is created to demonstrate hands-on learning for **MD-102: Endpoint Administrator**.
 
-The project is designed to show practical experience with Microsoft Intune, Microsoft Entra ID, Windows device management, BYOD scenarios, compliance, Conditional Access, configuration profiles, app deployment, endpoint security, Windows Autopilot, Microsoft 365 Apps deployment, and troubleshooting.
+The project is designed to show practical experience with Microsoft Intune, Microsoft Entra ID, Windows device management, BYOD scenarios, compliance, Conditional Access, configuration profiles, app deployment, endpoint security, Windows Autopilot, Microsoft 365 Apps deployment, Windows Firewall management, BitLocker disk encryption, recovery key verification, and troubleshooting.
 
 ## Privacy and Security Note
 
