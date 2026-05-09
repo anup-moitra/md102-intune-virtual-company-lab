@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local-only files
+*.tmp
+*.log
+
+# Do not commit raw sensitive exports
+*.csv
+*.cab
+*.intunewin
