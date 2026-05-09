@@ -15,7 +15,7 @@ This lab includes both corporate-owned and personally owned/BYOD devices.
 | Device Name | Device Type | Ownership | Operating System | Enrollment Type | Assigned / Primary User | Status |
 |---|---|---|---|---|---|---|
 | WIN-CORP-001 | Physical laptop | Corporate | Windows 11 | Windows OOBE + Microsoft Entra joined + Intune enrolled | user01 | Enrolled and compliant |
-| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Microsoft Entra join | user01 | In progress / profile assigned |
+| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Microsoft Entra join | user01 | Autopilot enrolled, Intune managed, and compliant |
 | WIN-CORP-002 | Laptop | Corporate | Windows 11 | Planned: Entra joined + Intune enrolled | TBD | Planned |
 | WIN-CORP-003 | Laptop | Corporate | Windows 11 | Planned: Entra joined + Intune enrolled | TBD | Planned |
 | WIN-CORP-004 | Laptop | Corporate | Windows 11 | Planned: Entra joined + Intune enrolled | TBD | Planned |
@@ -49,13 +49,13 @@ This lab includes both corporate-owned and personally owned/BYOD devices.
 | Configuration profile tested | WIN-CORP-Basic-Configuration-Profile |
 | Lab result | Successful |
 
-## Autopilot Device Status
+## Completed Autopilot Device Enrollment
 
 ### WIN-AUTOPILOT-001
 
 | Item | Value |
 |---|---|
-| Device name | WIN-AUTOPILOT-001 / Windows-generated name pending confirmation |
+| Device name | WIN-AUTOPILOT-001 / Windows-generated name |
 | Device type | Laptop |
 | Ownership | Corporate |
 | Operating system | Windows 11 |
@@ -63,8 +63,17 @@ This lab includes both corporate-owned and personally owned/BYOD devices.
 | Autopilot profile | AP WIN User Driven Entra Join |
 | Autopilot group | GRP-Autopilot-Devices |
 | Profile status | Assigned |
+| Enrollment method | Windows Autopilot user-driven Microsoft Entra join |
 | Test user | user01 |
-| Current status | OOBE enrollment verification in progress |
+| Management | Microsoft Intune |
+| Join type | Microsoft Entra joined |
+| Ownership status in Intune | Corporate |
+| Compliance status | Compliant |
+| Microsoft 365 Apps deployment | Installed and verified |
+| Office app validation | Word sign-in verified with User 01 |
+| Lab result | Successful |
+
+This device was used to validate the Windows Autopilot provisioning flow and Microsoft 365 Apps deployment after enrollment.
 
 ## Completed BYOD Testing
 
@@ -111,6 +120,7 @@ Suggested screenshot filenames:
 win-corp-001-overview-sanitized.jpg
 win-corp-001-compliance-sanitized.jpg
 win-autopilot-001-intune-overview-sanitized.jpg
+win-autopilot-001-compliance-status-sanitized.jpg
 win-byod-001-report-only-test-sanitized.jpg
 ```
 
@@ -140,11 +150,16 @@ Completed:
 - WIN-CORP-001 enrolled into Microsoft Intune
 - WIN-CORP-001 reported compliant
 - WIN-BYOD-001 tested as unmanaged BYOD for Conditional Access
-- Autopilot test device imported and assigned a profile
+- Autopilot test device imported into Windows Autopilot
+- Autopilot profile assigned successfully
+- Autopilot OOBE sign-in completed with User 01
+- Autopilot device appeared in Intune Windows devices
+- Autopilot device showed corporate ownership and compliant status
+- Microsoft 365 Apps deployment verified on the Autopilot device
+- Word sign-in verified with User 01
 
 Pending:
 
-- Complete Autopilot OOBE sign-in and verification
 - Windows BYOD enrollment
 - Android BYOD enrollment
 - iOS BYOD enrollment
