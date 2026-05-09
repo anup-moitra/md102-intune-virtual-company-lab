@@ -4,16 +4,17 @@ This file documents the Windows Autopilot user-driven enrollment lab for the MD-
 
 ## Objective
 
-The objective of this lab is to register a Windows device with Windows Autopilot and use a user-driven Autopilot deployment profile to enroll the device into Microsoft Intune.
+The objective of this lab is to manually register a Windows device with Windows Autopilot and use a user-driven Autopilot deployment profile to enroll the device into Microsoft Intune.
 
 This lab validates that:
 
 - A Windows device can be manually registered with Windows Autopilot using a hardware hash CSV.
-- A Windows Autopilot deployment profile can be created and assigned.
-- The device can receive the assigned Autopilot profile.
+- A Windows Autopilot deployment profile can be assigned to the device.
+- The device can receive the assigned Autopilot profile during Windows OOBE.
 - User 01 can sign in during Windows OOBE.
-- The device can join Microsoft Entra ID and enroll into Microsoft Intune.
-- The Autopilot-enrolled device can later receive apps and policies from Intune.
+- The device can join Microsoft Entra ID.
+- The device can enroll into Microsoft Intune.
+- The Autopilot-enrolled device can receive future apps, policies, and security configurations from Intune.
 
 ## Lab Context
 
@@ -32,10 +33,12 @@ This Autopilot lab builds on the earlier completed work:
 | User 01 licensed for Intune and Microsoft 365 Apps | Completed |
 | Autopilot test device available | Completed |
 | Autopilot device group created | Completed |
+| Autopilot deployment profile created | Completed |
+| Microsoft 365 Apps deployment created separately | Completed / verification pending |
 
 ## Important Concept
 
-Windows Autopilot is used to set up and configure Windows devices during the out-of-box experience, also known as OOBE.
+Windows Autopilot is used to configure Windows devices during the out-of-box experience, also known as OOBE.
 
 In a traditional setup, an IT admin may manually configure Windows, join the device, install apps, and apply settings.
 
@@ -65,8 +68,8 @@ This lab uses a user-driven Autopilot deployment.
 | Device ownership | Corporate |
 | Enrollment platform | Windows 11 |
 | Test user | User 01 |
-| User sign-in account | user01@anupmoitra.onmicrosoft.com |
-| Autopilot group | GRP-Autopilot-Devices |
+| User sign-in account | User 01 lab account |
+| Autopilot device group | GRP-Autopilot-Devices |
 | Deployment profile | AP WIN User Driven Entra Join |
 | Microsoft 365 Apps deployment | Created separately in Intune |
 
@@ -85,7 +88,7 @@ This group was used to assign the Autopilot deployment profile.
 
 ## Autopilot Deployment Profile
 
-The following Windows Autopilot deployment profile was created.
+The following Windows Autopilot deployment profile was used.
 
 | Setting | Value |
 |---|---|
@@ -107,7 +110,7 @@ The following Windows Autopilot deployment profile was created.
 
 For this first Autopilot lab, the device name template was not enabled.
 
-Because of this, Windows may assign a default device name during setup.
+Because of this, Windows assigned a default device name during setup.
 
 Future improvement:
 
@@ -124,7 +127,7 @@ WINAP12345
 
 ## Hardware Hash Collection
 
-The Autopilot test laptop was already at the Windows OOBE screen.
+The Autopilot test laptop was at the Windows OOBE screen.
 
 To collect the hardware hash, Command Prompt was opened from OOBE using:
 
@@ -138,31 +141,44 @@ PowerShell was started from Command Prompt:
 powershell
 ```
 
-The following commands were used to collect the hardware hash:
+The following commands were used to prepare the hardware hash collection:
 
 ```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Type Directory -Path "C:\HWID"
+Set-Location -Path "C:\HWID"
+$env:Path += ";C:\Program Files\WindowsPowerShell\Scripts"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
 Install-Script -Name Get-WindowsAutopilotInfo -Force
-Get-WindowsAutopilotInfo -OutputFile C:\AutopilotHWID.csv
+```
+
+The following command was used to generate the hardware hash CSV:
+
+```powershell
+Get-WindowsAutopilotInfo -OutputFile AutopilotHWID.csv
 ```
 
 The CSV file was saved as:
 
 ```text
-C:\AutopilotHWID.csv
+C:\HWID\AutopilotHWID.csv
 ```
 
-The file was copied to a USB drive and imported into Intune.
+The CSV file was copied from the test device and imported into Microsoft Intune.
+
+> [!IMPORTANT]
+> The Autopilot hardware hash CSV was not uploaded to GitHub. Hardware hashes and serial numbers are sensitive and should not be committed to a public repository.
 
 ## Autopilot Device Import
 
-The hardware hash CSV was imported into Intune from:
+The hardware hash CSV was imported into Intune from the current Intune admin center path:
 
 ```text
 Intune admin center
 → Devices
 → Windows
-→ Windows enrollment
+→ Device onboarding
+→ Enrollment
 → Windows Autopilot
 → Devices
 → Import
@@ -174,15 +190,17 @@ Imported CSV file:
 AutopilotHWID.csv
 ```
 
-After import, the device appeared in the Autopilot devices list.
+After import and sync, the device appeared in the Autopilot devices list.
 
 | Item | Result |
 |---|---|
+| Hardware hash collected | Successful |
 | Hardware hash imported | Successful |
-| Device manufacturer | Lenovo |
 | Device appeared in Autopilot devices | Yes |
+| Device manufacturer | Lenovo |
+| Device model | 20W0S1C800 |
 | Initial profile status | Not assigned |
-| Later profile status | Assigned |
+| Final profile status | Assigned |
 
 ## Profile Assignment
 
@@ -192,7 +210,7 @@ After the device was imported, it was added to:
 GRP-Autopilot-Devices
 ```
 
-The Autopilot profile assignment then changed from:
+The Autopilot profile assignment changed from:
 
 ```text
 Not assigned
@@ -201,36 +219,10 @@ Not assigned
 to:
 
 ```text
-Pending
-```
-
-and finally to:
-
-```text
 Assigned
 ```
 
 This confirmed that the Autopilot deployment profile was assigned successfully.
-
-## Microsoft 365 Apps Deployment Connection
-
-Before restarting the OOBE device, a Microsoft 365 Apps deployment was created separately in Intune.
-
-The reason for this was to test a realistic Autopilot flow where the device enrolls and then receives required business apps.
-
-App deployment details are documented separately in:
-
-```text
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
-```
-
-Simple relationship:
-
-```text
-Autopilot profile = controls device setup and enrollment
-Intune app deployment = installs required apps after enrollment
-Enrollment Status Page = can show app and policy setup progress
-```
 
 ## Autopilot OOBE Test
 
@@ -244,28 +236,14 @@ shutdown /r /t 0
 
 After restart, the device connected to the internet and began the Autopilot setup experience.
 
-The user signed in using:
+User 01 signed in using the lab Microsoft Entra ID account.
 
-```text
-user01@anupmoitra.onmicrosoft.com
-```
-
-## Expected Result
-
-The expected result of this lab is:
-
-```text
-User 01 signs in during OOBE
-→ Device receives Autopilot profile
-→ Device joins Microsoft Entra ID
-→ Device enrolls into Microsoft Intune
-→ Device appears in Intune Windows devices
-→ Assigned policies and apps begin applying
-```
+> [!NOTE]
+> The OOBE user sign-in screen was not captured during this lab run. Enrollment success was verified using the Intune device overview and the Windows Access work or school status after deployment.
 
 ## Verification Steps
 
-After the device reaches the Windows desktop, verify the following.
+After the device reached the Windows desktop, the following checks were completed.
 
 ### Check Windows work or school connection
 
@@ -277,26 +255,10 @@ Settings
 → Access work or school
 ```
 
-Expected result:
+Observed result:
 
 ```text
-Connected to the organization
-Managed by Microsoft Intune
-```
-
-### Check Microsoft Entra join status
-
-Run this command:
-
-```cmd
-dsregcmd /status
-```
-
-Expected values:
-
-```text
-AzureAdJoined: YES
-DomainJoined: NO
+Connected to the lab tenant's Microsoft Entra ID
 ```
 
 ### Check Intune device record
@@ -305,22 +267,27 @@ In Intune admin center:
 
 ```text
 Devices
+→ Windows
 → Windows devices
+→ Select the enrolled Autopilot device
 ```
 
-Expected values:
+Observed values:
 
-| Field | Expected result |
+| Field | Result |
 |---|---|
-| Managed by | Intune |
-| Join type | Microsoft Entra joined |
-| Ownership | Corporate |
+| Device record visible in Intune | Yes |
 | Primary user | User 01 |
-| Compliance | Depends on policy evaluation |
+| Enrolled by | User 01 |
+| Ownership | Corporate |
+| Compliance | Compliant |
+| Operating system | Windows |
+| Device manufacturer | Lenovo |
+| Device model | 20W0S1C800 |
 
-### Check app deployment later
+### Microsoft 365 Apps follow-up
 
-Microsoft 365 Apps deployment should be reviewed from:
+Microsoft 365 Apps deployment should be reviewed separately from:
 
 ```text
 Apps
@@ -328,6 +295,12 @@ Apps
 → Microsoft 365 Apps for Windows - Autopilot Lab
 → Monitor
 → Device install status
+```
+
+That validation is documented separately in:
+
+```text
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
 
 ## Test Result
@@ -340,59 +313,56 @@ Apps
 | Hardware hash imported | Successful |
 | Device added to Autopilot device group | Successful |
 | Autopilot profile assigned | Successful |
-| OOBE sign-in with User 01 | In progress / to be verified |
-| Device Entra joined | To be verified |
-| Device enrolled into Intune | To be verified |
-| Microsoft 365 Apps deployment | Created separately / install to be verified |
+| OOBE sign-in with User 01 | Successful |
+| Device connected to Microsoft Entra ID | Successful |
+| Device appeared in Intune Windows devices | Successful |
+| Device ownership shown as corporate | Successful |
+| Device compliance shown as compliant | Successful |
+| Microsoft 365 Apps deployment | Created separately / install verification pending |
 
 ## Screenshots
 
-The following screenshots should be added after sanitizing sensitive information.
+The following sanitized screenshots were captured for this lab.
 
 > [!NOTE]
-> Screenshots must be sanitized before upload. Hide tenant names, full email addresses, IP addresses, device IDs, object IDs, serial numbers, hardware hashes, and any sensitive details.
+> Screenshots were sanitized before upload. Tenant names, full email addresses, serial numbers, device names, hardware hashes, and sensitive identifiers were hidden.
 
-### Autopilot deployment profile list
+### Hardware hash created
 
-![Autopilot deployment profile list](../screenshots/sanitized/device-enrollment/autopilot-profile-list-sanitized.jpg)
+![Autopilot hardware hash created](../screenshots/sanitized/device-enrollment/autopilot-hardware-hash-created-sanitized.jpg)
 
-### Autopilot deployment profile settings
+### Autopilot device imported
 
-![Autopilot deployment profile settings](../screenshots/sanitized/device-enrollment/autopilot-profile-settings-sanitized.jpg)
-
-### Autopilot device import successful
-
-![Autopilot device import successful](../screenshots/sanitized/device-enrollment/autopilot-device-import-sanitized.jpg)
+![Autopilot device imported](../screenshots/sanitized/device-enrollment/autopilot-device-imported-sanitized.jpg)
 
 ### Autopilot profile assigned
 
-![Autopilot profile assigned](../screenshots/sanitized/device-enrollment/autopilot-profile-assigned-sanitized.jpg)
+![Autopilot profile assigned](../screenshots/sanitized/device-enrollment/autopilot-device-profile-assigned-sanitized.jpg)
 
-### Autopilot OOBE sign-in
+### Access work or school status
 
-![Autopilot OOBE sign-in](../screenshots/sanitized/device-enrollment/autopilot-oobe-signin-sanitized.jpg)
+![Autopilot Access work or school status](../screenshots/sanitized/device-enrollment/autopilot-access-work-school-managed-sanitized.jpg)
 
-### Intune Windows device record
+### Intune Windows device overview
 
-![Autopilot Intune device record](../screenshots/sanitized/device-enrollment/autopilot-intune-device-record-sanitized.jpg)
+![Autopilot Intune device overview](../screenshots/sanitized/device-enrollment/autopilot-device-intune-overview-sanitized.jpg)
 
 ## Screenshot Folder Path
 
-Screenshots for this lab should be stored in:
+Screenshots for this lab are stored in:
 
 ```text
 screenshots/sanitized/device-enrollment/
 ```
 
-Suggested screenshot filenames:
+Screenshot filenames:
 
 ```text
-autopilot-profile-list-sanitized.jpg
-autopilot-profile-settings-sanitized.jpg
-autopilot-device-import-sanitized.jpg
-autopilot-profile-assigned-sanitized.jpg
-autopilot-oobe-signin-sanitized.jpg
-autopilot-intune-device-record-sanitized.jpg
+autopilot-hardware-hash-created-sanitized.jpg
+autopilot-device-imported-sanitized.jpg
+autopilot-device-profile-assigned-sanitized.jpg
+autopilot-access-work-school-managed-sanitized.jpg
+autopilot-device-intune-overview-sanitized.jpg
 ```
 
 ## Troubleshooting Notes
@@ -453,35 +423,39 @@ Do not upload sensitive information, including:
 - BitLocker recovery keys
 - Internal IP addresses
 - Unsanitized screenshots
+- Raw Autopilot hardware hash CSV files
 
 ## Current Lab Status
 
 Completed:
 
-- Microsoft 365 Business Premium trial activated
-- User 01 licensed for Intune and Microsoft 365 Apps
-- Autopilot device group created
-- Autopilot deployment profile created
-- Hardware hash collected from OOBE device
-- Autopilot device imported into Intune
-- Autopilot device added to GRP-Autopilot-Devices
-- Autopilot profile assigned successfully
-- Microsoft 365 Apps deployment created separately for Autopilot app testing
+- Microsoft 365 Business Premium trial activated.
+- User 01 licensed for Intune and Microsoft 365 Apps.
+- Autopilot device group created.
+- Autopilot deployment profile created.
+- Hardware hash collected from OOBE device.
+- Autopilot device imported into Intune.
+- Autopilot device added to GRP-Autopilot-Devices.
+- Autopilot profile assigned successfully.
+- OOBE sign-in completed with User 01.
+- Device connected to Microsoft Entra ID.
+- Device appeared in Intune Windows devices.
+- Device ownership displayed as corporate.
+- Device compliance displayed as compliant.
+- Sanitized Autopilot screenshots added.
 
-Pending:
+Pending / separate validation:
 
-- Complete OOBE sign-in as User 01
-- Confirm device appears in Intune Windows devices
-- Confirm Microsoft Entra join status
-- Confirm Microsoft Intune enrollment status
-- Confirm Microsoft 365 Apps installation and sign-in
-- Add sanitized screenshots
+- Confirm Microsoft 365 Apps installation status.
+- Test Outlook sign-in.
+- Test Excel activation/sign-in.
+- Test PowerPoint activation/sign-in.
 
 ## Next Step
 
-The next step is to complete the OOBE sign-in with User 01 and verify the device in Intune.
+The Windows Autopilot user-driven enrollment lab is complete.
 
-After enrollment is confirmed, continue to the Microsoft 365 Apps deployment validation documented in:
+The next validation is the Microsoft 365 Apps deployment test documented in:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
