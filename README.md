@@ -67,15 +67,17 @@ The project has moved from planning into active hands-on implementation.
 | Win32 app deployment with 7-Zip | Completed |
 | Defender Antivirus endpoint security policy | Completed |
 | Windows Autopilot deployment profile | Completed |
-| Autopilot device import and profile assignment | Completed |
-| Microsoft 365 Apps deployment for Autopilot lab | Created / In progress |
-| Autopilot OOBE enrollment verification | In progress |
-| Microsoft 365 Apps install and sign-in verification | In progress |
+| Autopilot hardware hash import and profile assignment | Completed |
+| Autopilot user-driven OOBE enrollment verification | Completed |
+| Microsoft 365 Apps deployment for Autopilot lab | Completed |
+| Microsoft 365 Apps install verification | Completed |
+| Word sign-in verification with User 01 | Completed |
+| Excel and PowerPoint installation as selected Microsoft 365 Apps | Completed |
 | BYOD enrollment labs | Planned |
 | Additional endpoint security labs | Planned |
 | Remote actions and monitoring | Planned |
 | Troubleshooting labs | Planned |
-| Sanitized screenshots | In progress / added as available |
+| Sanitized screenshots | Added as available |
 
 ## Completed Hands-on Labs
 
@@ -120,6 +122,29 @@ Main file:
 
 ```text
 02-device-enrollment/windows-oobe-enrollment.md
+```
+
+### Windows Autopilot User-Driven Enrollment
+
+Completed:
+
+- Autopilot device group created
+- Autopilot deployment profile created
+- Hardware hash collected from OOBE device
+- Autopilot hardware hash CSV imported into Intune
+- Autopilot device added to the Autopilot device group
+- Autopilot profile status changed from Not assigned to Assigned
+- OOBE sign-in completed with User 01
+- Device connected to Microsoft Entra ID
+- Device appeared in Intune Windows devices
+- Device ownership displayed as corporate
+- Device compliance displayed as compliant
+- Sanitized screenshots added
+
+Main file:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
 ### Windows Compliance Policy
@@ -219,12 +244,18 @@ Completed:
 - VLC deployed as Required
 - ChatGPT deployed as Available in Company Portal
 - 7-Zip packaged and deployed as a Win32 app
+- Microsoft 365 Apps deployed for the Autopilot lab
+- Word, Excel, and PowerPoint selected in the Microsoft 365 Apps deployment
+- Microsoft 365 Apps install verified in Intune
+- Microsoft 365 Apps install verified in Company Portal
+- Word sign-in verified with User 01
 
 Main files:
 
 ```text
 05-application-deployment/microsoft-store-app-deployment.md
 05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
 
 ### Endpoint Security
@@ -242,67 +273,29 @@ Main file:
 06-endpoint-security/windows-defender-antivirus-policy.md
 ```
 
-## Current In-Progress Labs
+## Current Focus
 
-### Windows Autopilot User-Driven Enrollment
+The current focus is to continue with the next endpoint security or management lab.
 
-Completed so far:
-
-- Autopilot device group created
-- Autopilot deployment profile created
-- Hardware hash collected/imported
-- Autopilot device added to group
-- Autopilot profile assigned successfully
-
-Pending verification:
-
-- Complete OOBE sign-in as User 01
-- Confirm device appears under Windows devices in Intune
-- Confirm Microsoft Entra joined status
-- Confirm Intune managed status
-- Confirm primary user and compliance state
-
-Main file:
+Recommended next labs:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
-```
-
-### Microsoft 365 Apps Deployment for Autopilot
-
-Completed so far:
-
-- Microsoft 365 Business Premium trial activated
-- User 01 licensed for Microsoft 365 Apps
-- Microsoft 365 Apps deployment created in Intune
-- Outlook, Excel, and PowerPoint selected
-- App assigned as Required to GRP-Pilot-Users
-
-Pending verification:
-
-- Confirm app install status
-- Open Outlook, Excel, and PowerPoint
-- Confirm sign-in/activation as User 01
-
-Main file:
-
-```text
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
 ```
 
 ## Planned / Upcoming Labs
 
 Next planned work:
 
-1. Complete Autopilot OOBE sign-in with `user01`.
-2. Confirm the Autopilot device appears in Intune.
-3. Confirm Microsoft Entra join and Intune enrollment.
-4. Confirm Microsoft 365 Apps install status.
-5. Test Outlook, Excel, and PowerPoint sign-in.
-6. Update Autopilot and Microsoft 365 Apps docs from `In progress` to `Completed`.
-7. Continue with Windows BYOD enrollment.
-8. Continue with Android/iOS BYOD enrollment.
-9. Continue with Firewall, BitLocker, ASR, and remote actions labs.
+1. Continue with Windows Firewall endpoint security policy.
+2. Continue with BitLocker encryption policy.
+3. Continue with Attack Surface Reduction policy.
+4. Continue with Windows Security Baseline.
+5. Continue with Windows BYOD enrollment.
+6. Continue with Android/iOS BYOD enrollment.
+7. Continue with remote actions and monitoring.
+8. Continue with troubleshooting labs.
 
 Future planned labs:
 
@@ -401,21 +394,26 @@ It demonstrates practical experience with:
 - Remote actions
 - Troubleshooting and documentation
 
-## Current Focus
+## Recent Completed Milestone
 
-The current focus is:
+The most recent completed milestone is:
 
 ```text
-Complete Autopilot enrollment verification and Microsoft 365 Apps deployment/sign-in testing.
+Windows Autopilot user-driven enrollment
++
+Microsoft 365 Apps deployment validation
 ```
 
-After this is complete, update these files:
+This proves the following workflow:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
-00-project-overview/lab-implementation-roadmap.md
-README.md
+Autopilot hardware hash imported
+→ Autopilot profile assigned
+→ User 01 signs in during OOBE
+→ Device joins Microsoft Entra ID
+→ Device enrolls into Intune
+→ Microsoft 365 Apps install successfully
+→ Word opens and signs in with User 01
 ```
 
 ## Disclaimer
