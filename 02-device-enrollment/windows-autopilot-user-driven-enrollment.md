@@ -444,19 +444,25 @@ Completed:
 - Device compliance displayed as compliant.
 - Sanitized Autopilot screenshots added.
 
-Pending / separate validation:
+Related completed validation:
 
-- Confirm Microsoft 365 Apps installation status.
-- Test Outlook sign-in.
-- Test Excel activation/sign-in.
-- Test PowerPoint activation/sign-in.
+- Microsoft 365 Apps installation verified in Intune.
+- Microsoft 365 Apps installation verified from Company Portal.
+- Word sign-in verified with User 01.
+- Excel and PowerPoint were included in the selected Microsoft 365 Apps deployment.
 
 ## Next Step
 
 The Windows Autopilot user-driven enrollment lab is complete.
 
-The next validation is the Microsoft 365 Apps deployment test documented in:
+The related Microsoft 365 Apps deployment validation is now completed and documented in:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+The next recommended lab is:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
 ```
