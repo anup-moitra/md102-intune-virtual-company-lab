@@ -14,7 +14,8 @@ This lab validates that:
 - User 01 can sign in during Windows OOBE.
 - The device can join Microsoft Entra ID.
 - The device can enroll into Microsoft Intune.
-- The Autopilot-enrolled device can receive future apps, policies, and security configurations from Intune.
+- The Autopilot-enrolled device can receive apps, policies, and security configurations from Intune.
+- Microsoft 365 Apps deployment can be validated after Autopilot enrollment.
 
 ## Lab Context
 
@@ -34,7 +35,9 @@ This Autopilot lab builds on the earlier completed work:
 | Autopilot test device available | Completed |
 | Autopilot device group created | Completed |
 | Autopilot deployment profile created | Completed |
-| Microsoft 365 Apps deployment created separately | Completed / verification pending |
+| Microsoft 365 Apps deployment created separately | Completed |
+| Microsoft 365 Apps installation verified separately | Completed |
+| Word sign-in verified with User 01 | Completed |
 
 ## Important Concept
 
@@ -48,13 +51,13 @@ Simple flow:
 
 ```text
 Device starts at Windows OOBE
-→ Device connects to the internet
-→ Device checks for Autopilot registration
-→ Assigned Autopilot profile is downloaded
-→ User signs in with Microsoft Entra ID account
-→ Device joins Microsoft Entra ID
-→ Device enrolls into Intune
-→ Intune applies policies and apps
+-> Device connects to the internet
+-> Device checks for Autopilot registration
+-> Assigned Autopilot profile is downloaded
+-> User signs in with Microsoft Entra ID account
+-> Device joins Microsoft Entra ID
+-> Device enrolls into Intune
+-> Intune applies policies and apps
 ```
 
 ## Lab Design
@@ -71,7 +74,7 @@ This lab uses a user-driven Autopilot deployment.
 | User sign-in account | User 01 lab account |
 | Autopilot device group | GRP-Autopilot-Devices |
 | Deployment profile | AP WIN User Driven Entra Join |
-| Microsoft 365 Apps deployment | Created separately in Intune |
+| Microsoft 365 Apps deployment | Completed and verified separately in Intune |
 
 ## Autopilot Device Group
 
@@ -175,13 +178,13 @@ The hardware hash CSV was imported into Intune from the current Intune admin cen
 
 ```text
 Intune admin center
-→ Devices
-→ Windows
-→ Device onboarding
-→ Enrollment
-→ Windows Autopilot
-→ Devices
-→ Import
+-> Devices
+-> Windows
+-> Device onboarding
+-> Enrollment
+-> Windows Autopilot
+-> Devices
+-> Import
 ```
 
 Imported CSV file:
@@ -251,8 +254,8 @@ On the Autopilot device:
 
 ```text
 Settings
-→ Accounts
-→ Access work or school
+-> Accounts
+-> Access work or school
 ```
 
 Observed result:
@@ -267,9 +270,9 @@ In Intune admin center:
 
 ```text
 Devices
-→ Windows
-→ Windows devices
-→ Select the enrolled Autopilot device
+-> Windows
+-> Windows devices
+-> Select the enrolled Autopilot device
 ```
 
 Observed values:
@@ -287,17 +290,17 @@ Observed values:
 
 ### Microsoft 365 Apps follow-up
 
-Microsoft 365 Apps deployment should be reviewed separately from:
+Microsoft 365 Apps deployment was reviewed separately from:
 
 ```text
 Apps
-→ All apps
-→ Microsoft 365 Apps for Windows - Autopilot Lab
-→ Monitor
-→ Device install status
+-> All apps
+-> Microsoft 365 Apps for Windows - Autopilot Lab
+-> Monitor
+-> Device install status
 ```
 
-That validation is documented separately in:
+The Microsoft 365 Apps validation is documented separately in:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
@@ -318,7 +321,8 @@ That validation is documented separately in:
 | Device appeared in Intune Windows devices | Successful |
 | Device ownership shown as corporate | Successful |
 | Device compliance shown as compliant | Successful |
-| Microsoft 365 Apps deployment | Created separately / install verification pending |
+| Microsoft 365 Apps deployment | Completed and verified separately |
+| Word sign-in with User 01 | Successful |
 
 ## Screenshots
 
@@ -383,7 +387,7 @@ If the imported Autopilot device shows `Not assigned`, check that:
 Recommended action:
 
 ```text
-Wait 5–15 minutes
+Wait 5-15 minutes
 Click Sync
 Refresh the Autopilot devices page
 ```
@@ -455,7 +459,7 @@ Related completed validation:
 
 The Windows Autopilot user-driven enrollment lab is complete.
 
-The related Microsoft 365 Apps deployment validation is now completed and documented in:
+The related Microsoft 365 Apps deployment validation is also complete and documented in:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
