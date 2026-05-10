@@ -482,26 +482,6 @@ screenshots/sanitized/application-deployment/
 
 ---
 
-## Screenshot Notes
-
-The following screenshot was intentionally skipped:
-
-```text
-7zip-review-create-sanitized.png
-```
-
-This is acceptable because the lab already includes screenshots for the important configuration areas:
-
-- App upload
-- App information
-- Program commands
-- Requirements
-- Detection rule
-- Required assignment
-- Device install status
-
----
-
 ## Troubleshooting Notes
 
 If the app does not install:
