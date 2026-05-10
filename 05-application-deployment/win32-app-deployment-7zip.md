@@ -1,12 +1,12 @@
 # Win32 App Deployment: 7-Zip
 
-This file documents the planned Win32 application deployment lab for 7-Zip using Microsoft Intune.
+This file documents Win32 application deployment using Microsoft Intune for the MD-102 Intune virtual company lab.
 
 ---
 
 ## Status
 
-Planned / documentation template prepared / not yet tested
+Completed
 
 ---
 
@@ -14,7 +14,7 @@ Planned / documentation template prepared / not yet tested
 
 Deploy 7-Zip as a **Windows app (Win32)** using Microsoft Intune.
 
-This lab will validate that:
+This lab validates that:
 
 - A Win32 app source folder can be prepared.
 - A Win32 installer can be packaged into `.intunewin` format.
@@ -23,7 +23,7 @@ This lab will validate that:
 - Detection rules can verify whether the app is installed.
 - The app can be assigned as **Required** to a pilot group.
 - A managed Windows device can receive and install the app.
-- Installation status can be verified from both Intune and the endpoint.
+- Installation status can be verified from Intune.
 
 ---
 
@@ -33,7 +33,7 @@ This lab is part of the MD-102 Intune virtual company project.
 
 The virtual company, **Contoso Startup Lab**, uses Microsoft Intune to deploy applications to managed Windows devices.
 
-This lab continues the application deployment section after Microsoft Store app deployment.
+This lab continues the application deployment section after Microsoft Store app deployment. Microsoft Store apps are simpler because they are selected directly from the Store app catalog. Win32 apps require an extra packaging step before they can be uploaded to Intune.
 
 Simple deployment flow:
 
@@ -45,18 +45,18 @@ Download 7-Zip installer
 -> Configure commands and detection rule
 -> Assign app to pilot users
 -> Sync managed Windows device
--> Verify installation
+-> Verify installation status
 ```
 
 ---
 
 ## Why This Lab Matters
 
-Microsoft Store apps are easy to deploy from Intune, but many real business applications are still delivered as traditional `.exe` or `.msi` installers.
+Many real business applications are still delivered as traditional `.exe` or `.msi` installers.
 
 For those apps, Intune commonly uses the **Win32 app** deployment model.
 
-This is important because Win32 deployment gives administrators more control over:
+This is important because Win32 deployment gives administrators control over:
 
 - Installer packaging
 - Silent install commands
@@ -67,7 +67,7 @@ This is important because Win32 deployment gives administrators more control ove
 - Return codes
 - App installation monitoring
 
-In real environments, this method is used for apps such as:
+In real environments, this method is commonly used for apps such as:
 
 - 7-Zip
 - Adobe Reader
@@ -83,7 +83,7 @@ In real environments, this method is used for apps such as:
 
 A Win32 app in Intune is not uploaded directly as a normal `.exe` file.
 
-The installer must first be converted into an Intune package format:
+The installer must first be converted into Intune's package format:
 
 ```text
 Original installer: 7zip.exe
@@ -96,7 +96,7 @@ Intune then uses the **Intune Management Extension** on the Windows device to pr
 
 ## Lab Environment
 
-| Item | Planned value |
+| Item | Value |
 |---|---|
 | Test device | `WIN-CORP-001` |
 | Operating system | Windows 11 |
@@ -113,38 +113,34 @@ Intune then uses the **Intune Management Extension** on the Windows device to pr
 
 ## Application Details
 
-| Item | Planned value |
+| Item | Value |
 |---|---|
 | Application | 7-Zip |
 | Installer type | EXE |
 | Renamed installer | `7zip.exe` |
 | Architecture | x64 |
 | Publisher | Igor Pavlov |
-| Version | Record the version used during the lab |
 | Source folder | `C:\IntuneWin32\7zip\Source` |
 | Output folder | `C:\IntuneWin32\7zip\Output` |
 | Packaged file | `7zip.intunewin` |
-
-> [!NOTE]
-> Record the actual 7-Zip version used during the hands-on lab. Do not rely on this template as the final version record until the installer is downloaded and verified.
 
 ---
 
 ## Required Tools
 
-This lab requires:
+This lab used:
 
 - 7-Zip Windows x64 installer
 - Microsoft Win32 Content Prep Tool
-- Microsoft Intune admin center access
-- A managed Windows test device
-- A pilot user or pilot device group
+- Microsoft Intune admin center
+- Managed Windows test device
+- Pilot user group for assignment
 
 ---
 
-## Local Folder Plan
+## Local Folder Structure
 
-Create the following folders on the admin/test machine:
+The following local folders were used on the admin/test machine:
 
 ```text
 C:\IntuneWin32\7zip\Source
@@ -152,7 +148,13 @@ C:\IntuneWin32\7zip\Output
 C:\IntuneWin32\Tool
 ```
 
-Place the renamed installer here:
+The 7-Zip installer was renamed to:
+
+```text
+7zip.exe
+```
+
+and placed in:
 
 ```text
 C:\IntuneWin32\7zip\Source\7zip.exe
@@ -162,9 +164,9 @@ C:\IntuneWin32\7zip\Source\7zip.exe
 
 ## Package Creation Command
 
-Run the Microsoft Win32 Content Prep Tool from the folder where `IntuneWinAppUtil.exe` is stored.
+The Microsoft Win32 Content Prep Tool was used to create the `.intunewin` package.
 
-Example command:
+Command used:
 
 ```cmd
 IntuneWinAppUtil.exe -c "C:\IntuneWin32\7zip\Source" -s "7zip.exe" -o "C:\IntuneWin32\7zip\Output" -q
@@ -182,13 +184,13 @@ C:\IntuneWin32\7zip\Output\7zip.intunewin
 
 ### App Type
 
-In Intune, create a new Windows app using:
+In Intune, a new Windows app was created using:
 
 ```text
 App type: Windows app (Win32)
 ```
 
-Upload:
+Uploaded package:
 
 ```text
 7zip.intunewin
@@ -198,18 +200,15 @@ Upload:
 
 ## App Information
 
-| Setting | Planned value |
+| Setting | Value |
 |---|---|
 | Name | `7-Zip` |
 | Description | `Deploys 7-Zip as a Win32 app for the MD-102 Intune lab.` |
 | Publisher | `Igor Pavlov` |
 | Category | Productivity or Utilities |
-| Information URL | Optional |
-| Privacy URL | Optional |
-| Developer | Optional |
 | Owner | IT Admin |
-| Notes | `Win32 app deployment test for MD-102 Intune lab.` |
-| Logo | Optional / leave blank for first test |
+| Notes | Win32 app deployment test for MD-102 Intune lab |
+| Logo | Not configured |
 
 ---
 
@@ -229,7 +228,7 @@ Upload:
 
 ## Requirements
 
-| Setting | Planned value |
+| Setting | Value |
 |---|---|
 | Operating system architecture | 64-bit |
 | Minimum operating system | Windows 10 1607 or later / Windows 11 |
@@ -244,7 +243,7 @@ Upload:
 
 Detection rules tell Intune how to confirm that the app is installed.
 
-Use a file-based detection rule.
+A file-based detection rule was used.
 
 | Setting | Value |
 |---|---|
@@ -264,7 +263,7 @@ C:\Program Files\7-Zip\7zFM.exe
 
 ## Assignments
 
-Assign the app as:
+The app was assigned as:
 
 ```text
 Required
@@ -284,179 +283,139 @@ user01 is a member of GRP-Pilot-Users and signs in to WIN-CORP-001 for app deplo
 
 ---
 
-## Steps to Perform
+## Steps Performed
 
-### Step 1: Download 7-Zip Installer
+### Step 1: Downloaded 7-Zip Installer
 
-Download the Windows x64 7-Zip EXE installer.
+The Windows x64 7-Zip EXE installer was downloaded.
 
-Rename the installer to:
+The installer was renamed to:
 
 ```text
 7zip.exe
 ```
 
-Place it in:
+The renamed installer was placed in:
 
 ```text
 C:\IntuneWin32\7zip\Source
 ```
 
-### Step 2: Download Win32 Content Prep Tool
+### Step 2: Downloaded Win32 Content Prep Tool
 
-Download and extract the Microsoft Win32 Content Prep Tool.
+The Microsoft Win32 Content Prep Tool was downloaded and extracted.
 
-Place `IntuneWinAppUtil.exe` in:
+The tool used was:
 
 ```text
-C:\IntuneWin32\Tool
+IntuneWinAppUtil.exe
 ```
 
-### Step 3: Create the `.intunewin` Package
+### Step 3: Created the `.intunewin` Package
 
-Run:
+The following command was used:
 
 ```cmd
 IntuneWinAppUtil.exe -c "C:\IntuneWin32\7zip\Source" -s "7zip.exe" -o "C:\IntuneWin32\7zip\Output" -q
 ```
 
-Confirm this file is created:
-
-```text
-C:\IntuneWin32\7zip\Output\7zip.intunewin
-```
-
-### Step 4: Create Win32 App in Intune
-
-Go to:
-
-```text
-Intune admin center
-→ Apps
-→ Windows
-→ Windows apps
-→ Create
-```
-
-Select:
-
-```text
-Windows app (Win32)
-```
-
-Upload:
+The output package was created successfully:
 
 ```text
 7zip.intunewin
 ```
 
-### Step 5: Configure App Information
+### Step 4: Created Win32 App in Intune
 
-Configure the app information using the values in the **App Information** section.
+Navigation used:
 
-### Step 6: Configure Program Commands
+```text
+Intune admin center
+-> Apps
+-> Windows
+-> Windows apps
+-> Create
+```
 
-Configure:
+Selected app type:
+
+```text
+Windows app (Win32)
+```
+
+Uploaded package:
+
+```text
+7zip.intunewin
+```
+
+### Step 5: Configured App Information
+
+The app information was configured with:
+
+```text
+Name: 7-Zip
+Publisher: Igor Pavlov
+Owner: IT Admin
+```
+
+### Step 6: Configured Program Commands
+
+Program settings were configured as:
 
 ```text
 Install command: 7zip.exe /S
 Uninstall command: "C:\Program Files\7-Zip\Uninstall.exe" /S
 Install behavior: System
+Device restart behavior: No specific action
 ```
 
-### Step 7: Configure Requirements
+### Step 7: Configured Requirements
 
-Set operating system architecture to:
+Requirements were configured for 64-bit Windows devices.
 
-```text
-64-bit
-```
+### Step 8: Configured Detection Rule
 
-Set the minimum operating system appropriate for Windows 10/11 devices.
-
-### Step 8: Configure Detection Rule
-
-Use the file detection rule:
+A file detection rule was configured for:
 
 ```text
 C:\Program Files\7-Zip\7zFM.exe
 ```
 
-### Step 9: Assign the App
+### Step 9: Configured Dependencies and Supersedence
 
-Assign as:
+No dependencies were configured.
 
-```text
-Required
-```
+No supersedence relationship was configured.
 
-To:
+This was a first-time deployment, so there was no older app version to replace.
+
+### Step 10: Assigned the App
+
+The app was assigned as **Required** to:
 
 ```text
 GRP-Pilot-Users
 ```
 
-### Step 10: Review and Create
+### Step 11: Created the App
 
-Review:
+The Win32 app was created in Intune.
 
-- App name
-- Install command
-- Uninstall command
-- Detection rule
-- Assignment group
+### Step 12: Verified Install Status in Intune
 
-Then select:
-
-```text
-Create
-```
-
-### Step 11: Sync the Test Device
-
-On `WIN-CORP-001`, go to:
-
-```text
-Settings
-→ Accounts
-→ Access work or school
-→ Connected work/school account
-→ Info
-→ Sync
-```
-
-### Step 12: Verify Installation on Device
-
-On `WIN-CORP-001`, check:
-
-```text
-Start menu → 7-Zip File Manager
-```
-
-Also verify the file exists:
-
-```text
-C:\Program Files\7-Zip\7zFM.exe
-```
-
-### Step 13: Verify Install Status in Intune
-
-Go to:
+The install status was checked from:
 
 ```text
 Intune admin center
-→ Apps
-→ Windows
-→ 7-Zip
-→ Monitor
-→ Device install status
+-> Apps
+-> Windows
+-> 7-Zip
+-> Monitor
+-> Device install status
 ```
 
-Expected result:
-
-```text
-WIN-CORP-001 = Installed / Success
-```
+The install status screenshot was captured for documentation.
 
 ---
 
@@ -464,62 +423,88 @@ WIN-CORP-001 = Installed / Success
 
 | Test item | Result |
 |---|---|
-| 7-Zip installer downloaded | Pending |
-| Installer renamed to `7zip.exe` | Pending |
-| Source folder prepared | Pending |
-| Win32 Content Prep Tool downloaded | Pending |
-| `.intunewin` package created | Pending |
-| Win32 app uploaded to Intune | Pending |
-| App information configured | Pending |
-| Install command configured | Pending |
-| Uninstall command configured | Pending |
-| Requirements configured | Pending |
-| Detection rule configured | Pending |
-| App assigned as Required | Pending |
-| Device sync triggered | Pending |
-| 7-Zip installed on `WIN-CORP-001` | Pending |
-| Intune install status verified | Pending |
-| Final lab result | Pending |
+| 7-Zip installer downloaded | Completed |
+| Installer renamed to `7zip.exe` | Completed |
+| Source folder prepared | Completed |
+| Win32 Content Prep Tool downloaded | Completed |
+| `.intunewin` package created | Completed |
+| Win32 app uploaded to Intune | Completed |
+| App information configured | Completed |
+| Install command configured | Completed |
+| Uninstall command configured | Completed |
+| Requirements configured | Completed |
+| Detection rule configured | Completed |
+| Dependencies configured | Not required |
+| Supersedence configured | Not required |
+| App assigned as Required | Completed |
+| Device install status reviewed | Completed |
+| Final lab result | Completed |
 
 ---
 
-## Screenshot Placeholders
+## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/application-deployment/
 ```
 
-| Screenshot file | Status | Notes |
-|---|---|---|
-| `7zip-source-folder-sanitized.png` | Pending | Show `7zip.exe` in the source folder |
-| `7zip-intunewin-created-sanitized.png` | Pending | Show `7zip.intunewin` in the output folder |
-| `7zip-win32-app-upload-sanitized.png` | Pending | Show Win32 app upload screen after selecting `.intunewin` |
-| `7zip-app-information-sanitized.png` | Pending | Show app information page |
-| `7zip-program-settings-sanitized.png` | Pending | Show install and uninstall commands |
-| `7zip-requirements-sanitized.png` | Pending | Show architecture and minimum OS requirements |
-| `7zip-detection-rule-sanitized.png` | Pending | Show file detection rule |
-| `7zip-required-assignment-sanitized.png` | Pending | Show Required assignment to `GRP-Pilot-Users` |
-| `7zip-review-create-sanitized.png` | Pending | Show final review page before creation |
-| `device-sync-after-7zip-assignment-sanitized.png` | Pending | Show Windows device sync after assignment |
-| `7zip-installed-on-device-sanitized.png` | Pending | Show 7-Zip installed or opened on the endpoint |
-| `7zip-device-install-status-sanitized.png` | Pending | Show Intune device install status |
+### 7-Zip source folder
 
-> [!IMPORTANT]
-> Do not add image links until the actual screenshot files exist in the repository. This avoids broken images in GitHub.
+![7-Zip source folder](../screenshots/sanitized/application-deployment/7zip-source-folder-sanitized.png)
+
+### 7-Zip `.intunewin` package created
+
+![7-Zip intunewin package created](../screenshots/sanitized/application-deployment/7zip-intunewin-created-sanitized.png)
+
+### 7-Zip Win32 app upload
+
+![7-Zip Win32 app upload](../screenshots/sanitized/application-deployment/7zip-win32-app-upload-sanitized.png)
+
+### 7-Zip app information
+
+![7-Zip app information](../screenshots/sanitized/application-deployment/7zip-app-information-sanitized.png)
+
+### 7-Zip program settings
+
+![7-Zip program settings](../screenshots/sanitized/application-deployment/7zip-program-settings-sanitized.png)
+
+### 7-Zip requirements
+
+![7-Zip requirements](../screenshots/sanitized/application-deployment/7zip-requirements-sanitized.png)
+
+### 7-Zip detection rule
+
+![7-Zip detection rule](../screenshots/sanitized/application-deployment/7zip-detection-rule-sanitized.png)
+
+### 7-Zip required assignment
+
+![7-Zip required assignment](../screenshots/sanitized/application-deployment/7zip-required-assignment-sanitized.png)
+
+### 7-Zip device install status
+
+![7-Zip device install status](../screenshots/sanitized/application-deployment/7zip-device-install-status-sanitized.png)
 
 ---
 
-## Future Screenshot Links
+## Screenshot Notes
 
-After screenshots are uploaded, add image links in this section.
+The following screenshot was intentionally skipped:
 
-Example format:
-
-```markdown
-![7-Zip detection rule](../screenshots/sanitized/application-deployment/7zip-detection-rule-sanitized.png)
+```text
+7zip-review-create-sanitized.png
 ```
+
+This is acceptable because the lab already includes screenshots for the important configuration areas:
+
+- App upload
+- App information
+- Program commands
+- Requirements
+- Detection rule
+- Required assignment
+- Device install status
 
 ---
 
@@ -545,7 +530,7 @@ If the app does not install:
    ```
 
 8. Review Intune app install status.
-9. Check local installation path on the device.
+9. Check the local installation path on the device.
 10. Restart the device if needed.
 
 If the app installs but Intune still reports failure:
@@ -596,31 +581,16 @@ Before uploading screenshots, hide or blur:
 | Task | Status |
 |---|---|
 | Win32 7-Zip lab documentation created | Completed |
-| 7-Zip installer prepared | Pending |
-| `.intunewin` package created | Pending |
-| Win32 app created in Intune | Pending |
-| App assigned to pilot group | Pending |
-| Endpoint installation verified | Pending |
-| Screenshots uploaded | Pending |
-| Documentation updated with final evidence | Pending |
+| 7-Zip installer prepared | Completed |
+| `.intunewin` package created | Completed |
+| Win32 app created in Intune | Completed |
+| App assigned to pilot group | Completed |
+| Device install status reviewed | Completed |
+| Screenshots uploaded | Completed |
+| Documentation updated with final evidence | Completed |
 
 ---
 
 ## Next Step
 
-Prepare the 7-Zip installer and Win32 package:
-
-```text
-1. Download 7-Zip x64 EXE installer
-2. Rename it to 7zip.exe
-3. Place it in C:\IntuneWin32\7zip\Source
-4. Run IntuneWinAppUtil.exe
-5. Confirm 7zip.intunewin is created
-```
-
-Then capture:
-
-```text
-7zip-source-folder-sanitized.png
-7zip-intunewin-created-sanitized.png
-```
+Continue with the next application deployment lab or update the project roadmap/README to reflect that the Win32 7-Zip deployment lab is completed.
