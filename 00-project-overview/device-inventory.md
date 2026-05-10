@@ -68,7 +68,7 @@ These devices are used to test:
 
 | Device Name | Device Type | Ownership | OS | Enrollment Type | User | Status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / Microsoft Store apps tested |
+| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested |
 | WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Autopilot user-driven | user01 | Planned |
 | WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Browser sign-in test | user01 | Planned |
 | WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | BYOD enrollment | user01 | Planned |
@@ -97,7 +97,7 @@ These devices are used to test:
 | Primary user | user01 |
 | Compliance | Compliant |
 | Purpose | Main Windows Intune test device |
-| Current status | Enrolled / Compliant / Microsoft Store apps tested |
+| Current status | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested |
 
 This device was used first because it is the main Windows device for the lab.
 
@@ -113,6 +113,9 @@ It validated:
 - Microsoft Store app deployment
 - Required app installation through Intune
 - Available app visibility in Company Portal
+- Win32 7-Zip app deployment
+- `.intunewin` package deployment through Intune
+- Win32 app install status verification
 
 The detailed Windows enrollment lab is documented here:
 
@@ -124,6 +127,12 @@ The detailed Microsoft Store app deployment lab is documented here:
 
 ```text
 05-application-deployment/microsoft-store-app-deployment.md
+```
+
+The detailed Win32 7-Zip app deployment lab is documented here:
+
+```text
+05-application-deployment/win32-app-deployment-7zip.md
 ```
 
 ---
@@ -167,6 +176,35 @@ Apps created in Intune
 -> WIN-CORP-001 synced with Intune
 -> Required apps installed automatically
 -> Available apps appeared in Company Portal
+```
+
+---
+
+## Win32 App Deployment Tested on WIN-CORP-001
+
+`WIN-CORP-001` was used to validate Win32 application deployment with Microsoft Intune.
+
+| App deployment item | Result |
+|---|---|
+| Application deployment tested | Win32 app |
+| App deployed | 7-Zip |
+| Package format | `.intunewin` |
+| Assignment group used | `GRP-Pilot-Users` |
+| Assignment type | Required |
+| Install status | Completed |
+| Final app deployment result | Successful |
+
+This proves that the device can receive Win32 app deployments through the Intune Management Extension.
+
+Simple flow validated:
+
+```text
+7-Zip installer prepared
+-> Installer packaged as .intunewin
+-> Win32 app uploaded to Intune
+-> App assigned as Required to GRP-Pilot-Users
+-> WIN-CORP-001 received the app deployment
+-> Intune install status was verified
 ```
 
 ---
@@ -392,6 +430,8 @@ Before uploading screenshots, hide or blur:
 | WIN-CORP-001 Microsoft Store app deployment tested | Completed |
 | Required apps installed on WIN-CORP-001 | Completed |
 | Available apps visible in Company Portal on WIN-CORP-001 | Completed |
+| WIN-CORP-001 Win32 7-Zip deployment tested | Completed |
+| Win32 app install status verified on WIN-CORP-001 | Completed |
 | Autopilot device documented | Planned |
 | Windows BYOD devices documented | Planned |
 | Android BYOD device documented | Planned |
@@ -402,10 +442,16 @@ Before uploading screenshots, hide or blur:
 
 ## Next Step
 
-Continue to the Win32 7-Zip app deployment lab:
+Continue to the Microsoft 365 Apps deployment lab or Company Portal self-service app testing.
+
+Recommended next lab:
 
 ```text
-05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
 
-This next lab will use `WIN-CORP-001` to validate Win32 application deployment with Microsoft Intune.
+Alternative next lab:
+
+```text
+05-application-deployment/company-portal-self-service-apps.md
+```
