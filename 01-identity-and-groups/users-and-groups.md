@@ -67,13 +67,13 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 
 | Group Name | Group Type | Purpose | Status |
 |---|---|---|---|
-| GRP-All-Lab-Users | Security group | General lab user targeting | Created |
-| GRP-Pilot-Users | Security group | Pilot users for testing policies and apps | Created |
-| GRP-Windows-Users | Security group | Windows user targeting | Created |
-| GRP-BYOD-Users | Security group | BYOD user targeting | Created |
-| GRP-Mobile-Users | Security group | Android and iOS user targeting | Created |
-| GRP-IT-Admins | Security group | Lab administrator targeting | Created |
-| GRP-Autopilot-Devices | Security group | Autopilot registered Windows devices | Created |
+| GRP-All-Lab-Users | Security group | General lab targeting | Created |
+| GRP-Pilot-Users | Security group | Pilot testing | Created |
+| GRP-Windows-Users | Security group | Windows targeting | Created |
+| GRP-BYOD-Users | Security group | BYOD targeting | Created |
+| GRP-Mobile-Users | Security group | Mobile targeting | Created |
+| GRP-IT-Admins | Security group | Admin targeting | Created |
+| GRP-Autopilot-Devices | Security group | Autopilot targeting | Created |
 
 ---
 
@@ -87,20 +87,20 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | GRP-BYOD-Users | user01, user03 |
 | GRP-Mobile-Users | user01, user04 |
 | GRP-IT-Admins | admin01 |
-| GRP-Autopilot-Devices | Created for future Autopilot device assignment |
+| GRP-Autopilot-Devices | Future Autopilot devices |
 
 ---
 
 ## License Assignment
 
-| User | Intune License | Microsoft 365 Apps License | Purpose |
+| User | Intune License | Microsoft 365 Apps | Purpose |
 |---|---|---|---|
-| admin01 | Assigned / available as needed | Optional | Lab administration |
-| user01 | Assigned | Assigned / available as needed | Main testing user |
-| user02 | Assigned / available as needed | Optional | Additional Windows testing |
-| user03 | Assigned / available as needed | Optional | BYOD testing |
-| user04 | Assigned / available as needed | Optional | Mobile testing |
-| user05 | Assigned / available as needed | Optional | Additional policy testing |
+| admin01 | Available as needed | Optional | Lab administration |
+| user01 | Assigned | Available as needed | Main testing user |
+| user02 | Available as needed | Optional | Windows testing |
+| user03 | Available as needed | Optional | BYOD testing |
+| user04 | Available as needed | Optional | Mobile testing |
+| user05 | Available as needed | Optional | Policy testing |
 
 > [!NOTE]
 > The exact license name may depend on the available Microsoft 365 or Intune trial/subscription in the lab tenant.
@@ -229,7 +229,7 @@ A license was assigned to:
 user01
 ```
 
-This prepares `user01` for future Intune enrollment, app deployment, compliance, and Conditional Access testing.
+This prepares `user01` for Intune enrollment, app deployment, compliance, and Conditional Access testing.
 
 ### Step 7: Verified Users, Groups, Memberships, and License
 
@@ -384,10 +384,10 @@ Before uploading screenshots, hide or blur:
 
 ## Next Step
 
-Continue to the next lab:
+Continue to the next device enrollment lab:
 
 ```text
-02-device-enrollment/windows-oobe-enrollment.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
-This next lab will use `user01` and the created Microsoft Entra ID groups to begin Windows device enrollment into Microsoft Intune.
+This next lab will use `user01` and the created Microsoft Entra ID groups to test Windows Autopilot user-driven enrollment.
