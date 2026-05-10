@@ -2,7 +2,7 @@
 
 This repository documents a hands-on Microsoft Intune and MD-102 lab environment.
 
-The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows Autopilot, compliance policies, Conditional Access, application deployment, endpoint security, BYOD enrollment, remote actions, monitoring, and troubleshooting.
+The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows device enrollment, Windows Autopilot, compliance policies, Conditional Access, application deployment, endpoint security, BYOD enrollment, remote actions, monitoring, and troubleshooting.
 
 ---
 
@@ -12,8 +12,10 @@ The goal of this project is to build practical Microsoft Intune administration e
 
 This project is designed to show real-world endpoint administration skills, including:
 
-- Creating and managing users and groups
+- Creating and managing Microsoft Entra ID users and groups
+- Assigning licenses to test users
 - Enrolling Windows devices into Microsoft Intune
+- Troubleshooting Intune enrollment issues
 - Configuring compliance policies
 - Testing Conditional Access
 - Deploying applications
@@ -41,7 +43,11 @@ The company includes:
 - Microsoft 365 Apps
 - Conditional Access and compliance controls
 
-Detailed scenario documentation: [company-scenario.md](00-project-overview/company-scenario.md)
+Detailed scenario documentation:
+
+```text
+00-project-overview/company-scenario.md
+```
 
 ---
 
@@ -61,7 +67,7 @@ Detailed scenario documentation: [company-scenario.md](00-project-overview/compa
 
 ---
 
-## Planned Repository Structure
+## Repository Structure
 
 ```text
 md102-intune-virtual-company-lab/
@@ -112,7 +118,7 @@ md102-intune-virtual-company-lab/
 
 ---
 
-## Current Status
+## Current Project Status
 
 | Task | Status |
 |---|---|
@@ -120,22 +126,79 @@ md102-intune-virtual-company-lab/
 | Initial README created | Completed |
 | Project overview folder created | Completed |
 | Company scenario documented | Completed |
-| Device inventory documented | Planned |
-| Lab roadmap documented | Planned |
-| First Intune lab started | Planned |
+| Device inventory documented | Completed |
+| Lab roadmap documented | Completed |
+| Identity and groups lab completed | Completed |
+| Windows OOBE enrollment lab completed | Completed |
+| Windows Autopilot lab | Planned |
 
 ---
 
-## Skills This Project Will Demonstrate
+## Completed Labs
 
-This project will demonstrate practical skills in:
+### 01 - Identity and Groups
+
+Documented in:
+
+```text
+01-identity-and-groups/users-and-groups.md
+```
+
+Completed work:
+
+- Created lab users
+- Created Microsoft Entra ID security groups
+- Configured group memberships
+- Assigned license to user01
+- Added sanitized screenshots
+
+### 02 - Windows OOBE Enrollment
+
+Documented in:
+
+```text
+02-device-enrollment/windows-oobe-enrollment.md
+```
+
+Completed work:
+
+- Reimaged a spare Windows 11 device
+- Named the device WIN-CORP-001 during OOBE
+- Selected work or school setup
+- Signed in as user01
+- Verified Microsoft Entra join
+- Troubleshot initial MDM status of None
+- Triggered manual MDM enrollment
+- Verified the device in Microsoft Intune
+- Confirmed device compliance visibility
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WIN-CORP-001 appeared in Intune as managed by Intune and compliant.
+```
+
+Ownership note:
+
+```text
+Intune displayed the device ownership as Personal after manual MDM enrollment.
+This will be compared later with Windows Autopilot corporate ownership behavior.
+```
+
+---
+
+## Skills This Project Demonstrates
+
+This project demonstrates practical skills in:
 
 - Microsoft Intune administration
 - Microsoft Entra ID user and group management
 - Windows device enrollment
-- Windows Autopilot
-- Device compliance policies
-- Conditional Access
+- Intune enrollment troubleshooting
+- Windows Autopilot preparation
+- Device compliance policy planning
+- Conditional Access planning
 - Microsoft Store app deployment
 - Win32 app deployment
 - Microsoft 365 Apps deployment
@@ -146,24 +209,42 @@ This project will demonstrate practical skills in:
 - Windows Security Baseline
 - BYOD management
 - Device monitoring and reports
-- Intune troubleshooting
+- Intune troubleshooting documentation
 
 ---
 
 ## How to Use This Repository
 
-This repository will be updated as each lab is completed.
+This repository is updated as each lab is completed.
 
-Each lab document will include:
+Each lab document includes:
 
 - Objective
 - Lab environment
+- Why the lab matters
+- Prerequisites
 - Steps performed
-- Configuration details
 - Test result
 - Screenshots
 - Troubleshooting notes
-- Privacy and security notes
+- Security and privacy notes
+
+---
+
+## Screenshot Storage
+
+Sanitized screenshots are stored under:
+
+```text
+screenshots/sanitized/
+```
+
+Example folders:
+
+```text
+screenshots/sanitized/identity-and-groups/
+screenshots/sanitized/device-enrollment/
+```
 
 ---
 
@@ -187,6 +268,18 @@ Do not upload sensitive information, including:
 - Production company data
 
 All screenshots must be sanitized before uploading to GitHub.
+
+---
+
+## Next Step
+
+Continue to the next device enrollment lab:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+```
+
+This next lab will compare the manual Windows OOBE enrollment experience with Windows Autopilot user-driven enrollment.
 
 ---
 
