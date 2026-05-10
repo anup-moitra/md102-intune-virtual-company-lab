@@ -14,7 +14,7 @@ This lab includes both corporate-owned and personally owned/BYOD devices.
 
 | Device Name | Device Type | Ownership | Operating System | Enrollment Type | Assigned / Primary User | Status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Physical laptop | Corporate | Windows 11 | Windows OOBE + Microsoft Entra joined + Intune enrolled | user01 | Enrolled and compliant |
+| WIN-CORP-001 | Physical laptop | Corporate | Windows 11 | Windows OOBE + Microsoft Entra joined + Intune enrolled | user01 | Enrolled, compliant, firewall enabled, and BitLocker protected |
 | WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Microsoft Entra join | user01 | Autopilot enrolled, Intune managed, and compliant |
 | WIN-CORP-002 | Laptop | Corporate | Windows 11 | Planned: Entra joined + Intune enrolled | TBD | Planned |
 | WIN-CORP-003 | Laptop | Corporate | Windows 11 | Planned: Entra joined + Intune enrolled | TBD | Planned |
@@ -47,6 +47,13 @@ This lab includes both corporate-owned and personally owned/BYOD devices.
 | Compliance status | Compliant |
 | Compliance policy | Windows 11 Basic Compliance |
 | Configuration profile tested | WIN-CORP-Basic-Configuration-Profile |
+| Defender Antivirus policy | Applied / Succeeded |
+| Windows Firewall policy | Applied / Succeeded |
+| Firewall status | Domain, Private, and Public firewall enabled |
+| BitLocker encryption | Enabled |
+| BitLocker protection status | Protection On |
+| BitLocker encryption result | Used Space Only Encrypted, 100% |
+| BitLocker recovery key escrow | Verified in Intune |
 | Lab result | Successful |
 
 ## Completed Autopilot Device Enrollment
@@ -104,26 +111,6 @@ Planned BYOD enrollment testing will include:
 - Android personally owned work profile enrollment
 - iOS user enrollment / Company Portal enrollment
 
-## Screenshot Placeholders
-
-Screenshots should be added after sanitizing sensitive information.
-
-Suggested folder path:
-
-```text
-screenshots/sanitized/device-inventory/
-```
-
-Suggested screenshot filenames:
-
-```text
-win-corp-001-overview-sanitized.jpg
-win-corp-001-compliance-sanitized.jpg
-win-autopilot-001-intune-overview-sanitized.jpg
-win-autopilot-001-compliance-status-sanitized.jpg
-win-byod-001-report-only-test-sanitized.jpg
-```
-
 ## Security and Privacy Notes
 
 This is a public learning repository. The following information must not be published:
@@ -149,6 +136,12 @@ Completed:
 - WIN-CORP-001 joined to Microsoft Entra ID
 - WIN-CORP-001 enrolled into Microsoft Intune
 - WIN-CORP-001 reported compliant
+- WIN-CORP-001 received Defender Antivirus endpoint security policy successfully
+- WIN-CORP-001 received Windows Firewall endpoint security policy successfully
+- WIN-CORP-001 confirmed firewall enabled for Domain, Private, and Public profiles
+- WIN-CORP-001 encrypted successfully with BitLocker
+- WIN-CORP-001 BitLocker protection confirmed as On
+- WIN-CORP-001 BitLocker recovery key escrow verified in Intune
 - WIN-BYOD-001 tested as unmanaged BYOD for Conditional Access
 - Autopilot test device imported into Windows Autopilot
 - Autopilot profile assigned successfully
