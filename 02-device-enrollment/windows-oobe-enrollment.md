@@ -11,6 +11,7 @@ Enroll a corporate Windows 11 device into Microsoft Intune by signing in with a 
 This lab will validate that:
 
 - A Windows device can be set up for work or school during OOBE.
+- The device can be named using a consistent lab naming standard.
 - The device can join Microsoft Entra ID.
 - The device can automatically enroll into Microsoft Intune.
 - The device can appear in the Intune admin center.
@@ -92,6 +93,14 @@ The lab device is documented as:
 WIN-CORP-001
 ```
 
+During Windows setup, if OOBE provides an option to name the device, set the device name to:
+
+```text
+WIN-CORP-001
+```
+
+This keeps the local device name, Intune record, screenshots, and GitHub documentation consistent.
+
 If Windows initially shows a default device name, document it in the test result and rename the device later if needed.
 
 Example note:
@@ -114,6 +123,7 @@ The device should display the first setup screens, such as:
 Region selection
 Keyboard selection
 Network connection
+Device name
 Work or school setup
 ```
 
@@ -121,7 +131,21 @@ Connect the device to the internet using Wi-Fi or Ethernet.
 
 ---
 
-### Step 2: Choose Work or School Setup
+### Step 2: Name the Device During OOBE
+
+If Windows setup asks for a device name, enter:
+
+```text
+WIN-CORP-001
+```
+
+This makes the device easier to identify later in Microsoft Intune.
+
+If the device name option does not appear, continue with setup and document the default Windows device name later.
+
+---
+
+### Step 3: Choose Work or School Setup
 
 During Windows setup, when asked how to set up the device, choose:
 
@@ -133,7 +157,7 @@ Do not choose personal use for this corporate enrollment lab.
 
 ---
 
-### Step 3: Sign In as user01
+### Step 4: Sign In as user01
 
 Sign in using the lab user account:
 
@@ -145,7 +169,7 @@ Use the full lab user principal name when signing in, but hide the full domain i
 
 ---
 
-### Step 4: Complete Windows Setup
+### Step 5: Complete Windows Setup
 
 Continue through the setup prompts until Windows reaches the desktop.
 
@@ -153,7 +177,7 @@ Allow Windows time to complete sign-in, policy processing, and enrollment.
 
 ---
 
-### Step 5: Verify Work or School Connection Locally
+### Step 6: Verify Work or School Connection Locally
 
 On the Windows device, go to:
 
@@ -173,7 +197,7 @@ This confirms that the device is connected to the lab organization account.
 
 ---
 
-### Step 6: Verify Device in Intune
+### Step 7: Verify Device in Intune
 
 Open:
 
@@ -203,7 +227,7 @@ Ownership: Corporate or organization-owned
 
 ---
 
-### Step 7: Open Device Overview in Intune
+### Step 8: Open Device Overview in Intune
 
 Open the device record in Intune and review:
 
@@ -222,6 +246,7 @@ Open the device record in Intune and review:
 After this lab is completed:
 
 - WIN-CORP-001 should complete Windows OOBE.
+- WIN-CORP-001 should use the planned lab device name if the OOBE naming option appears.
 - user01 should be able to sign in with a work account.
 - The device should join Microsoft Entra ID.
 - The device should enroll into Microsoft Intune.
@@ -235,6 +260,7 @@ After this lab is completed:
 | Test Item | Result |
 |---|---|
 | Windows OOBE started | Pending |
+| Device name set to WIN-CORP-001 | Pending |
 | Work or school setup selected | Pending |
 | user01 signed in successfully | Pending |
 | Device joined Microsoft Entra ID | Pending |
@@ -256,6 +282,7 @@ screenshots/sanitized/device-enrollment/
 Recommended screenshot filenames:
 
 ```text
+windows-oobe-device-name-sanitized.png
 windows-oobe-work-school-selection-sanitized.png
 windows-oobe-user01-signin-sanitized.png
 win-corp-001-access-work-school-sanitized.png
@@ -282,6 +309,13 @@ Image links will be added after the screenshots are captured, sanitized, and upl
 ---
 
 ## Troubleshooting Notes
+
+If the device does not show the device name option:
+
+1. Continue Windows setup.
+2. Document the default device name later.
+3. Rename the device later if needed.
+4. Continue tracking the device as WIN-CORP-001 in the lab documentation.
 
 If the device does not show the work or school setup option:
 
@@ -352,6 +386,7 @@ Before uploading screenshots, hide or blur:
 |---|---|
 | windows-oobe-enrollment.md created | Completed |
 | Windows device prepared for OOBE | Planned |
+| Device name configured as WIN-CORP-001 | Planned |
 | Work or school setup selected | Planned |
 | user01 sign-in completed | Planned |
 | Microsoft Entra join verified | Planned |
@@ -366,6 +401,7 @@ Perform Windows OOBE enrollment on the test device:
 
 ```text
 Reset or start Windows OOBE
+Set device name to WIN-CORP-001 if prompted
 Choose Set up for work or school
 Sign in as user01
 Verify Access work or school
