@@ -121,8 +121,8 @@ md102-intune-virtual-company-lab/
 | Project overview folder created | Completed |
 | Company scenario documented | Completed |
 | Device inventory documented | Completed |
-| Lab roadmap documented | Planned |
-| First Intune lab started | Planned |
+| Lab roadmap documented | Completed |
+| First Intune lab started | Completed |
 
 ---
 
