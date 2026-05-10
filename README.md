@@ -114,7 +114,7 @@ md102-intune-virtual-company-lab/
 
 | Task | Status |
 |---|---|
-| GitHub repository created | Planned |
+| GitHub repository created | Completed |
 | Initial README created | Completed |
 | Project overview folder created | Planned |
 | Company scenario documented | Planned |
