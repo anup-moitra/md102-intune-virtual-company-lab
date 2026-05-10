@@ -8,13 +8,13 @@ This file tracks the planned implementation sequence for the MD-102 Intune virtu
 
 The purpose of this roadmap is to keep the lab project organized as each section is created, tested, documented, and updated in GitHub.
 
-This roadmap will be updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration and troubleshooting labs.
+This roadmap will be updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration, application deployment, endpoint security, monitoring, and troubleshooting labs.
 
 ---
 
 ## Current Project Status
 
-The project has completed the foundation documentation, the first identity lab, and the first Windows device enrollment lab.
+The project has completed the foundation documentation, the first identity lab, the first Windows device enrollment lab, and the Microsoft Store app deployment lab.
 
 Completed work:
 
@@ -26,12 +26,20 @@ Completed work:
 - user01 license assignment completed
 - Windows OOBE enrollment for WIN-CORP-001 completed
 - Intune enrollment issue documented and resolved with manual MDM enrollment
+- Microsoft Store app deployment completed
+- Required Microsoft Store apps verified in Company Portal
+- Available Microsoft Store apps verified in Company Portal
 
 Current focus:
 
-- Continue with Windows Autopilot user-driven enrollment
-- Compare manual OOBE enrollment with Autopilot provisioning
-- Continue building the device enrollment section
+- Continue with Win32 7-Zip app deployment
+- Package and upload a Win32 app to Intune
+- Configure install command, uninstall command, and detection rule
+- Assign the Win32 app to the pilot group
+- Verify installation on WIN-CORP-001
+
+> [!NOTE]
+> The project is not being completed strictly in folder order. Microsoft Store app deployment was completed before some compliance, Conditional Access, and Autopilot labs. This roadmap reflects the actual hands-on progress.
 
 ---
 
@@ -47,15 +55,15 @@ Current focus:
 | Phase 5 | Create Microsoft Entra ID users documentation | Completed |
 | Phase 6 | Create Microsoft Entra ID groups documentation | Completed |
 | Phase 7 | Assign Intune licenses to lab users | Completed |
-| Phase 8 | Configure automatic MDM enrollment | In progress |
+| Phase 8 | Configure automatic MDM enrollment | In progress / needs review |
 | Phase 9 | Enroll corporate Windows device WIN-CORP-001 | Completed |
 | Phase 10 | Create Windows basic compliance policy | Planned |
 | Phase 11 | Create Conditional Access policy in Report-only mode | Planned |
 | Phase 12 | Test compliant corporate Windows sign-in | Planned |
 | Phase 13 | Test unmanaged BYOD sign-in | Planned |
 | Phase 14 | Create basic Windows configuration profile | Planned |
-| Phase 15 | Deploy Microsoft Store apps | Planned |
-| Phase 16 | Deploy Win32 app using Intune | Planned |
+| Phase 15 | Deploy Microsoft Store apps | Completed |
+| Phase 16 | Deploy Win32 app using Intune | Next |
 | Phase 17 | Configure Defender Antivirus policy | Planned |
 | Phase 18 | Configure Windows Firewall policy | Planned |
 | Phase 19 | Configure BitLocker encryption policy | Planned |
@@ -70,7 +78,7 @@ Current focus:
 | Phase 28 | Create troubleshooting documentation | Planned |
 
 > [!NOTE]
-> Automatic MDM enrollment is marked as `In progress` because the first Windows OOBE lab required manual MDM enrollment troubleshooting. The issue is documented in the Windows OOBE enrollment lab.
+> Automatic MDM enrollment remains marked as `In progress / needs review` because the first Windows OOBE lab required manual MDM enrollment troubleshooting. The issue is documented in the Windows OOBE enrollment lab.
 
 ---
 
@@ -99,7 +107,7 @@ This section documents:
 - Microsoft Entra ID security groups
 - Group assignment strategy
 - License assignment plan
-- Initial screenshots for identity setup
+- Screenshots for identity setup
 
 ### 02 - Device Enrollment
 
@@ -146,12 +154,48 @@ This section will document device compliance and access control testing.
 
 | File | Status |
 |---|---|
-| 05-application-deployment/microsoft-store-app-deployment.md | Planned |
-| 05-application-deployment/win32-app-deployment-7zip.md | Planned |
+| 05-application-deployment/microsoft-store-app-deployment.md | Completed |
+| 05-application-deployment/win32-app-deployment-7zip.md | Next |
 | 05-application-deployment/microsoft-365-apps-autopilot-deployment.md | Planned |
 | 05-application-deployment/company-portal-self-service-apps.md | Planned |
 
-This section will document Microsoft Store app, Win32 app, Microsoft 365 Apps, and Company Portal app deployment scenarios.
+This section documents Microsoft Store app, Win32 app, Microsoft 365 Apps, and Company Portal app deployment scenarios.
+
+#### Completed application deployment work
+
+Microsoft Store app deployment has been completed and documented.
+
+Required apps tested:
+
+```text
+Company Portal
+VLC UWP
+Slack
+```
+
+Available apps tested:
+
+```text
+ChatGPT
+WhatsApp
+```
+
+Observed result:
+
+```text
+Required apps installed automatically.
+Available apps appeared in Company Portal for user self-service installation.
+```
+
+#### Next application deployment work
+
+The next application deployment lab is:
+
+```text
+05-application-deployment/win32-app-deployment-7zip.md
+```
+
+This lab will demonstrate Win32 app packaging and deployment using Microsoft Intune.
 
 ### 06 - Endpoint Security
 
@@ -189,21 +233,36 @@ This section will document repeatable troubleshooting checklists and realistic s
 
 ---
 
-## First Hands-On Lab Sequence
+## Completed Hands-On Lab Sequence
 
 | Step | Lab Task | Status |
 |---|---|---|
 | 1 | Create Microsoft Entra ID lab users | Completed |
 | 2 | Create Microsoft Entra ID security groups | Completed |
 | 3 | Assign Intune licenses to test users | Completed |
-| 4 | Configure automatic MDM enrollment | In progress |
+| 4 | Configure automatic MDM enrollment | In progress / needs review |
 | 5 | Enroll WIN-CORP-001 through Windows OOBE | Completed |
 | 6 | Confirm WIN-CORP-001 appears in Intune | Completed |
-| 7 | Create a basic Windows compliance policy | Planned |
-| 8 | Confirm WIN-CORP-001 reports compliant | Planned |
-| 9 | Create Conditional Access policy in Report-only mode | Planned |
-| 10 | Test compliant corporate device access | Planned |
-| 11 | Test unmanaged BYOD access | Planned |
+| 7 | Deploy Microsoft Store apps | Completed |
+| 8 | Verify required apps installed | Completed |
+| 9 | Verify available apps in Company Portal | Completed |
+
+---
+
+## Upcoming Hands-On Lab Sequence
+
+| Step | Lab Task | Status |
+|---|---|---|
+| 1 | Prepare 7-Zip installer source folder | Next |
+| 2 | Package 7-Zip as `.intunewin` | Planned |
+| 3 | Upload Win32 app to Intune | Planned |
+| 4 | Configure install and uninstall commands | Planned |
+| 5 | Configure detection rule | Planned |
+| 6 | Assign app to GRP-Pilot-Users | Planned |
+| 7 | Sync WIN-CORP-001 | Planned |
+| 8 | Verify 7-Zip installation | Planned |
+| 9 | Capture sanitized screenshots | Planned |
+| 10 | Update GitHub documentation | Planned |
 
 ---
 
@@ -253,6 +312,14 @@ screenshots/sanitized/
 
 Use subfolders for each lab area.
 
+Examples:
+
+```text
+screenshots/sanitized/identity-and-groups/
+screenshots/sanitized/device-enrollment/
+screenshots/sanitized/application-deployment/
+```
+
 ---
 
 ## Current Status Summary
@@ -266,16 +333,23 @@ Use subfolders for each lab area.
 | Lab roadmap created | Completed |
 | Identity and groups lab | Completed |
 | First Windows enrollment lab | Completed |
+| Microsoft Store app deployment lab | Completed |
+| Win32 app deployment lab | Next |
 | Autopilot enrollment lab | Planned |
+| Compliance and Conditional Access labs | Planned |
+| Configuration profile labs | Planned |
+| Endpoint security labs | Planned |
+| Remote actions and monitoring labs | Planned |
+| Troubleshooting labs | Planned |
 
 ---
 
 ## Next Step
 
-Continue to the Windows Autopilot user-driven enrollment lab:
+Continue to the Win32 7-Zip app deployment lab:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-This will compare manual Windows OOBE enrollment with the Autopilot provisioning experience.
+This next lab will validate Win32 application deployment using Microsoft Intune, including packaging, app upload, install command, uninstall command, detection rule, assignment, endpoint sync, and installation verification.
