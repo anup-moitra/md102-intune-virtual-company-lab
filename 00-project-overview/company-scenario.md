@@ -34,10 +34,10 @@ The company uses a mixed device environment.
 
 | Device Type | Ownership | Platform | Purpose |
 |---|---|---|---|
-| Corporate laptops | Company-owned | Windows 11 | Managed corporate endpoint testing |
-| Autopilot laptops | Company-owned | Windows 11 | Windows Autopilot provisioning testing |
-| BYOD laptops | Personally owned | Windows 11 | Personal device access and enrollment testing |
-| Mobile devices | Personally owned | Android and iOS | Mobile BYOD enrollment and app protection testing |
+| Corporate laptops | Company-owned | Windows 11 | Managed endpoint testing |
+| Autopilot laptops | Company-owned | Windows 11 | Autopilot provisioning |
+| BYOD laptops | Personally owned | Windows 11 | BYOD access testing |
+| Mobile devices | Personally owned | Android and iOS | Mobile BYOD testing |
 
 ---
 
@@ -45,12 +45,15 @@ The company uses a mixed device environment.
 
 | Device Name | Device Type | Ownership | Operating System | Planned Use |
 |---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate | Windows 11 | Main corporate Intune-managed device |
-| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven enrollment |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Unmanaged BYOD browser sign-in test |
+| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Intune enrollment |
+| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Autopilot user-driven enrollment |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Unmanaged browser sign-in test |
 | WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | Windows BYOD enrollment test |
-| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Android personally owned work profile test |
+| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Android work profile test |
 | IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS BYOD enrollment test |
+
+> [!NOTE]
+> WIN-CORP-001 has completed the Windows OOBE enrollment lab and now appears in Microsoft Intune. Intune showed the ownership value as `Personal` after manual MDM enrollment, which is documented in the lab notes.
 
 ---
 
@@ -58,7 +61,7 @@ The company uses a mixed device environment.
 
 Contoso Startup Lab uses Microsoft Entra ID for cloud identity and access management.
 
-The lab identity setup will include:
+The lab identity setup includes:
 
 - Lab administrator account
 - Standard test users
@@ -71,27 +74,27 @@ The lab identity setup will include:
 
 ---
 
-## Planned Lab Users
+## Lab Users
 
 | User Type | Example Account | Purpose |
 |---|---|---|
-| Lab administrator | admin01 | Manage the lab tenant and Intune configuration |
-| Pilot user | user01 | Main test user for enrollment, apps, compliance, and Conditional Access |
-| Standard users | user02, user03, user04, user05 | Additional users for future assignment and policy testing |
+| Lab administrator | admin01 | Tenant and Intune admin |
+| Pilot user | user01 | Main test user |
+| Standard users | user02-user05 | Future policy testing |
 
 ---
 
-## Planned Lab Groups
+## Lab Groups
 
 | Group Name | Purpose |
 |---|---|
-| GRP-All-Lab-Users | General lab user targeting |
-| GRP-Pilot-Users | Pilot testing for policies and apps |
+| GRP-All-Lab-Users | General lab targeting |
+| GRP-Pilot-Users | Pilot testing |
 | GRP-Windows-Users | Windows user targeting |
 | GRP-BYOD-Users | BYOD user targeting |
-| GRP-Mobile-Users | Android and iOS user targeting |
-| GRP-IT-Admins | Lab administrator targeting |
-| GRP-Autopilot-Devices | Windows Autopilot device targeting |
+| GRP-Mobile-Users | Mobile user targeting |
+| GRP-IT-Admins | Lab admin targeting |
+| GRP-Autopilot-Devices | Autopilot device targeting |
 
 ---
 
@@ -99,11 +102,11 @@ The lab identity setup will include:
 
 | Tool | Purpose |
 |---|---|
-| Microsoft Intune | Device enrollment, configuration, compliance, app deployment, endpoint security, monitoring, and remote actions |
-| Microsoft Entra ID | Cloud identity, users, groups, device identity, and Conditional Access |
-| Windows Autopilot | Cloud-based provisioning for corporate Windows devices |
-| Company Portal | User-facing app installation and device setup experience |
-| Microsoft 365 Apps | Productivity app deployment and sign-in testing |
+| Microsoft Intune | Device and app management |
+| Microsoft Entra ID | Identity and access |
+| Windows Autopilot | Cloud provisioning |
+| Company Portal | User app experience |
+| Microsoft 365 Apps | Productivity apps |
 
 ---
 
@@ -136,6 +139,33 @@ The main goals are to:
 
 ---
 
+## Completed Lab Progress
+
+Completed so far:
+
+- Project README
+- Company scenario
+- Device inventory
+- Lab implementation roadmap
+- Microsoft Entra ID users and groups
+- user01 license assignment
+- Windows OOBE enrollment for WIN-CORP-001
+- Intune enrollment troubleshooting for WIN-CORP-001
+
+The first enrolled Windows device is:
+
+```text
+WIN-CORP-001
+```
+
+The first main testing user is:
+
+```text
+user01
+```
+
+---
+
 ## Example Real-World Scenario
 
 Contoso Startup Lab wants to manage corporate and personal devices securely while allowing users to access Microsoft 365 resources.
@@ -145,9 +175,9 @@ A typical access flow in this lab will be:
 ```text
 User signs in to Microsoft 365
 -> Microsoft Entra ID evaluates the sign-in
--> Conditional Access checks the policy requirements
+-> Conditional Access checks policy requirements
 -> Intune provides device compliance status
--> Access is allowed or blocked based on the policy result
+-> Access is allowed or blocked based on policy result
 ```
 
 This helps demonstrate the relationship between identity, device compliance, and access control.
@@ -188,14 +218,16 @@ Do not upload:
 | Company scenario documented | Completed |
 | Device inventory documented | Completed |
 | Lab implementation roadmap documented | Completed |
-| Identity and groups lab started | Completed |
+| Identity and groups lab completed | Completed |
+| Windows OOBE enrollment lab completed | Completed |
+| Autopilot enrollment lab started | Planned |
 
 ---
 
 ## Next Step
 
-Continue to the Windows OOBE enrollment lab:
+Continue to the Windows Autopilot user-driven enrollment lab:
 
 ```text
-02-device-enrollment/windows-oobe-enrollment.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
