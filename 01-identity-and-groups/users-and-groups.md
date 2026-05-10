@@ -6,7 +6,7 @@ This file documents the Microsoft Entra ID users and groups for the MD-102 Intun
 
 ## Status
 
-In progress
+Completed
 
 ---
 
@@ -14,7 +14,7 @@ In progress
 
 Create Microsoft Entra ID lab users and security groups that will be used for Intune policy assignments, application deployment, compliance testing, Conditional Access testing, BYOD testing, and Windows Autopilot testing.
 
-This lab will validate that:
+This lab validates that:
 
 - Lab users can be created in Microsoft Entra ID.
 - Security groups can be created for targeted Intune assignments.
@@ -52,7 +52,7 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | Main test user | user01 |
 | Main admin account | admin01 |
 | Assignment strategy | Security groups |
-| Current status | In progress |
+| Current status | Completed |
 
 ---
 
@@ -69,23 +69,23 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 
 ---
 
-## Planned Lab Groups
+## Lab Groups
 
 | Group Name | Group Type | Purpose | Status |
 |---|---|---|---|
-| GRP-All-Lab-Users | Security group | General lab user targeting | Planned |
-| GRP-Pilot-Users | Security group | Pilot users for testing policies and apps | Planned |
-| GRP-Windows-Users | Security group | Windows user targeting | Planned |
-| GRP-BYOD-Users | Security group | BYOD user targeting | Planned |
-| GRP-Mobile-Users | Security group | Android and iOS user targeting | Planned |
-| GRP-IT-Admins | Security group | Lab administrator targeting | Planned |
-| GRP-Autopilot-Devices | Security group | Autopilot registered Windows devices | Planned |
+| GRP-All-Lab-Users | Security group | General lab user targeting | Created |
+| GRP-Pilot-Users | Security group | Pilot users for testing policies and apps | Created |
+| GRP-Windows-Users | Security group | Windows user targeting | Created |
+| GRP-BYOD-Users | Security group | BYOD user targeting | Created |
+| GRP-Mobile-Users | Security group | Android and iOS user targeting | Created |
+| GRP-IT-Admins | Security group | Lab administrator targeting | Created |
+| GRP-Autopilot-Devices | Security group | Autopilot registered Windows devices | Created |
 
 ---
 
-## Planned Group Membership
+## Group Membership
 
-| Group Name | Planned Members |
+| Group Name | Members |
 |---|---|
 | GRP-All-Lab-Users | user01, user02, user03, user04, user05 |
 | GRP-Pilot-Users | user01 |
@@ -93,20 +93,20 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | GRP-BYOD-Users | user01, user03 |
 | GRP-Mobile-Users | user01, user04 |
 | GRP-IT-Admins | admin01 |
-| GRP-Autopilot-Devices | Autopilot test device after import |
+| GRP-Autopilot-Devices | Created for future Autopilot device assignment |
 
 ---
 
-## Planned License Assignment
+## License Assignment
 
 | User | Intune License | Microsoft 365 Apps License | Purpose |
 |---|---|---|---|
-| admin01 | Planned | Optional | Lab administration |
-| user01 | Planned | Planned | Main testing user |
-| user02 | Planned | Optional | Additional Windows testing |
-| user03 | Planned | Optional | BYOD testing |
-| user04 | Planned | Optional | Mobile testing |
-| user05 | Planned | Optional | Additional policy testing |
+| admin01 | Assigned / available as needed | Optional | Lab administration |
+| user01 | Assigned | Assigned / available as needed | Main testing user |
+| user02 | Assigned / available as needed | Optional | Additional Windows testing |
+| user03 | Assigned / available as needed | Optional | BYOD testing |
+| user04 | Assigned / available as needed | Optional | Mobile testing |
+| user05 | Assigned / available as needed | Optional | Additional policy testing |
 
 > [!NOTE]
 > The exact license name may depend on the available Microsoft 365 or Intune trial/subscription in the lab tenant.
@@ -115,7 +115,7 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 
 ## Group Assignment Strategy
 
-The lab will use a pilot-first assignment approach.
+The lab uses a pilot-first assignment approach.
 
 Instead of assigning new policies to all users or all devices immediately, new policies should first target a small pilot group.
 
@@ -134,6 +134,8 @@ This group will be used for early testing of:
 - Microsoft Store app deployment
 - Win32 app deployment
 - Microsoft 365 Apps deployment
+
+This approach helps reduce risk because new policies are tested with a small group before being expanded to other users or devices.
 
 ---
 
@@ -185,15 +187,9 @@ Entra ID
 
 The users list confirmed that the lab user accounts were created successfully.
 
----
+### Step 4: Created Security Groups
 
-## Remaining Steps
-
-The following steps are still pending:
-
-### Step 4: Create Security Groups
-
-Go to:
+Navigation used:
 
 ```text
 Microsoft Entra admin center
@@ -203,7 +199,7 @@ Microsoft Entra admin center
 -> New group
 ```
 
-Create:
+Created the planned security groups:
 
 ```text
 GRP-All-Lab-Users
@@ -215,45 +211,55 @@ GRP-IT-Admins
 GRP-Autopilot-Devices
 ```
 
-### Step 5: Add Users to Groups
+### Step 5: Added Users to Groups
 
-Add users based on the planned group membership table.
+Users were added to the planned Microsoft Entra ID security groups.
 
-For the first pilot test, make sure this group contains:
+The key pilot membership configured for the first Intune tests was:
 
 ```text
 GRP-Pilot-Users -> user01
 ```
 
-### Step 6: Assign Licenses
+The lab administrator account was added to:
 
-Assign the required Intune/Microsoft 365 license to the users that will perform enrollment and app testing.
+```text
+GRP-IT-Admins -> admin01
+```
 
-At minimum, assign a license to:
+### Step 6: Assigned License to User 01
+
+A license was assigned to:
 
 ```text
 user01
 ```
 
-### Step 7: Final Verification
+This prepares `user01` for future Intune enrollment, app deployment, compliance, and Conditional Access testing.
 
-Confirm:
+### Step 7: Verified Users, Groups, Memberships, and License
 
-- Groups are visible in Microsoft Entra ID.
-- Group memberships are correct.
+Verification confirmed that:
+
+- Lab users exist in Microsoft Entra ID.
+- Lab security groups exist in Microsoft Entra ID.
+- user01 is a member of GRP-Pilot-Users.
+- admin01 is a member of GRP-IT-Admins.
 - user01 has the required license.
+- Groups are ready for future Intune assignments.
 
 ---
 
 ## Expected Result
 
-After this lab is fully completed:
+After this lab:
 
-- Lab users should exist in Microsoft Entra ID.
-- Lab security groups should exist in Microsoft Entra ID.
-- user01 should be a member of GRP-Pilot-Users.
-- user01 should have an Intune-capable license.
-- Groups should be ready for future Intune assignments.
+- Lab users exist in Microsoft Entra ID.
+- Lab security groups exist in Microsoft Entra ID.
+- user01 is a member of GRP-Pilot-Users.
+- admin01 is a member of GRP-IT-Admins.
+- user01 has an Intune-capable license.
+- Groups are ready for future Intune assignments.
 
 ---
 
@@ -262,11 +268,11 @@ After this lab is fully completed:
 | Test Item | Result |
 |---|---|
 | Lab users created | Completed |
-| Lab security groups created | Pending |
-| user01 added to GRP-Pilot-Users | Pending |
-| admin01 added to GRP-IT-Admins | Pending |
-| user01 license assigned | Pending |
-| Users and groups verified | In progress |
+| Lab security groups created | Completed |
+| user01 added to GRP-Pilot-Users | Completed |
+| admin01 added to GRP-IT-Admins | Completed |
+| user01 license assigned | Completed |
+| Users and groups verified | Completed |
 
 ---
 
@@ -286,20 +292,31 @@ screenshots/sanitized/identity-and-groups/
 
 ![Lab users created in Microsoft Entra ID](../screenshots/sanitized/identity-and-groups/lab-users-created-sanitized.png)
 
+### Lab groups created in Microsoft Entra ID
+
+![Lab groups created in Microsoft Entra ID](../screenshots/sanitized/identity-and-groups/lab-groups-created-sanitized.png)
+
+### Pilot users group membership
+
+![Pilot users group membership](../screenshots/sanitized/identity-and-groups/grp-pilot-users-membership-sanitized.png)
+
+### User 01 license assignment
+
+![User 01 license assignment](../screenshots/sanitized/identity-and-groups/user01-license-assignment-sanitized.png)
+
 > [!NOTE]
 > Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
 
 ---
 
-## Pending Screenshots
-
-The following screenshots will be added after the remaining steps are completed:
+## Screenshot Files
 
 ```text
+lab-user-admin01-create-sanitized.png
+lab-users-created-sanitized.png
 lab-groups-created-sanitized.png
-user01-license-assignment-sanitized.png
 grp-pilot-users-membership-sanitized.png
-grp-autopilot-devices-sanitized.png
+user01-license-assignment-sanitized.png
 ```
 
 ---
@@ -323,6 +340,13 @@ If a license cannot be assigned:
 1. Confirm licenses are available in the tenant.
 2. Confirm the user location is set if required.
 3. Confirm the account has license administrator or global administrator permissions.
+
+If group membership does not appear immediately:
+
+1. Refresh the group members page.
+2. Wait a few minutes for Microsoft Entra ID to update.
+3. Search for the user again inside the group membership page.
+4. Confirm the correct group was selected.
 
 ---
 
@@ -357,29 +381,19 @@ Before uploading screenshots, hide or blur:
 |---|---|
 | users-and-groups.md created | Completed |
 | Lab users created in Entra ID | Completed |
-| Lab groups created in Entra ID | Planned |
-| Group memberships configured | Planned |
-| Intune licenses assigned | Planned |
-| Screenshots added | In progress |
+| Lab groups created in Entra ID | Completed |
+| Group memberships configured | Completed |
+| Intune licenses assigned | Completed |
+| Screenshots added | Completed |
 
 ---
 
 ## Next Step
 
-Create Microsoft Entra ID security groups:
+Continue to the next lab:
 
 ```text
-GRP-All-Lab-Users
-GRP-Pilot-Users
-GRP-Windows-Users
-GRP-BYOD-Users
-GRP-Mobile-Users
-GRP-IT-Admins
-GRP-Autopilot-Devices
+02-device-enrollment/windows-oobe-enrollment.md
 ```
 
-After groups are created, take and upload:
-
-```text
-lab-groups-created-sanitized.png
-```
+This next lab will use `user01` and the created Microsoft Entra ID groups to begin Windows device enrollment into Microsoft Intune.
