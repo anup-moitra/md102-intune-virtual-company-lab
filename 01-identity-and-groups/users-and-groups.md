@@ -4,12 +4,6 @@ This file documents the Microsoft Entra ID users and groups for the MD-102 Intun
 
 ---
 
-## Status
-
-Completed
-
----
-
 ## Objective
 
 Create Microsoft Entra ID lab users and security groups that will be used for Intune policy assignments, application deployment, compliance testing, Conditional Access testing, BYOD testing, and Windows Autopilot testing.
