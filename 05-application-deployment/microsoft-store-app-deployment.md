@@ -519,5 +519,15 @@ Before uploading screenshots, hide or blur:
 Continue to the next application deployment lab:
 
 ```text
-05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
+
+This next lab will demonstrate Microsoft 365 Apps deployment with Microsoft Intune.
+
+Alternative next lab:
+
+```text
+05-application-deployment/company-portal-self-service-apps.md
+```
+
+This alternative lab can further document the Company Portal user self-service app experience.
