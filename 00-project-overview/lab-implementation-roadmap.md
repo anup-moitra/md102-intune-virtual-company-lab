@@ -14,19 +14,24 @@ This roadmap will be updated as the project progresses from initial documentatio
 
 ## Current Project Status
 
-The project is currently in the foundation setup phase.
+The project has completed the foundation documentation, the first identity lab, and the first Windows device enrollment lab.
 
-Completed foundation documentation:
+Completed work:
 
 - README created
 - Company scenario documented
 - Device inventory documented
+- Lab implementation roadmap documented
+- Microsoft Entra ID users and groups created
+- user01 license assignment completed
+- Windows OOBE enrollment for WIN-CORP-001 completed
+- Intune enrollment issue documented and resolved with manual MDM enrollment
 
 Current focus:
 
-- Complete the project overview roadmap
-- Create identity and group documentation
-- Start the first hands-on Microsoft Entra ID and Intune preparation labs
+- Continue with Windows Autopilot user-driven enrollment
+- Compare manual OOBE enrollment with Autopilot provisioning
+- Continue building the device enrollment section
 
 ---
 
@@ -39,11 +44,11 @@ Current focus:
 | Phase 2 | Create company scenario documentation | Completed |
 | Phase 3 | Create device inventory documentation | Completed |
 | Phase 4 | Create lab implementation roadmap | Completed |
-| Phase 5 | Create Microsoft Entra ID users documentation | Planned |
-| Phase 6 | Create Microsoft Entra ID groups documentation | Planned |
-| Phase 7 | Assign Intune licenses to lab users | Planned |
-| Phase 8 | Configure automatic MDM enrollment | Planned |
-| Phase 9 | Enroll corporate Windows device WIN-CORP-001 | Planned |
+| Phase 5 | Create Microsoft Entra ID users documentation | Completed |
+| Phase 6 | Create Microsoft Entra ID groups documentation | Completed |
+| Phase 7 | Assign Intune licenses to lab users | Completed |
+| Phase 8 | Configure automatic MDM enrollment | In progress |
+| Phase 9 | Enroll corporate Windows device WIN-CORP-001 | Completed |
 | Phase 10 | Create Windows basic compliance policy | Planned |
 | Phase 11 | Create Conditional Access policy in Report-only mode | Planned |
 | Phase 12 | Test compliant corporate Windows sign-in | Planned |
@@ -64,6 +69,9 @@ Current focus:
 | Phase 27 | Test remote actions and monitoring | Planned |
 | Phase 28 | Create troubleshooting documentation | Planned |
 
+> [!NOTE]
+> Automatic MDM enrollment is marked as `In progress` because the first Windows OOBE lab required manual MDM enrollment troubleshooting. The issue is documented in the Windows OOBE enrollment lab.
+
 ---
 
 ## Section Roadmap
@@ -83,7 +91,7 @@ Current focus:
 |---|---|
 | 01-identity-and-groups/users-and-groups.md | Completed |
 
-This section will document:
+This section documents:
 
 - Lab admin account
 - Standard test users
@@ -91,18 +99,27 @@ This section will document:
 - Microsoft Entra ID security groups
 - Group assignment strategy
 - License assignment plan
+- Initial screenshots for identity setup
 
 ### 02 - Device Enrollment
 
 | File | Status |
 |---|---|
-| 02-device-enrollment/windows-oobe-enrollment.md | Planned |
+| 02-device-enrollment/windows-oobe-enrollment.md | Completed |
 | 02-device-enrollment/windows-autopilot-user-driven-enrollment.md | Planned |
 | 02-device-enrollment/windows-byod-enrollment.md | Planned |
 | 02-device-enrollment/android-byod-enrollment.md | Planned |
 | 02-device-enrollment/ios-byod-enrollment.md | Planned |
 
-This section will document Windows corporate enrollment, Windows Autopilot, and BYOD enrollment scenarios.
+This section documents Windows corporate enrollment, Windows Autopilot, and BYOD enrollment scenarios.
+
+The Windows OOBE enrollment lab is completed for:
+
+```text
+WIN-CORP-001
+```
+
+The lab also documents the troubleshooting path where the device initially showed `MDM: None` in Microsoft Entra ID and was later enrolled into Intune using manual MDM enrollment.
 
 ### 03 - Configuration Profiles
 
@@ -174,19 +191,19 @@ This section will document repeatable troubleshooting checklists and realistic s
 
 ## First Hands-On Lab Sequence
 
-The first hands-on labs should be completed in this order:
-
-1. Create Microsoft Entra ID lab users.
-2. Create Microsoft Entra ID security groups.
-3. Assign Intune licenses to test users.
-4. Configure automatic MDM enrollment.
-5. Enroll WIN-CORP-001 through Windows OOBE.
-6. Confirm WIN-CORP-001 appears in Intune.
-7. Create a basic Windows compliance policy.
-8. Confirm WIN-CORP-001 reports compliant.
-9. Create Conditional Access policy in Report-only mode.
-10. Test compliant corporate device access.
-11. Test unmanaged BYOD access.
+| Step | Lab Task | Status |
+|---|---|---|
+| 1 | Create Microsoft Entra ID lab users | Completed |
+| 2 | Create Microsoft Entra ID security groups | Completed |
+| 3 | Assign Intune licenses to test users | Completed |
+| 4 | Configure automatic MDM enrollment | In progress |
+| 5 | Enroll WIN-CORP-001 through Windows OOBE | Completed |
+| 6 | Confirm WIN-CORP-001 appears in Intune | Completed |
+| 7 | Create a basic Windows compliance policy | Planned |
+| 8 | Confirm WIN-CORP-001 reports compliant | Planned |
+| 9 | Create Conditional Access policy in Report-only mode | Planned |
+| 10 | Test compliant corporate device access | Planned |
+| 11 | Test unmanaged BYOD access | Planned |
 
 ---
 
@@ -248,16 +265,17 @@ Use subfolders for each lab area.
 | Device inventory created | Completed |
 | Lab roadmap created | Completed |
 | Identity and groups lab | Completed |
-| First Windows enrollment lab | Planned |
+| First Windows enrollment lab | Completed |
+| Autopilot enrollment lab | Planned |
 
 ---
 
 ## Next Step
 
-Continue to the Windows OOBE enrollment lab:
+Continue to the Windows Autopilot user-driven enrollment lab:
 
 ```text
-02-device-enrollment/windows-oobe-enrollment.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
-This will be the first hands-on preparation step before Windows device enrollment.
+This will compare manual Windows OOBE enrollment with the Autopilot provisioning experience.
