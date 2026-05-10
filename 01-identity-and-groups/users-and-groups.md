@@ -1,12 +1,12 @@
 # Users and Groups
 
-This file documents the planned Microsoft Entra ID users and groups for the MD-102 Intune virtual company lab.
+This file documents the Microsoft Entra ID users and groups for the MD-102 Intune virtual company lab.
 
 ---
 
 ## Status
 
-Planned / documentation template prepared / not yet tested
+In progress
 
 ---
 
@@ -44,7 +44,7 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 
 ## Lab Environment
 
-| Item | Planned Value |
+| Item | Value |
 |---|---|
 | Identity platform | Microsoft Entra ID |
 | Management platform | Microsoft Intune |
@@ -52,20 +52,20 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | Main test user | user01 |
 | Main admin account | admin01 |
 | Assignment strategy | Security groups |
-| Current status | Planned |
+| Current status | In progress |
 
 ---
 
-## Planned Lab Users
+## Lab Users
 
 | Display Name | Username | Department | Role | Status |
 |---|---|---|---|---|
-| Admin User 01 | admin01 | IT | Lab administrator | Planned |
-| User 01 | user01 | Management | Standard user / pilot user | Planned |
-| User 02 | user02 | Finance | Standard user | Planned |
-| User 03 | user03 | HR | Standard user | Planned |
-| User 04 | user04 | Operations | Standard user | Planned |
-| User 05 | user05 | Operations | Standard user | Planned |
+| Admin User 01 | admin01 | IT | Lab administrator | Created |
+| User 01 | user01 | Management | Standard user / pilot user | Created |
+| User 02 | user02 | Finance | Standard user | Created |
+| User 03 | user03 | HR | Standard user | Created |
+| User 04 | user04 | Operations | Standard user | Created |
+| User 05 | user05 | Operations | Standard user | Created |
 
 ---
 
@@ -137,31 +137,32 @@ This group will be used for early testing of:
 
 ---
 
-## Steps to Perform
+## Steps Performed
 
-### Step 1: Open Microsoft Entra Admin Center
+### Step 1: Opened Microsoft Entra Admin Center
 
-Go to:
+Opened:
 
 ```text
 https://entra.microsoft.com
 ```
 
-Sign in with the lab administrator account.
+Signed in with the lab administrator account.
 
-### Step 2: Create Lab Users
+### Step 2: Created Lab Users
 
-Go to:
+Navigation used:
 
 ```text
 Microsoft Entra admin center
--> Identity
+-> Entra ID
 -> Users
 -> All users
 -> New user
+-> Create new user
 ```
 
-Create the planned users:
+Created the planned users:
 
 ```text
 admin01
@@ -172,19 +173,37 @@ user04
 user05
 ```
 
-### Step 3: Create Security Groups
+### Step 3: Verified Users in Microsoft Entra ID
+
+After creation, the users were visible under:
+
+```text
+Entra ID
+-> Users
+-> All users
+```
+
+The users list confirmed that the lab user accounts were created successfully.
+
+---
+
+## Remaining Steps
+
+The following steps are still pending:
+
+### Step 4: Create Security Groups
 
 Go to:
 
 ```text
 Microsoft Entra admin center
--> Identity
+-> Entra ID
 -> Groups
 -> All groups
 -> New group
 ```
 
-Create the planned security groups:
+Create:
 
 ```text
 GRP-All-Lab-Users
@@ -196,7 +215,7 @@ GRP-IT-Admins
 GRP-Autopilot-Devices
 ```
 
-### Step 4: Add Users to Groups
+### Step 5: Add Users to Groups
 
 Add users based on the planned group membership table.
 
@@ -206,7 +225,7 @@ For the first pilot test, make sure this group contains:
 GRP-Pilot-Users -> user01
 ```
 
-### Step 5: Assign Licenses
+### Step 6: Assign Licenses
 
 Assign the required Intune/Microsoft 365 license to the users that will perform enrollment and app testing.
 
@@ -216,11 +235,10 @@ At minimum, assign a license to:
 user01
 ```
 
-### Step 6: Verify Users and Groups
+### Step 7: Final Verification
 
 Confirm:
 
-- Users are visible in Microsoft Entra ID.
 - Groups are visible in Microsoft Entra ID.
 - Group memberships are correct.
 - user01 has the required license.
@@ -229,7 +247,7 @@ Confirm:
 
 ## Expected Result
 
-After this lab is completed:
+After this lab is fully completed:
 
 - Lab users should exist in Microsoft Entra ID.
 - Lab security groups should exist in Microsoft Entra ID.
@@ -243,35 +261,46 @@ After this lab is completed:
 
 | Test Item | Result |
 |---|---|
-| Lab users created | Pending |
+| Lab users created | Completed |
 | Lab security groups created | Pending |
 | user01 added to GRP-Pilot-Users | Pending |
 | admin01 added to GRP-IT-Admins | Pending |
 | user01 license assigned | Pending |
-| Users and groups verified | Pending |
+| Users and groups verified | In progress |
 
 ---
 
-## Screenshot Placeholders
+## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/identity-and-groups/
 ```
 
-Suggested screenshot filenames:
+### Admin user creation review screen
+
+![Admin user creation review screen](../screenshots/sanitized/identity-and-groups/lab-user-admin01-create-sanitized.png)
+
+### Lab users created in Microsoft Entra ID
+
+![Lab users created in Microsoft Entra ID](../screenshots/sanitized/identity-and-groups/lab-users-created-sanitized.png)
+
+> [!NOTE]
+> Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
+
+---
+
+## Pending Screenshots
+
+The following screenshots will be added after the remaining steps are completed:
 
 ```text
-lab-users-created-sanitized.png
 lab-groups-created-sanitized.png
 user01-license-assignment-sanitized.png
 grp-pilot-users-membership-sanitized.png
 grp-autopilot-devices-sanitized.png
 ```
-
-> [!NOTE]
-> Do not add image links until the screenshot files actually exist in the repository. This avoids broken images in GitHub.
 
 ---
 
@@ -327,23 +356,30 @@ Before uploading screenshots, hide or blur:
 | Task | Status |
 |---|---|
 | users-and-groups.md created | Completed |
-| Lab users created in Entra ID | Planned |
+| Lab users created in Entra ID | Completed |
 | Lab groups created in Entra ID | Planned |
 | Group memberships configured | Planned |
 | Intune licenses assigned | Planned |
-| Screenshots added | Planned |
+| Screenshots added | In progress |
 
 ---
 
 ## Next Step
 
-Perform the hands-on identity setup in Microsoft Entra ID:
+Create Microsoft Entra ID security groups:
 
 ```text
-Create users
-Create security groups
-Add group memberships
-Assign license to user01
-Take sanitized screenshots
-Update this file from Planned to Completed
+GRP-All-Lab-Users
+GRP-Pilot-Users
+GRP-Windows-Users
+GRP-BYOD-Users
+GRP-Mobile-Users
+GRP-IT-Admins
+GRP-Autopilot-Devices
+```
+
+After groups are created, take and upload:
+
+```text
+lab-groups-created-sanitized.png
 ```
