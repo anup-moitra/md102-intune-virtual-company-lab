@@ -116,6 +116,9 @@ md102-intune-virtual-company-lab/
     └── autopilot-motherboard-replacement-troubleshooting.md
 ```
 
+> [!NOTE]
+> Some files in the structure are planned future labs. They will be added or updated as the hands-on project progresses.
+
 ---
 
 ## Current Project Status
@@ -130,7 +133,9 @@ md102-intune-virtual-company-lab/
 | Lab roadmap documented | Completed |
 | Identity and groups lab completed | Completed |
 | Windows OOBE enrollment lab completed | Completed |
+| Microsoft Store app deployment lab completed | Completed |
 | Windows Autopilot lab | Planned |
+| Win32 app deployment lab | Next |
 
 ---
 
@@ -186,6 +191,47 @@ Intune displayed the device ownership as Personal after manual MDM enrollment.
 This will be compared later with Windows Autopilot corporate ownership behavior.
 ```
 
+### 05 - Microsoft Store App Deployment
+
+Documented in:
+
+```text
+05-application-deployment/microsoft-store-app-deployment.md
+```
+
+Completed work:
+
+- Created Microsoft Store apps using **Microsoft Store app (new)**
+- Assigned required apps to GRP-Pilot-Users
+- Assigned available/self-service apps to GRP-Pilot-Users
+- Synced WIN-CORP-001 after app assignment
+- Verified Company Portal installation status in Intune
+- Verified required apps installed in Company Portal
+- Verified available apps appeared in Company Portal with an install option
+- Added sanitized screenshots
+
+Required apps tested:
+
+```text
+Company Portal
+VLC UWP
+Slack
+```
+
+Available apps tested:
+
+```text
+ChatGPT
+WhatsApp
+```
+
+Observed result:
+
+```text
+Required apps installed automatically.
+Available apps appeared in Company Portal for user self-service installation.
+```
+
 ---
 
 ## Skills This Project Demonstrates
@@ -200,6 +246,8 @@ This project demonstrates practical skills in:
 - Device compliance policy planning
 - Conditional Access planning
 - Microsoft Store app deployment
+- Required app assignment
+- Available app assignment through Company Portal
 - Win32 app deployment
 - Microsoft 365 Apps deployment
 - Microsoft Defender Antivirus policy
@@ -244,6 +292,7 @@ Example folders:
 ```text
 screenshots/sanitized/identity-and-groups/
 screenshots/sanitized/device-enrollment/
+screenshots/sanitized/application-deployment/
 ```
 
 ---
@@ -273,13 +322,13 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ## Next Step
 
-Continue to the next device enrollment lab:
+Continue to the next application deployment lab:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-This next lab will compare the manual Windows OOBE enrollment experience with Windows Autopilot user-driven enrollment.
+This next lab will demonstrate Win32 application deployment with Microsoft Intune, including packaging, install command, uninstall command, detection rule, assignment, and installation verification.
 
 ---
 
