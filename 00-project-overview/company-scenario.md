@@ -45,7 +45,7 @@ The company uses a mixed device environment.
 
 | Device Name | Device Type | Ownership | Operating System | Planned Use |
 |---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Intune enrollment |
+| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE enrollment, Intune management, compliance visibility, and app deployment testing |
 | WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Autopilot user-driven enrollment |
 | WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Unmanaged browser sign-in test |
 | WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | Windows BYOD enrollment test |
@@ -151,6 +151,10 @@ Completed so far:
 - user01 license assignment
 - Windows OOBE enrollment for WIN-CORP-001
 - Intune enrollment troubleshooting for WIN-CORP-001
+- Microsoft Store app deployment completed
+- Required Microsoft Store apps tested: Company Portal, VLC UWP, Slack
+- Available Microsoft Store apps tested: ChatGPT, WhatsApp
+- Company Portal verification for required and available apps
 
 The first enrolled Windows device is:
 
@@ -163,6 +167,49 @@ The first main testing user is:
 ```text
 user01
 ```
+
+The first application deployment lab completed is:
+
+```text
+05-application-deployment/microsoft-store-app-deployment.md
+```
+
+---
+
+## Application Deployment Progress
+
+Microsoft Store app deployment has been completed using Microsoft Intune.
+
+Required apps tested:
+
+```text
+Company Portal
+VLC UWP
+Slack
+```
+
+Available apps tested:
+
+```text
+ChatGPT
+WhatsApp
+```
+
+Observed result:
+
+```text
+Required apps installed automatically.
+Available apps appeared in Company Portal for user self-service installation.
+```
+
+This proves the difference between:
+
+| Assignment type | Behavior |
+|---|---|
+| Required | Intune installs the app automatically |
+| Available for enrolled devices | The app appears in Company Portal for user-initiated installation |
+
+The next application deployment lab will focus on Win32 app deployment.
 
 ---
 
@@ -181,6 +228,17 @@ User signs in to Microsoft 365
 ```
 
 This helps demonstrate the relationship between identity, device compliance, and access control.
+
+A typical app deployment flow in this lab is:
+
+```text
+Admin creates app in Intune
+-> App is assigned to GRP-Pilot-Users
+-> WIN-CORP-001 syncs with Intune
+-> Required apps install automatically
+-> Available apps appear in Company Portal
+-> Admin verifies results in Intune and on the endpoint
+```
 
 ---
 
@@ -220,14 +278,18 @@ Do not upload:
 | Lab implementation roadmap documented | Completed |
 | Identity and groups lab completed | Completed |
 | Windows OOBE enrollment lab completed | Completed |
+| Microsoft Store app deployment lab completed | Completed |
+| Win32 7-Zip app deployment lab started | Next |
 | Autopilot enrollment lab started | Planned |
 
 ---
 
 ## Next Step
 
-Continue to the Windows Autopilot user-driven enrollment lab:
+Continue to the Win32 7-Zip app deployment lab:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+05-application-deployment/win32-app-deployment-7zip.md
 ```
+
+This next lab will validate Win32 application deployment using Microsoft Intune, including packaging, app upload, install command, uninstall command, detection rule, assignment, endpoint sync, and installation verification.
