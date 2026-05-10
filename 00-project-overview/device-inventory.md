@@ -55,7 +55,8 @@ Autopilot devices are corporate Windows devices registered with Windows Autopilo
 These devices are used to test:
 
 - Hardware hash import
-- Autopilot deployment profile assignment
+- Autopilot device import
+- Deployment profile assignment
 - Windows OOBE provisioning
 - Microsoft Entra join
 - Automatic Intune enrollment
@@ -63,16 +64,19 @@ These devices are used to test:
 
 ---
 
-## Planned Device Inventory
+## Device Inventory
 
-| Device Name | Device Type | Ownership | Operating System | Enrollment Type | Assigned User | Status |
+| Device Name | Device Type | Ownership | OS | Enrollment Type | User | Status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate | Windows 11 | Windows OOBE + Microsoft Entra joined + Intune enrolled | user01 | Planned |
-| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven enrollment | user01 | Planned |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Unmanaged browser sign-in test | user01 | Planned |
-| WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | Windows BYOD enrollment | user01 | Planned |
-| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Android Enterprise personally owned work profile | user01 | Planned |
-| IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS/iPadOS user enrollment or Company Portal enrollment | user01 | Planned |
+| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant |
+| WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Autopilot user-driven | user01 | Planned |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Browser sign-in test | user01 | Planned |
+| WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | BYOD enrollment | user01 | Planned |
+| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Work profile | user01 | Planned |
+| IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS enrollment | user01 | Planned |
+
+> [!NOTE]
+> During the Windows OOBE lab, Intune displayed `WIN-CORP-001` ownership as `Personal` after manual MDM enrollment. This is documented in the Windows OOBE enrollment lab and will be compared later with Windows Autopilot corporate ownership behavior.
 
 ---
 
@@ -80,33 +84,38 @@ These devices are used to test:
 
 ### WIN-CORP-001
 
-| Item | Planned Value |
+| Item | Value |
 |---|---|
 | Device name | WIN-CORP-001 |
 | Device type | Laptop |
-| Ownership | Corporate |
+| Lab ownership | Corporate lab device |
+| Intune ownership | Personal |
 | Operating system | Windows 11 |
-| Enrollment method | Windows Out-of-Box Experience work or school setup |
+| Enrollment method | OOBE + manual MDM trigger |
 | Join type | Microsoft Entra joined |
 | Management | Microsoft Intune |
 | Primary user | user01 |
-| Purpose | Main corporate Windows Intune test device |
-| Current status | Planned |
+| Compliance | Compliant |
+| Purpose | Main Windows Intune test device |
+| Current status | Enrolled / Compliant |
 
-This device will be used first because it is the main corporate Windows device for the lab.
+This device was used first because it is the main Windows device for the lab.
 
-It will be used to validate:
+It validated:
 
-- Windows OOBE enrollment
+- Windows OOBE setup
+- Device naming during OOBE
 - Microsoft Entra join
-- Intune enrollment
-- Compliance policy
-- Conditional Access
-- Configuration profiles
-- App deployment
-- Endpoint security policies
-- Remote actions
-- Monitoring and troubleshooting
+- Intune enrollment troubleshooting
+- Manual MDM enrollment trigger
+- Intune device visibility
+- Compliance status visibility
+
+The detailed lab is documented here:
+
+```text
+02-device-enrollment/windows-oobe-enrollment.md
+```
 
 ---
 
@@ -158,7 +167,7 @@ The lab will document:
 | Enrollment method | Unmanaged browser sign-in test |
 | Management | Not enrolled |
 | Test user | user01 |
-| Purpose | Test unmanaged BYOD access behavior |
+| Purpose | Unmanaged BYOD access test |
 | Current status | Planned |
 
 This device will be intentionally left unmanaged for the first BYOD comparison test.
@@ -173,8 +182,8 @@ It will be used to show that an unmanaged device does not satisfy a Conditional 
 | Device type | Laptop |
 | Ownership | Personal/BYOD |
 | Operating system | Windows 11 |
-| Enrollment method | Access work or school / Company Portal enrollment |
-| Join or registration type | Microsoft Entra registered / workplace joined |
+| Enrollment method | Access work or school / Company Portal |
+| Join type | Microsoft Entra registered |
 | Management | Microsoft Intune |
 | Test user | user01 |
 | Purpose | Windows BYOD enrollment test |
@@ -201,10 +210,10 @@ WIN-BYOD-002 = enrolled personal/BYOD device
 | Device type | Mobile |
 | Ownership | Personal/BYOD |
 | Operating system | Android |
-| Enrollment method | Android Enterprise personally owned work profile |
+| Enrollment method | Android Enterprise work profile |
 | Management | Microsoft Intune |
 | Test user | user01 |
-| Purpose | Android BYOD enrollment and work profile testing |
+| Purpose | Android BYOD work profile test |
 | Current status | Planned |
 
 This device will be used to test separation between personal apps/data and work apps/data using Android Enterprise personally owned work profile.
@@ -217,10 +226,10 @@ This device will be used to test separation between personal apps/data and work 
 | Device type | Mobile |
 | Ownership | Personal/BYOD |
 | Operating system | iOS |
-| Enrollment method | iOS/iPadOS user enrollment or Company Portal enrollment |
+| Enrollment method | iOS/iPadOS enrollment |
 | Management | Microsoft Intune |
 | Test user | user01 |
-| Purpose | iOS BYOD enrollment testing |
+| Purpose | iOS BYOD enrollment test |
 | Current status | Planned |
 
 This device will be used to test iOS/iPadOS BYOD enrollment and privacy-aware mobile device management.
@@ -257,14 +266,14 @@ Each device may move through several states during the lab.
 
 | Status | Meaning |
 |---|---|
-| Planned | Device is documented but not yet tested |
-| In progress | Lab work is currently being performed |
-| Enrolled | Device successfully enrolled into Intune |
-| Compliant | Device meets compliance policy requirements |
-| Noncompliant | Device fails one or more compliance requirements |
-| Retired | Device removed from Intune management |
-| Wiped | Device reset using Intune or local reset |
-| Discarded | Retired lab-only test device no longer used |
+| Planned | Device is documented but not tested |
+| In progress | Lab work is active |
+| Enrolled | Device enrolled into Intune |
+| Compliant | Device meets compliance rules |
+| Noncompliant | Device fails compliance rules |
+| Retired | Device removed from Intune |
+| Wiped | Device reset |
+| Discarded | Device no longer used |
 
 ---
 
@@ -323,25 +332,23 @@ Before uploading screenshots, hide or blur:
 | Task | Status |
 |---|---|
 | Device inventory file created | Completed |
-| Corporate Windows device documented | Planned |
+| Corporate Windows device documented | Completed |
+| WIN-CORP-001 enrolled in Intune | Completed |
+| WIN-CORP-001 compliance visible | Completed |
 | Autopilot device documented | Planned |
 | Windows BYOD devices documented | Planned |
 | Android BYOD device documented | Planned |
 | iOS BYOD device documented | Planned |
-| First device enrollment started | Planned |
+| First device enrollment started | Completed |
 
 ---
 
 ## Next Step
 
-Create the lab roadmap file:
+Continue to the Windows Autopilot user-driven enrollment lab:
 
 ```text
-00-project-overview/lab-implementation-roadmap.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
-After the roadmap is created, the next hands-on section will be:
-
-```text
-01-identity-and-groups/users-and-groups.md
-```
+This next lab will compare Autopilot provisioning with the completed Windows OOBE enrollment lab.
