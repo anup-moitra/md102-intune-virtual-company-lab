@@ -68,7 +68,7 @@ These devices are used to test:
 
 | Device Name | Device Type | Ownership | OS | Enrollment Type | User | Status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant |
+| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / Microsoft Store apps tested |
 | WIN-AUTOPILOT-001 | Laptop | Corporate | Windows 11 | Autopilot user-driven | user01 | Planned |
 | WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Browser sign-in test | user01 | Planned |
 | WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | BYOD enrollment | user01 | Planned |
@@ -97,7 +97,7 @@ These devices are used to test:
 | Primary user | user01 |
 | Compliance | Compliant |
 | Purpose | Main Windows Intune test device |
-| Current status | Enrolled / Compliant |
+| Current status | Enrolled / Compliant / Microsoft Store apps tested |
 
 This device was used first because it is the main Windows device for the lab.
 
@@ -110,11 +110,63 @@ It validated:
 - Manual MDM enrollment trigger
 - Intune device visibility
 - Compliance status visibility
+- Microsoft Store app deployment
+- Required app installation through Intune
+- Available app visibility in Company Portal
 
-The detailed lab is documented here:
+The detailed Windows enrollment lab is documented here:
 
 ```text
 02-device-enrollment/windows-oobe-enrollment.md
+```
+
+The detailed Microsoft Store app deployment lab is documented here:
+
+```text
+05-application-deployment/microsoft-store-app-deployment.md
+```
+
+---
+
+## Application Deployment Tested on WIN-CORP-001
+
+`WIN-CORP-001` was used to validate Microsoft Store app deployment with Microsoft Intune.
+
+| App deployment item | Result |
+|---|---|
+| Application deployment tested | Microsoft Store apps |
+| Assignment group used | GRP-Pilot-Users |
+| Required apps installed | Company Portal, VLC UWP, Slack |
+| Available apps visible in Company Portal | ChatGPT, WhatsApp |
+| Device sync performed | Completed |
+| Company Portal verification | Completed |
+| Final app deployment result | Successful |
+
+Required apps tested:
+
+```text
+Company Portal
+VLC UWP
+Slack
+```
+
+Available apps tested:
+
+```text
+ChatGPT
+WhatsApp
+```
+
+This proves that the device can receive both automatic app installs and self-service Company Portal app assignments.
+
+Simple flow validated:
+
+```text
+Apps created in Intune
+-> Apps assigned to GRP-Pilot-Users
+-> WIN-CORP-001 synced with Intune
+-> Required apps installed automatically
+-> Available apps appeared in Company Portal
 ```
 
 ---
@@ -270,6 +322,7 @@ Each device may move through several states during the lab.
 | In progress | Lab work is active |
 | Enrolled | Device enrolled into Intune |
 | Compliant | Device meets compliance rules |
+| App deployment tested | Device has been used for Intune app deployment validation |
 | Noncompliant | Device fails compliance rules |
 | Retired | Device removed from Intune |
 | Wiped | Device reset |
@@ -288,6 +341,7 @@ Screenshots for device-related labs should be stored in the matching sanitized s
 | BYOD enrollment | screenshots/sanitized/device-enrollment/ |
 | Compliance testing | screenshots/sanitized/compliance/ |
 | Conditional Access testing | screenshots/sanitized/conditional-access/ |
+| Application deployment | screenshots/sanitized/application-deployment/ |
 | Endpoint security | screenshots/sanitized/endpoint-security/ |
 | Remote actions | screenshots/sanitized/remote-actions-and-monitoring/ |
 | Troubleshooting | screenshots/sanitized/troubleshooting/ |
@@ -335,6 +389,9 @@ Before uploading screenshots, hide or blur:
 | Corporate Windows device documented | Completed |
 | WIN-CORP-001 enrolled in Intune | Completed |
 | WIN-CORP-001 compliance visible | Completed |
+| WIN-CORP-001 Microsoft Store app deployment tested | Completed |
+| Required apps installed on WIN-CORP-001 | Completed |
+| Available apps visible in Company Portal on WIN-CORP-001 | Completed |
 | Autopilot device documented | Planned |
 | Windows BYOD devices documented | Planned |
 | Android BYOD device documented | Planned |
@@ -345,10 +402,10 @@ Before uploading screenshots, hide or blur:
 
 ## Next Step
 
-Continue to the Windows Autopilot user-driven enrollment lab:
+Continue to the Win32 7-Zip app deployment lab:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-This next lab will compare Autopilot provisioning with the completed Windows OOBE enrollment lab.
+This next lab will use `WIN-CORP-001` to validate Win32 application deployment with Microsoft Intune.
