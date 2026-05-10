@@ -1,6 +1,6 @@
-# Intune Enrollment Troubleshooting
+# Conditional Access Troubleshooting
 
-This file documents common Microsoft Intune Windows enrollment troubleshooting steps for the MD-102 lab.
+This file documents common Conditional Access troubleshooting steps for the MD-102 Intune lab.
 
 ## Status
 
@@ -8,162 +8,138 @@ Documentation template prepared / use during troubleshooting
 
 ## Objective
 
-Create a repeatable checklist for troubleshooting Intune enrollment issues.
+Create a repeatable checklist for troubleshooting Conditional Access policy behavior.
 
 This guide helps troubleshoot:
 
-- Windows OOBE enrollment failures
-- Access work or school enrollment issues
-- Autopilot enrollment issues
-- Device not appearing in Intune
-- Device not checking in
-- License or MDM scope problems
+- Unexpected access blocks
+- Report-only failures
+- Compliant device requirement failures
+- User/group targeting issues
+- Conditional Access policy conflicts
 
-## Common Symptoms
+## Important Concept
 
-| Symptom | Possible cause |
-|---|---|
-| User cannot enroll device | Missing license, enrollment restriction, MDM scope issue |
-| Device does not appear in Intune | Enrollment failed, sync delay, wrong account used |
-| Device appears but not compliant | Compliance policy issue or evaluation delay |
-| Autopilot profile not applied | Device not imported, group membership delay, profile not assigned |
-| Company Portal setup stuck | Network, license, enrollment restriction, stale registration |
+Conditional Access decisions depend on many signals:
+
+```text
+User
+Device
+App
+Location
+Risk
+Client app
+Compliance state
+Policy assignments
+Grant controls
+```
+
+Always check the sign-in logs before guessing.
 
 ## Basic Troubleshooting Flow
 
 ```text
-Check user license
-→ Check MDM user scope
-→ Check enrollment restrictions
-→ Check device join state
-→ Check Intune device record
-→ Sync/restart device
-→ Review logs
+Find failed sign-in
+→ Open Conditional Access tab
+→ Check policy result
+→ Check grant controls
+→ Check device compliance
+→ Check included/excluded users
+→ Check report-only vs enforced state
 ```
 
-## Step 1: Check User License
-
-Go to:
-
-```text
-Microsoft 365 admin center
-→ Users
-→ Active users
-→ user01
-→ Licenses and apps
-```
-
-Confirm:
-
-- Intune license assigned
-- Microsoft 365 Business Premium or equivalent assigned if needed
-
-## Step 2: Check MDM User Scope
+## Step 1: Review Sign-in Logs
 
 Go to:
 
 ```text
 Microsoft Entra admin center
-→ Mobility (MDM and WIP)
-→ Microsoft Intune
+→ Monitoring
+→ Sign-in logs
 ```
 
-Confirm MDM user scope includes the test user.
-
-## Step 3: Check Enrollment Restrictions
-
-Go to:
+Filter by:
 
 ```text
-Intune admin center
-→ Devices
-→ Enrollment
-→ Enrollment device platform restrictions
+User: user01
+Application: Office 365 / tested app
+Status: Failure or Success
 ```
 
-Confirm the platform and ownership type are allowed.
+Open the sign-in event.
 
-## Step 4: Check Device Join State
+## Step 2: Review Conditional Access Tab
 
-On Windows, open Command Prompt and run:
+In the sign-in event, open:
 
-```cmd
-dsregcmd /status
+```text
+Conditional Access
 ```
 
 Review:
 
+- Policies applied
+- Policies not applied
+- Result
+- Grant controls
+- Session controls
+
+## Step 3: Check Device Details
+
+In the sign-in log, review device details:
+
+- Device ID
+- Managed state
+- Compliance state
+- Join type
+- Browser/client app
+
+Do not upload device IDs to GitHub.
+
+## Step 4: Check Policy Assignments
+
+Open the policy:
+
 ```text
-AzureAdJoined
-EnterpriseJoined
-DomainJoined
-WorkplaceJoined
-TenantName
-MdmUrl
+CA001 - Require compliant device for pilot users
 ```
 
-Do not upload screenshots that show tenant IDs or full user details.
+Check:
 
-## Step 5: Check Work or School Account
+- Included users/groups
+- Excluded users/groups
+- Target cloud apps
+- Conditions
+- Grant controls
+- Policy state
 
-On Windows:
-
-```text
-Settings
-→ Accounts
-→ Access work or school
-```
-
-Confirm the correct work account is connected.
-
-## Step 6: Check Intune Device Record
+## Step 5: Use What If Tool
 
 Go to:
 
 ```text
-Intune admin center
-→ Devices
-→ Windows devices
+Microsoft Entra admin center
+→ Protection
+→ Conditional Access
+→ What If
 ```
 
-Search for the device name.
+Test:
 
-Review:
+- User
+- Cloud app
+- Device platform
+- Client app
+- Location if used
 
-- Compliance
-- Ownership
-- Last check-in
-- Primary user
-- Enrollment profile
+## Step 6: Compare Expected vs Actual
 
-## Step 7: Review Event Logs
-
-On the Windows device:
-
-```text
-Event Viewer
-→ Applications and Services Logs
-→ Microsoft
-→ Windows
-→ DeviceManagement-Enterprise-Diagnostics-Provider
-→ Admin
-```
-
-Look for enrollment or policy errors.
-
-## Step 8: Sync and Retry
-
-Try:
-
-```text
-Settings
-→ Accounts
-→ Access work or school
-→ Info
-→ Sync
-```
-
-Then restart the device if needed.
+| Scenario | Expected result |
+|---|---|
+| Compliant `WIN-CORP-001` | Allowed |
+| Unmanaged `WIN-BYOD-001` | Blocked or report-only failure |
+| Managed noncompliant device | Blocked or report-only failure |
+| Excluded admin account | Policy not applied |
 
 ## Screenshot Placeholders
 
@@ -175,22 +151,21 @@ screenshots/sanitized/troubleshooting/
 
 | Screenshot file | Status | Notes |
 |---|---|---|
-| `intune-enrollment-license-check-sanitized.png` | Pending | Hide full email and tenant details |
-| `intune-enrollment-mdm-scope-sanitized.png` | Pending | Hide tenant details |
-| `intune-enrollment-restrictions-sanitized.png` | Pending | Hide tenant details |
-| `intune-enrollment-dsregcmd-status-sanitized.png` | Pending | Hide tenant ID and full UPN |
-| `intune-enrollment-event-log-sanitized.png` | Pending | Hide IDs and sensitive event details |
+| `ca-troubleshooting-sign-in-log-sanitized.png` | Pending | Hide user details and IDs |
+| `ca-troubleshooting-ca-tab-sanitized.png` | Pending | Hide IDs and full UPN |
+| `ca-troubleshooting-device-details-sanitized.png` | Pending | Hide device ID |
+| `ca-troubleshooting-policy-assignments-sanitized.png` | Pending | Hide tenant/account |
+| `ca-troubleshooting-what-if-sanitized.png` | Pending | Hide user and tenant details |
 
 ## Troubleshooting Result Template
 
 | Item | Result |
 |---|---|
-| User license verified | Pending |
-| MDM scope checked | Pending |
-| Enrollment restrictions checked | Pending |
-| Device join state checked | Pending |
-| Intune device record checked | Pending |
-| Event logs reviewed | Pending |
+| Sign-in log reviewed | Pending |
+| Conditional Access tab reviewed | Pending |
+| Device compliance checked | Pending |
+| Policy assignment checked | Pending |
+| What If tool used | Pending |
 | Issue resolved | Pending |
 
 ## Current Status
