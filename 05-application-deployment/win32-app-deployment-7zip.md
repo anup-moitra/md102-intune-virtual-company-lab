@@ -4,12 +4,6 @@ This file documents Win32 application deployment using Microsoft Intune for the 
 
 ---
 
-## Status
-
-Completed
-
----
-
 ## Objective
 
 Deploy 7-Zip as a **Windows app (Win32)** using Microsoft Intune.
