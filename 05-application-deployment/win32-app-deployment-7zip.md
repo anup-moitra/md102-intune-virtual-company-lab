@@ -579,3 +579,13 @@ Before uploading screenshots, hide or blur:
 | Documentation updated with final evidence | Completed |
 
 ---
+
+## Next Step
+
+Continue to the next application deployment lab:
+
+```text
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+This next lab will demonstrate Microsoft 365 Apps deployment with Microsoft Intune.
