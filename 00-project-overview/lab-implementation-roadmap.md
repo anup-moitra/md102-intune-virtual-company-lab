@@ -39,6 +39,13 @@ Completed hands-on work:
 - Microsoft Store app deployment completed
 - Win32 7-Zip app deployment completed
 - Microsoft Defender Antivirus endpoint security policy completed
+- Windows Firewall endpoint security policy completed
+- Firewall enabled for Domain, Private, and Public network profiles
+- Firewall status verified in Intune and on WIN-CORP-001
+- BitLocker disk encryption policy completed
+- WIN-CORP-001 encrypted successfully with BitLocker
+- BitLocker protection confirmed as On
+- BitLocker recovery key escrow verified in Intune
 - Windows Autopilot deployment profile created
 - Autopilot hardware hash imported
 - Autopilot profile assigned to imported device
@@ -51,13 +58,13 @@ Completed hands-on work:
 - Microsoft 365 Apps installation verified in Intune
 - Microsoft 365 Apps installation verified in Company Portal
 - Word sign-in verified with User 01
-- Sanitized screenshots added for Autopilot and Microsoft 365 Apps validation
+- Sanitized screenshots added for Autopilot, Microsoft 365 Apps, Firewall, and BitLocker validation
 
 Current focus:
 
-- Continue with endpoint security labs
-- Recommended next lab: Windows Firewall endpoint security policy
-- Recommended follow-up lab: BitLocker encryption policy
+- Continue with Attack Surface Reduction policy
+- Continue with Windows Security Baseline
+- Continue with BYOD enrollment labs later
 - Continue updating GitHub documentation with sanitized screenshots as labs are completed
 
 ## Implementation Phases
@@ -86,8 +93,8 @@ Current focus:
 | Phase 19 | Microsoft 365 Apps deployment for Autopilot lab | Completed |
 | Phase 20 | Complete Autopilot OOBE enrollment verification | Completed |
 | Phase 21 | Verify Microsoft 365 Apps install and Word sign-in | Completed |
-| Phase 22 | Windows Firewall endpoint security policy | Planned |
-| Phase 23 | BitLocker policy | Planned |
+| Phase 22 | Windows Firewall endpoint security policy | Completed |
+| Phase 23 | BitLocker policy | Completed |
 | Phase 24 | Attack Surface Reduction policy | Planned |
 | Phase 25 | Windows Security Baseline | Planned |
 | Phase 26 | Enroll BYOD Windows devices | Planned |
@@ -217,18 +224,21 @@ Main files:
 Completed:
 
 - Microsoft Defender Antivirus endpoint security policy completed
+- Windows Firewall endpoint security policy completed
+- BitLocker disk encryption policy completed
+- BitLocker recovery key escrow verified in Intune
 
-Main file:
+Main files:
 
 ```text
 06-endpoint-security/windows-defender-antivirus-policy.md
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
 ```
 
 Planned endpoint security labs:
 
 ```text
-06-endpoint-security/windows-firewall-policy.md
-06-endpoint-security/bitlocker-encryption-policy.md
 06-endpoint-security/attack-surface-reduction-policy.md
 06-endpoint-security/windows-security-baseline.md
 ```
@@ -261,22 +271,22 @@ Main file:
 The most recent completed milestone was:
 
 ```text
-Windows Autopilot user-driven enrollment
+Windows Firewall endpoint security policy
 +
-Microsoft 365 Apps deployment validation
+BitLocker disk encryption policy with recovery key escrow verification
 ```
 
 This validates the following end-to-end flow:
 
 ```text
-Autopilot hardware hash imported
-→ Autopilot profile assigned
-→ User 01 signs in during OOBE
-→ Device joins Microsoft Entra ID
-→ Device enrolls into Microsoft Intune
-→ Device appears as corporate and compliant
-→ Microsoft 365 Apps install successfully
-→ Word opens and signs in with User 01
+Firewall policy created in Intune
+→ Firewall enabled for Domain, Private, and Public profiles
+→ WIN-CORP-001 confirmed firewall is on
+→ Dedicated BitLocker pilot device group created
+→ BitLocker policy assigned to WIN-CORP-001
+→ OS drive encrypted successfully
+→ manage-bde confirms Protection On
+→ BitLocker recovery key escrow verified in Intune
 ```
 
 ## Next Planned Work
@@ -285,16 +295,13 @@ The next planned project task is to continue endpoint security configuration.
 
 Recommended next sequence:
 
-1. Create Windows Firewall endpoint security policy.
-2. Assign the policy to the pilot group.
-3. Sync the test device from Intune / Windows settings.
-4. Verify firewall policy status in Intune.
-5. Capture sanitized screenshots.
-6. Update `06-endpoint-security/windows-firewall-policy.md`.
-7. Continue with BitLocker encryption policy.
-8. Continue with Attack Surface Reduction policy.
-9. Continue with Windows Security Baseline.
-10. Continue BYOD enrollment labs later.
+1. Create Attack Surface Reduction policy.
+2. Test ASR policy safely on the pilot device.
+3. Capture sanitized screenshots.
+4. Update `06-endpoint-security/attack-surface-reduction-policy.md`.
+5. Continue with Windows Security Baseline.
+6. Continue BYOD enrollment labs later.
+7. Continue remote actions and monitoring.
 
 ## BYOD Status
 
@@ -311,38 +318,6 @@ Planned BYOD scenarios:
 - iOS user enrollment / Company Portal enrollment
 - BYOD app protection and lighter management testing
 
-## Screenshot Documentation Status
-
-Screenshots are sanitized before being uploaded to GitHub.
-
-Current screenshot status:
-
-| Area | Status |
-|---|---|
-| Conditional Access screenshots | Added as available |
-| Configuration profile screenshots | Added as available |
-| Application deployment screenshots | Added as available |
-| Endpoint security screenshots | Added as available |
-| Autopilot screenshots | Added |
-| Microsoft 365 Apps Autopilot screenshots | Added |
-| BYOD screenshots | Pending future labs |
-| Remote actions screenshots | Pending future labs |
-| Troubleshooting screenshots | Pending future labs |
-
-Suggested screenshot folder paths:
-
-```text
-screenshots/sanitized/identity-and-groups/
-screenshots/sanitized/device-enrollment/
-screenshots/sanitized/compliance/
-screenshots/sanitized/conditional-access/
-screenshots/sanitized/configuration-profiles/
-screenshots/sanitized/application-deployment/
-screenshots/sanitized/endpoint-security/
-screenshots/sanitized/remote-actions-and-monitoring/
-screenshots/sanitized/troubleshooting/
-```
-
 ## Documentation Update Rules
 
 Any completed configuration should only be marked completed after it has been tested in the lab tenant.
@@ -358,6 +333,8 @@ Each completed lab should include:
 - Security/privacy notes
 - Current status
 - Next step
+
+Screenshots should be stored in the relevant lab file and sanitized before upload.
 
 ## Security and Privacy Notes
 
@@ -391,8 +368,10 @@ Conditional Access
 Configuration profiles
 Application deployment
 Endpoint security basics
+Windows Firewall
+BitLocker disk encryption
 Windows Autopilot
 Microsoft 365 Apps deployment
 ```
 
-The next focus is to expand endpoint security and management depth.
+The next focus is to continue Attack Surface Reduction, Windows Security Baseline, BYOD enrollment, remote actions, and troubleshooting labs.
