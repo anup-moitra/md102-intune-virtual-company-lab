@@ -1,161 +1,141 @@
-# Office App Sign-in Troubleshooting
+# Autopilot Motherboard Replacement Troubleshooting
 
-This file documents Microsoft 365 Apps sign-in troubleshooting for the MD-102 Intune lab.
+This file documents a planned troubleshooting scenario for Windows Autopilot after motherboard replacement or hardware identity change.
 
 ## Status
 
-Documentation template prepared / use during troubleshooting
+Planned / documentation template prepared / not yet tested
 
 ## Objective
 
-Create a repeatable checklist for troubleshooting Word, Excel, PowerPoint, and other Microsoft 365 Apps sign-in issues after Intune deployment.
+Understand how Autopilot registration can be affected when a device motherboard is replaced or the hardware hash changes.
 
-This guide helps troubleshoot:
+This scenario will document:
 
-- Office apps installed but user cannot sign in
-- License activation issues
-- Wrong account signed into Office
-- Company Portal shows installed but Office activation fails
-- Conditional Access blocks Office app access
+- Why Autopilot identity may change
+- How to remove or update stale Autopilot records
+- How to collect a new hardware hash
+- How to reimport and reassign an Autopilot profile
 
-## Lab Context
+## Important Concept
 
-Earlier Microsoft 365 Apps deployment testing used:
+Windows Autopilot identifies devices using hardware identity.
 
-```text
-user01
-WIN-AUTOPILOT-001
-Microsoft 365 Apps deployment through Intune
-Word sign-in verification
-```
+If the motherboard is replaced, the hardware identity can change.
 
-## Basic Troubleshooting Flow
+Simple flow:
 
 ```text
-Check license
-→ Check app install status
-→ Check Office account
-→ Check Conditional Access
-→ Check device compliance
-→ Sign out/in
-→ Repair/reinstall if needed
+Old motherboard
+→ Old hardware hash registered
+→ Motherboard replaced
+→ New hardware identity
+→ Old Autopilot registration may no longer match
+→ New hash may need to be collected and imported
 ```
 
-## Step 1: Check License Assignment
+## Lab Scenario
 
-Go to:
+| Item | Planned value |
+|---|---|
+| Scenario type | Simulated troubleshooting |
+| Device | Autopilot test device |
+| Issue | Device no longer receives expected Autopilot profile |
+| Cause | Hardware identity changed or stale Autopilot record |
+| Resolution | Remove stale record, collect/import new hash, reassign profile |
 
-```text
-Microsoft 365 admin center
-→ Users
-→ Active users
-→ user01
-→ Licenses and apps
-```
+## Steps to Troubleshoot
 
-Confirm Microsoft 365 Apps entitlement exists through the assigned license.
-
-## Step 2: Check Intune App Install Status
+### Step 1: Identify the Autopilot Device Record
 
 Go to:
 
 ```text
 Intune admin center
-→ Apps
+→ Devices
 → Windows
-→ Microsoft 365 Apps policy
-→ Device install status
+→ Windows enrollment
+→ Devices
 ```
 
-Confirm the device shows:
+Search for the device.
+
+Review:
+
+- Serial number
+- Group tag
+- Profile status
+- Assigned profile
+- Associated Microsoft Entra device
+
+Do not upload serial numbers or hardware hashes.
+
+### Step 2: Check Profile Assignment
+
+Confirm whether the device has:
 
 ```text
-Installed
+Profile status: Assigned
 ```
 
-## Step 3: Check Company Portal
+If not assigned, check group membership and dynamic/static group rules.
 
-On the device, open:
+### Step 3: Remove Stale Record if Needed
+
+If the old hardware identity is no longer valid, remove the stale Autopilot record only after confirming it is safe.
+
+Document:
 
 ```text
-Company Portal
-→ Downloads & updates
+Old Autopilot record reviewed
+Stale record removed if required
 ```
 
-Confirm Microsoft 365 Apps status.
+### Step 4: Collect New Hardware Hash
 
-## Step 4: Check Office Account
+On the device at OOBE or Windows, collect a new hardware hash using the approved lab method.
 
-Open Word.
+Do not upload the hardware hash CSV to GitHub.
+
+### Step 5: Import New Hardware Hash
 
 Go to:
 
 ```text
-File
-→ Account
+Intune admin center
+→ Devices
+→ Windows
+→ Windows enrollment
+→ Devices
+→ Import
 ```
 
-Confirm signed-in user:
+Import the new CSV.
+
+### Step 6: Add Device to Autopilot Group
+
+Add the device to:
 
 ```text
-user01
+GRP-Autopilot-Devices
 ```
 
-Check whether Office says:
+### Step 7: Wait for Profile Assignment
+
+Wait until:
 
 ```text
-Product Activated
+Profile status: Assigned
 ```
 
-or shows an activation/sign-in issue.
+### Step 8: Test Autopilot OOBE Again
 
-## Step 5: Check Conditional Access
+Restart/reset the device to OOBE and confirm:
 
-If sign-in fails, check:
-
-```text
-Microsoft Entra admin center
-→ Sign-in logs
-```
-
-Review the sign-in event for:
-
-- Conditional Access result
-- Device compliance
-- Grant control result
-- Error code
-
-## Step 6: Sign Out and Sign In Again
-
-In Office:
-
-```text
-File
-→ Account
-→ Sign out
-→ Sign in again
-```
-
-Use:
-
-```text
-user01
-```
-
-## Step 7: Repair Office if Needed
-
-If the app is installed but broken:
-
-```text
-Settings
-→ Apps
-→ Installed apps
-→ Microsoft 365 Apps
-→ Modify
-→ Quick Repair
-```
-
-Use Online Repair only if needed.
+- Autopilot profile downloads
+- User sign-in appears
+- Device joins Microsoft Entra ID
+- Device enrolls into Intune
 
 ## Screenshot Placeholders
 
@@ -167,26 +147,26 @@ screenshots/sanitized/troubleshooting/
 
 | Screenshot file | Status | Notes |
 |---|---|---|
-| `office-signin-license-check-sanitized.png` | Pending | Hide full email and tenant details |
-| `office-signin-intune-install-status-sanitized.png` | Pending | Hide user/device IDs |
-| `office-signin-company-portal-status-sanitized.png` | Pending | Hide full email |
-| `office-signin-word-account-page-sanitized.png` | Pending | Hide full email |
-| `office-signin-entra-signin-log-sanitized.png` | Pending | Hide IDs and full UPN |
+| `autopilot-troubleshooting-old-record-sanitized.png` | Pending | Hide serial number and IDs |
+| `autopilot-troubleshooting-profile-not-assigned-sanitized.png` | Pending | Hide device identifiers |
+| `autopilot-troubleshooting-new-import-sanitized.png` | Pending | Hide serial/hash details |
+| `autopilot-troubleshooting-profile-assigned-sanitized.png` | Pending | Hide device identifiers |
+| `autopilot-troubleshooting-oobe-success-sanitized.png` | Pending | Hide tenant/user details |
 
 ## Troubleshooting Result Template
 
 | Item | Result |
 |---|---|
-| License verified | Pending |
-| App install status checked | Pending |
-| Company Portal checked | Pending |
-| Office account page checked | Pending |
-| Conditional Access logs checked | Pending |
-| Issue resolved | Pending |
+| Old Autopilot record reviewed | Pending |
+| New hardware hash collected | Pending |
+| New hardware hash imported | Pending |
+| Device added to Autopilot group | Pending |
+| Profile assigned | Pending |
+| OOBE retest completed | Pending |
 
 ## Current Status
 
-Ready for future troubleshooting use.
+Planned.
 
 
 ## Security and Privacy Notes
