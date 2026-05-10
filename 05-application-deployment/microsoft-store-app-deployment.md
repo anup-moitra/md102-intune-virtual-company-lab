@@ -6,7 +6,7 @@ This file documents Microsoft Store app deployment using Microsoft Intune for th
 
 ## Status
 
-In progress
+Completed
 
 ---
 
@@ -21,7 +21,8 @@ This lab validates that:
 - Apps can be assigned as **Available for enrolled devices** for user self-service installation from Company Portal.
 - A managed Windows device can sync with Intune and receive app assignments.
 - App deployment status can be monitored from the Intune admin center.
-- Available apps can be viewed from the Company Portal app.
+- Required apps can be verified as installed from Company Portal.
+- Available apps can be viewed from the Company Portal app with an install option.
 
 ---
 
@@ -41,7 +42,7 @@ Admin creates Microsoft Store app in Intune
 -> Windows device syncs with Intune
 -> Required apps install automatically
 -> Available apps appear in Company Portal
--> Admin verifies app status in Intune
+-> Admin verifies app status in Intune and Company Portal
 ```
 
 ---
@@ -79,18 +80,18 @@ This lab also demonstrates the difference between required and available app ass
 
 ---
 
-## Apps Created
+## Apps Deployed
 
-| App | Assignment type | Install behavior | Target group | Status |
+| App | Assignment type | Install behavior | Target group | Result |
 |---|---|---|---|---|
-| Company Portal | Required | System | `GRP-Pilot-Users` | Installed on `WIN-CORP-001` |
-| VLC UWP | Required | System | `GRP-Pilot-Users` | Created |
-| Slack | Available for enrolled devices | System | `GRP-Pilot-Users` | Created |
-| ChatGPT | Available for enrolled devices | User | `GRP-Pilot-Users` | Created / assignment screenshot pending correction |
-| WhatsApp | Available for enrolled devices | User/System as configured | `GRP-Pilot-Users` | Created |
+| Company Portal | Required | System | `GRP-Pilot-Users` | Installed |
+| VLC UWP | Required | System | `GRP-Pilot-Users` | Installed |
+| Slack | Required | System | `GRP-Pilot-Users` | Installed |
+| ChatGPT | Available for enrolled devices | User | `GRP-Pilot-Users` | Visible in Company Portal with install option |
+| WhatsApp | Available for enrolled devices | System | `GRP-Pilot-Users` | Visible in Company Portal with install option |
 
 > [!NOTE]
-> Company Portal install status has been verified as **Installed** on `WIN-CORP-001`. Final validation for available apps in Company Portal is still pending.
+> Slack was kept as a required app in the final lab configuration. ChatGPT and WhatsApp were configured as available/self-service apps for Company Portal testing.
 
 ---
 
@@ -107,8 +108,15 @@ Assignment type = controls whether the app installs automatically or appears as 
 For this lab:
 
 ```text
-Required apps = Company Portal and VLC
-Available apps = ChatGPT, Slack, and WhatsApp
+Required apps = Company Portal, VLC UWP, Slack
+Available apps = ChatGPT, WhatsApp
+```
+
+Another important learning:
+
+```text
+Changing an app from Required to Available does not automatically uninstall it from the endpoint.
+To remove an already installed app automatically, an Uninstall assignment is required.
 ```
 
 ---
@@ -176,7 +184,9 @@ Important settings:
 | Setting | Value |
 |---|---|
 | App | VLC UWP |
+| Publisher | VideoLAN |
 | App type | Microsoft Store app (new) |
+| Installer type | UWP |
 | Install behavior | System |
 | Assignment type | Required |
 | Target group | `GRP-Pilot-Users` |
@@ -196,12 +206,14 @@ Important settings:
 | Setting | Value |
 |---|---|
 | App | Slack |
+| Publisher | Slack Technologies Inc. |
 | App type | Microsoft Store app (new) |
+| Installer type | UWP |
 | Install behavior | System |
-| Assignment type | Available for enrolled devices |
+| Assignment type | Required |
 | Target group | `GRP-Pilot-Users` |
 
-Slack was assigned as **Available for enrolled devices** so the user can install it manually from Company Portal.
+Slack was assigned as **Required** because it is a common business communication app that organizations may install automatically.
 
 ### Step 6: Created ChatGPT App
 
@@ -211,20 +223,19 @@ The Microsoft Store app search was used to find:
 ChatGPT
 ```
 
-Important settings planned for this lab:
+Important settings:
 
 | Setting | Value |
 |---|---|
 | App | ChatGPT |
+| Publisher | OpenAI |
 | App type | Microsoft Store app (new) |
+| Installer type | UWP |
 | Install behavior | User |
 | Assignment type | Available for enrolled devices |
 | Target group | `GRP-Pilot-Users` |
 
-ChatGPT is intended to be assigned as **Available for enrolled devices** to demonstrate optional self-service app deployment.
-
-> [!IMPORTANT]
-> A screenshot was captured showing ChatGPT under **Required**. That screenshot should not be used as final evidence. ChatGPT should be confirmed or corrected under **Available for enrolled devices**, then a new screenshot should be captured.
+ChatGPT was assigned as **Available for enrolled devices** to demonstrate optional self-service app deployment through Company Portal.
 
 ### Step 7: Created WhatsApp App
 
@@ -239,7 +250,10 @@ Important settings:
 | Setting | Value |
 |---|---|
 | App | WhatsApp |
+| Publisher | WhatsApp Inc. |
 | App type | Microsoft Store app (new) |
+| Installer type | UWP |
+| Install behavior | System |
 | Assignment type | Available for enrolled devices |
 | Target group | `GRP-Pilot-Users` |
 
@@ -272,9 +286,9 @@ Settings
 -> Sync
 ```
 
-This forces the device to check in with Intune and receive the latest app assignments.
+The device sync completed successfully.
 
-### Step 10: Reviewed Company Portal Install Status
+### Step 10: Reviewed Company Portal Install Status in Intune
 
 Company Portal deployment status was checked from:
 
@@ -295,25 +309,46 @@ Observed result:
 
 This confirms that the required Company Portal deployment succeeded on the managed Windows device.
 
-### Step 11: Verify Available Apps in Company Portal
+### Step 11: Verified Required Apps in Company Portal
 
-On `WIN-CORP-001`, open:
+On `WIN-CORP-001`, Company Portal was opened.
+
+Navigation used:
 
 ```text
 Company Portal
+-> Downloads & updates
 ```
 
-Confirm that optional apps appear for the user.
+The following required apps were shown as installed:
 
-Expected available apps:
+```text
+Company Portal
+Slack
+VLC UWP
+```
+
+Company Portal showed these apps as required by the organization and installed.
+
+### Step 12: Verified Available Apps in Company Portal
+
+On `WIN-CORP-001`, Company Portal was opened.
+
+Navigation used:
+
+```text
+Company Portal
+-> Apps
+```
+
+The following available apps were visible to the user:
 
 ```text
 ChatGPT
-Slack
 WhatsApp
 ```
 
-This step is still pending final screenshot evidence.
+Both apps showed an available/install option, confirming that the available assignment worked.
 
 ---
 
@@ -327,16 +362,21 @@ This step is still pending final screenshot evidence.
 | Company Portal install status on `WIN-CORP-001` | Installed |
 | VLC UWP created | Completed |
 | VLC UWP assigned as Required | Completed |
+| VLC UWP visible as installed in Company Portal | Completed |
 | Slack created | Completed |
-| Slack assigned as Available | Completed |
+| Slack assigned as Required | Completed |
+| Slack visible as installed in Company Portal | Completed |
 | ChatGPT created | Completed |
-| ChatGPT assigned as Available | Pending verification / corrected screenshot needed |
+| ChatGPT assigned as Available | Completed |
+| ChatGPT visible in Company Portal | Completed |
 | WhatsApp created | Completed |
+| WhatsApp assigned as Available | Completed |
+| WhatsApp visible in Company Portal | Completed |
 | Windows app list reviewed | Completed |
 | Device sync triggered | Completed |
-| Required app install status verified | Completed for Company Portal |
-| Available apps visible in Company Portal | Pending |
-| Final lab result | In progress |
+| Required app install status verified | Completed |
+| Available apps visible in Company Portal | Completed |
+| Final lab result | Completed |
 
 ---
 
@@ -364,27 +404,71 @@ screenshots/sanitized/application-deployment/
 
 ![Company Portal device install status](../screenshots/sanitized/application-deployment/company-portal-device-install-status-sanitized.png)
 
+### VLC required assignment
+
+![VLC required assignment](../screenshots/sanitized/application-deployment/vlc-required-assignment-sanitized.png)
+
+### WhatsApp available assignment
+
+![WhatsApp available assignment](../screenshots/sanitized/application-deployment/whatsapp-available-assignment-sanitized.png)
+
+### Required apps installed in Company Portal
+
+![Required apps installed in Company Portal](../screenshots/sanitized/application-deployment/company-portal-required-apps-installed-sanitized.png)
+
+### Available apps in Company Portal
+
+![Available apps in Company Portal](../screenshots/sanitized/application-deployment/company-portal-available-apps-sanitized.png)
+
+### Device sync after Store app assignment
+
+![Device sync after Store app assignment](../screenshots/sanitized/application-deployment/device-sync-after-store-app-assignment-sanitized.png)
+
 ---
 
-## Pending Screenshots
+## Screenshot Upload Checklist
 
-The following screenshots should still be added after the remaining lab validation:
-
-```text
-chatgpt-available-assignment-sanitized.png
-device-sync-after-store-app-assignment-sanitized.png
-company-portal-available-apps-sanitized.png
-```
-
-Do not use the following screenshot as final evidence because it shows ChatGPT under the wrong assignment type:
+Upload the following screenshots to:
 
 ```text
-chatgpt-required-assignment-needs-correction.png
+screenshots/sanitized/application-deployment/
 ```
+
+| Screenshot file | Status | Purpose |
+|---|---|---|
+| `company-portal-app-information-sanitized.png` | Uploaded / confirm exists | Shows Company Portal app information and install behavior |
+| `company-portal-required-assignment-sanitized.png` | Uploaded / confirm exists | Shows Company Portal assigned as Required |
+| `company-portal-device-install-status-sanitized.png` | Uploaded / confirm exists | Shows Company Portal installed on `WIN-CORP-001` |
+| `store-apps-list-sanitized.png` | Uploaded / confirm exists | Shows Store apps created in Intune |
+| `vlc-required-assignment-sanitized.png` | Upload if not already uploaded | Shows VLC assigned as Required |
+| `whatsapp-available-assignment-sanitized.png` | Upload if not already uploaded | Shows WhatsApp assigned as Available |
+| `company-portal-required-apps-installed-sanitized.png` | Upload if not already uploaded | Shows Company Portal, Slack, and VLC installed as required apps |
+| `company-portal-available-apps-sanitized.png` | Upload if not already uploaded | Shows ChatGPT and WhatsApp available for user install |
+| `device-sync-after-store-app-assignment-sanitized.png` | Upload if not already uploaded | Shows successful endpoint sync after app assignment |
+
+> [!IMPORTANT]
+> Before uploading `device-sync-after-store-app-assignment-sanitized.png`, hide the full user email address and Exchange ID. Keep the sync result visible.
 
 ---
 
 ## Troubleshooting Notes
+
+### Available app does not show device install status immediately
+
+For available apps, Intune may show no device install status until the user manually starts the installation from Company Portal.
+
+Example:
+
+```text
+ChatGPT assigned as Available
+-> App appears in Company Portal
+-> User has not clicked Install yet
+-> Device install status may show 0 items
+```
+
+This is expected behavior for optional/self-service apps.
+
+### Required apps do not install
 
 If required apps do not install:
 
@@ -396,6 +480,8 @@ If required apps do not install:
 6. Confirm the device has internet access.
 7. Wait for Intune reporting delay.
 
+### Available apps do not appear in Company Portal
+
 If available apps do not appear in Company Portal:
 
 1. Confirm the app is assigned as **Available for enrolled devices**.
@@ -405,13 +491,21 @@ If available apps do not appear in Company Portal:
 5. Close and reopen Company Portal.
 6. Wait for the Company Portal app catalog to refresh.
 
-If install status remains pending:
+### App was accidentally assigned as Required
 
-1. Check last check-in time for the device.
-2. Trigger another sync.
-3. Review app assignment status.
-4. Review device install status.
-5. Confirm the Store app is available for the device platform.
+During testing, an optional app may accidentally be assigned as Required.
+
+If this happens:
+
+1. Open the app in Intune.
+2. Go to **Properties**.
+3. Edit **Assignments**.
+4. Remove the group from **Required**.
+5. Add the group under **Available for enrolled devices**.
+6. Review and save.
+7. Sync the endpoint and recheck Company Portal.
+
+Changing an app from Required to Available does not automatically remove the app from the endpoint. To remove an already installed app automatically, configure an **Uninstall** assignment.
 
 ---
 
@@ -438,6 +532,7 @@ Before uploading screenshots, hide or blur:
 - Tenant/domain name
 - Full user principal names
 - Device IDs / object IDs
+- Exchange ID
 - Any sensitive identifiers
 
 ---
@@ -448,45 +543,18 @@ Before uploading screenshots, hide or blur:
 |---|---|
 | Microsoft Store apps created | Completed |
 | Required app assignment configured | Completed |
-| Available app assignment configured | In progress |
+| Available app assignment configured | Completed |
 | Device sync performed | Completed |
-| Required app install status verified | Completed for Company Portal |
-| Available apps checked in Company Portal | Pending |
+| Required app install status verified | Completed |
+| Available apps checked in Company Portal | Completed |
+| Screenshots captured | Completed |
 | Screenshots uploaded | In progress |
-| Documentation updated | In progress |
+| Documentation updated | Completed |
 
 ---
 
 ## Next Step
 
-Confirm or correct ChatGPT assignment so that it appears under:
+Upload any remaining sanitized screenshots listed in the screenshot checklist.
 
-```text
-Available for enrolled devices
-```
-
-Then capture:
-
-```text
-chatgpt-available-assignment-sanitized.png
-```
-
-After that, open Company Portal on `WIN-CORP-001` and confirm available apps are visible.
-
-Capture:
-
-```text
-company-portal-available-apps-sanitized.png
-```
-
-After validation, update this lab from:
-
-```text
-Status: In progress
-```
-
-to:
-
-```text
-Status: Completed
-```
+After screenshots are uploaded, this Microsoft Store app deployment lab is complete and ready to be linked from the main README or roadmap.
