@@ -412,29 +412,6 @@ screenshots/sanitized/application-deployment/
 
 ---
 
-## Screenshot Upload Checklist
-
-The following screenshots were used for this lab and should exist in:
-
-```text
-screenshots/sanitized/application-deployment/
-```
-
-| Screenshot file | Status | Purpose |
-|---|---|---|
-| `company-portal-app-information-sanitized.png` | Uploaded | Shows Company Portal app information and install behavior |
-| `company-portal-required-assignment-sanitized.png` | Uploaded | Shows Company Portal assigned as Required |
-| `company-portal-device-install-status-sanitized.png` | Uploaded | Shows Company Portal installed on `WIN-CORP-001` |
-| `store-apps-list-sanitized.png` | Uploaded | Shows Store apps created in Intune |
-| `company-portal-required-apps-installed-sanitized.png` | Uploaded | Shows Company Portal, Slack, and VLC installed as required apps |
-| `company-portal-available-apps-sanitized.png` | Uploaded | Shows ChatGPT and WhatsApp available for user install |
-| `device-sync-after-store-app-assignment-sanitized.png` | Uploaded | Shows successful endpoint sync after app assignment |
-
-> [!IMPORTANT]
-> For `device-sync-after-store-app-assignment-sanitized.png`, the full user email address and Exchange ID should be hidden while keeping the sync result visible.
-
----
-
 ## Troubleshooting Notes
 
 ### Available app does not show device install status immediately
