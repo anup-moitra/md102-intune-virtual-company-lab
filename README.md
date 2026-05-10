@@ -41,6 +41,8 @@ The company includes:
 - Microsoft 365 Apps
 - Conditional Access and compliance controls
 
+Detailed scenario documentation: [company-scenario.md](00-project-overview/company-scenario.md)
+
 ---
 
 ## Lab Sections
@@ -116,8 +118,8 @@ md102-intune-virtual-company-lab/
 |---|---|
 | GitHub repository created | Completed |
 | Initial README created | Completed |
-| Project overview folder created | Planned |
-| Company scenario documented | Planned |
+| Project overview folder created | Completed |
+| Company scenario documented | Completed |
 | Device inventory documented | Planned |
 | Lab roadmap documented | Planned |
 | First Intune lab started | Planned |
