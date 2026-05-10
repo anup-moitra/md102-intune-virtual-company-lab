@@ -247,7 +247,7 @@ Use subfolders for each lab area.
 | Company scenario created | Completed |
 | Device inventory created | Completed |
 | Lab roadmap created | Completed |
-| Identity and groups lab | Planned |
+| Identity and groups lab | Completed |
 | First Windows enrollment lab | Planned |
 
 ---
