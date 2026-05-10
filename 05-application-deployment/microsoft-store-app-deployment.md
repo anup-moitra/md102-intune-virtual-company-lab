@@ -2,11 +2,6 @@
 
 This file documents Microsoft Store app deployment using Microsoft Intune for the MD-102 Intune virtual company lab.
 
----
-
-## Status
-
-Completed
 
 ---
 
