@@ -186,7 +186,7 @@ Do not upload:
 | Task | Status |
 |---|---|
 | Company scenario documented | Completed |
-| Device inventory documented | Planned |
+| Device inventory documented | Completed |
 | Lab implementation roadmap documented | Planned |
 | Identity and groups lab started | Planned |
 
@@ -194,8 +194,8 @@ Do not upload:
 
 ## Next Step
 
-Create the device inventory file:
+Create the lab roadmap file:
 
 ```text
-00-project-overview/device-inventory.md
+00-project-overview/lab-implementation-roadmap.md
 ```
