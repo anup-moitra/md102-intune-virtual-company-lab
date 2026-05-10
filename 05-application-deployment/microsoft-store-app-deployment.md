@@ -399,14 +399,6 @@ screenshots/sanitized/application-deployment/
 
 ![Company Portal device install status](../screenshots/sanitized/application-deployment/company-portal-device-install-status-sanitized.png)
 
-### VLC required assignment
-
-![VLC required assignment](../screenshots/sanitized/application-deployment/vlc-required-assignment-sanitized.png)
-
-### WhatsApp available assignment
-
-![WhatsApp available assignment](../screenshots/sanitized/application-deployment/whatsapp-available-assignment-sanitized.png)
-
 ### Required apps installed in Company Portal
 
 ![Required apps installed in Company Portal](../screenshots/sanitized/application-deployment/company-portal-required-apps-installed-sanitized.png)
