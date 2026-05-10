@@ -2,7 +2,6 @@
 
 This file documents Microsoft Store app deployment using Microsoft Intune for the MD-102 Intune virtual company lab.
 
-
 ---
 
 ## Objective
@@ -415,7 +414,7 @@ screenshots/sanitized/application-deployment/
 
 ## Screenshot Upload Checklist
 
-Upload the following screenshots to:
+The following screenshots were used for this lab and should exist in:
 
 ```text
 screenshots/sanitized/application-deployment/
@@ -423,18 +422,16 @@ screenshots/sanitized/application-deployment/
 
 | Screenshot file | Status | Purpose |
 |---|---|---|
-| `company-portal-app-information-sanitized.png` | Uploaded / confirm exists | Shows Company Portal app information and install behavior |
-| `company-portal-required-assignment-sanitized.png` | Uploaded / confirm exists | Shows Company Portal assigned as Required |
-| `company-portal-device-install-status-sanitized.png` | Uploaded / confirm exists | Shows Company Portal installed on `WIN-CORP-001` |
-| `store-apps-list-sanitized.png` | Uploaded / confirm exists | Shows Store apps created in Intune |
-| `vlc-required-assignment-sanitized.png` | Upload if not already uploaded | Shows VLC assigned as Required |
-| `whatsapp-available-assignment-sanitized.png` | Upload if not already uploaded | Shows WhatsApp assigned as Available |
-| `company-portal-required-apps-installed-sanitized.png` | Upload if not already uploaded | Shows Company Portal, Slack, and VLC installed as required apps |
-| `company-portal-available-apps-sanitized.png` | Upload if not already uploaded | Shows ChatGPT and WhatsApp available for user install |
-| `device-sync-after-store-app-assignment-sanitized.png` | Upload if not already uploaded | Shows successful endpoint sync after app assignment |
+| `company-portal-app-information-sanitized.png` | Uploaded | Shows Company Portal app information and install behavior |
+| `company-portal-required-assignment-sanitized.png` | Uploaded | Shows Company Portal assigned as Required |
+| `company-portal-device-install-status-sanitized.png` | Uploaded | Shows Company Portal installed on `WIN-CORP-001` |
+| `store-apps-list-sanitized.png` | Uploaded | Shows Store apps created in Intune |
+| `company-portal-required-apps-installed-sanitized.png` | Uploaded | Shows Company Portal, Slack, and VLC installed as required apps |
+| `company-portal-available-apps-sanitized.png` | Uploaded | Shows ChatGPT and WhatsApp available for user install |
+| `device-sync-after-store-app-assignment-sanitized.png` | Uploaded | Shows successful endpoint sync after app assignment |
 
 > [!IMPORTANT]
-> Before uploading `device-sync-after-store-app-assignment-sanitized.png`, hide the full user email address and Exchange ID. Keep the sync result visible.
+> For `device-sync-after-store-app-assignment-sanitized.png`, the full user email address and Exchange ID should be hidden while keeping the sync result visible.
 
 ---
 
@@ -535,13 +532,15 @@ Before uploading screenshots, hide or blur:
 | Required app install status verified | Completed |
 | Available apps checked in Company Portal | Completed |
 | Screenshots captured | Completed |
-| Screenshots uploaded | In progress |
+| Screenshots uploaded | Completed |
 | Documentation updated | Completed |
 
 ---
 
 ## Next Step
 
-Upload any remaining sanitized screenshots listed in the screenshot checklist.
+Continue to the next application deployment lab:
 
-After screenshots are uploaded, this Microsoft Store app deployment lab is complete and ready to be linked from the main README or roadmap.
+```text
+05-application-deployment/win32-app-deployment-7zip.md
+```
