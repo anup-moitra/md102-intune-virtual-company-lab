@@ -81,7 +81,7 @@ Current focus:
 
 | File | Status |
 |---|---|
-| 01-identity-and-groups/users-and-groups.md | Planned |
+| 01-identity-and-groups/users-and-groups.md | Completed |
 
 This section will document:
 
@@ -254,10 +254,10 @@ Use subfolders for each lab area.
 
 ## Next Step
 
-Create the first identity and group lab file:
+Continue to the Windows OOBE enrollment lab:
 
 ```text
-01-identity-and-groups/users-and-groups.md
+02-device-enrollment/windows-oobe-enrollment.md
 ```
 
 This will be the first hands-on preparation step before Windows device enrollment.
