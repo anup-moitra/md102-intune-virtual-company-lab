@@ -6,16 +6,16 @@ This file documents the first corporate Windows device enrollment using Windows 
 
 ## Objective
 
-Enroll a corporate Windows 11 device into Microsoft Intune by signing in with a Microsoft Entra ID work account during Windows Out-of-Box Experience.
+Enroll a corporate Windows 11 device by signing in with a Microsoft Entra ID work account during Windows Out-of-Box Experience.
 
-This lab will validate that:
+This lab validates that:
 
 - A Windows device can be set up for work or school during OOBE.
 - The device can be named using a consistent lab naming standard.
 - The device can join Microsoft Entra ID.
-- The device can automatically enroll into Microsoft Intune.
-- The device can appear in the Intune admin center.
-- The device can be managed as a corporate Windows device.
+- The device can appear in the Microsoft Entra admin center.
+- The device can be prepared for Microsoft Intune enrollment.
+- Intune enrollment can be troubleshot if MDM enrollment does not complete automatically.
 
 ---
 
@@ -25,7 +25,7 @@ Windows OOBE enrollment is one of the most important modern Windows enrollment m
 
 In a real company, a user can receive a new or reset Windows device, connect it to the internet, sign in with a work account, and allow the device to become cloud managed.
 
-Simple flow:
+Expected full flow:
 
 ```text
 Windows OOBE
@@ -35,24 +35,24 @@ Windows OOBE
 -> Device becomes managed
 ```
 
-This lab is the first Windows device enrollment test in the MD-102 Intune virtual company project.
+In this lab, the device successfully joined Microsoft Entra ID, but Intune MDM enrollment still needs to be verified or fixed.
 
 ---
 
 ## Lab Environment
 
-| Item | Planned Value |
+| Item | Value |
 |---|---|
 | Test device | WIN-CORP-001 |
 | Device type | Laptop |
 | Ownership | Corporate |
-| Operating system | Windows 11 Pro or supported edition |
+| Operating system | Windows 11 |
 | Enrollment method | Windows OOBE work or school setup |
 | Join type | Microsoft Entra joined |
-| Management | Microsoft Intune |
+| Management | Not yet verified in Intune |
 | Primary user | user01 |
 | Assignment group | GRP-Pilot-Users |
-| Current status | In progress |
+| Current status | Troubleshooting in progress |
 
 ---
 
@@ -65,9 +65,14 @@ Before starting this lab, the following should be completed:
 - user01 created and available for testing.
 - user01 added to GRP-Pilot-Users.
 - user01 assigned an Intune-capable license.
-- Automatic MDM enrollment configured or ready to verify.
 - Windows test device reset or ready for OOBE.
 - Device connected to the internet during setup.
+
+The following must be checked if Intune enrollment does not complete:
+
+- Automatic MDM enrollment configured.
+- MDM user scope set to All or targeted to GRP-Pilot-Users.
+- user01 included in the MDM user scope.
 
 ---
 
@@ -93,93 +98,108 @@ The lab device is documented as:
 WIN-CORP-001
 ```
 
-During Windows setup, if OOBE provides an option to name the device, set the device name to:
+During Windows setup, the OOBE device name option appeared and the device name was set to:
 
 ```text
 WIN-CORP-001
 ```
 
-This keeps the local device name, Intune record, screenshots, and GitHub documentation consistent.
-
-If Windows initially shows a default device name, document it in the test result and rename the device later if needed.
-
-Example note:
-
-```text
-Windows assigned a default device name during initial enrollment. The device is documented as WIN-CORP-001 for lab tracking.
-```
+This keeps the local device name, Entra device record, screenshots, and GitHub documentation consistent.
 
 ---
 
-## Steps to Perform
+## Steps Performed
 
-### Step 1: Prepare the Windows Device
+### Step 1: Prepared the Windows Device
 
-Reset or reinstall the Windows test device so that it starts from Windows Out-of-Box Experience.
+The spare Windows device was reimaged and started from Windows Out-of-Box Experience.
 
-The device should display the first setup screens, such as:
+The OOBE setup flow displayed the initial setup screens, including:
 
 ```text
 Region selection
-Keyboard selection
-Network connection
 Device name
 Work or school setup
+Microsoft work account sign-in
 ```
-
-Connect the device to the internet using Wi-Fi or Ethernet.
 
 ---
 
-### Step 2: Name the Device During OOBE
+### Step 2: Selected Region
 
-If Windows setup asks for a device name, enter:
+The country or region screen was displayed.
+
+Selected region:
+
+```text
+India
+```
+
+---
+
+### Step 3: Named the Device During OOBE
+
+Windows setup displayed the device naming screen.
+
+The device name was set to:
 
 ```text
 WIN-CORP-001
 ```
 
-This makes the device easier to identify later in Microsoft Intune.
-
-If the device name option does not appear, continue with setup and document the default Windows device name later.
-
 ---
 
-### Step 3: Choose Work or School Setup
+### Step 4: Selected Work or School Setup
 
-During Windows setup, when asked how to set up the device, choose:
+During Windows setup, the following option was selected:
 
 ```text
 Set up for work or school
 ```
 
-Do not choose personal use for this corporate enrollment lab.
+The personal setup option was not selected.
 
 ---
 
-### Step 4: Sign In as user01
+### Step 5: Signed In as user01
 
-Sign in using the lab user account:
+The Microsoft work or school sign-in screen was displayed.
+
+Signed in using the lab user account:
 
 ```text
 user01
 ```
 
-Use the full lab user principal name when signing in, but hide the full domain in screenshots.
+The full user principal name was used during sign-in, but it must be hidden in public screenshots.
 
 ---
 
-### Step 5: Complete Windows Setup
+### Step 6: Completed Authentication Prompts
 
-Continue through the setup prompts until Windows reaches the desktop.
+Windows Hello and MFA/security setup prompts appeared during first sign-in.
 
-Allow Windows time to complete sign-in, policy processing, and enrollment.
+Authentication setup was completed or skipped where appropriate.
+
+No MFA QR codes, verification codes, passwords, or PIN setup screens should be uploaded to GitHub.
 
 ---
 
-### Step 6: Verify Work or School Connection Locally
+### Step 7: Reached Windows Desktop
 
-On the Windows device, go to:
+Windows setup completed and the device reached the desktop.
+
+The local Windows device name was confirmed as:
+
+```text
+WIN-CORP-001
+```
+
+---
+
+### Step 8: Verified Work or School Connection Locally
+
+On the Windows device, the following page was checked:
 
 ```text
 Settings
@@ -187,71 +207,60 @@ Settings
 -> Access work or school
 ```
 
-Expected result:
+The device showed a connected work or school account.
 
-```text
-The device shows a connected work or school account.
-```
-
-This confirms that the device is connected to the lab organization account.
+This confirms that the device is connected to the lab Microsoft Entra ID tenant.
 
 ---
 
-### Step 7: Verify Device in Intune
+### Step 9: Verified Device in Microsoft Entra Admin Center
 
-Open:
+The device appeared in Microsoft Entra admin center under:
 
 ```text
-https://intune.microsoft.com
+Entra admin center
+-> Devices
+-> All devices
 ```
 
-Go to:
+The device was listed as:
 
 ```text
-Devices
--> Windows
--> Windows devices
+WIN-CORP-001
 ```
 
-Look for the enrolled Windows device.
-
-Expected device properties:
+The Microsoft Entra device record showed:
 
 ```text
-Platform: Windows
-Management: Intune
 Join type: Microsoft Entra joined
-Primary user: user01
-Ownership: Corporate or organization-owned
+MDM: None
 ```
 
----
-
-### Step 8: Open Device Overview in Intune
-
-Open the device record in Intune and review:
-
-- Device name
-- Primary user
-- Compliance status
-- Ownership
-- Managed by
-- Microsoft Entra join type
-- Last check-in
+This means Microsoft Entra join completed successfully, but Intune MDM enrollment did not complete at the time of verification.
 
 ---
 
 ## Expected Result
 
-After this lab is completed:
+Expected full result after the lab is fully fixed:
 
-- WIN-CORP-001 should complete Windows OOBE.
-- WIN-CORP-001 should use the planned lab device name if the OOBE naming option appears.
-- user01 should be able to sign in with a work account.
-- The device should join Microsoft Entra ID.
-- The device should enroll into Microsoft Intune.
-- The device should appear under Windows devices in Intune.
-- The device should be ready for compliance, app deployment, and configuration profile testing.
+- WIN-CORP-001 completes Windows OOBE.
+- WIN-CORP-001 uses the planned lab device name.
+- user01 signs in with a work account.
+- The device joins Microsoft Entra ID.
+- The device enrolls into Microsoft Intune.
+- The device appears under Windows devices in Intune.
+- The device is ready for compliance, app deployment, and configuration profile testing.
+
+Current observed result:
+
+- WIN-CORP-001 completed Windows OOBE.
+- The device name was configured successfully.
+- user01 signed in successfully.
+- The device joined Microsoft Entra ID.
+- The device appeared in Microsoft Entra admin center.
+- MDM status showed None.
+- Intune device visibility is still pending.
 
 ---
 
@@ -259,93 +268,163 @@ After this lab is completed:
 
 | Test Item | Result |
 |---|---|
-| Windows OOBE started | Pending |
-| Device name set to WIN-CORP-001 | Pending |
-| Work or school setup selected | Pending |
-| user01 signed in successfully | Pending |
-| Device joined Microsoft Entra ID | Pending |
+| Windows OOBE started | Completed |
+| Region selected | Completed |
+| Device name set to WIN-CORP-001 | Completed |
+| Work or school setup selected | Completed |
+| user01 signed in successfully | Completed |
+| Windows Hello/MFA prompts completed | Completed |
+| Device reached Windows desktop | Completed |
+| Device joined Microsoft Entra ID | Completed |
+| Device visible in Microsoft Entra admin center | Completed |
+| MDM status checked | Completed |
 | Device enrolled into Intune | Pending |
 | Device visible in Intune | Pending |
-| Device overview verified | Pending |
-| Final lab result | Pending |
+| Final lab result | Troubleshooting in progress |
 
 ---
 
 ## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/device-enrollment/
 ```
 
-Recommended screenshot filenames:
+### Windows OOBE region selection
+
+![Windows OOBE region selection](../screenshots/sanitized/device-enrollment/windows-oobe-region-selection-sanitized.png)
+
+### Windows OOBE device name
+
+![Windows OOBE device name](../screenshots/sanitized/device-enrollment/windows-oobe-device-name-sanitized.png)
+
+### Windows OOBE work or school selection
+
+![Windows OOBE work or school selection](../screenshots/sanitized/device-enrollment/windows-oobe-work-school-selection-sanitized.png)
+
+### Windows OOBE user sign-in
+
+![Windows OOBE user sign-in](../screenshots/sanitized/device-enrollment/windows-oobe-user01-signin-sanitized.png)
+
+### Windows device name verification
+
+![Windows device name verification](../screenshots/sanitized/device-enrollment/win-corp-001-device-name-sanitized.png)
+
+### Access work or school verification
+
+![Access work or school verification](../screenshots/sanitized/device-enrollment/win-corp-001-access-work-school-sanitized.png)
+
+### Entra device record with MDM status
+
+![Entra device record with MDM status](../screenshots/sanitized/device-enrollment/win-corp-001-entra-device-mdm-none-sanitized.png)
+
+> [!NOTE]
+> Screenshots must be sanitized before upload. Tenant names, full email addresses, device IDs, product IDs, object IDs, serial numbers, and top-right signed-in account details must be hidden.
+
+---
+
+## Missing Screenshots
+
+The following screenshots are still missing because the device has not yet appeared in Intune:
 
 ```text
-windows-oobe-device-name-sanitized.png
-windows-oobe-work-school-selection-sanitized.png
-windows-oobe-user01-signin-sanitized.png
-win-corp-001-access-work-school-sanitized.png
 win-corp-001-intune-windows-devices-list-sanitized.png
 win-corp-001-intune-overview-sanitized.png
 ```
 
-Minimum recommended screenshots:
-
-```text
-win-corp-001-access-work-school-sanitized.png
-win-corp-001-intune-overview-sanitized.png
-```
-
-> [!NOTE]
-> OOBE screenshots can be difficult to capture. If the OOBE screens cannot be captured safely, document the steps and capture the post-enrollment verification screens instead.
-
----
-
-## Screenshot Links
-
-Image links will be added after the screenshots are captured, sanitized, and uploaded to GitHub.
+These should be added after Intune MDM enrollment is fixed and the device appears in the Intune admin center.
 
 ---
 
 ## Troubleshooting Notes
 
-If the device does not show the device name option:
+### Current Issue
 
-1. Continue Windows setup.
-2. Document the default device name later.
-3. Rename the device later if needed.
-4. Continue tracking the device as WIN-CORP-001 in the lab documentation.
+The device appears in Microsoft Entra admin center, but the MDM column shows:
 
-If the device does not show the work or school setup option:
+```text
+None
+```
 
-1. Confirm the Windows edition supports Microsoft Entra join.
-2. Confirm the device is connected to the internet.
-3. Confirm the device is not using Windows Home edition.
-4. Restart OOBE if needed.
+This means the device is Microsoft Entra joined, but not enrolled into Intune MDM yet.
 
-If sign-in fails:
+### Check Automatic MDM Enrollment
 
-1. Confirm user01 exists in Microsoft Entra ID.
-2. Confirm the password is correct.
-3. Confirm user01 is allowed to sign in.
-4. Confirm the account has the required license.
-5. Check for MFA or Conditional Access prompts.
+Go to:
 
-If the device does not appear in Intune:
+```text
+Microsoft Entra admin center
+-> Entra ID
+-> Mobility (MDM and WIP)
+-> Microsoft Intune
+```
 
-1. Confirm automatic MDM enrollment is configured.
-2. Confirm user01 is in the MDM user scope.
-3. Confirm user01 has an Intune-capable license.
-4. Wait several minutes and refresh Intune.
-5. Check Windows Settings > Accounts > Access work or school.
-6. Check Intune enrollment failures if available.
+Check:
 
-If the device appears with a random name:
+```text
+MDM user scope
+```
 
-1. Document the original name.
-2. Rename later if needed.
-3. Continue tracking the device as WIN-CORP-001 in the lab documentation.
+Recommended lab setting:
+
+```text
+Some
+```
+
+with this group included:
+
+```text
+GRP-Pilot-Users
+```
+
+For a small lab, this can also be set to:
+
+```text
+All
+```
+
+### Sync from Windows
+
+On WIN-CORP-001, go to:
+
+```text
+Settings
+-> Accounts
+-> Access work or school
+-> Select connected account
+-> Info
+-> Sync
+```
+
+Wait several minutes and check Intune again.
+
+### Check Entra Join Status
+
+On WIN-CORP-001, open Command Prompt and run:
+
+```cmd
+dsregcmd /status
+```
+
+Check for:
+
+```text
+AzureAdJoined : YES
+```
+
+Do not upload the full command output unless it is carefully sanitized.
+
+### Trigger Manual MDM Enrollment
+
+If the device remains Entra joined but MDM is still missing, run:
+
+```cmd
+start ms-device-enrollment:?mode=mdm
+```
+
+Then complete any enrollment prompts and check Intune again.
 
 ---
 
@@ -376,6 +455,7 @@ Before uploading screenshots, hide or blur:
 - Device IDs
 - Object IDs
 - Serial numbers
+- Product IDs
 - Any recovery keys, tokens, or QR codes
 
 ---
@@ -385,27 +465,27 @@ Before uploading screenshots, hide or blur:
 | Task | Status |
 |---|---|
 | windows-oobe-enrollment.md created | Completed |
-| Windows device prepared for OOBE | Planned |
-| Device name configured as WIN-CORP-001 | Planned |
-| Work or school setup selected | Planned |
-| user01 sign-in completed | Planned |
-| Microsoft Entra join verified | Planned |
-| Intune enrollment verified | Planned |
-| Screenshots added | Planned |
+| Windows device prepared for OOBE | Completed |
+| Device name configured as WIN-CORP-001 | Completed |
+| Work or school setup selected | Completed |
+| user01 sign-in completed | Completed |
+| Microsoft Entra join verified | Completed |
+| Entra device record verified | Completed |
+| Intune enrollment verified | Pending |
+| Intune screenshots added | Pending |
+| OOBE screenshots added | Completed |
 
 ---
 
 ## Next Step
 
-Perform Windows OOBE enrollment on the test device:
+Fix or verify Intune MDM enrollment:
 
 ```text
-Reset or start Windows OOBE
-Set device name to WIN-CORP-001 if prompted
-Choose Set up for work or school
-Sign in as user01
-Verify Access work or school
-Verify device in Intune
-Capture sanitized screenshots
-Update this file from In progress to Completed
+Check MDM user scope
+Confirm user01 is included in MDM enrollment scope
+Sync the work or school account from Windows Settings
+Check Intune devices again
+Capture Intune device list and device overview screenshots
+Update this file from Troubleshooting in progress to Completed
 ```
