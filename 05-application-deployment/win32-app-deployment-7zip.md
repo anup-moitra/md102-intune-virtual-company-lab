@@ -4,6 +4,12 @@ This file documents Win32 application deployment using Microsoft Intune for the 
 
 ---
 
+## Status
+
+Completed
+
+---
+
 ## Objective
 
 Deploy 7-Zip as a **Windows app (Win32)** using Microsoft Intune.
@@ -18,6 +24,7 @@ This lab validates that:
 - The app can be assigned as **Required** to a pilot group.
 - A managed Windows device can receive and install the app.
 - Installation status can be verified from Intune.
+- Local installation can be verified on the endpoint.
 
 ---
 
@@ -40,6 +47,7 @@ Download 7-Zip installer
 -> Assign app to pilot users
 -> Sync managed Windows device
 -> Verify installation status
+-> Confirm the app is available on the endpoint
 ```
 
 ---
@@ -114,6 +122,7 @@ Intune then uses the **Intune Management Extension** on the Windows device to pr
 | Renamed installer | `7zip.exe` |
 | Architecture | x64 |
 | Publisher | Igor Pavlov |
+| Version | 26.01 |
 | Source folder | `C:\IntuneWin32\7zip\Source` |
 | Output folder | `C:\IntuneWin32\7zip\Output` |
 | Packaged file | `7zip.intunewin` |
@@ -411,6 +420,16 @@ Intune admin center
 
 The install status screenshot was captured for documentation.
 
+### Step 13: Verified 7-Zip on the Endpoint
+
+On `WIN-CORP-001`, 7-Zip was verified locally by checking that the app was installed and available from the Start menu.
+
+The expected file path was also validated:
+
+```text
+C:\Program Files\7-Zip\7zFM.exe
+```
+
 ---
 
 ## Test Result
@@ -432,6 +451,7 @@ The install status screenshot was captured for documentation.
 | Supersedence configured | Not required |
 | App assigned as Required | Completed |
 | Device install status reviewed | Completed |
+| 7-Zip local installation verified on `WIN-CORP-001` | Completed |
 | Final lab result | Completed |
 
 ---
@@ -560,6 +580,7 @@ Before uploading screenshots, hide or blur:
 | Win32 app created in Intune | Completed |
 | App assigned to pilot group | Completed |
 | Device install status reviewed | Completed |
+| Endpoint installation verified | Completed |
 | Screenshots uploaded | Completed |
 | Documentation updated with final evidence | Completed |
 
