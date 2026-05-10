@@ -187,15 +187,15 @@ Do not upload:
 |---|---|
 | Company scenario documented | Completed |
 | Device inventory documented | Completed |
-| Lab implementation roadmap documented | Planned |
-| Identity and groups lab started | Planned |
+| Lab implementation roadmap documented | Completed |
+| Identity and groups lab started | Completed |
 
 ---
 
 ## Next Step
 
-Create the lab roadmap file:
+Continue to the Windows OOBE enrollment lab:
 
 ```text
-00-project-overview/lab-implementation-roadmap.md
+02-device-enrollment/windows-oobe-enrollment.md
 ```
