@@ -135,7 +135,7 @@ This approach helps reduce risk because new policies are tested with a small gro
 
 `GRP-Pilot-Users` has already been used to target Microsoft Store app deployment for both required and available apps.
 
-Required apps assigned to `GRP-Pilot-Users`:
+Required Microsoft Store apps assigned to `GRP-Pilot-Users`:
 
 ```text
 Company Portal
@@ -143,14 +143,20 @@ VLC UWP
 Slack
 ```
 
-Available apps assigned to `GRP-Pilot-Users`:
+Available Microsoft Store apps assigned to `GRP-Pilot-Users`:
 
 ```text
 ChatGPT
 WhatsApp
 ```
 
-This validates that the pilot group can be used for real Intune application deployment testing.
+Win32 app assigned to `GRP-Pilot-Users`:
+
+```text
+7-Zip
+```
+
+This validates that the pilot group can be used for real Intune application deployment testing across both Microsoft Store apps and Win32 apps.
 
 ---
 
@@ -274,7 +280,19 @@ Required apps = Company Portal, VLC UWP, Slack
 Available apps = ChatGPT, WhatsApp
 ```
 
-This confirmed that the pilot group can be used for application deployment assignments in Microsoft Intune.
+This confirmed that the pilot group can be used for Microsoft Store app assignments in Microsoft Intune.
+
+### Step 9: Used GRP-Pilot-Users for Win32 App Deployment
+
+`GRP-Pilot-Users` was used as the assignment target for the Win32 7-Zip app deployment lab.
+
+The deployment included:
+
+```text
+Required Win32 app = 7-Zip
+```
+
+This confirmed that the pilot group can also be used for required Win32 app deployment in Microsoft Intune.
 
 ---
 
@@ -288,7 +306,8 @@ After this lab:
 - admin01 is a member of GRP-IT-Admins.
 - user01 has an Intune-capable license.
 - Groups are ready for future Intune assignments.
-- GRP-Pilot-Users can be used to target Intune app assignments.
+- GRP-Pilot-Users can be used to target Microsoft Store app assignments.
+- GRP-Pilot-Users can be used to target required Win32 app assignments.
 
 ---
 
@@ -302,6 +321,7 @@ After this lab:
 | admin01 added to GRP-IT-Admins | Completed |
 | user01 license assigned | Completed |
 | GRP-Pilot-Users used for Microsoft Store app deployment | Completed |
+| GRP-Pilot-Users used for Win32 7-Zip app deployment | Completed |
 | Users and groups verified | Completed |
 
 ---
@@ -359,7 +379,7 @@ The following labs use the users and groups created in this file:
 |---|---|
 | `02-device-enrollment/windows-oobe-enrollment.md` | Uses `user01` for Windows enrollment |
 | `05-application-deployment/microsoft-store-app-deployment.md` | Uses `GRP-Pilot-Users` for required and available app assignments |
-| `05-application-deployment/win32-app-deployment-7zip.md` | Will use `GRP-Pilot-Users` for Win32 app deployment |
+| `05-application-deployment/win32-app-deployment-7zip.md` | Uses `GRP-Pilot-Users` for required Win32 app deployment |
 
 ---
 
@@ -427,16 +447,23 @@ Before uploading screenshots, hide or blur:
 | Group memberships configured | Completed |
 | Intune licenses assigned | Completed |
 | GRP-Pilot-Users used for Microsoft Store app deployment | Completed |
+| GRP-Pilot-Users used for Win32 7-Zip app deployment | Completed |
 | Screenshots added | Completed |
 
 ---
 
 ## Next Step
 
-Continue to the Win32 7-Zip app deployment lab:
+Continue to the Microsoft 365 Apps deployment lab or Company Portal self-service app testing.
+
+Recommended next lab:
 
 ```text
-05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
 
-This next lab will use `GRP-Pilot-Users` to target a Win32 application deployment in Microsoft Intune.
+Alternative next lab:
+
+```text
+05-application-deployment/company-portal-self-service-apps.md
+```
