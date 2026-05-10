@@ -579,7 +579,3 @@ Before uploading screenshots, hide or blur:
 | Documentation updated with final evidence | Completed |
 
 ---
-
-## Next Step
-
-Continue with the next application deployment lab or update the project roadmap/README to reflect that the Win32 7-Zip deployment lab is completed.
