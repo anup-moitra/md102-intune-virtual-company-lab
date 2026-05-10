@@ -134,8 +134,9 @@ md102-intune-virtual-company-lab/
 | Identity and groups lab completed | Completed |
 | Windows OOBE enrollment lab completed | Completed |
 | Microsoft Store app deployment lab completed | Completed |
+| Win32 app deployment lab completed | Completed |
+| Microsoft 365 Apps deployment lab | Next |
 | Windows Autopilot lab | Planned |
-| Win32 app deployment lab | Next |
 
 ---
 
@@ -232,6 +233,31 @@ Required apps installed automatically.
 Available apps appeared in Company Portal for user self-service installation.
 ```
 
+### 05 - Win32 App Deployment: 7-Zip
+
+Documented in:
+
+```text
+05-application-deployment/win32-app-deployment-7zip.md
+```
+
+Completed work:
+
+- Prepared 7-Zip Win32 source folder
+- Packaged the installer as `.intunewin`
+- Uploaded the Win32 app to Microsoft Intune
+- Configured install and uninstall commands
+- Configured file-based detection rule
+- Assigned the app as Required to GRP-Pilot-Users
+- Verified install status in Intune
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+7-Zip was deployed as a Win32 app using Microsoft Intune.
+```
+
 ---
 
 ## Skills This Project Demonstrates
@@ -249,6 +275,9 @@ This project demonstrates practical skills in:
 - Required app assignment
 - Available app assignment through Company Portal
 - Win32 app deployment
+- Win32 app packaging with `.intunewin`
+- Win32 app install and uninstall command configuration
+- Win32 app detection rule configuration
 - Microsoft 365 Apps deployment
 - Microsoft Defender Antivirus policy
 - Windows Firewall policy
@@ -322,13 +351,13 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ## Next Step
 
-Continue to the next application deployment lab:
+Continue to the Microsoft 365 Apps deployment lab:
 
 ```text
-05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 ```
 
-This next lab will demonstrate Win32 application deployment with Microsoft Intune, including packaging, install command, uninstall command, detection rule, assignment, and installation verification.
+This next lab will demonstrate Microsoft 365 Apps deployment with Microsoft Intune.
 
 ---
 
