@@ -1,123 +1,86 @@
 # Company Scenario
 
-This lab simulates a small virtual company created for MD-102 learning and hands-on Microsoft Intune practice.
+This file describes the virtual company used throughout this MD-102 hands-on lab project.
+
+---
 
 ## Company Name
 
 Contoso Startup Lab
 
+---
+
 ## Company Size
 
-This virtual company has approximately 15 users and a small mixed device fleet.
+Contoso Startup Lab is a small company with approximately 15 users and a mixed device fleet covering corporate-owned and personal/BYOD devices across Windows, Android, and iOS platforms.
+
+---
 
 ## Device Environment
 
-The lab environment includes both corporate-owned and personal/BYOD devices.
+The lab environment includes both corporate-owned and personal/BYOD devices across multiple platforms.
 
-Planned device types include:
+| Device | Type | Ownership | OS |
+|---|---|---|---|
+| WIN-CORP-001 | Laptop | Corporate | Windows 11 |
+| WIN-CORP-002 | Laptop | Corporate | Windows 11 |
+| WIN-BYOD-001 | Laptop | BYOD | Windows 11 |
+| Android device | Mobile | BYOD | Android |
+| iOS device | Mobile | BYOD | iOS |
 
-- Corporate Windows laptops
-- Personal/BYOD Windows laptops
-- Android BYOD mobile devices
-- iPhone/iOS BYOD mobile devices
+Corporate Windows devices are enrolled via Windows Out-of-Box Experience (OOBE) and Windows Autopilot. BYOD devices are registered through Entra ID and enrolled via Android Enterprise and Apple MDM.
+
+---
 
 ## Identity Environment
 
-The virtual company uses Microsoft Entra ID for cloud identity and access management.
+Contoso Startup Lab uses Microsoft Entra ID for cloud identity and access management.
 
-The lab includes:
+The lab identity setup includes:
 
-- Test users
-- Admin users
-- Security groups
-- Pilot user groups
-- Windows user groups
-- BYOD user groups
-- Mobile user groups
-- Autopilot device groups
-- Device-only pilot groups for safer endpoint security testing
+- Lab admin user
+- Standard test users
+- Pilot user group
+- Windows user group
+- BYOD user group
+- Mobile user group
+- Autopilot device group
+- Device-only pilot group for endpoint security policy testing
 
-## Management Goal
+---
 
-The goal is to manage company and personal devices using Microsoft Intune and Microsoft Entra ID.
+## Management Tools
 
-This project demonstrates how an endpoint administrator can:
-
-- Enroll Windows devices into Intune
-- Register and provision Windows devices using Windows Autopilot
-- Organize users and devices with Microsoft Entra groups
-- Apply configuration profiles
-- Create compliance policies
-- Use Conditional Access to require compliant devices
-- Test corporate and BYOD access scenarios
-- Deploy and manage apps
-- Deploy Microsoft 365 Apps to Autopilot-enrolled devices
-- Configure endpoint security policies
-- Configure Windows Firewall and disk encryption policies
-- Verify endpoint security results from both Intune and the local device
-- Document lab results with sanitized screenshots
-
-## Current Lab Progress
-
-The following hands-on tasks have been completed or started:
-
-- Microsoft Intune tenant verified
-- Microsoft Entra users and groups created
-- Intune licenses assigned
-- Microsoft 365 Business Premium trial activated for Office app testing
-- Microsoft 365 Business Premium license assigned to User 01
-- Corporate Windows device enrolled
-- WIN-CORP-001 confirmed as managed and compliant
-- Windows compliance policy created
-- Conditional Access policy created in Report-only mode
-- Compliant corporate device test completed
-- Unmanaged BYOD device Report-only test completed
-- Basic Windows configuration profile created and tested
-- Corporate wallpaper policy created and tested
-- Microsoft Store app deployment completed
-- Win32 7-Zip deployment completed
-- Defender Antivirus endpoint security policy completed
-- Windows Firewall endpoint security policy completed
-- Firewall enabled for Domain, Private, and Public network profiles
-- Firewall status verified in Intune and on WIN-CORP-001
-- BitLocker disk encryption policy completed
-- WIN-CORP-001 encrypted successfully with BitLocker
-- BitLocker protection confirmed as On
-- BitLocker recovery key escrow verified in Intune
-- Autopilot device group created
-- Autopilot deployment profile created
-- Autopilot hardware hash imported
-- Autopilot device profile assigned
-- Autopilot OOBE enrollment completed with User 01
-- Autopilot device appeared in Intune Windows devices
-- Autopilot device confirmed as corporate and compliant
-- Microsoft 365 Apps deployment created for Autopilot lab
-- Microsoft 365 Apps installation verified
-- Word sign-in verified with User 01
-
-## Current Endpoint Security Coverage
-
-The current endpoint security coverage includes:
-
-| Endpoint security area | Status |
+| Tool | Purpose |
 |---|---|
-| Microsoft Defender Antivirus policy | Completed |
-| Windows Firewall policy | Completed |
-| BitLocker disk encryption policy | Completed |
-| BitLocker recovery key escrow verification | Completed |
-| Attack Surface Reduction policy | Planned |
-| Windows Security Baseline | Planned |
+| Microsoft Intune | Device enrollment, configuration, compliance, app deployment, and endpoint security |
+| Microsoft Entra ID | Cloud identity, group management, and Conditional Access |
+| Windows Autopilot | Zero-touch corporate device provisioning |
+| Microsoft 365 Apps | Productivity app deployment and licensing |
+| Company Portal | Self-service app access for end users |
 
-## Learning Purpose
+---
 
-This project is created to demonstrate hands-on learning for **MD-102: Endpoint Administrator**.
+## Management Goals
 
-The project is designed to show practical experience with Microsoft Intune, Microsoft Entra ID, Windows device management, BYOD scenarios, compliance, Conditional Access, configuration profiles, app deployment, endpoint security, Windows Autopilot, Microsoft 365 Apps deployment, Windows Firewall management, BitLocker disk encryption, recovery key verification, and troubleshooting.
+This lab demonstrates how an endpoint administrator manages a small company environment end to end, covering:
+
+- Enrolling corporate Windows devices via OOBE and Autopilot
+- Registering and managing BYOD devices across Windows, Android, and iOS
+- Organising users and devices using Microsoft Entra security groups
+- Applying configuration profiles for browser settings, wallpaper, and device restrictions
+- Creating and enforcing compliance policies
+- Implementing Conditional Access requiring compliant devices
+- Testing corporate and BYOD access scenarios in both report-only and enforced modes
+- Deploying Microsoft Store apps, Win32 apps, and Microsoft 365 Apps
+- Configuring endpoint security policies including Defender Antivirus, Windows Firewall, and BitLocker
+- Verifying BitLocker recovery key escrow in Intune
+- Performing remote device actions including sync, restart, retire, wipe, and diagnostics collection
+- Monitoring device compliance and policy status through Intune reports
+- Troubleshooting common Autopilot, enrollment, Office sign-in, and Conditional Access issues
+
+---
 
 ## Privacy and Security Note
 
-This is a public learning project.
-
-All users, devices, groups, screenshots, and company details are fictional or sanitized.
-
-No real production data, tenant secrets, passwords, device serial numbers, BitLocker recovery keys, Autopilot hardware hashes, or confidential information should be published.
+This is a public learning and portfolio project. All company names, users, devices, groups, screenshots, and lab details are fictional, test-only, or sanitised. No real production data, tenant secrets, passwords, device serial numbers, BitLocker recovery keys, Autopilot hardware hashes, or confidential information is published in this repository.
