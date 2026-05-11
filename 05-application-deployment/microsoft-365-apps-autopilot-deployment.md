@@ -4,12 +4,6 @@ This file documents Microsoft 365 Apps deployment using Microsoft Intune for the
 
 ---
 
-## Status
-
-In progress / app created / assigned / installation troubleshooting pending
-
----
-
 ## Objective
 
 Deploy Microsoft 365 Apps to a managed Windows device using Microsoft Intune.
@@ -21,10 +15,10 @@ This lab validates that:
 - Microsoft 365 Apps can be configured for Windows 10 and later / Windows 11 devices.
 - Microsoft 365 Apps for business can be configured using XML data.
 - Microsoft 365 Apps can be assigned as a **Required** app to a pilot user group.
-- A managed Windows device can receive the assignment.
-- App install status can be monitored from Intune.
-- Installation issues can be captured and documented for troubleshooting.
-- This deployment can later support Windows Autopilot validation.
+- A managed Windows device can receive the Microsoft 365 Apps assignment.
+- Microsoft 365 Apps install status can be monitored from Intune.
+- Microsoft 365 Apps installation can be verified from the device managed apps view.
+- The deployment can later support Windows Autopilot validation.
 
 ---
 
@@ -41,7 +35,7 @@ This lab continues the application deployment section after:
 05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-The purpose of this lab is to prepare Microsoft 365 Apps deployment so that a future Windows Autopilot lab can show a realistic provisioning experience:
+This lab prepares Microsoft 365 Apps deployment so that a future Windows Autopilot lab can show a realistic provisioning experience:
 
 ```text
 Autopilot enrollment
@@ -116,16 +110,15 @@ Microsoft 365 Apps deployment is created first
 
 ## Prerequisites
 
-Before starting this lab, confirm:
+Before starting this lab, the following items were required:
 
-- Microsoft Intune tenant is available.
-- `user01` exists in Microsoft Entra ID.
-- `user01` is a member of `GRP-Pilot-Users`.
-- `user01` has an Intune-capable license.
-- `user01` has Microsoft 365 Business Premium assigned.
-- Microsoft 365 Apps license is available for the test user.
-- `WIN-CORP-001` is enrolled in Intune.
-- Screenshots are sanitized before upload.
+- Microsoft Intune tenant
+- `user01` created in Microsoft Entra ID
+- `user01` added to `GRP-Pilot-Users`
+- `user01` assigned an Intune-capable license
+- `user01` assigned Microsoft 365 Business Premium
+- `WIN-CORP-001` enrolled in Intune
+- Sanitized screenshots prepared for GitHub upload
 
 Related completed labs:
 
@@ -153,6 +146,20 @@ Microsoft Entra ID P2 will be useful later for more advanced identity and securi
 
 ---
 
+## Important Concept
+
+Microsoft 365 Apps for business is supported in Intune, but the app suite should be configured using XML data.
+
+For this lab, the XML configuration used the following Product ID:
+
+```text
+O365BusinessRetail
+```
+
+This represents Microsoft 365 Apps for business.
+
+---
+
 ## App Deployment Plan
 
 | Setting | Value |
@@ -170,21 +177,7 @@ Microsoft Entra ID P2 will be useful later for more advanced identity and securi
 | Architecture | 64-bit |
 | Remove MSI versions | Enabled through XML |
 | Shared computer activation | Not configured |
-| Current result | Assignment reached device; installation troubleshooting pending |
-
----
-
-## Important Concept
-
-Microsoft 365 Apps for business is supported in Intune, but the app suite should be configured using XML data.
-
-For this lab, the XML configuration used the following Product ID:
-
-```text
-O365BusinessRetail
-```
-
-This represents Microsoft 365 Apps for business.
+| Final result | Installed |
 
 ---
 
@@ -292,6 +285,7 @@ Assignment logic:
 user01 is in GRP-Pilot-Users
 -> Microsoft 365 Apps assignment applies
 -> WIN-CORP-001 receives required install intent
+-> Microsoft 365 Apps installs on the device
 ```
 
 ---
@@ -392,29 +386,25 @@ Resolved intent: Required install
 Installation status: Waiting for install status
 ```
 
-This confirms the required app assignment reached the managed Windows device.
+This confirmed the required app assignment reached the managed Windows device.
 
-### Step 9: Checked Device Install Status
+### Step 9: Synced and Waited for Processing
 
-The app install status page was checked from:
+`WIN-CORP-001` was kept powered on and connected to the internet.
 
-```text
-Intune admin center
--> Apps
--> Windows
--> Microsoft 365 Apps for Windows 10 and later
--> Monitor
--> Device install status
-```
+A manual sync was performed from the Windows device.
 
-Latest observed result:
+### Step 10: Verified Final Install Status from Device Managed Apps View
+
+The device app list for `WIN-CORP-001` later showed:
 
 ```text
-Status: Failed
-Status details: Unknown
+Microsoft 365 Apps for Windows 10 and later
+Resolved intent: Required install
+Installation status: Installed
 ```
 
-The device was kept powered on and manually synced again for further processing.
+This confirmed the Microsoft 365 Apps deployment installed successfully on the managed Windows device.
 
 ---
 
@@ -431,12 +421,11 @@ The device was kept powered on and manually synced again for further processing.
 | App created in Intune | Completed |
 | Assignment reached `WIN-CORP-001` | Completed |
 | Managed apps page showed Required install intent | Completed |
-| Device install status reviewed in Intune | Completed |
-| Initial install status | Failed / troubleshooting pending |
-| Microsoft 365 Apps installed on endpoint | Pending |
-| Word or Excel launched successfully | Pending |
-| User sign-in verified | Pending |
-| Final lab result | In progress |
+| Microsoft 365 Apps install status changed to Installed | Completed |
+| Microsoft 365 Apps installed on endpoint | Completed |
+| Future Autopilot validation prepared | Completed |
+| Screenshots uploaded | Completed |
+| Final lab result | Completed |
 
 ---
 
@@ -472,6 +461,10 @@ screenshots/sanitized/application-deployment/
 
 ![Microsoft 365 Apps managed apps waiting status](../screenshots/sanitized/application-deployment/m365-managed-apps-waiting-status-sanitized.png)
 
+### Managed apps installed status
+
+![Microsoft 365 Apps managed apps installed status](../screenshots/sanitized/application-deployment/m365-managed-apps-installed-status-sanitized.png)
+
 ---
 
 ## Screenshot Files Uploaded
@@ -484,43 +477,45 @@ screenshots/sanitized/application-deployment/
 | `m365-app-suite-settings-sanitized.png` | Uploaded | Shows XML configuration |
 | `m365-required-assignment-sanitized.png` | Uploaded | Shows Required assignment to `GRP-Pilot-Users` |
 | `m365-managed-apps-waiting-status-sanitized.png` | Uploaded | Shows assignment reached `WIN-CORP-001` |
+| `m365-managed-apps-installed-status-sanitized.png` | Uploaded | Shows installation completed on `WIN-CORP-001` |
 
 ---
 
-## Pending Screenshots
+## Optional Future Evidence
 
-The following screenshots should be added later after troubleshooting or successful installation:
+The following screenshots can be added later if desired, but they are not required to complete this lab:
 
 | Screenshot file | Status | Purpose |
 |---|---|---|
-| `m365-device-install-status-failed-sanitized.png` | Pending / optional | Shows failed install state for troubleshooting evidence |
-| `device-sync-after-m365-assignment-sanitized.png` | Optional | Shows manual sync after assignment |
-| `device-sync-after-m365-failure-sanitized.png` | Optional | Shows manual sync after failed install |
-| `m365-device-install-status-sanitized.png` | Pending | Final success screenshot showing installed status |
-| `m365-apps-installed-start-menu-sanitized.png` | Pending | Shows Office apps installed locally |
-| `m365-word-launch-signin-sanitized.png` | Pending | Shows Word/Office app launch with sanitized account info |
-
----
-
-## Troubleshooting Status
-
-Current issue:
-
-```text
-Microsoft 365 Apps deployment reached WIN-CORP-001, but the app install status later showed Failed with Unknown status details.
-```
-
-Current action taken:
-
-```text
-WIN-CORP-001 was kept powered on.
-The device was manually synced again.
-Further troubleshooting is pending.
-```
+| `m365-device-install-status-sanitized.png` | Optional | App-specific Device install status page showing Installed |
+| `m365-apps-installed-start-menu-sanitized.png` | Optional | Shows Office apps installed locally |
+| `m365-word-launch-signin-sanitized.png` | Optional | Shows Word/Office app launch with sanitized account info |
 
 ---
 
 ## Troubleshooting Notes
+
+### Temporary Waiting or Failed Status
+
+During testing, the Microsoft 365 Apps deployment initially showed a waiting or failed state before later showing as installed from the device managed apps view.
+
+This is useful real-world troubleshooting evidence because Microsoft 365 Apps deployments can take longer than small Store apps or Win32 utilities.
+
+Observed troubleshooting approach:
+
+```text
+Keep WIN-CORP-001 powered on
+Confirm internet connectivity
+Manually sync the device
+Wait for Intune and Office installation processing
+Refresh the device managed apps view
+```
+
+Final observed result:
+
+```text
+Microsoft 365 Apps for Windows 10 and later = Installed
+```
 
 ### Microsoft 365 Apps does not install
 
@@ -557,7 +552,7 @@ If the app appears installed locally but Intune has not updated yet:
 3. Restart the device if needed.
 4. Check again from the app monitor page.
 
-### App install shows Failed / Unknown
+### App install shows Failed or Unknown
 
 If the app shows failed with unknown status details:
 
@@ -664,35 +659,19 @@ Before uploading screenshots, hide or blur:
 | Microsoft 365 Apps configured with XML | Completed |
 | Microsoft 365 Apps assigned to pilot group | Completed |
 | Required install intent reached `WIN-CORP-001` | Completed |
-| Initial install status checked | Completed |
-| Endpoint installation verified | Pending |
-| Future Autopilot validation prepared | Pending |
-| Screenshots uploaded | Partially completed |
-| Documentation updated with current evidence | Completed |
-| Troubleshooting pending | Yes |
+| Microsoft 365 Apps installed status verified | Completed |
+| Future Autopilot validation prepared | Completed |
+| Screenshots uploaded | Completed |
+| Documentation updated with final evidence | Completed |
 
 ---
 
 ## Next Step
 
-Continue troubleshooting the Microsoft 365 Apps deployment.
-
-Recommended next actions:
+Continue to the next related lab:
 
 ```text
-1. Keep WIN-CORP-001 powered on and connected to the internet.
-2. Confirm no Office apps are open.
-3. Check whether Office/Microsoft 365 Apps is already installed.
-4. Restart WIN-CORP-001.
-5. Sync the device again.
-6. Refresh Intune device install status.
-7. If still failed, review Intune Management Extension logs and Office setup logs.
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
-After successful installation, update this file with:
-
-```text
-m365-device-install-status-sanitized.png
-m365-apps-installed-start-menu-sanitized.png
-m365-word-launch-signin-sanitized.png
-```
+This next lab will show how a corporate Windows device can be provisioned with Windows Autopilot and later receive required apps such as Microsoft 365 Apps from Intune.
