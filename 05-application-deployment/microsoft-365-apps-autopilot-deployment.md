@@ -1,28 +1,30 @@
 # Microsoft 365 Apps Deployment for Autopilot Readiness
 
-This file documents the planned Microsoft 365 Apps deployment lab using Microsoft Intune for the MD-102 Intune virtual company project.
+This file documents Microsoft 365 Apps deployment using Microsoft Intune for the MD-102 Intune virtual company project.
 
 ---
 
 ## Status
 
-Planned / documentation template prepared / not yet tested
+In progress / app created / assigned / installation troubleshooting pending
 
 ---
 
 ## Objective
 
-Deploy Microsoft 365 Apps for Windows devices using Microsoft Intune.
+Deploy Microsoft 365 Apps to a managed Windows device using Microsoft Intune.
 
-This lab will validate that:
+This lab validates that:
 
-- Microsoft 365 Apps can be created from the Intune admin center.
-- Office applications such as Word, Excel, PowerPoint, Outlook, OneNote, and Teams can be selected for deployment.
-- Microsoft 365 Apps can be assigned as a **Required** app to a pilot group.
-- A managed Windows device can receive the Microsoft 365 Apps deployment.
-- Installation status can be monitored from Intune.
-- Office app launch and user sign-in can be verified.
-- The app deployment can be used later as part of Windows Autopilot provisioning validation.
+- A test user has the required Microsoft 365 Apps license.
+- Microsoft 365 Apps can be added from the Intune admin center.
+- Microsoft 365 Apps can be configured for Windows 10 and later / Windows 11 devices.
+- Microsoft 365 Apps for business can be configured using XML data.
+- Microsoft 365 Apps can be assigned as a **Required** app to a pilot user group.
+- A managed Windows device can receive the assignment.
+- App install status can be monitored from Intune.
+- Installation issues can be captured and documented for troubleshooting.
+- This deployment can later support Windows Autopilot validation.
 
 ---
 
@@ -39,7 +41,7 @@ This lab continues the application deployment section after:
 05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-This lab prepares Microsoft 365 Apps deployment so that future Windows Autopilot testing can show a realistic provisioning experience:
+The purpose of this lab is to prepare Microsoft 365 Apps deployment so that a future Windows Autopilot lab can show a realistic provisioning experience:
 
 ```text
 Autopilot enrollment
@@ -96,9 +98,10 @@ Microsoft 365 Apps deployment is created first
 
 ## Lab Environment
 
-| Item | Planned value |
+| Item | Value |
 |---|---|
-| Test device | `WIN-CORP-001` first, then future `WIN-AUTOPILOT-001` |
+| Test device | `WIN-CORP-001` |
+| Future Autopilot validation device | `WIN-AUTOPILOT-001` |
 | Operating system | Windows 11 |
 | Management platform | Microsoft Intune |
 | Identity platform | Microsoft Entra ID |
@@ -119,9 +122,10 @@ Before starting this lab, confirm:
 - `user01` exists in Microsoft Entra ID.
 - `user01` is a member of `GRP-Pilot-Users`.
 - `user01` has an Intune-capable license.
+- `user01` has Microsoft 365 Business Premium assigned.
 - Microsoft 365 Apps license is available for the test user.
 - `WIN-CORP-001` is enrolled in Intune.
-- Screenshots will be sanitized before upload.
+- Screenshots are sanitized before upload.
 
 Related completed labs:
 
@@ -134,49 +138,59 @@ Related completed labs:
 
 ---
 
+## License Validation
+
+`user01` was assigned the following licenses:
+
+```text
+Intune
+Microsoft 365 Business Premium
+```
+
+Microsoft Entra ID P2 was not required for this Microsoft 365 Apps deployment lab.
+
+Microsoft Entra ID P2 will be useful later for more advanced identity and security labs, such as Conditional Access, identity protection, user risk, sign-in risk, access reviews, or privileged identity management concepts.
+
+---
+
 ## App Deployment Plan
 
-| Setting | Planned value |
+| Setting | Value |
 |---|---|
 | App suite | Microsoft 365 Apps |
 | Platform | Windows 10 and later / Windows 11 |
 | Assignment | Required |
 | Target group | `GRP-Pilot-Users` |
 | Test user | `user01` |
-| Initial test device | `WIN-CORP-001` |
+| Test device | `WIN-CORP-001` |
 | Future validation device | `WIN-AUTOPILOT-001` |
+| Configuration format | XML data |
+| Product ID | `O365BusinessRetail` |
 | Update channel | Current Channel |
 | Architecture | 64-bit |
-| Remove other versions | Yes, if old Office versions exist |
-| Shared computer activation | No |
+| Remove MSI versions | Enabled through XML |
+| Shared computer activation | Not configured |
+| Current result | Assignment reached device; installation troubleshooting pending |
 
 ---
 
-## Planned Microsoft 365 Apps Selection
+## Important Concept
 
-Recommended apps for the first lab:
+Microsoft 365 Apps for business is supported in Intune, but the app suite should be configured using XML data.
 
-| App | Planned selection | Reason |
-|---|---|---|
-| Word | Selected | Core productivity app |
-| Excel | Selected | Core productivity app |
-| PowerPoint | Selected | Core productivity app |
-| Outlook | Selected | Email/calendar app |
-| OneNote | Selected | Notes app |
-| Teams | Selected if available in the app suite options | Collaboration app |
-| Access | Not selected unless needed | Not required for basic lab |
-| Publisher | Not selected unless available/needed | Not required for basic lab |
-| Visio | Not selected | Separate license/app |
-| Project | Not selected | Separate license/app |
+For this lab, the XML configuration used the following Product ID:
 
-> [!NOTE]
-> The exact app selection screen may vary depending on the Microsoft 365 Apps deployment experience available in the tenant.
+```text
+O365BusinessRetail
+```
+
+This represents Microsoft 365 Apps for business.
 
 ---
 
 ## Intune Navigation
 
-Create the app from:
+The app was created from:
 
 ```text
 Intune admin center
@@ -186,164 +200,75 @@ Intune admin center
 -> Create
 ```
 
-Select an app type similar to:
+Selected app type:
 
 ```text
 Microsoft 365 Apps
+-> Windows 10 and later
 ```
-
-or:
-
-```text
-Microsoft 365 Apps for Windows 10 and later
-```
-
-> [!NOTE]
-> The exact app type wording may vary slightly in the Intune admin center.
 
 ---
 
-## Configuration Plan
+## App Suite Information
 
-### App Suite Information
-
-| Setting | Planned value |
+| Setting | Value |
 |---|---|
 | Name | `Microsoft 365 Apps - Pilot` |
-| Description | `Deploys Microsoft 365 Apps to pilot users for the MD-102 Intune lab.` |
+| Intune displayed app name | `Microsoft 365 Apps for Windows 10 and later` |
+| Description | `Deploys Microsoft 365 Apps to pilot users for the MD-102 Intune lab and future Autopilot validation.` |
 | Publisher | `Microsoft` |
 | Category | Productivity |
-| Show this as a featured app in Company Portal | No |
 | Owner | IT Admin |
-| Notes | `Microsoft 365 Apps deployment test for MD-102 Intune lab and future Autopilot validation.` |
+| Notes | `Microsoft 365 Apps deployment test for MD-102 Intune lab.` |
 
-### App Suite Settings
-
-| Setting | Planned value |
-|---|---|
-| Office apps | Word, Excel, PowerPoint, Outlook, OneNote, Teams if available |
-| Architecture | 64-bit |
-| Update channel | Current Channel |
-| Remove other versions | Yes, if prompted |
-| Version to install | Latest available |
-| Shared computer activation | No |
-
-### Assignments
-
-| Assignment type | Group |
-|---|---|
-| Required | `GRP-Pilot-Users` |
-
-Do not assign to all users or all devices in the first test.
+> [!NOTE]
+> Depending on the Intune portal experience, the app may display as `Microsoft 365 Apps for Windows 10 and later` even if a custom suite name was configured.
 
 ---
 
-## Steps to Perform
+## Configure App Suite
 
-### Step 1: Confirm License Assignment
-
-Confirm that `user01` has a license that includes Microsoft 365 Apps.
-
-Check from:
+The app suite was configured using:
 
 ```text
-Microsoft 365 admin center
--> Users
--> Active users
--> user01
--> Licenses and apps
+Configuration settings format: Enter XML data
 ```
 
-Expected result:
+XML used:
 
-```text
-user01 has the required license for Microsoft 365 Apps installation and activation.
+```xml
+<Configuration>
+  <Add OfficeClientEdition="64" Channel="Current">
+    <Product ID="O365BusinessRetail">
+      <Language ID="MatchOS" />
+      <ExcludeApp ID="Groove" />
+      <ExcludeApp ID="Lync" />
+    </Product>
+  </Add>
+  <RemoveMSI />
+  <Updates Enabled="TRUE" Channel="Current" />
+  <Display Level="None" AcceptEULA="TRUE" />
+</Configuration>
 ```
 
-### Step 2: Open Windows Apps in Intune
+### XML Explanation
 
-Go to:
+| XML setting | Meaning |
+|---|---|
+| `OfficeClientEdition="64"` | Installs 64-bit Microsoft 365 Apps |
+| `Channel="Current"` | Uses Current Channel updates |
+| `Product ID="O365BusinessRetail"` | Microsoft 365 Apps for business |
+| `Language ID="MatchOS"` | Uses the Windows device language |
+| `ExcludeApp ID="Groove"` | Excludes old OneDrive for Business sync client |
+| `ExcludeApp ID="Lync"` | Excludes Skype for Business |
+| `<RemoveMSI />` | Removes old MSI-based Office versions if present |
+| `AcceptEULA="TRUE"` | Accepts the license agreement silently |
 
-```text
-Intune admin center
--> Apps
--> Windows
--> Windows apps
-```
+---
 
-Select:
+## Assignments
 
-```text
-Create
-```
-
-### Step 3: Select Microsoft 365 Apps App Type
-
-Choose the Microsoft 365 Apps app type.
-
-Expected app type:
-
-```text
-Microsoft 365 Apps
-```
-
-or:
-
-```text
-Microsoft 365 Apps for Windows 10 and later
-```
-
-### Step 4: Configure App Suite Information
-
-Configure:
-
-```text
-Name: Microsoft 365 Apps - Pilot
-Publisher: Microsoft
-Category: Productivity
-Owner: IT Admin
-```
-
-Description:
-
-```text
-Deploys Microsoft 365 Apps to pilot users for the MD-102 Intune lab.
-```
-
-### Step 5: Select Office Apps
-
-Select the required apps:
-
-```text
-Word
-Excel
-PowerPoint
-Outlook
-OneNote
-Teams, if available
-```
-
-Leave advanced or unnecessary apps unselected unless needed for the lab.
-
-### Step 6: Configure App Suite Settings
-
-Recommended first test settings:
-
-```text
-Architecture: 64-bit
-Update channel: Current Channel
-Remove other versions: Yes, if prompted
-Version: Latest available
-Shared computer activation: No
-```
-
-### Step 7: Configure Scope Tags
-
-Leave scope tags as default unless a scope tag strategy has been created.
-
-### Step 8: Assign the App
-
-Assign as:
+The app was assigned as:
 
 ```text
 Required
@@ -355,85 +280,141 @@ Target group:
 GRP-Pilot-Users
 ```
 
-### Step 9: Review and Create
-
-Review the configuration and create the app.
-
-Confirm:
+Reason:
 
 ```text
-Microsoft 365 Apps - Pilot appears in Windows apps.
+user01 is a member of GRP-Pilot-Users and signs in to WIN-CORP-001 for app deployment testing.
 ```
 
-### Step 10: Sync the Test Device
-
-On `WIN-CORP-001`, trigger a device sync:
+Assignment logic:
 
 ```text
-Settings
--> Accounts
--> Access work or school
--> Connected work/school account
--> Info
--> Sync
+user01 is in GRP-Pilot-Users
+-> Microsoft 365 Apps assignment applies
+-> WIN-CORP-001 receives required install intent
 ```
 
-### Step 11: Monitor Installation Status in Intune
+---
 
-Check the deployment status from:
+## Steps Performed
+
+### Step 1: Confirmed User License
+
+In the Microsoft 365 admin center, `user01` was checked under:
+
+```text
+Users
+-> Active users
+-> User 01
+-> Licenses and apps
+```
+
+Confirmed licenses:
+
+```text
+Intune
+Microsoft 365 Business Premium
+```
+
+### Step 2: Opened Windows Apps in Intune
+
+Navigation used:
 
 ```text
 Intune admin center
 -> Apps
 -> Windows
--> Microsoft 365 Apps - Pilot
+-> Windows apps
+-> Create
+```
+
+### Step 3: Selected Microsoft 365 Apps App Type
+
+Selected app type:
+
+```text
+Microsoft 365 Apps
+-> Windows 10 and later
+```
+
+### Step 4: Configured App Suite Information
+
+Configured app suite information for the pilot deployment.
+
+Primary intended name:
+
+```text
+Microsoft 365 Apps - Pilot
+```
+
+Observed Intune app display name:
+
+```text
+Microsoft 365 Apps for Windows 10 and later
+```
+
+### Step 5: Configured App Suite Using XML
+
+Selected:
+
+```text
+Configuration settings format: Enter XML data
+```
+
+Used the XML configuration with:
+
+```text
+O365BusinessRetail
+OfficeClientEdition="64"
+Channel="Current"
+RemoveMSI
+```
+
+### Step 6: Assigned the App
+
+Assigned the app as **Required** to:
+
+```text
+GRP-Pilot-Users
+```
+
+### Step 7: Created the App
+
+The Microsoft 365 Apps deployment was created in Intune.
+
+### Step 8: Verified Assignment on the Device
+
+The device app list for `WIN-CORP-001` showed:
+
+```text
+Microsoft 365 Apps for Windows 10 and later
+Resolved intent: Required install
+Installation status: Waiting for install status
+```
+
+This confirms the required app assignment reached the managed Windows device.
+
+### Step 9: Checked Device Install Status
+
+The app install status page was checked from:
+
+```text
+Intune admin center
+-> Apps
+-> Windows
+-> Microsoft 365 Apps for Windows 10 and later
 -> Monitor
 -> Device install status
 ```
 
-Expected result:
+Latest observed result:
 
 ```text
-WIN-CORP-001 = Installed / Success
+Status: Failed
+Status details: Unknown
 ```
 
-### Step 12: Verify Microsoft 365 Apps Locally
-
-On `WIN-CORP-001`, verify that Office apps are installed.
-
-Check:
-
-```text
-Start menu
--> Word
--> Excel
--> PowerPoint
--> Outlook
-```
-
-Open Word or Excel and confirm the app launches.
-
-If prompted, sign in using:
-
-```text
-user01
-```
-
-### Step 13: Prepare for Future Autopilot Validation
-
-After this lab is completed, this same Microsoft 365 Apps deployment can be observed during or after the future Autopilot lab.
-
-Future validation device:
-
-```text
-WIN-AUTOPILOT-001
-```
-
-Future related lab:
-
-```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
-```
+The device was kept powered on and manually synced again for further processing.
 
 ---
 
@@ -441,84 +422,100 @@ Future related lab:
 
 | Test item | Result |
 |---|---|
-| Microsoft 365 Apps license confirmed for `user01` | Pending |
-| Microsoft 365 Apps app type selected in Intune | Pending |
-| App suite information configured | Pending |
-| Office apps selected | Pending |
-| App suite settings configured | Pending |
-| App assigned as Required to `GRP-Pilot-Users` | Pending |
-| App created in Intune | Pending |
-| `WIN-CORP-001` synced | Pending |
-| Install status reviewed in Intune | Pending |
+| Microsoft 365 Apps license confirmed for `user01` | Completed |
+| Microsoft 365 Apps app type selected in Intune | Completed |
+| App suite information configured | Completed |
+| XML configuration used | Completed |
+| `O365BusinessRetail` Product ID configured | Completed |
+| App assigned as Required to `GRP-Pilot-Users` | Completed |
+| App created in Intune | Completed |
+| Assignment reached `WIN-CORP-001` | Completed |
+| Managed apps page showed Required install intent | Completed |
+| Device install status reviewed in Intune | Completed |
+| Initial install status | Failed / troubleshooting pending |
 | Microsoft 365 Apps installed on endpoint | Pending |
 | Word or Excel launched successfully | Pending |
 | User sign-in verified | Pending |
-| Screenshots uploaded | Pending |
-| Final lab result | Pending |
+| Final lab result | In progress |
 
 ---
 
-## Screenshot Placeholders
+## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/application-deployment/
 ```
 
-| Screenshot file | Status | Notes |
-|---|---|---|
-| `m365-user-license-assignment-sanitized.png` | Pending | Show `user01` has required license |
-| `m365-app-type-selection-sanitized.png` | Pending | Show Microsoft 365 Apps app type selection |
-| `m365-app-suite-information-sanitized.png` | Pending | Show name, publisher, description |
-| `m365-office-apps-selection-sanitized.png` | Pending | Show selected Office apps |
-| `m365-app-suite-settings-sanitized.png` | Pending | Show architecture/update channel/settings |
-| `m365-required-assignment-sanitized.png` | Pending | Show Required assignment to `GRP-Pilot-Users` |
-| `m365-review-create-sanitized.png` | Pending | Optional review page before app creation |
-| `m365-app-created-list-sanitized.png` | Pending | Optional app list after creation |
-| `device-sync-after-m365-assignment-sanitized.png` | Pending | Show Windows device sync after assignment |
-| `m365-device-install-status-sanitized.png` | Pending | Show Intune device install status |
-| `m365-apps-installed-start-menu-sanitized.png` | Pending | Show Office apps installed on endpoint |
-| `m365-word-launch-signin-sanitized.png` | Pending | Show Word/Office app launch with sanitized account info |
+### User license assignment
 
-> [!IMPORTANT]
-> Do not add image links until the actual screenshot files exist in the repository. This avoids broken images in GitHub.
+![Microsoft 365 Apps user license assignment](../screenshots/sanitized/application-deployment/m365-user-license-assignment-sanitized.png)
 
----
+### Microsoft 365 Apps app type selection
 
-## Future Screenshot Links
+![Microsoft 365 Apps app type selection](../screenshots/sanitized/application-deployment/m365-app-type-selection-sanitized.png)
 
-After screenshots are uploaded, add image links in this section.
+### App suite information
 
-Example format:
+![Microsoft 365 Apps app suite information](../screenshots/sanitized/application-deployment/m365-app-suite-information-sanitized.png)
 
-```markdown
+### App suite XML settings
+
+![Microsoft 365 Apps XML settings](../screenshots/sanitized/application-deployment/m365-app-suite-settings-sanitized.png)
+
+### Required assignment
+
 ![Microsoft 365 Apps required assignment](../screenshots/sanitized/application-deployment/m365-required-assignment-sanitized.png)
-```
+
+### Managed apps waiting status
+
+![Microsoft 365 Apps managed apps waiting status](../screenshots/sanitized/application-deployment/m365-managed-apps-waiting-status-sanitized.png)
 
 ---
 
-## Autopilot Validation Notes
+## Screenshot Files Uploaded
 
-This lab prepares the Microsoft 365 Apps deployment.
+| Screenshot file | Status | Purpose |
+|---|---|---|
+| `m365-user-license-assignment-sanitized.png` | Uploaded | Shows `user01` licensing |
+| `m365-app-type-selection-sanitized.png` | Uploaded | Shows Microsoft 365 Apps app type selection |
+| `m365-app-suite-information-sanitized.png` | Uploaded | Shows app suite information |
+| `m365-app-suite-settings-sanitized.png` | Uploaded | Shows XML configuration |
+| `m365-required-assignment-sanitized.png` | Uploaded | Shows Required assignment to `GRP-Pilot-Users` |
+| `m365-managed-apps-waiting-status-sanitized.png` | Uploaded | Shows assignment reached `WIN-CORP-001` |
 
-The future Autopilot lab will validate whether apps and policies apply after a device is provisioned.
+---
 
-Expected future flow:
+## Pending Screenshots
+
+The following screenshots should be added later after troubleshooting or successful installation:
+
+| Screenshot file | Status | Purpose |
+|---|---|---|
+| `m365-device-install-status-failed-sanitized.png` | Pending / optional | Shows failed install state for troubleshooting evidence |
+| `device-sync-after-m365-assignment-sanitized.png` | Optional | Shows manual sync after assignment |
+| `device-sync-after-m365-failure-sanitized.png` | Optional | Shows manual sync after failed install |
+| `m365-device-install-status-sanitized.png` | Pending | Final success screenshot showing installed status |
+| `m365-apps-installed-start-menu-sanitized.png` | Pending | Shows Office apps installed locally |
+| `m365-word-launch-signin-sanitized.png` | Pending | Shows Word/Office app launch with sanitized account info |
+
+---
+
+## Troubleshooting Status
+
+Current issue:
 
 ```text
-WIN-AUTOPILOT-001 starts OOBE
--> user01 signs in
--> device joins Microsoft Entra ID
--> device enrolls into Intune
--> required app assignments apply
--> Microsoft 365 Apps install
+Microsoft 365 Apps deployment reached WIN-CORP-001, but the app install status later showed Failed with Unknown status details.
 ```
 
-The Microsoft 365 Apps deployment can be referenced later from:
+Current action taken:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+WIN-CORP-001 was kept powered on.
+The device was manually synced again.
+Further troubleshooting is pending.
 ```
 
 ---
@@ -560,19 +557,63 @@ If the app appears installed locally but Intune has not updated yet:
 3. Restart the device if needed.
 4. Check again from the app monitor page.
 
-### Autopilot deployment does not immediately install Office
+### App install shows Failed / Unknown
 
-During Autopilot testing, app installation may depend on:
+If the app shows failed with unknown status details:
 
-- Assignment targeting
-- Device or user group membership
-- Enrollment Status Page configuration
-- Network speed
-- App size
-- Intune Management Extension timing
-- Microsoft 365 Apps installation time
+1. Confirm no Office apps are open on the endpoint.
+2. Check whether Microsoft 365 Apps or Office is already installed.
+3. Check for old MSI-based Office apps.
+4. Confirm that the XML uses the correct Product ID:
 
-This should be documented in the future Autopilot lab if observed.
+   ```text
+   O365BusinessRetail
+   ```
+
+5. Confirm the device can reach Microsoft Office CDN locations.
+6. Restart the device.
+7. Sync again.
+8. Recheck the device install status.
+9. Review Intune Management Extension logs.
+10. Review Office setup logs if needed.
+
+Common Intune Management Extension log location:
+
+```text
+C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\IntuneManagementExtension.log
+```
+
+Possible Office-related folder paths to check:
+
+```text
+C:\Program Files\Microsoft Office
+C:\Program Files\Microsoft Office 15
+```
+
+---
+
+## Autopilot Validation Notes
+
+This lab prepares the Microsoft 365 Apps deployment.
+
+The future Autopilot lab will validate whether apps and policies apply after a device is provisioned.
+
+Expected future flow:
+
+```text
+WIN-AUTOPILOT-001 starts OOBE
+-> user01 signs in
+-> device joins Microsoft Entra ID
+-> device enrolls into Intune
+-> required app assignments apply
+-> Microsoft 365 Apps install
+```
+
+The Microsoft 365 Apps deployment can be referenced later from:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+```
 
 ---
 
@@ -582,6 +623,10 @@ This is a public learning repository.
 
 Do not upload:
 
+- Billing screenshots
+- Trial subscription screenshots
+- Service usage addresses
+- Payment information
 - Real tenant IDs
 - Full real email addresses
 - Passwords
@@ -605,6 +650,7 @@ Before uploading screenshots, hide or blur:
 - Serial numbers
 - License subscription identifiers if sensitive
 - Any authentication prompts or codes
+- Browser bookmarks if visible
 
 ---
 
@@ -613,30 +659,40 @@ Before uploading screenshots, hide or blur:
 | Task | Status |
 |---|---|
 | Microsoft 365 Apps lab documentation created | Completed |
-| License assignment verified | Pending |
-| Microsoft 365 Apps deployment created in Intune | Pending |
-| Microsoft 365 Apps assigned to pilot group | Pending |
+| License assignment verified | Completed |
+| Microsoft 365 Apps deployment created in Intune | Completed |
+| Microsoft 365 Apps configured with XML | Completed |
+| Microsoft 365 Apps assigned to pilot group | Completed |
+| Required install intent reached `WIN-CORP-001` | Completed |
+| Initial install status checked | Completed |
 | Endpoint installation verified | Pending |
 | Future Autopilot validation prepared | Pending |
-| Screenshots uploaded | Pending |
-| Documentation updated with final evidence | Pending |
+| Screenshots uploaded | Partially completed |
+| Documentation updated with current evidence | Completed |
+| Troubleshooting pending | Yes |
 
 ---
 
 ## Next Step
 
-Start the hands-on Microsoft 365 Apps deployment:
+Continue troubleshooting the Microsoft 365 Apps deployment.
+
+Recommended next actions:
 
 ```text
-1. Confirm user01 has a Microsoft 365 Apps license.
-2. Create Microsoft 365 Apps deployment in Intune.
-3. Assign the app as Required to GRP-Pilot-Users.
-4. Sync WIN-CORP-001.
-5. Verify install status and Office app launch.
+1. Keep WIN-CORP-001 powered on and connected to the internet.
+2. Confirm no Office apps are open.
+3. Check whether Office/Microsoft 365 Apps is already installed.
+4. Restart WIN-CORP-001.
+5. Sync the device again.
+6. Refresh Intune device install status.
+7. If still failed, review Intune Management Extension logs and Office setup logs.
 ```
 
-After this lab is completed, continue to:
+After successful installation, update this file with:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+m365-device-install-status-sanitized.png
+m365-apps-installed-start-menu-sanitized.png
+m365-word-launch-signin-sanitized.png
 ```
