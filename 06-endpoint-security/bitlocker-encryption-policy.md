@@ -1,4 +1,4 @@
-# BitLocker Encryption Policy with Intune
+# BitLocker Encryption Policy
 
 This file documents the BitLocker disk encryption policy lab for the MD-102 Intune virtual company project.
 
@@ -6,75 +6,23 @@ This file documents the BitLocker disk encryption policy lab for the MD-102 Intu
 
 ## Status
 
-Planned
+Completed
 
 ---
 
 ## Objective
 
-Create and test a BitLocker disk encryption policy using Microsoft Intune Endpoint security.
+Create, assign, and validate a BitLocker disk encryption policy using Microsoft Intune Endpoint security.
 
-This lab will validate that:
+This lab validates that:
 
-- BitLocker can be configured from Microsoft Intune.
-- Disk encryption can be targeted safely to a dedicated pilot device group.
-- The Windows operating system drive can be encrypted.
-- The device can report BitLocker policy deployment status in Intune.
-- Local BitLocker status can be checked using Windows tools.
-- BitLocker recovery key handling can be documented safely.
-
----
-
-## Safety Warning
-
-BitLocker changes disk encryption state.
-
-Use only a lab device where you are comfortable testing encryption.
-
-Do not test this on an important personal or production device.
-
-Before enabling BitLocker, confirm:
-
-```text
-Device is a lab device
-Device is enrolled in Intune
-Device is online
-You know how to access recovery key information
-You have not uploaded recovery keys to GitHub
-```
-
----
-
-## Lab Context
-
-This lab continues after:
-
-```text
-06-endpoint-security/windows-defender-antivirus-policy.md
-06-endpoint-security/windows-firewall-policy.md
-```
-
-Defender Antivirus and Firewall protect the device from malware and network threats.
-
-BitLocker protects data at rest by encrypting the disk.
-
-Simple security chain:
-
-```text
-Defender Antivirus
--> Windows Firewall
--> BitLocker disk encryption
-```
-
----
-
-## Why This Lab Matters
-
-BitLocker is one of the most important Windows security controls for corporate laptops.
-
-If a laptop is lost or stolen, BitLocker helps protect company data by encrypting the disk.
-
-In real environments, Intune administrators often configure BitLocker policies and verify recovery key escrow.
+- BitLocker can be enabled from Microsoft Intune.
+- A disk encryption policy can be assigned to Windows Autopilot devices.
+- The Autopilot-enrolled device `WINAUTO452` can receive the BitLocker policy successfully.
+- The Windows operating system drive can be encrypted with BitLocker.
+- Intune can report successful policy assignment status.
+- Local device-side encryption status can be verified using `manage-bde -status`.
+- BitLocker protection can use TPM and a numerical recovery password protector.
 
 ---
 
@@ -82,218 +30,268 @@ In real environments, Intune administrators often configure BitLocker policies a
 
 | Item | Value |
 |---|---|
-| Test device | `WIN-CORP-001` or a dedicated lab Windows device |
+| Test device | `WINAUTO452` |
+| Device source | Windows Autopilot user-driven enrollment |
 | Operating system | Windows 11 |
 | Management platform | Microsoft Intune |
 | Identity platform | Microsoft Entra ID |
 | Join type | Microsoft Entra joined |
+| Ownership | Corporate |
 | Policy area | Endpoint security |
 | Policy type | Disk encryption |
 | Profile | BitLocker |
-| Recommended assignment group | `GRP-BitLocker-Pilot-Devices` |
+| Assignment group | `GRP-Autopilot-Devices` |
 | Assignment type | Device group |
+| Policy name | `WIN-Autopilot-BitLocker-Encryption-Policy` |
 | Screenshot folder | `screenshots/sanitized/endpoint-security/` |
 
 ---
 
-## Recommended Pilot Group
+## Why the Autopilot Device Group Was Used
 
-Create a dedicated device group for this lab:
-
-```text
-GRP-BitLocker-Pilot-Devices
-```
-
-Add only one test device first:
+This lab targeted the existing Autopilot device group:
 
 ```text
-WIN-CORP-001
+GRP-Autopilot-Devices
 ```
 
-or:
+The group contained one Autopilot-enrolled validation device:
 
 ```text
 WINAUTO452
 ```
 
+This assignment model proves a realistic enterprise flow:
+
+```text
+Windows Autopilot device
+-> Microsoft Entra joined
+-> Intune managed
+-> Endpoint security policies applied
+-> BitLocker encryption enabled
+```
+
 > [!IMPORTANT]
-> Do not target BitLocker to a broad user group during first testing. Device-group targeting is safer for encryption labs.
+> BitLocker changes the disk encryption state. In production, do not broadly assign BitLocker until recovery key storage, device readiness, TPM support, and rollback/recovery processes are understood and tested.
 
 ---
 
-## Policy Plan
+## Policy Details
 
-| Setting | Planned Value |
+| Setting | Value |
 |---|---|
-| Policy name | `WIN-CORP-BitLocker-Encryption-Policy` |
+| Policy name | `WIN-Autopilot-BitLocker-Encryption-Policy` |
 | Platform | Windows |
 | Profile | BitLocker |
-| Assignment | `GRP-BitLocker-Pilot-Devices` |
-| Target device | One lab Windows device only |
-| Expected result | Operating system drive encrypted |
+| Policy location | Endpoint security > Disk encryption |
+| Assignment | `GRP-Autopilot-Devices` |
+| Validation device | `WINAUTO452` |
+| Final Intune assignment result | Success |
 
 ---
 
-## Recommended BitLocker Settings
+## Before Policy State
 
-Use a safe beginner lab configuration.
+Before the Intune BitLocker policy was applied, local BitLocker status was checked on `WINAUTO452` using Command Prompt as Administrator.
 
-| BitLocker setting | Recommended lab configuration |
+Command used:
+
+```cmd
+hostname
+manage-bde -status
+```
+
+Initial result:
+
+| Item | Before policy result |
 |---|---|
-| Require device encryption | Enabled |
-| Allow warning for other disk encryption | Disabled, if available |
-| Allow standard user encryption | Enabled, if available |
-| Operating system drive encryption method | XTS-AES 128-bit |
-| Fixed data drive encryption method | XTS-AES 128-bit |
-| Encryption type for OS drive | Used Space Only |
-| Compatible TPM startup | Allowed |
-| Startup PIN | Not required for beginner lab |
-| Recovery password | Required / enabled |
-| Store recovery information in Entra ID / Intune | Enabled, if available |
-| Hide recovery options from users | Enabled, if available |
+| Device name | `WINAUTO452` |
+| BitLocker version | None |
+| Conversion status | Fully Decrypted |
+| Percentage encrypted | 0.0% |
+| Encryption method | None |
+| Protection status | Protection Off |
+| Lock status | Unlocked |
+| Key protectors | None Found |
 
-> [!NOTE]
-> Setting names can vary slightly depending on Intune policy experience and Windows version.
+This confirmed that BitLocker was not enabled before the Intune policy was applied.
 
 ---
 
-## Hands-On Steps
+## BitLocker Settings Configured
 
-### Step 1: Check BitLocker Before State
+### General BitLocker settings
 
-On the test device, open Command Prompt as administrator and run:
+| Setting | Configuration |
+|---|---|
+| Require Device Encryption | Enabled |
+| Allow Warning For Other Disk Encryption | Disabled |
+| Allow Standard User Encryption | Enabled |
+| Configure Recovery Password Rotation | Refresh on for Microsoft Entra ID-joined devices |
+
+### BitLocker drive encryption settings
+
+| Setting | Configuration |
+|---|---|
+| Choose drive encryption method and cipher strength | Not configured |
+| Provide unique identifiers for your organization | Not configured |
+
+### Operating system drive settings
+
+| Setting | Configuration |
+|---|---|
+| Enforce drive encryption type on operating system drives | Not configured |
+| Require additional authentication at startup | Not configured |
+| Configure minimum PIN length for startup | Not configured |
+| Allow enhanced PINs for startup | Not configured |
+| Disallow standard users from changing the PIN or password | Not configured |
+| Allow devices compliant with InstantGo or HSTI to opt out of pre-boot PIN | Not configured |
+| Enable use of BitLocker authentication requiring preboot keyboard input on slates | Not configured |
+| Choose how BitLocker-protected operating system drives can be recovered | Enabled |
+| Omit recovery options from the BitLocker setup wizard | True |
+| Allow data recovery agent | False |
+| Do not enable BitLocker until recovery information is stored | True |
+| Save BitLocker recovery information | True |
+| 256-bit recovery key | Do not allow |
+| Storage of BitLocker recovery information | Store recovery passwords only |
+| User storage of BitLocker recovery information | Require 48-digit recovery password |
+| Configure pre-boot recovery message and URL | Not configured |
+
+### Fixed and removable data drive settings
+
+| Setting | Configuration |
+|---|---|
+| Fixed data drive encryption type | Not configured |
+| Fixed data drive recovery options | Not configured |
+| Deny write access to fixed drives not protected by BitLocker | Not configured |
+| Removable data drive settings | Not configured |
+
+---
+
+## Steps Performed
+
+### Step 1: Checked BitLocker status before policy
+
+On `WINAUTO452`, Command Prompt was opened as Administrator and the following command was run:
 
 ```cmd
 manage-bde -status
 ```
 
-Document the before state:
-
-| Item | Before result |
-|---|---|
-| Conversion status | Pending |
-| Percentage encrypted | Pending |
-| Protection status | Pending |
-| Encryption method | Pending |
-| Key protectors | Pending |
-
-### Step 2: Create the Pilot Device Group
-
-Go to:
+The device showed:
 
 ```text
-Microsoft Entra admin center
--> Groups
--> New group
+Conversion Status: Fully Decrypted
+Percentage Encrypted: 0.0%
+Protection Status: Protection Off
+Key Protectors: None Found
 ```
 
-Create:
+### Step 2: Created the BitLocker policy
 
-```text
-GRP-BitLocker-Pilot-Devices
-```
-
-Add only the selected test device.
-
-### Step 3: Open Disk Encryption in Intune
-
-Go to:
+Navigation used:
 
 ```text
 Intune admin center
 -> Endpoint security
 -> Disk encryption
+-> Create Policy
 ```
 
-### Step 4: Create a BitLocker Policy
-
-Select:
+Profile selections:
 
 ```text
-Create Policy
+Platform: Windows
+Profile: BitLocker
 ```
 
-Use:
+### Step 3: Configured policy basics
 
-| Option | Value |
-|---|---|
-| Platform | Windows |
-| Profile | BitLocker |
-
-### Step 5: Configure Basics
-
-Use:
+Policy name:
 
 ```text
-Name: WIN-CORP-BitLocker-Encryption-Policy
-Description: BitLocker disk encryption policy for MD-102 Intune lab.
+WIN-Autopilot-BitLocker-Encryption-Policy
 ```
 
-### Step 6: Configure BitLocker Settings
-
-Configure the recommended BitLocker settings from the table above.
-
-### Step 7: Assign the Policy
-
-Assign to:
+Description:
 
 ```text
-GRP-BitLocker-Pilot-Devices
+BitLocker disk encryption policy for MD-102 Intune lab testing on Windows Autopilot devices.
 ```
 
-### Step 8: Create the Policy
+### Step 4: Configured BitLocker settings
 
-Review and create the policy.
-
-### Step 9: Sync the Device
-
-Sync the device from Windows or from Intune.
-
-### Step 10: Verify Policy Status in Intune
-
-Check:
+The policy was configured to silently enable BitLocker for the Autopilot device. The key settings were:
 
 ```text
-Endpoint security
--> Disk encryption
--> WIN-CORP-BitLocker-Encryption-Policy
--> Device status
+Require Device Encryption = Enabled
+Allow Warning For Other Disk Encryption = Disabled
+Allow Standard User Encryption = Enabled
+Configure Recovery Password Rotation = Refresh on for Entra ID-joined devices
 ```
 
-Expected result:
+Recovery configuration was also configured to use a required 48-digit recovery password and store recovery passwords only.
+
+### Step 5: Assigned policy to the Autopilot device group
+
+The policy was assigned to:
 
 ```text
-Succeeded
+GRP-Autopilot-Devices
 ```
 
-or:
+This group contained the validation device:
 
 ```text
-Pending / In progress
+WINAUTO452
 ```
 
-while encryption is still processing.
+### Step 6: Synced the device
 
-### Step 11: Verify Local BitLocker Status
+The device was synced from Windows and Intune policy processing was allowed to complete.
 
-On the test device, run:
+### Step 7: Verified Intune policy deployment status
+
+The BitLocker policy deployment report showed:
+
+| Status | Count |
+|---|---:|
+| Success | 1 |
+| Pending | 0 |
+| Error | 0 |
+| Conflict | 0 |
+| Not applicable | 0 |
+| Total | 1 |
+
+The successful device was:
+
+```text
+WINAUTO452
+```
+
+### Step 8: Verified BitLocker status after policy
+
+After the policy applied, the following command was run again on `WINAUTO452`:
 
 ```cmd
 manage-bde -status
 ```
 
-Expected result after completion:
+Final result:
 
-```text
-Conversion Status: Fully Encrypted
-Protection Status: Protection On
-```
+| Item | After policy result |
+|---|---|
+| Device name | `WINAUTO452` |
+| BitLocker version | 2.0 |
+| Conversion status | Fully Encrypted |
+| Percentage encrypted | 100.0% |
+| Encryption method | XTS-AES 128 |
+| Protection status | Protection On |
+| Lock status | Unlocked |
+| Identification field | Unknown |
+| Key protectors | Numerical Password, TPM |
 
-### Step 12: Verify Recovery Key Location
-
-From Intune or Entra device record, verify the recovery key is available.
-
-Do not upload recovery key screenshots unless fully sanitized.
+This confirmed that the operating system drive was fully encrypted and protected by BitLocker.
 
 ---
 
@@ -301,136 +299,205 @@ Do not upload recovery key screenshots unless fully sanitized.
 
 | Test item | Result |
 |---|---|
-| Before-state BitLocker status captured | Pending |
-| Dedicated BitLocker pilot device group created | Pending |
-| BitLocker policy created | Pending |
-| BitLocker settings configured | Pending |
-| Policy assigned to device group | Pending |
-| Device sync completed | Pending |
-| Intune policy status checked | Pending |
-| Local `manage-bde -status` verified | Pending |
-| Recovery key location verified safely | Pending |
-| Screenshots captured | Pending |
-| Final lab result | Pending |
+| Before-state `manage-bde -status` captured | Completed |
+| BitLocker policy profile selected | Completed |
+| BitLocker policy basics configured | Completed |
+| BitLocker settings configured | Completed |
+| Policy assigned to `GRP-Autopilot-Devices` | Completed |
+| Intune policy status checked | Success |
+| Validation device | `WINAUTO452` |
+| Final encryption status | Fully Encrypted |
+| Percentage encrypted | 100.0% |
+| Encryption method | XTS-AES 128 |
+| Protection status | Protection On |
+| Key protectors present | Numerical Password, TPM |
+| Final lab result | Completed |
 
 ---
 
 ## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/endpoint-security/
 ```
 
-Recommended screenshots:
+### 1. BitLocker status before policy
 
-```text
-bitlocker-before-manage-bde-status-sanitized.png
-bitlocker-pilot-device-group-sanitized.png
-bitlocker-policy-basics-sanitized.png
-bitlocker-policy-settings-sanitized.png
-bitlocker-policy-assignment-sanitized.png
-bitlocker-device-status-sanitized.png
-bitlocker-after-manage-bde-status-sanitized.png
-bitlocker-recovery-key-location-sanitized.png
-```
+![BitLocker before manage-bde status](../screenshots/sanitized/endpoint-security/bitlocker-before-manage-bde-status-sanitized.png)
 
-### BitLocker before-state status
+### 2. BitLocker profile creation
 
-![BitLocker before-state status](../screenshots/sanitized/endpoint-security/bitlocker-before-manage-bde-status-sanitized.png)
+![BitLocker profile creation](../screenshots/sanitized/endpoint-security/bitlocker-profile-create-sanitized.png)
 
-### BitLocker pilot device group
+### 3. BitLocker policy basics
 
-![BitLocker pilot device group](../screenshots/sanitized/endpoint-security/bitlocker-pilot-device-group-sanitized.png)
+![BitLocker policy basics](../screenshots/sanitized/endpoint-security/bitlocker-policy-basics-sanitized.png)
 
-### BitLocker policy settings
+### 4. BitLocker policy settings
 
 ![BitLocker policy settings](../screenshots/sanitized/endpoint-security/bitlocker-policy-settings-sanitized.png)
 
-### BitLocker policy assignment
+### 5. BitLocker policy assignment to Autopilot devices
 
-![BitLocker policy assignment](../screenshots/sanitized/endpoint-security/bitlocker-policy-assignment-sanitized.png)
+![BitLocker policy assignment to Autopilot devices](../screenshots/sanitized/endpoint-security/bitlocker-policy-assignment-autopilot-devices-sanitized.png)
 
-### BitLocker device status
+### 6. BitLocker policy device status success
 
-![BitLocker device status](../screenshots/sanitized/endpoint-security/bitlocker-device-status-sanitized.png)
+![BitLocker device status success](../screenshots/sanitized/endpoint-security/bitlocker-device-status-winauto452-succeeded-sanitized.png)
 
-### BitLocker after-state status
+### 7. BitLocker status after policy
 
-![BitLocker after-state status](../screenshots/sanitized/endpoint-security/bitlocker-after-manage-bde-status-sanitized.png)
+![BitLocker after manage-bde status](../screenshots/sanitized/endpoint-security/bitlocker-after-manage-bde-status-sanitized.png)
 
 ---
 
-## Troubleshooting Notes
+## Screenshot Files
 
-If BitLocker does not start:
-
-1. Confirm the device supports TPM.
-2. Confirm the device is Microsoft Entra joined or properly enrolled.
-3. Confirm the policy is assigned to the correct device group.
-4. Sync the device.
-5. Restart the device if required.
-6. Check Intune policy status.
-7. Run `manage-bde -status` locally.
-
-If BitLocker requires user action:
-
-1. Check whether silent encryption prerequisites are met.
-2. Confirm TPM is available and ready.
-3. Confirm no third-party disk encryption is present.
-4. Confirm recovery key backup/escrow settings.
-
-If recovery key does not appear:
-
-1. Wait for Intune/Entra reporting to update.
-2. Sync the device.
-3. Restart the device.
-4. Check the device record again.
-5. Do not proceed with risky testing until recovery key location is understood.
+```text
+bitlocker-before-manage-bde-status-sanitized.png
+bitlocker-profile-create-sanitized.png
+bitlocker-policy-basics-sanitized.png
+bitlocker-policy-settings-sanitized.png
+bitlocker-policy-assignment-autopilot-devices-sanitized.png
+bitlocker-device-status-winauto452-succeeded-sanitized.png
+bitlocker-after-manage-bde-status-sanitized.png
+```
 
 ---
 
 ## Security and Privacy Notes
 
-Do not upload:
+This is a public learning repository.
+
+Do not upload sensitive information, including:
 
 - BitLocker recovery keys
-- Full device IDs
-- Object IDs
-- Serial numbers
 - Tenant IDs
-- Full UPNs
+- Device IDs
+- Object IDs
+- Full real email addresses
+- Serial numbers
+- Internal IP addresses
 - Unsanitized screenshots
 
 Before uploading screenshots, hide or blur:
 
-- Recovery key values
-- Device IDs
+- Top-right admin account details
+- Tenant/domain details
 - Object IDs
-- Serial numbers
-- Full email addresses
-- Tenant/domain names
-- Top-right signed-in account
+- Device IDs
+- Intune device IDs
+- Microsoft Entra device IDs
+- Full user email addresses
+- Any visible BitLocker recovery key values
+
+> [!IMPORTANT]
+> Do not publish the actual 48-digit BitLocker recovery key in GitHub.
+
+---
+
+## Troubleshooting Notes
+
+### Policy shows pending
+
+If the BitLocker policy stays pending:
+
+1. Sync the device from Windows settings.
+2. Sync the device from Intune.
+3. Wait for device policy processing.
+4. Generate the assignment status report again.
+5. Confirm the device is in the assigned group.
+6. Confirm the device is online and checking in.
+
+### Policy shows success but encryption is still in progress
+
+If Intune shows success but local encryption is still in progress:
+
+1. Wait for encryption to complete.
+2. Keep the device powered on and connected.
+3. Run `manage-bde -status` again later.
+4. Confirm the percentage encrypted reaches 100.0%.
+5. Confirm protection status becomes `Protection On`.
+
+### BitLocker does not start
+
+Check:
+
+- Device has TPM available and ready.
+- Device uses UEFI and Secure Boot.
+- Device is Microsoft Entra joined or hybrid joined.
+- Device is Intune managed.
+- Device is included in the assigned group.
+- No conflicting BitLocker policies exist.
+- Recovery information can be stored before encryption starts.
+
+---
+
+## What This Lab Proves
+
+This lab proves that Microsoft Intune can enable and manage BitLocker disk encryption on a Windows Autopilot-enrolled corporate device.
+
+Simple flow:
+
+```text
+BitLocker initially off
+-> BitLocker policy created in Intune
+-> Policy assigned to GRP-Autopilot-Devices
+-> WINAUTO452 receives policy successfully
+-> OS drive becomes BitLocker encrypted
+-> manage-bde confirms Fully Encrypted and Protection On
+-> TPM and Numerical Password key protectors are present
+```
 
 ---
 
 ## Current Lab Status
 
-Planned.
+Completed:
+
+- Before-policy BitLocker status captured
+- BitLocker disk encryption policy created
+- Silent BitLocker settings configured
+- Recovery password settings configured
+- Policy assigned to `GRP-Autopilot-Devices`
+- Intune assignment status showed Success for `WINAUTO452`
+- Device-side BitLocker status confirmed 100% encrypted
+- Protection status confirmed as On
+- TPM and Numerical Password key protectors confirmed
+- Screenshots uploaded to `screenshots/sanitized/endpoint-security/`
+
+---
+
+## References
+
+- Microsoft Learn: Encrypt Windows devices with BitLocker using Intune  
+  https://learn.microsoft.com/en-us/intune/device-configuration/endpoint-security/encrypt-bitlocker-windows
+
+- Microsoft Learn: Manage Disk Encryption policy for Windows devices with Intune  
+  https://learn.microsoft.com/en-us/mem/intune-service/protect/encrypt-devices
+
+- Microsoft Learn: Disk encryption policy for endpoint security in Intune  
+  https://learn.microsoft.com/en-us/intune/device-configuration/endpoint-security/disk-encryption
+
+- Microsoft Learn: manage-bde status command  
+  https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/manage-bde-status
 
 ---
 
 ## Next Step
 
-After completing this lab, continue to:
+Continue to the next endpoint security lab:
 
 ```text
 06-endpoint-security/attack-surface-reduction-policy.md
 ```
 
-or:
+Suggested next endpoint security sequence:
 
 ```text
-06-endpoint-security/windows-security-baseline.md
+Attack Surface Reduction policy
+Windows Security Baseline
+Remote actions and monitoring
 ```
