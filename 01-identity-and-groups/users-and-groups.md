@@ -13,7 +13,8 @@ This lab validates that:
 - Lab users can be created in Microsoft Entra ID.
 - Security groups can be created for targeted Intune assignments.
 - Pilot users can be separated from general lab users.
-- Users and groups can be used later for device enrollment, app deployment, compliance, and Conditional Access.
+- Users and groups can be used for device enrollment, app deployment, compliance, Conditional Access, and Windows Autopilot targeting.
+- Dedicated groups can support both user-based and device-based Intune assignments.
 
 ---
 
@@ -28,11 +29,11 @@ Simple example:
 ```text
 Create group
 -> Add users or devices
--> Assign Intune policy to group
--> Policy applies to group members
+-> Assign Intune policy or app to group
+-> Policy or app applies to group members
 ```
 
-This lab creates the identity foundation for the rest of the MD-102 project.
+This lab creates the identity and group foundation for the rest of the MD-102 project.
 
 ---
 
@@ -68,12 +69,12 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | Group Name | Group Type | Purpose | Status |
 |---|---|---|---|
 | GRP-All-Lab-Users | Security group | General lab targeting | Created |
-| GRP-Pilot-Users | Security group | Pilot testing | Created |
+| GRP-Pilot-Users | Security group | Pilot user testing and app deployment targeting | Created |
 | GRP-Windows-Users | Security group | Windows targeting | Created |
 | GRP-BYOD-Users | Security group | BYOD targeting | Created |
 | GRP-Mobile-Users | Security group | Mobile targeting | Created |
 | GRP-IT-Admins | Security group | Admin targeting | Created |
-| GRP-Autopilot-Devices | Security group | Autopilot targeting | Created |
+| GRP-Autopilot-Devices | Security group / dynamic device group | Windows Autopilot device targeting | Created |
 
 ---
 
@@ -87,7 +88,10 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | GRP-BYOD-Users | user01, user03 |
 | GRP-Mobile-Users | user01, user04 |
 | GRP-IT-Admins | admin01 |
-| GRP-Autopilot-Devices | Future Autopilot devices |
+| GRP-Autopilot-Devices | WINAUTO452 / Autopilot device targeting |
+
+> [!NOTE]
+> `GRP-Autopilot-Devices` was used to target the Windows Autopilot deployment profile to the imported Autopilot device. After enrollment, the device appeared in Intune as `WINAUTO452`.
 
 ---
 
@@ -96,7 +100,7 @@ This lab creates the identity foundation for the rest of the MD-102 project.
 | User | Intune License | Microsoft 365 Apps | Purpose |
 |---|---|---|---|
 | admin01 | Available as needed | Optional | Lab administration |
-| user01 | Assigned | Available as needed | Main testing user |
+| user01 | Assigned | Assigned / available through Microsoft 365 Business Premium | Main testing user |
 | user02 | Available as needed | Optional | Windows testing |
 | user03 | Available as needed | Optional | BYOD testing |
 | user04 | Available as needed | Optional | Mobile testing |
@@ -113,13 +117,23 @@ The lab uses a pilot-first assignment approach.
 
 Instead of assigning new policies to all users or all devices immediately, new policies should first target a small pilot group.
 
-Recommended pilot group:
+Recommended pilot user group:
 
 ```text
 GRP-Pilot-Users
 ```
 
-This group will be used for early testing of:
+Recommended Autopilot device group:
+
+```text
+GRP-Autopilot-Devices
+```
+
+This approach helps reduce risk because new policies, apps, and enrollment configurations are tested with a small scope before being expanded.
+
+### Planned and Completed Usage Areas
+
+`GRP-Pilot-Users` is used for user-based testing such as:
 
 - Windows enrollment
 - Configuration profiles
@@ -128,10 +142,17 @@ This group will be used for early testing of:
 - Microsoft Store app deployment
 - Win32 app deployment
 - Microsoft 365 Apps deployment
+- Endpoint security policy testing
 
-This approach helps reduce risk because new policies are tested with a small group before being expanded to other users or devices.
+`GRP-Autopilot-Devices` is used for device-based Autopilot targeting such as:
 
-### Completed Usage of GRP-Pilot-Users
+- Autopilot deployment profile assignment
+- Autopilot OOBE provisioning
+- Corporate Windows device enrollment validation
+
+---
+
+## Completed Usage of GRP-Pilot-Users
 
 `GRP-Pilot-Users` has already been used to target Microsoft Store app deployment for both required and available apps.
 
@@ -156,7 +177,33 @@ Win32 app assigned to `GRP-Pilot-Users`:
 7-Zip
 ```
 
-This validates that the pilot group can be used for real Intune application deployment testing across both Microsoft Store apps and Win32 apps.
+Microsoft 365 Apps assigned to `GRP-Pilot-Users`:
+
+```text
+Microsoft 365 Apps for Windows 10 and later
+```
+
+This validates that the pilot group can be used for real Intune application deployment testing across Microsoft Store apps, Win32 apps, and Microsoft 365 Apps.
+
+---
+
+## Completed Usage of GRP-Autopilot-Devices
+
+`GRP-Autopilot-Devices` was used to target the Windows Autopilot deployment profile.
+
+Completed Autopilot usage:
+
+```text
+Imported Autopilot device
+-> Dynamic device group rule evaluated the device
+-> Device became a member of GRP-Autopilot-Devices
+-> Autopilot deployment profile was assigned
+-> Profile status changed to Assigned
+-> Device completed user-driven Autopilot enrollment
+-> Device appeared in Intune as WINAUTO452
+```
+
+This validates that the Autopilot device group can be used for Windows Autopilot deployment profile assignment and corporate device provisioning.
 
 ---
 
@@ -256,7 +303,7 @@ A license was assigned to:
 user01
 ```
 
-This prepares `user01` for Intune enrollment, app deployment, compliance, and Conditional Access testing.
+This prepared `user01` for Intune enrollment, app deployment, compliance, Conditional Access testing, and Microsoft 365 Apps validation.
 
 ### Step 7: Verified Users, Groups, Memberships, and License
 
@@ -267,7 +314,7 @@ Verification confirmed that:
 - user01 is a member of GRP-Pilot-Users.
 - admin01 is a member of GRP-IT-Admins.
 - user01 has the required license.
-- Groups are ready for future Intune assignments.
+- Groups are ready for Intune assignments.
 
 ### Step 8: Used GRP-Pilot-Users for Microsoft Store App Deployment
 
@@ -294,6 +341,34 @@ Required Win32 app = 7-Zip
 
 This confirmed that the pilot group can also be used for required Win32 app deployment in Microsoft Intune.
 
+### Step 10: Used GRP-Pilot-Users for Microsoft 365 Apps Deployment
+
+`GRP-Pilot-Users` was used as the assignment target for Microsoft 365 Apps deployment.
+
+The deployment included:
+
+```text
+Required app = Microsoft 365 Apps for Windows 10 and later
+```
+
+This confirmed that the pilot group can be used for productivity app deployment through Microsoft Intune.
+
+### Step 11: Used GRP-Autopilot-Devices for Windows Autopilot Targeting
+
+`GRP-Autopilot-Devices` was used as the target group for the Windows Autopilot deployment profile.
+
+The Autopilot flow included:
+
+```text
+Hardware hash imported
+-> Device matched Autopilot group rule
+-> Deployment profile assigned
+-> User-driven Autopilot enrollment completed
+-> Device appeared as WINAUTO452
+```
+
+This confirmed that a dedicated Autopilot device group can be used to safely target imported Autopilot devices.
+
 ---
 
 ## Expected Result
@@ -305,9 +380,11 @@ After this lab:
 - user01 is a member of GRP-Pilot-Users.
 - admin01 is a member of GRP-IT-Admins.
 - user01 has an Intune-capable license.
-- Groups are ready for future Intune assignments.
+- Groups are ready for Intune assignments.
 - GRP-Pilot-Users can be used to target Microsoft Store app assignments.
 - GRP-Pilot-Users can be used to target required Win32 app assignments.
+- GRP-Pilot-Users can be used to target Microsoft 365 Apps deployment.
+- GRP-Autopilot-Devices can be used to target Windows Autopilot deployment profiles.
 
 ---
 
@@ -322,6 +399,9 @@ After this lab:
 | user01 license assigned | Completed |
 | GRP-Pilot-Users used for Microsoft Store app deployment | Completed |
 | GRP-Pilot-Users used for Win32 7-Zip app deployment | Completed |
+| GRP-Pilot-Users used for Microsoft 365 Apps deployment | Completed |
+| GRP-Autopilot-Devices used for Autopilot profile targeting | Completed |
+| Autopilot device enrolled as WINAUTO452 | Completed |
 | Users and groups verified | Completed |
 
 ---
@@ -354,6 +434,18 @@ screenshots/sanitized/identity-and-groups/
 
 ![User 01 license assignment](../screenshots/sanitized/identity-and-groups/user01-license-assignment-sanitized.png)
 
+### Autopilot dynamic device group rule
+
+![Autopilot dynamic device group rule](../screenshots/sanitized/identity-and-groups/autopilot-device-group-dynamic-rule-sanitized.png)
+
+### Autopilot dynamic group rule validation
+
+![Autopilot dynamic group rule validation](../screenshots/sanitized/identity-and-groups/autopilot-device-group-rule-validation-sanitized.png)
+
+### Autopilot device group member
+
+![Autopilot device group member](../screenshots/sanitized/identity-and-groups/autopilot-device-group-member-sanitized.png)
+
 > [!NOTE]
 > Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
 
@@ -367,6 +459,9 @@ lab-users-created-sanitized.png
 lab-groups-created-sanitized.png
 grp-pilot-users-membership-sanitized.png
 user01-license-assignment-sanitized.png
+autopilot-device-group-dynamic-rule-sanitized.png
+autopilot-device-group-rule-validation-sanitized.png
+autopilot-device-group-member-sanitized.png
 ```
 
 ---
@@ -378,8 +473,11 @@ The following labs use the users and groups created in this file:
 | Lab file | Relationship |
 |---|---|
 | `02-device-enrollment/windows-oobe-enrollment.md` | Uses `user01` for Windows enrollment |
+| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Uses `GRP-Autopilot-Devices` for Autopilot profile assignment and `user01` for OOBE sign-in |
 | `05-application-deployment/microsoft-store-app-deployment.md` | Uses `GRP-Pilot-Users` for required and available app assignments |
 | `05-application-deployment/win32-app-deployment-7zip.md` | Uses `GRP-Pilot-Users` for required Win32 app deployment |
+| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Uses `GRP-Pilot-Users` for Microsoft 365 Apps required deployment |
+| `06-endpoint-security/windows-defender-antivirus-policy.md` | Planned next lab using pilot targeting |
 
 ---
 
@@ -407,8 +505,16 @@ If group membership does not appear immediately:
 
 1. Refresh the group members page.
 2. Wait a few minutes for Microsoft Entra ID to update.
-3. Search for the user again inside the group membership page.
+3. Search for the user or device again inside the group membership page.
 4. Confirm the correct group was selected.
+
+If an Autopilot device does not appear in the Autopilot group:
+
+1. Confirm the device was imported into Windows Autopilot devices.
+2. Confirm the dynamic device rule is correct.
+3. Wait for dynamic group processing.
+4. Validate the dynamic membership rule.
+5. Confirm the deployment profile is assigned to the correct group.
 
 ---
 
@@ -423,6 +529,9 @@ Do not upload:
 - Tenant IDs
 - User object IDs
 - Group object IDs
+- Device object IDs
+- Device serial numbers
+- Autopilot hardware hashes
 - Passwords
 - MFA QR codes
 - Unsanitized screenshots
@@ -433,6 +542,9 @@ Before uploading screenshots, hide or blur:
 - Tenant or domain name
 - Full user principal names
 - Object IDs
+- Device IDs
+- Serial numbers
+- Hardware hashes
 - Any authentication prompts or sensitive account information
 
 ---
@@ -448,22 +560,28 @@ Before uploading screenshots, hide or blur:
 | Intune licenses assigned | Completed |
 | GRP-Pilot-Users used for Microsoft Store app deployment | Completed |
 | GRP-Pilot-Users used for Win32 7-Zip app deployment | Completed |
+| GRP-Pilot-Users used for Microsoft 365 Apps deployment | Completed |
+| GRP-Autopilot-Devices used for Windows Autopilot targeting | Completed |
+| Autopilot device group screenshots added | Completed |
 | Screenshots added | Completed |
 
 ---
 
 ## Next Step
 
-Continue to the Microsoft 365 Apps deployment lab or Company Portal self-service app testing.
+Continue to endpoint security policy labs.
 
 Recommended next lab:
 
 ```text
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+06-endpoint-security/windows-defender-antivirus-policy.md
 ```
 
-Alternative next lab:
+Follow-on endpoint security labs:
 
 ```text
-05-application-deployment/company-portal-self-service-apps.md
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
 ```
