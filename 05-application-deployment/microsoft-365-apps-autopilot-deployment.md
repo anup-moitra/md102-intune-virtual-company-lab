@@ -617,14 +617,14 @@ If the app shows failed with unknown status details:
 Common Intune Management Extension log location:
 
 ```text
-C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\IntuneManagementExtension.log
+C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\IntuneManagementExtension.log
 ```
 
 Possible Office-related folder paths to check:
 
 ```text
-C:\Program Files\Microsoft Office
-C:\Program Files\Microsoft Office 15
+C:\\Program Files\\Microsoft Office
+C:\\Program Files\\Microsoft Office 15
 ```
 
 ---
