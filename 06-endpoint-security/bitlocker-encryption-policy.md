@@ -4,12 +4,6 @@ This file documents the BitLocker disk encryption policy lab for the MD-102 Intu
 
 ---
 
-## Status
-
-Completed
-
----
-
 ## Objective
 
 Create, assign, and validate a BitLocker disk encryption policy using Microsoft Intune Endpoint security.
