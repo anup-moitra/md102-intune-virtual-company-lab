@@ -11,6 +11,9 @@ The objective of this lab is to manually register a Windows device with Windows 
 This lab validates that:
 
 - A Windows device can be manually registered with Windows Autopilot using a hardware hash CSV.
+- Automatic MDM enrollment settings can support Intune enrollment.
+- Microsoft Entra device join settings can support user-driven provisioning.
+- A dynamic Autopilot device group can target imported Autopilot devices.
 - A Windows Autopilot deployment profile can be created and assigned.
 - A targeted Autopilot device can receive the assigned profile.
 - User 01 can sign in during Windows OOBE.
@@ -37,10 +40,47 @@ This Autopilot lab builds on earlier completed work:
 | Intune licenses assigned | Completed |
 | Automatic MDM enrollment configured | Completed |
 | Microsoft Entra join settings reviewed | Completed |
+| Autopilot device group prepared | Completed |
 | Microsoft Store apps deployed | Completed |
 | Win32 7-Zip app deployment completed | Completed |
 | Microsoft 365 Apps deployment created | Completed |
 | Autopilot test device available | Completed |
+
+---
+
+## Tenant Preparation
+
+Before the Autopilot device was provisioned, the tenant enrollment settings were reviewed.
+
+The two key preparation areas were:
+
+```text
+Automatic MDM enrollment
+Microsoft Entra device join settings
+```
+
+These settings matter because Autopilot depends on Microsoft Entra ID and Intune working together during OOBE.
+
+Simple flow:
+
+```text
+User signs in during OOBE
+-> Device joins Microsoft Entra ID
+-> Automatic MDM enrollment sends the device to Intune
+-> Intune applies apps, profiles, and policies
+```
+
+### Automatic MDM Enrollment
+
+Automatic MDM enrollment controls whether eligible Microsoft Entra users can automatically enroll Windows devices into Microsoft Intune.
+
+This was reviewed before the Autopilot enrollment test.
+
+### Microsoft Entra Device Join Settings
+
+Microsoft Entra device join settings control which users can join devices to Microsoft Entra ID.
+
+This was reviewed to confirm that the Autopilot user-driven flow could complete with the test user.
 
 ---
 
@@ -79,6 +119,7 @@ Device starts at Windows OOBE
 | User sign-in account | User 01 lab account |
 | Autopilot device group | `GRP-Autopilot-Devices` |
 | Deployment profile | `APUserDrivenEntraJoinPilot` |
+| Device name template | `WINAUTO%RAND:3%` |
 | Final enrolled device name | `WINAUTO452` |
 | Management platform | Microsoft Intune |
 | Final device status | Managed, corporate, compliant |
@@ -93,10 +134,22 @@ The Autopilot device was targeted through a dedicated Autopilot device group.
 |---|---|
 | Group name | `GRP-Autopilot-Devices` |
 | Group type | Security |
+| Membership type | Dynamic device |
 | Purpose | Target Windows Autopilot deployment profile to registered Autopilot devices |
 | Used for | Autopilot profile assignment |
 
 This group was used to assign the Autopilot deployment profile safely to the imported Autopilot device.
+
+The dynamic group rule was validated before the profile assignment completed.
+
+Observed result:
+
+```text
+Imported Autopilot device
+-> Dynamic group rule processed
+-> Device became a member of GRP-Autopilot-Devices
+-> Autopilot profile assignment applied
+```
 
 ---
 
@@ -321,6 +374,9 @@ The detailed Microsoft 365 Apps deployment validation is documented separately i
 |---|---|
 | Automatic MDM enrollment reviewed | Successful |
 | Microsoft Entra join settings reviewed | Successful |
+| Autopilot device group dynamic rule configured | Successful |
+| Autopilot device group rule validation completed | Successful |
+| Autopilot device group membership confirmed | Successful |
 | Autopilot deployment profile created | Successful |
 | Autopilot OOBE settings configured | Successful |
 | Autopilot device group targeted | Successful |
@@ -346,10 +402,31 @@ Screenshots are stored in:
 
 ```text
 screenshots/sanitized/device-enrollment/
+screenshots/sanitized/identity-and-groups/
 ```
 
 > [!NOTE]
 > Screenshots should be sanitized before upload. Hide tenant names, full email addresses, serial numbers, device IDs, object IDs, hardware hashes, and other sensitive identifiers.
+
+### Automatic MDM enrollment setting
+
+![Automatic MDM enrollment](../screenshots/sanitized/device-enrollment/autopilot-automatic-mdm-enrollment-sanitized.png)
+
+### Microsoft Entra device join settings
+
+![Microsoft Entra device join settings](../screenshots/sanitized/device-enrollment/autopilot-entra-device-join-settings-sanitized.png)
+
+### Autopilot dynamic device group rule
+
+![Autopilot dynamic device group rule](../screenshots/sanitized/identity-and-groups/autopilot-device-group-dynamic-rule-sanitized.png)
+
+### Autopilot dynamic group rule validation
+
+![Autopilot dynamic group rule validation](../screenshots/sanitized/identity-and-groups/autopilot-device-group-rule-validation-sanitized.png)
+
+### Autopilot device group member
+
+![Autopilot device group member](../screenshots/sanitized/identity-and-groups/autopilot-device-group-member-sanitized.png)
 
 ### Autopilot CSV import
 
@@ -390,6 +467,11 @@ screenshots/sanitized/device-enrollment/
 Final screenshot paths used in this lab:
 
 ```text
+screenshots/sanitized/device-enrollment/autopilot-automatic-mdm-enrollment-sanitized.png
+screenshots/sanitized/device-enrollment/autopilot-entra-device-join-settings-sanitized.png
+screenshots/sanitized/identity-and-groups/autopilot-device-group-dynamic-rule-sanitized.png
+screenshots/sanitized/identity-and-groups/autopilot-device-group-rule-validation-sanitized.png
+screenshots/sanitized/identity-and-groups/autopilot-device-group-member-sanitized.png
 screenshots/sanitized/device-enrollment/autopilot-device-csv-import-sanitized.png
 screenshots/sanitized/device-enrollment/autopilot-device-imported-sanitized.png
 screenshots/sanitized/device-enrollment/autopilot-profile-basics-sanitized.png
@@ -412,6 +494,16 @@ If the imported Autopilot device shows `Not assigned`, check that:
 2. The Autopilot deployment profile is assigned to that group.
 3. Autopilot devices have been synced.
 4. Enough time has passed for assignment processing.
+
+### Dynamic group membership does not update
+
+If the imported Autopilot device does not appear in `GRP-Autopilot-Devices`, check that:
+
+1. The group membership type is dynamic device.
+2. The dynamic rule syntax is correct.
+3. The device exists in Windows Autopilot devices.
+4. The dynamic rule validation shows the expected result.
+5. Enough time has passed for Microsoft Entra ID group processing.
 
 ### Autopilot profile status takes time to update
 
@@ -442,8 +534,9 @@ Check that:
 1. User 01 has an Intune license.
 2. Automatic MDM enrollment includes User 01.
 3. Enrollment restrictions allow Windows enrollment.
-4. The device has internet access.
-5. The device completed OOBE successfully.
+4. Microsoft Entra device join settings allow the user to join devices.
+5. The device has internet access.
+6. The device completed OOBE successfully.
 
 ### Apps show Waiting for install status
 
@@ -498,6 +591,9 @@ Completed:
 - Automatic MDM enrollment reviewed.
 - Microsoft Entra join settings reviewed.
 - Autopilot device group prepared.
+- Dynamic Autopilot device group rule configured.
+- Dynamic group rule validation captured.
+- Autopilot device group membership confirmed.
 - Autopilot deployment profile created.
 - Autopilot OOBE settings configured.
 - Hardware hash collected from OOBE device.
@@ -542,13 +638,19 @@ Autopilot enrollment
 
 ## Next Step
 
-Update the project roadmap, README, and device inventory to reflect that Windows Autopilot user-driven enrollment has been completed.
+Continue to endpoint security policy labs.
 
-Recommended files to update next:
+Recommended next lab:
 
 ```text
-README.md
-00-project-overview/lab-implementation-roadmap.md
-00-project-overview/device-inventory.md
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+06-endpoint-security/windows-defender-antivirus-policy.md
+```
+
+Follow-on endpoint security labs:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
 ```
