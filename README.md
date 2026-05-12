@@ -133,13 +133,19 @@ md102-intune-virtual-company-lab/
 | Lab roadmap documented | Completed |
 | Identity and groups lab completed | Completed |
 | Windows OOBE enrollment lab completed | Completed |
+| Windows Autopilot lab completed | Completed |
+| Windows BYOD enrollment lab completed | Completed |
 | Microsoft Store app deployment lab completed | Completed |
 | Win32 app deployment lab completed | Completed |
 | Microsoft 365 Apps deployment lab completed | Completed |
-| Windows Autopilot lab completed | Completed |
-| Endpoint security policy labs | Next |
+| Defender Antivirus endpoint security lab completed | Completed |
+| Windows Firewall endpoint security lab completed | Completed |
+| BitLocker encryption endpoint security lab completed | Completed |
+| Android BYOD enrollment lab | Next / Planned |
+| Attack Surface Reduction policy lab | Next / Planned |
+| Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
-| BYOD enrollment labs | Planned |
+| Configuration profile labs | Planned |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting documentation | Planned |
 
@@ -250,6 +256,43 @@ The Autopilot device completed user-driven enrollment, joined Microsoft Entra ID
 
 ---
 
+### 02 - Windows BYOD Enrollment
+
+Documented in:
+
+```text
+02-device-enrollment/windows-byod-enrollment.md
+```
+
+Completed work:
+
+- Verified user03 license assignment
+- Verified user03 membership in GRP-BYOD-Users
+- Configured automatic MDM enrollment scope for GRP-BYOD-Users
+- Confirmed Windows personally owned device enrollment was allowed
+- Prepared and renamed the test device as WIN-BYOD-001
+- Added the work account from Windows Settings
+- Completed Windows MDM enrollment from Settings
+- Performed manual device sync
+- Verified the device in the Intune Windows devices list
+- Verified the Intune device overview
+- Added sanitized screenshots
+
+Final enrolled BYOD device:
+
+```text
+WIN-BYOD-001
+```
+
+Observed result:
+
+```text
+WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
+The device appeared as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
+```
+
+---
+
 ### 05 - Microsoft Store App Deployment
 
 Documented in:
@@ -349,6 +392,89 @@ Microsoft 365 Apps installed successfully through Intune and were validated as p
 
 ---
 
+### 06 - Microsoft Defender Antivirus Policy
+
+Documented in:
+
+```text
+06-endpoint-security/windows-defender-antivirus-policy.md
+```
+
+Completed work:
+
+- Created a Microsoft Defender Antivirus endpoint security policy
+- Selected Windows as the platform
+- Selected Microsoft Defender Antivirus as the profile
+- Configured core Defender Antivirus settings
+- Enabled PUA protection
+- Configured threat remediation actions
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Defender Antivirus policy applied successfully to the Autopilot-enrolled corporate Windows device WINAUTO452.
+```
+
+---
+
+### 06 - Windows Firewall Policy
+
+Documented in:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
+```
+
+Completed work:
+
+- Created a Windows Firewall endpoint security policy
+- Selected Windows as the platform
+- Selected Windows Firewall as the profile
+- Enabled Firewall for Domain, Private, and Public profiles
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Windows Firewall policy applied successfully to WINAUTO452 through Microsoft Intune Endpoint security.
+```
+
+---
+
+### 06 - BitLocker Encryption Policy
+
+Documented in:
+
+```text
+06-endpoint-security/bitlocker-encryption-policy.md
+```
+
+Completed work:
+
+- Checked local BitLocker status before policy deployment
+- Created a BitLocker disk encryption policy in Intune
+- Configured silent BitLocker encryption settings
+- Configured recovery password storage settings
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Verified local encryption status using manage-bde
+- Confirmed the OS drive was fully encrypted and protection was on
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+BitLocker was enabled successfully on WINAUTO452.
+The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protection On.
+```
+
+---
+
 ## Completed Modern Endpoint Deployment Flow
 
 The completed labs now demonstrate this full modern endpoint management chain:
@@ -363,7 +489,10 @@ Microsoft Entra users and groups
 -> Autopilot OOBE enrollment
 -> Corporate Intune-managed device
 -> Required apps installed after enrollment
--> Company Portal validation
+-> Endpoint security policies applied
+-> Defender Antivirus, Firewall, and BitLocker validated
+-> Windows BYOD enrollment validated
+-> Company Portal and Windows Settings validation
 ```
 
 This creates a strong real-world portfolio scenario for MD-102 preparation.
@@ -378,12 +507,14 @@ This project demonstrates practical skills in:
 - Microsoft Entra ID user and group management
 - Windows device enrollment
 - Intune enrollment troubleshooting
-- Automatic MDM enrollment review
+- Automatic MDM enrollment review and configuration
 - Windows Autopilot preparation
 - Windows Autopilot hardware hash import
 - Windows Autopilot deployment profile configuration
 - Windows Autopilot user-driven enrollment
 - Corporate device provisioning
+- Windows BYOD enrollment
+- Personal device ownership validation in Intune
 - Device compliance visibility
 - Conditional Access planning
 - Microsoft Store app deployment
@@ -396,12 +527,13 @@ This project demonstrates practical skills in:
 - Microsoft 365 Apps deployment
 - Post-Autopilot app deployment validation
 - Company Portal app validation
-- Microsoft Defender Antivirus policy planning
-- Windows Firewall policy planning
-- BitLocker encryption policy planning
+- Microsoft Defender Antivirus policy deployment
+- Windows Firewall policy deployment
+- BitLocker encryption policy deployment
+- Endpoint security policy reporting
 - Attack Surface Reduction policy planning
 - Windows Security Baseline planning
-- BYOD management planning
+- Android and iOS BYOD management planning
 - Device monitoring and reports planning
 - Intune troubleshooting documentation
 
@@ -469,24 +601,41 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ## Next Step
 
-Continue to endpoint security policy labs.
+The next recommended lab can follow either of these paths.
 
-Recommended next lab:
+### Option 1 - Continue BYOD Enrollment
 
 ```text
-06-endpoint-security/windows-defender-antivirus-policy.md
+02-device-enrollment/android-byod-enrollment.md
 ```
 
-After Defender Antivirus, continue with:
+Then continue with:
 
 ```text
-06-endpoint-security/windows-firewall-policy.md
-06-endpoint-security/bitlocker-encryption-policy.md
+02-device-enrollment/ios-byod-enrollment.md
+```
+
+This path keeps the project focused on completing the remaining BYOD enrollment labs after finishing Windows BYOD enrollment.
+
+### Option 2 - Continue Endpoint Security
+
+```text
 06-endpoint-security/attack-surface-reduction-policy.md
+```
+
+Then continue with:
+
+```text
 06-endpoint-security/windows-security-baseline.md
 ```
 
-These next labs will demonstrate how Intune can enforce endpoint protection, firewall configuration, encryption, attack surface reduction, and security baseline settings on managed Windows devices.
+This path continues the endpoint security sequence after Defender Antivirus, Windows Firewall, and BitLocker.
+
+Recommended next choice:
+
+```text
+Android BYOD enrollment or Attack Surface Reduction policy
+```
 
 ---
 
