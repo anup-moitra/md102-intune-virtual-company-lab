@@ -70,18 +70,19 @@ These devices are used to test:
 | Device Name | Device Type | Ownership | OS | Enrollment Type | User | Status |
 |---|---|---|---|---|---|---|
 | WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested |
-| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Browser sign-in test | user01 | Planned |
-| WIN-BYOD-002 | Laptop | Personal/BYOD | Windows 11 | BYOD enrollment | user01 | Planned |
-| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Work profile | user01 | Planned |
-| IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS enrollment | user01 | Planned |
+| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Endpoint security tested |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Intune managed / Personal / Compliant |
+| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Android Enterprise personally owned work profile | user03 / BYOD user | Planned |
+| IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS/iPadOS BYOD enrollment | user03 / BYOD user | Planned |
 
 > [!NOTE]
 > During the Windows OOBE lab, Intune displayed `WIN-CORP-001` ownership as `Personal` after manual MDM enrollment. This is documented in the Windows OOBE enrollment lab and was later compared with Windows Autopilot corporate ownership behavior.
+>
+> The previous planned `WIN-BYOD-002` entry has been removed from the active inventory because Windows BYOD enrollment was completed using `WIN-BYOD-001`.
 
 ---
 
-## Corporate Windows Device Plan
+## Corporate Windows Device Result
 
 ### WIN-CORP-001
 
@@ -236,8 +237,9 @@ Simple flow validated:
 | Autopilot profile | APUserDrivenEntraJoinPilot |
 | Compliance | Compliant |
 | Apps verified | Store apps, Win32 7-Zip, Microsoft 365 Apps |
-| Purpose | Windows Autopilot provisioning test |
-| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed |
+| Endpoint security verified | Defender Antivirus, Windows Firewall, BitLocker |
+| Purpose | Windows Autopilot provisioning and endpoint security test |
+| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Endpoint security tested |
 
 This device was used to test Windows Autopilot from hardware hash import to completed provisioning.
 
@@ -258,12 +260,15 @@ The lab validated:
 - Win32 7-Zip deployment after Autopilot
 - Microsoft 365 Apps deployment after Autopilot
 - Company Portal installed apps validation
+- Defender Antivirus endpoint security policy validation
+- Windows Firewall endpoint security policy validation
+- BitLocker encryption policy validation
 
 Final Autopilot result:
 
 ```text
 WIN-AUTOPILOT-001 was provisioned with Windows Autopilot and appeared in Intune as WINAUTO452.
-The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, and received required app deployments.
+The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, and successfully received endpoint security policies.
 ```
 
 The detailed Windows Autopilot lab is documented here:
@@ -276,6 +281,14 @@ The detailed Microsoft 365 Apps Autopilot validation lab is documented here:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+The endpoint security labs are documented here:
+
+```text
+06-endpoint-security/windows-defender-antivirus-policy.md
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
 ```
 
 > [!IMPORTANT]
@@ -324,48 +337,94 @@ Autopilot enrollment completed
 
 ---
 
-## Windows BYOD Device Plan
+## Endpoint Security Tested on WINAUTO452
+
+`WINAUTO452` was used to validate the first endpoint security policies in Microsoft Intune.
+
+| Endpoint security lab | Result |
+|---|---|
+| Defender Antivirus policy | Completed / Success |
+| Windows Firewall policy | Completed / Success |
+| BitLocker encryption policy | Completed / Success |
+| Attack Surface Reduction policy | Planned |
+| Windows Security Baseline | Planned |
+
+The completed endpoint security flow was:
+
+```text
+Autopilot device enrolled
+-> Device added to GRP-Autopilot-Devices
+-> Defender Antivirus policy applied
+-> Windows Firewall policy applied
+-> BitLocker encryption policy applied
+-> Intune policy status verified
+-> Local BitLocker status verified with manage-bde
+```
+
+This proves that the Autopilot-managed corporate device can receive endpoint security policies from Intune.
+
+---
+
+## Windows BYOD Device Result
 
 ### WIN-BYOD-001
 
-| Item | Planned Value |
+| Item | Value |
 |---|---|
 | Device name | WIN-BYOD-001 |
 | Device type | Laptop |
 | Ownership | Personal/BYOD |
 | Operating system | Windows 11 |
-| Enrollment method | Unmanaged browser sign-in test |
-| Management | Not enrolled |
-| Test user | user01 |
-| Purpose | Unmanaged BYOD access test |
-| Current status | Planned |
-
-This device will be intentionally left unmanaged for the first BYOD comparison test.
-
-It will be used to show that an unmanaged device does not satisfy a Conditional Access requirement for a compliant device.
-
-### WIN-BYOD-002
-
-| Item | Planned Value |
-|---|---|
-| Device name | WIN-BYOD-002 |
-| Device type | Laptop |
-| Ownership | Personal/BYOD |
-| Operating system | Windows 11 |
-| Enrollment method | Access work or school / Company Portal |
-| Join type | Microsoft Entra registered |
+| Enrollment method | Windows MDM enrollment from Settings |
 | Management | Microsoft Intune |
-| Test user | user01 |
+| Primary user | user03 |
+| BYOD group | GRP-BYOD-Users |
+| Compliance | Compliant |
+| Intune ownership | Personal |
 | Purpose | Windows BYOD enrollment test |
-| Current status | Planned |
+| Current status | Enrolled / Intune managed / Personal / Compliant |
 
-This device will be used to test personal Windows device enrollment.
+This device was used to test personally owned Windows device enrollment with Microsoft Intune.
 
-The goal is to compare:
+The lab validated:
+
+- BYOD user targeting with `GRP-BYOD-Users`
+- user03 license assignment
+- user03 BYOD group membership
+- Automatic MDM enrollment scope for BYOD users
+- Windows personally owned device enrollment restrictions
+- Windows device preparation and naming
+- Work or school account connection
+- Windows MDM enrollment from Settings
+- Manual device sync from Windows Settings
+- Intune device list validation
+- Intune device overview validation
+- Personal ownership in Intune
+- Compliance status in Intune
+
+Final Windows BYOD result:
 
 ```text
-WIN-BYOD-001 = unmanaged personal device
-WIN-BYOD-002 = enrolled personal/BYOD device
+WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
+The device appeared in Intune as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
+```
+
+The detailed Windows BYOD enrollment lab is documented here:
+
+```text
+02-device-enrollment/windows-byod-enrollment.md
+```
+
+### Optional Future BYOD Comparison
+
+A second Windows BYOD device is not currently active in the inventory.
+
+If needed later, a future device can be added to test unmanaged browser-only access or Conditional Access behavior for unmanaged devices.
+
+Example future entry:
+
+```text
+WIN-BYOD-002 = Optional unmanaged BYOD comparison device
 ```
 
 ---
@@ -380,9 +439,9 @@ WIN-BYOD-002 = enrolled personal/BYOD device
 | Device type | Mobile |
 | Ownership | Personal/BYOD |
 | Operating system | Android |
-| Enrollment method | Android Enterprise work profile |
+| Enrollment method | Android Enterprise personally owned work profile |
 | Management | Microsoft Intune |
-| Test user | user01 |
+| Test user | user03 / BYOD user |
 | Purpose | Android BYOD work profile test |
 | Current status | Planned |
 
@@ -398,7 +457,7 @@ This device will be used to test separation between personal apps/data and work 
 | Operating system | iOS |
 | Enrollment method | iOS/iPadOS enrollment |
 | Management | Microsoft Intune |
-| Test user | user01 |
+| Test user | user03 / BYOD user |
 | Purpose | iOS BYOD enrollment test |
 | Current status | Planned |
 
@@ -443,7 +502,9 @@ Each device may move through several states during the lab.
 | Enrolled | Device enrolled into Intune |
 | Compliant | Device meets compliance rules |
 | Corporate | Device is treated as a corporate-owned device in Intune |
+| Personal | Device is treated as a personally owned/BYOD device in Intune |
 | App deployment tested | Device has been used for Intune app deployment validation |
+| Endpoint security tested | Device has received endpoint security policies |
 | Autopilot enrolled | Device completed Windows Autopilot provisioning |
 | Noncompliant | Device fails compliance rules |
 | Retired | Device removed from Intune |
@@ -524,28 +585,34 @@ Before uploading screenshots, hide or blur:
 | WINAUTO452 ownership verified as Corporate | Completed |
 | WINAUTO452 compliance verified | Completed |
 | WINAUTO452 app deployment verified | Completed |
-| Windows BYOD devices documented | Planned |
+| WINAUTO452 Defender Antivirus policy verified | Completed |
+| WINAUTO452 Windows Firewall policy verified | Completed |
+| WINAUTO452 BitLocker encryption policy verified | Completed |
+| WIN-BYOD-001 Windows BYOD enrollment documented | Completed |
+| WIN-BYOD-001 enrolled in Intune | Completed |
+| WIN-BYOD-001 ownership verified as Personal | Completed |
+| WIN-BYOD-001 compliance verified | Completed |
 | Android BYOD device documented | Planned |
 | iOS BYOD device documented | Planned |
-| First device enrollment started | Completed |
 
 ---
 
 ## Next Step
 
-Continue to endpoint security policy labs.
-
-Recommended next lab:
+Recommended next BYOD lab:
 
 ```text
-06-endpoint-security/windows-defender-antivirus-policy.md
+02-device-enrollment/android-byod-enrollment.md
+```
+
+Alternative next endpoint security lab:
+
+```text
+06-endpoint-security/attack-surface-reduction-policy.md
 ```
 
 Follow-on endpoint security labs:
 
 ```text
-06-endpoint-security/windows-firewall-policy.md
-06-endpoint-security/bitlocker-encryption-policy.md
-06-endpoint-security/attack-surface-reduction-policy.md
 06-endpoint-security/windows-security-baseline.md
 ```
