@@ -1,339 +1,323 @@
-# Windows Defender Antivirus Policy with Intune
+# Microsoft Defender Antivirus Policy with Intune
 
-This file documents the Microsoft Defender Antivirus endpoint security policy lab for the MD-102 Intune virtual company project.
+## Lab status
 
----
-
-## Status
-
-Planned / Next hands-on lab
+**Status:** Completed  
+**Validation device:** WINAUTO452  
+**Final result:** Microsoft Defender Antivirus policy successfully applied through Microsoft Intune Endpoint security.
 
 ---
 
 ## Objective
 
-Create and test a Microsoft Defender Antivirus policy using Microsoft Intune Endpoint security.
+Create, configure, assign, and validate a Microsoft Defender Antivirus policy from the Microsoft Intune admin center.
 
-This lab will validate that:
-
-- Microsoft Intune can manage Microsoft Defender Antivirus settings.
-- A Defender Antivirus policy can be created from Endpoint security.
-- The policy can be assigned safely to a pilot group.
-- The managed Windows device can receive the Defender Antivirus policy.
-- Intune can report policy deployment status.
-- The local Windows Security app can confirm Defender protection is active.
+This lab demonstrates how Intune can centrally manage Defender Antivirus settings for Windows Autopilot-managed corporate devices.
 
 ---
 
-## Lab Context
+## Lab scenario
 
-This lab continues after:
-
-```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
-```
-
-The project has already validated:
+In this lab, the Defender Antivirus policy was assigned to the Windows Autopilot device group instead of a single user group.
 
 ```text
-Identity and groups
--> Windows enrollment
--> Autopilot enrollment
--> Store app deployment
--> Win32 app deployment
--> Microsoft 365 Apps deployment
+GRP-Autopilot-Devices
+-> WINAUTO452
+-> Microsoft Intune managed
+-> Defender Antivirus policy applied
+-> Device status reported Success
 ```
 
-This lab starts the Endpoint Security section.
+This is a more realistic enterprise approach because endpoint security policies are normally targeted to device groups that represent corporate-managed devices.
 
 ---
 
-## Why This Lab Matters
-
-Microsoft Defender Antivirus is a core endpoint protection feature in Windows.
-
-In a real company, administrators do not want users manually changing antivirus protection. Instead, Intune can centrally configure Defender Antivirus settings and report whether the policy applied successfully.
-
-Simple real-world flow:
-
-```text
-Admin creates Defender Antivirus policy in Intune
--> Policy is assigned to a pilot group
--> Windows device syncs with Intune
--> Defender Antivirus settings apply
--> Intune reports deployment status
--> Admin verifies protection on the endpoint
-```
-
----
-
-## Lab Environment
+## Lab environment
 
 | Item | Value |
 |---|---|
-| Test device | `WIN-CORP-001` or `WINAUTO452` |
-| Operating system | Windows 11 |
+| Tenant | HOMELAB |
 | Management platform | Microsoft Intune |
-| Identity platform | Microsoft Entra ID |
-| Test user | `user01` |
-| Assignment group | `GRP-Pilot-Users` |
 | Policy area | Endpoint security |
 | Policy type | Antivirus |
-| Profile | Microsoft Defender Antivirus |
-| Screenshot folder | `screenshots/sanitized/endpoint-security/` |
-
-> [!NOTE]
-> For a safer production-style design, endpoint security policies are often targeted to device groups. For this lab, pilot targeting is acceptable as long as only lab devices/users are included.
-
----
-
-## Policy Plan
-
-| Setting | Planned Value |
-|---|---|
-| Policy name | `WIN-CORP-Defender-Antivirus-Policy` |
 | Platform | Windows |
 | Profile | Microsoft Defender Antivirus |
-| Assignment | `GRP-Pilot-Users` |
-| Validation device | `WIN-CORP-001` or `WINAUTO452` |
-| Expected result | Policy applies successfully |
+| Assignment group | GRP-Autopilot-Devices |
+| Validation device | WINAUTO452 |
+| Device ownership | Corporate |
+| Enrollment method | Windows Autopilot user-driven enrollment |
+| Primary user | user01 |
+| Final policy status | Success |
 
 ---
 
-## Recommended Defender Antivirus Settings
+## Policy details
 
-Use beginner-friendly baseline settings for the lab.
-
-| Defender setting | Recommended lab configuration |
+| Setting | Value |
 |---|---|
-| Allow real-time monitoring | Enabled / Allowed |
-| Allow behavior monitoring | Enabled / Allowed |
-| Allow cloud protection | Enabled / Allowed |
-| Allow archive scanning | Enabled / Allowed |
-| Allow script scanning | Enabled / Allowed |
-| Check for signatures before running scan | Enabled |
-| Potentially unwanted app protection | Block |
-| Cloud-delivered protection level | High or default |
-| Submit samples consent | Send safe samples automatically, if available |
-
-> [!NOTE]
-> Intune setting names may vary slightly depending on the current Microsoft Intune admin center experience.
+| Policy name | WIN-Autopilot-Defender-Antivirus-Policy |
+| Description | Defender Antivirus policy for MD-102 Intune lab endpoint security testing on Windows Autopilot devices. |
+| Platform | Windows |
+| Profile | Microsoft Defender Antivirus |
+| Assignment | GRP-Autopilot-Devices |
+| Target device | WINAUTO452 |
+| Assignment result | Success |
 
 ---
 
-## Hands-On Steps
+## Why this matters
 
-### Step 1: Open Endpoint Security
+Microsoft Defender Antivirus is built into Windows and can be managed through Intune Endpoint security policies. In a real environment, administrators use this type of policy to enforce baseline antivirus settings across corporate devices.
 
-Go to:
+This lab proves that an Autopilot-enrolled Windows device can receive endpoint security settings after enrollment and report successful policy application back to Intune.
+
+---
+
+## Step 1 - Confirm Autopilot device group membership
+
+The policy was designed to target the Autopilot device group.
+
+The group `GRP-Autopilot-Devices` contained the device `WINAUTO452`.
+
+![Autopilot device group member](../screenshots/sanitized/endpoint-security/defender-autopilot-device-group-member-sanitized.png)
+
+---
+
+## Step 2 - Create Microsoft Defender Antivirus profile
+
+The policy was created from the Intune admin center.
+
+Navigation path:
 
 ```text
-Intune admin center
+Microsoft Intune admin center
 -> Endpoint security
 -> Antivirus
+-> Create Policy
 ```
 
-### Step 2: Create a New Policy
+Profile selection:
 
-Select:
-
-```text
-Create Policy
-```
-
-Use:
-
-| Option | Value |
+| Field | Value |
 |---|---|
 | Platform | Windows |
 | Profile | Microsoft Defender Antivirus |
 
-### Step 3: Configure Basics
-
-Use:
-
-```text
-Name: WIN-CORP-Defender-Antivirus-Policy
-Description: Defender Antivirus policy for MD-102 Intune lab endpoint security testing.
-```
-
-### Step 4: Configure Defender Antivirus Settings
-
-Configure the recommended Defender Antivirus settings from the table above.
-
-### Step 5: Assign the Policy
-
-Assign to:
-
-```text
-GRP-Pilot-Users
-```
-
-### Step 6: Create the Policy
-
-Review the settings and create the policy.
-
-### Step 7: Sync the Device
-
-On the Windows endpoint:
-
-```text
-Settings
--> Accounts
--> Access work or school
--> Connected work account
--> Info
--> Sync
-```
-
-Or sync from Intune:
-
-```text
-Intune admin center
--> Devices
--> Windows
--> Select device
--> Sync
-```
-
-### Step 8: Verify Policy Status in Intune
-
-Check:
-
-```text
-Endpoint security
--> Antivirus
--> WIN-CORP-Defender-Antivirus-Policy
--> Device status
-```
-
-Expected result:
-
-```text
-Succeeded
-```
-
-### Step 9: Verify Locally on Windows
-
-Open:
-
-```text
-Windows Security
--> Virus & threat protection
-```
-
-Confirm Microsoft Defender Antivirus is active.
+![Defender Antivirus profile creation](../screenshots/sanitized/endpoint-security/defender-antivirus-profile-create-sanitized.png)
 
 ---
 
-## Test Result
+## Step 3 - Configure policy basics
 
-| Test item | Result |
+The policy was named for the Autopilot device scenario.
+
+| Field | Value |
 |---|---|
-| Defender Antivirus policy created | Pending |
-| Policy assigned to pilot group | Pending |
-| Device sync completed | Pending |
-| Intune policy status checked | Pending |
-| Local Windows Security verification completed | Pending |
-| Screenshots captured | Pending |
-| Final lab result | Pending |
+| Name | WIN-Autopilot-Defender-Antivirus-Policy |
+| Description | Defender Antivirus policy for MD-102 Intune lab endpoint security testing on Windows Autopilot devices. |
+
+![Defender Antivirus policy basics](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-basics-sanitized.png)
 
 ---
 
-## Screenshots
+## Step 4 - Configure Defender Antivirus settings
 
-Screenshots should be stored in:
+The following core Defender Antivirus settings were configured for the lab.
+
+| Defender setting | Configuration |
+|---|---|
+| Allow Archive Scanning | Allowed |
+| Allow Behavior Monitoring | Allowed |
+| Allow Cloud Protection | Allowed |
+| Allow Email Scanning | Allowed |
+| Allow Full Scan on Removable Drive Scanning | Allowed |
+| Allow Realtime Monitoring | Allowed |
+| Allow Scanning Network Files | Allowed |
+| Allow Script Scanning | Allowed |
+| Check for Signatures Before Running Scan | Enabled |
+| Cloud Block Level | High |
+| Cloud Extended Timeout | 50 |
+| Days to Retain Cleaned Malware | 30 |
+| Enable Network Protection | Enabled in audit mode |
+| PUA Protection | Enabled |
+| Real Time Scan Direction | Monitor all files |
+| Submit Samples Consent | Send safe samples automatically |
+| Allow On Access Protection | Allowed |
+
+Threat severity remediation actions were also configured.
+
+| Threat severity | Remediation action |
+|---|---|
+| Severe | Quarantine |
+| High | Quarantine |
+| Moderate | Quarantine |
+| Low | Quarantine |
+
+Exclusions were intentionally left blank.
+
+| Exclusion type | Configuration |
+|---|---|
+| Excluded extensions | Not configured |
+| Excluded paths | Not configured |
+| Excluded processes | Not configured |
+
+![Defender Antivirus policy settings](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-settings-sanitized.png)
+
+---
+
+## Step 5 - Assign policy to Autopilot device group
+
+The policy was assigned to the Autopilot device group.
+
+| Assignment item | Value |
+|---|---|
+| Included group | GRP-Autopilot-Devices |
+| Group members | 1 device |
+| Target type | Include |
+| Excluded groups | None |
+
+![Defender Antivirus policy assignment](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-assignment-autopilot-devices-sanitized.png)
+
+---
+
+## Step 6 - Confirm policy creation
+
+After creation, the policy appeared under the Antivirus policy list in Endpoint security.
+
+![Defender Antivirus policy list](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-list-sanitized.png)
+
+---
+
+## Step 7 - Validate device status
+
+The policy status report showed that the Defender Antivirus policy successfully applied to `WINAUTO452`.
+
+| Result item | Value |
+|---|---|
+| Device name | WINAUTO452 |
+| Assignment status | Success |
+| Pending | 0 |
+| Success | 1 |
+| Error | 0 |
+| Conflict | 0 |
+| Total | 1 |
+
+![Defender Antivirus device status success](../screenshots/sanitized/endpoint-security/defender-antivirus-device-status-winauto452-succeeded-sanitized.png)
+
+---
+
+## Final validation result
+
+The policy was successfully applied to the Autopilot-enrolled Windows device.
+
+```text
+Policy created in Intune
+-> Defender Antivirus settings configured
+-> Policy assigned to GRP-Autopilot-Devices
+-> WINAUTO452 synced with Intune
+-> Device reported Success
+```
+
+---
+
+## What this proves
+
+This lab proves the following:
+
+- Microsoft Intune can create and deploy Defender Antivirus endpoint security policies.
+- Defender Antivirus settings can be targeted to an Autopilot device group.
+- WINAUTO452 successfully received the policy after Autopilot enrollment.
+- Intune reporting confirmed the policy status as Success.
+- The same Autopilot device can now be used for additional endpoint security labs.
+
+---
+
+## Real-world notes
+
+In production, Defender Antivirus policies should be planned carefully before broad deployment.
+
+Recommended real-world practices:
+
+- Start with a pilot device group.
+- Avoid unnecessary antivirus exclusions.
+- Use Intune reporting to check Success, Error, Conflict, and Pending states.
+- Use Microsoft Defender for Endpoint integration for stronger threat visibility when available.
+- Document policy settings and assignment scope clearly.
+
+---
+
+## Troubleshooting notes
+
+If the policy remains pending:
+
+1. Confirm the target device is in the assigned group.
+2. Sync the device from Windows Settings.
+3. Sync the device from Intune remote actions.
+4. Wait for Intune reporting to refresh.
+5. Regenerate the policy report.
+6. Check for conflicts with other antivirus or endpoint security policies.
+
+---
+
+## Screenshot files used
+
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/endpoint-security/
 ```
 
-Recommended screenshots:
-
-```text
-defender-antivirus-policy-list-sanitized.png
-defender-antivirus-policy-basics-sanitized.png
-defender-antivirus-policy-settings-sanitized.png
-defender-antivirus-policy-assignment-sanitized.png
-defender-antivirus-device-status-succeeded-sanitized.png
-windows-security-defender-status-sanitized.png
-```
-
-### Defender Antivirus policy list
-
-![Defender Antivirus policy list](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-list-sanitized.png)
-
-### Defender Antivirus policy settings
-
-![Defender Antivirus policy settings](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-settings-sanitized.png)
-
-### Defender Antivirus policy assignment
-
-![Defender Antivirus policy assignment](../screenshots/sanitized/endpoint-security/defender-antivirus-policy-assignment-sanitized.png)
-
-### Defender Antivirus device status
-
-![Defender Antivirus device status](../screenshots/sanitized/endpoint-security/defender-antivirus-device-status-succeeded-sanitized.png)
-
-### Windows Security Defender status
-
-![Windows Security Defender status](../screenshots/sanitized/endpoint-security/windows-security-defender-status-sanitized.png)
+| Screenshot | Purpose |
+|---|---|
+| defender-autopilot-device-group-member-sanitized.png | Shows WINAUTO452 as a member of GRP-Autopilot-Devices |
+| defender-antivirus-profile-create-sanitized.png | Shows the Microsoft Defender Antivirus profile selection |
+| defender-antivirus-policy-basics-sanitized.png | Shows the policy name and description |
+| defender-antivirus-policy-settings-sanitized.png | Shows the configured Defender Antivirus settings |
+| defender-antivirus-policy-assignment-autopilot-devices-sanitized.png | Shows assignment to GRP-Autopilot-Devices |
+| defender-antivirus-policy-list-sanitized.png | Shows the created policy in the Antivirus policy list |
+| defender-antivirus-device-status-winauto452-succeeded-sanitized.png | Shows WINAUTO452 reporting Success |
 
 ---
 
-## Troubleshooting Notes
+## Current lab status
 
-If policy status does not update:
+Completed:
 
-1. Confirm the device is enrolled in Intune.
-2. Confirm the device is online.
-3. Confirm `user01` is in `GRP-Pilot-Users`.
-4. Sync the device manually.
-5. Restart the device if needed.
-6. Wait for Intune reporting to refresh.
-7. Review the policy device status again.
-
-If local settings do not appear to change:
-
-1. Confirm another policy is not conflicting.
-2. Check Windows Security locally.
-3. Run Windows Update / Defender update.
-4. Confirm the device is managed by Intune.
+- Microsoft Defender Antivirus endpoint security policy created
+- Windows platform selected
+- Microsoft Defender Antivirus profile selected
+- Core Defender Antivirus settings configured
+- PUA protection enabled
+- Threat remediation set to quarantine
+- Policy assigned to GRP-Autopilot-Devices
+- WINAUTO452 successfully received the policy
+- Intune device status reported Success
 
 ---
 
-## Security and Privacy Notes
+## Related endpoint security labs
 
-Do not upload:
+Completed:
 
-- Full user email addresses
-- Tenant names
-- Device IDs
-- Object IDs
-- Security recommendations containing sensitive tenant details
-- Unsanitized screenshots
+- Microsoft Defender Antivirus policy
+- Windows Firewall policy
+- BitLocker encryption policy
 
-Before uploading screenshots, blur or hide:
+Next recommended labs:
 
-- Top-right signed-in admin account
-- Tenant/domain name
-- Full UPNs
-- Device IDs
-- Object IDs
+- Attack Surface Reduction policy
+- Windows Security Baseline
+- Account Protection policy
 
 ---
 
-## Current Lab Status
+## References
 
-Planned.
+- Microsoft Learn: Antivirus policy for endpoint security in Intune  
+  https://learn.microsoft.com/en-us/intune/device-configuration/endpoint-security/antivirus
 
----
+- Microsoft Learn: Endpoint security in Microsoft Intune  
+  https://learn.microsoft.com/en-us/intune/device-security/endpoint-security-policies
 
-## Next Step
-
-After completing this lab, continue to:
-
-```text
-06-endpoint-security/windows-firewall-policy.md
-```
+- Microsoft Learn: Microsoft Defender Antivirus settings for Windows in Intune  
+  https://learn.microsoft.com/en-us/mem/intune-service/protect/antivirus-microsoft-defender-settings-windows
