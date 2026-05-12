@@ -4,12 +4,6 @@ This file documents the Windows Autopilot user-driven enrollment lab for the MD-
 
 ---
 
-## Status
-
-Completed
-
----
-
 ## Objective
 
 The objective of this lab is to manually register a Windows device with Windows Autopilot and use a user-driven Autopilot deployment profile to enroll the device into Microsoft Intune.
