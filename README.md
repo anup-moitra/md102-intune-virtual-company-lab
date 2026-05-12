@@ -135,8 +135,13 @@ md102-intune-virtual-company-lab/
 | Windows OOBE enrollment lab completed | Completed |
 | Microsoft Store app deployment lab completed | Completed |
 | Win32 app deployment lab completed | Completed |
-| Microsoft 365 Apps deployment lab | Next |
-| Windows Autopilot lab | Planned |
+| Microsoft 365 Apps deployment lab completed | Completed |
+| Windows Autopilot lab completed | Completed |
+| Endpoint security policy labs | Next |
+| Compliance and Conditional Access labs | Planned |
+| BYOD enrollment labs | Planned |
+| Remote actions and monitoring labs | Planned |
+| Troubleshooting documentation | Planned |
 
 ---
 
@@ -156,7 +161,18 @@ Completed work:
 - Created Microsoft Entra ID security groups
 - Configured group memberships
 - Assigned license to user01
+- Created pilot assignment group
+- Prepared Autopilot device group
+- Used GRP-Pilot-Users for app deployment targeting
 - Added sanitized screenshots
+
+Observed result:
+
+```text
+Lab users and groups were created and prepared for Intune policy, app, and enrollment testing.
+```
+
+---
 
 ### 02 - Windows OOBE Enrollment
 
@@ -189,8 +205,50 @@ Ownership note:
 
 ```text
 Intune displayed the device ownership as Personal after manual MDM enrollment.
-This will be compared later with Windows Autopilot corporate ownership behavior.
+This was later compared with Windows Autopilot corporate ownership behavior.
 ```
+
+---
+
+### 02 - Windows Autopilot User-Driven Enrollment
+
+Documented in:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+```
+
+Completed work:
+
+- Reviewed automatic MDM enrollment settings
+- Reviewed Microsoft Entra device join settings
+- Created and validated Autopilot device group targeting
+- Collected Windows Autopilot hardware hash from the test device
+- Imported the hardware hash CSV into Intune
+- Created a Windows Autopilot user-driven deployment profile
+- Configured Microsoft Entra joined Autopilot profile settings
+- Assigned the Autopilot profile to GRP-Autopilot-Devices
+- Waited for the Autopilot profile status to show Assigned
+- Signed in during OOBE as user01
+- Completed Autopilot provisioning
+- Verified the device in Intune as corporate-owned
+- Verified Intune management and compliance status
+- Verified required apps installed after Autopilot enrollment
+- Added sanitized screenshots
+
+Final enrolled Autopilot device:
+
+```text
+WINAUTO452
+```
+
+Observed result:
+
+```text
+The Autopilot device completed user-driven enrollment, joined Microsoft Entra ID, enrolled into Microsoft Intune, appeared as a corporate device, and received required app deployments.
+```
+
+---
 
 ### 05 - Microsoft Store App Deployment
 
@@ -233,6 +291,8 @@ Required apps installed automatically.
 Available apps appeared in Company Portal for user self-service installation.
 ```
 
+---
+
 ### 05 - Win32 App Deployment: 7-Zip
 
 Documented in:
@@ -250,6 +310,7 @@ Completed work:
 - Configured file-based detection rule
 - Assigned the app as Required to GRP-Pilot-Users
 - Verified install status in Intune
+- Verified local endpoint installation
 - Added sanitized screenshots
 
 Observed result:
@@ -257,6 +318,55 @@ Observed result:
 ```text
 7-Zip was deployed as a Win32 app using Microsoft Intune.
 ```
+
+---
+
+### 05 - Microsoft 365 Apps Deployment
+
+Documented in:
+
+```text
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+Completed work:
+
+- Verified user01 licensing for Microsoft 365 Apps
+- Created Microsoft 365 Apps deployment in Intune
+- Configured Microsoft 365 Apps using XML data
+- Used the Microsoft 365 Apps for business product ID
+- Assigned Microsoft 365 Apps as Required to GRP-Pilot-Users
+- Verified required install intent reached the managed Windows device
+- Verified Microsoft 365 Apps installed status in Intune
+- Validated Microsoft 365 Apps deployment after Autopilot enrollment
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Microsoft 365 Apps installed successfully through Intune and were validated as part of the post-Autopilot app deployment flow.
+```
+
+---
+
+## Completed Modern Endpoint Deployment Flow
+
+The completed labs now demonstrate this full modern endpoint management chain:
+
+```text
+Microsoft Entra users and groups
+-> Intune enrollment
+-> Microsoft Store app deployment
+-> Win32 app deployment
+-> Microsoft 365 Apps deployment
+-> Windows Autopilot registration
+-> Autopilot OOBE enrollment
+-> Corporate Intune-managed device
+-> Required apps installed after enrollment
+-> Company Portal validation
+```
+
+This creates a strong real-world portfolio scenario for MD-102 preparation.
 
 ---
 
@@ -268,8 +378,13 @@ This project demonstrates practical skills in:
 - Microsoft Entra ID user and group management
 - Windows device enrollment
 - Intune enrollment troubleshooting
+- Automatic MDM enrollment review
 - Windows Autopilot preparation
-- Device compliance policy planning
+- Windows Autopilot hardware hash import
+- Windows Autopilot deployment profile configuration
+- Windows Autopilot user-driven enrollment
+- Corporate device provisioning
+- Device compliance visibility
 - Conditional Access planning
 - Microsoft Store app deployment
 - Required app assignment
@@ -279,13 +394,15 @@ This project demonstrates practical skills in:
 - Win32 app install and uninstall command configuration
 - Win32 app detection rule configuration
 - Microsoft 365 Apps deployment
-- Microsoft Defender Antivirus policy
-- Windows Firewall policy
-- BitLocker encryption policy
-- Attack Surface Reduction policy
-- Windows Security Baseline
-- BYOD management
-- Device monitoring and reports
+- Post-Autopilot app deployment validation
+- Company Portal app validation
+- Microsoft Defender Antivirus policy planning
+- Windows Firewall policy planning
+- BitLocker encryption policy planning
+- Attack Surface Reduction policy planning
+- Windows Security Baseline planning
+- BYOD management planning
+- Device monitoring and reports planning
 - Intune troubleshooting documentation
 
 ---
@@ -322,6 +439,7 @@ Example folders:
 screenshots/sanitized/identity-and-groups/
 screenshots/sanitized/device-enrollment/
 screenshots/sanitized/application-deployment/
+screenshots/sanitized/endpoint-security/
 ```
 
 ---
@@ -351,13 +469,24 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ## Next Step
 
-Continue to the Microsoft 365 Apps deployment lab:
+Continue to endpoint security policy labs.
+
+Recommended next lab:
 
 ```text
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+06-endpoint-security/windows-defender-antivirus-policy.md
 ```
 
-This next lab will demonstrate Microsoft 365 Apps deployment with Microsoft Intune.
+After Defender Antivirus, continue with:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
+```
+
+These next labs will demonstrate how Intune can enforce endpoint protection, firewall configuration, encryption, attack surface reduction, and security baseline settings on managed Windows devices.
 
 ---
 
