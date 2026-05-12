@@ -1,12 +1,12 @@
-# Microsoft 365 Apps Deployment for Autopilot Readiness
+# Microsoft 365 Apps Deployment After Autopilot Enrollment
 
-This file documents Microsoft 365 Apps deployment using Microsoft Intune for the MD-102 Intune virtual company project.
+This file documents Microsoft 365 Apps deployment using Microsoft Intune and validates the result after Windows Autopilot enrollment.
 
 ---
 
 ## Objective
 
-Deploy Microsoft 365 Apps to a managed Windows device using Microsoft Intune.
+Deploy Microsoft 365 Apps to managed Windows devices using Microsoft Intune and confirm that the apps install successfully after Autopilot enrollment.
 
 This lab validates that:
 
@@ -18,7 +18,8 @@ This lab validates that:
 - A managed Windows device can receive the Microsoft 365 Apps assignment.
 - Microsoft 365 Apps install status can be monitored from Intune.
 - Microsoft 365 Apps installation can be verified from the device managed apps view.
-- The deployment can later support Windows Autopilot validation.
+- Microsoft 365 Apps can install successfully after Windows Autopilot enrollment.
+- Company Portal can confirm installed required apps after Autopilot provisioning.
 
 ---
 
@@ -35,15 +36,19 @@ This lab continues the application deployment section after:
 05-application-deployment/win32-app-deployment-7zip.md
 ```
 
-This lab prepares Microsoft 365 Apps deployment so that a future Windows Autopilot lab can show a realistic provisioning experience:
+This lab was first used to prepare Microsoft 365 Apps deployment in Intune. It was later validated after a Windows Autopilot user-driven enrollment test.
+
+Completed validation flow:
 
 ```text
-Autopilot enrollment
--> Device joins Microsoft Entra ID
--> Device enrolls into Intune
--> Required apps and policies apply
--> Microsoft 365 Apps install on the device
--> User opens Office apps and signs in
+Microsoft 365 Apps deployment created in Intune
+-> App assigned as Required to GRP-Pilot-Users
+-> Autopilot device completed OOBE enrollment
+-> Device joined Microsoft Entra ID
+-> Device enrolled into Microsoft Intune
+-> Required apps applied after enrollment
+-> Microsoft 365 Apps installed successfully
+-> Company Portal showed installed required apps
 ```
 
 ---
@@ -64,28 +69,34 @@ User receives a new Windows laptop
 -> User opens Word, Excel, Outlook, Teams, or OneNote
 ```
 
-This lab demonstrates how Microsoft 365 Apps can be prepared in Intune before the Autopilot lab is completed.
+This lab demonstrates that Microsoft 365 Apps can be deployed with Intune and validated after Autopilot enrollment.
 
-This is important because Autopilot is not only about enrollment. In real environments, the goal is to deliver a ready-to-use device with apps, policies, and security settings.
+This is important because Autopilot is not only about device enrollment. In real environments, the goal is to deliver a ready-to-use device with apps, policies, and security settings.
 
 ---
 
 ## Relationship to Windows Autopilot
 
-This lab and the Windows Autopilot lab are connected, but they are separate labs.
+This Microsoft 365 Apps lab and the Windows Autopilot lab are connected.
 
 | Lab | Purpose |
 |---|---|
-| `microsoft-365-apps-autopilot-deployment.md` | Creates and assigns Microsoft 365 Apps in Intune |
-| `windows-autopilot-user-driven-enrollment.md` | Enrolls/provisions a Windows device using Autopilot |
+| `microsoft-365-apps-autopilot-deployment.md` | Creates, assigns, and validates Microsoft 365 Apps deployment |
+| `windows-autopilot-user-driven-enrollment.md` | Provisions a corporate Windows device using Autopilot |
 
-The connection is:
+The validated connection is:
 
 ```text
-Microsoft 365 Apps deployment is created first
--> Autopilot device enrolls later
--> Intune applies the required app assignment
--> Microsoft 365 Apps install after enrollment
+Microsoft 365 Apps deployment was created first
+-> Autopilot device enrolled later
+-> Intune applied the required app assignment
+-> Microsoft 365 Apps installed after enrollment
+```
+
+Related Autopilot lab:
+
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
 ---
@@ -94,17 +105,18 @@ Microsoft 365 Apps deployment is created first
 
 | Item | Value |
 |---|---|
-| Test device | `WIN-CORP-001` |
-| Future Autopilot validation device | `WIN-AUTOPILOT-001` |
+| Initial test device | `WIN-CORP-001` |
+| Autopilot validation device | `WIN-AUTOPILOT-001 / WINAUTO452` |
 | Operating system | Windows 11 |
 | Management platform | Microsoft Intune |
 | Identity platform | Microsoft Entra ID |
 | Test user | `user01` |
 | Assignment group | `GRP-Pilot-Users` |
-| Future Autopilot group | `GRP-Autopilot-Devices` |
+| Autopilot device group | `GRP-Autopilot-Devices` |
 | App type | Microsoft 365 Apps |
 | Assignment type | Required |
-| Deployment purpose | Productivity app deployment and future Autopilot readiness |
+| Deployment purpose | Productivity app deployment after Autopilot enrollment |
+| Final result | Installed after Autopilot enrollment |
 
 ---
 
@@ -118,6 +130,7 @@ Before starting this lab, the following items were required:
 - `user01` assigned an Intune-capable license
 - `user01` assigned Microsoft 365 Business Premium
 - `WIN-CORP-001` enrolled in Intune
+- Autopilot test device registered and assigned to an Autopilot profile
 - Sanitized screenshots prepared for GitHub upload
 
 Related completed labs:
@@ -125,6 +138,7 @@ Related completed labs:
 ```text
 01-identity-and-groups/users-and-groups.md
 02-device-enrollment/windows-oobe-enrollment.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 05-application-deployment/microsoft-store-app-deployment.md
 05-application-deployment/win32-app-deployment-7zip.md
 ```
@@ -142,7 +156,7 @@ Microsoft 365 Business Premium
 
 Microsoft Entra ID P2 was not required for this Microsoft 365 Apps deployment lab.
 
-Microsoft Entra ID P2 will be useful later for more advanced identity and security labs, such as Conditional Access, identity protection, user risk, sign-in risk, access reviews, or privileged identity management concepts.
+Microsoft Entra ID P2 can be useful later for more advanced identity and security labs, such as Conditional Access, identity protection, user risk, sign-in risk, access reviews, or privileged identity management concepts.
 
 ---
 
@@ -169,8 +183,8 @@ This represents Microsoft 365 Apps for business.
 | Assignment | Required |
 | Target group | `GRP-Pilot-Users` |
 | Test user | `user01` |
-| Test device | `WIN-CORP-001` |
-| Future validation device | `WIN-AUTOPILOT-001` |
+| Initial test device | `WIN-CORP-001` |
+| Autopilot validation device | `WIN-AUTOPILOT-001 / WINAUTO452` |
 | Configuration format | XML data |
 | Product ID | `O365BusinessRetail` |
 | Update channel | Current Channel |
@@ -208,7 +222,7 @@ Microsoft 365 Apps
 |---|---|
 | Name | `Microsoft 365 Apps - Pilot` |
 | Intune displayed app name | `Microsoft 365 Apps for Windows 10 and later` |
-| Description | `Deploys Microsoft 365 Apps to pilot users for the MD-102 Intune lab and future Autopilot validation.` |
+| Description | `Deploys Microsoft 365 Apps to pilot users for the MD-102 Intune lab and Autopilot validation.` |
 | Publisher | `Microsoft` |
 | Category | Productivity |
 | Owner | IT Admin |
@@ -276,7 +290,7 @@ GRP-Pilot-Users
 Reason:
 
 ```text
-user01 is a member of GRP-Pilot-Users and signs in to WIN-CORP-001 for app deployment testing.
+user01 is a member of GRP-Pilot-Users and signs in to managed Windows devices for app deployment testing.
 ```
 
 Assignment logic:
@@ -284,7 +298,7 @@ Assignment logic:
 ```text
 user01 is in GRP-Pilot-Users
 -> Microsoft 365 Apps assignment applies
--> WIN-CORP-001 receives required install intent
+-> Managed Windows device receives required install intent
 -> Microsoft 365 Apps installs on the device
 ```
 
@@ -376,7 +390,7 @@ GRP-Pilot-Users
 
 The Microsoft 365 Apps deployment was created in Intune.
 
-### Step 8: Verified Assignment on the Device
+### Step 8: Verified Assignment on the Initial Managed Device
 
 The device app list for `WIN-CORP-001` showed:
 
@@ -406,6 +420,22 @@ Installation status: Installed
 
 This confirmed the Microsoft 365 Apps deployment installed successfully on the managed Windows device.
 
+### Step 11: Validated Microsoft 365 Apps After Autopilot Enrollment
+
+After the Windows Autopilot lab was completed, the Autopilot-enrolled device `WINAUTO452` was reviewed from Intune.
+
+The managed apps view showed Microsoft 365 Apps installed along with other assigned apps.
+
+Observed post-Autopilot result:
+
+```text
+Autopilot enrollment completed
+-> Device became Intune managed
+-> Required app assignments applied
+-> Microsoft 365 Apps installed
+-> Company Portal showed required apps installed
+```
+
 ---
 
 ## Test Result
@@ -423,7 +453,9 @@ This confirmed the Microsoft 365 Apps deployment installed successfully on the m
 | Managed apps page showed Required install intent | Completed |
 | Microsoft 365 Apps install status changed to Installed | Completed |
 | Microsoft 365 Apps installed on endpoint | Completed |
-| Future Autopilot validation prepared | Completed |
+| Autopilot validation device enrolled | Completed |
+| Microsoft 365 Apps installed after Autopilot enrollment | Completed |
+| Company Portal showed installed apps after Autopilot | Completed |
 | Screenshots uploaded | Completed |
 | Final lab result | Completed |
 
@@ -465,6 +497,14 @@ screenshots/sanitized/application-deployment/
 
 ![Microsoft 365 Apps managed apps installed status](../screenshots/sanitized/application-deployment/m365-managed-apps-installed-status-sanitized.png)
 
+### Autopilot managed apps installed status
+
+![Autopilot managed apps installed](../screenshots/sanitized/application-deployment/autopilot-managed-apps-installed-sanitized.png)
+
+### Company Portal installed apps after Autopilot
+
+![Company Portal installed apps after Autopilot](../screenshots/sanitized/application-deployment/company-portal-installed-apps-after-autopilot-sanitized.png)
+
 ---
 
 ## Screenshot Files Uploaded
@@ -478,6 +518,8 @@ screenshots/sanitized/application-deployment/
 | `m365-required-assignment-sanitized.png` | Uploaded | Shows Required assignment to `GRP-Pilot-Users` |
 | `m365-managed-apps-waiting-status-sanitized.png` | Uploaded | Shows assignment reached `WIN-CORP-001` |
 | `m365-managed-apps-installed-status-sanitized.png` | Uploaded | Shows installation completed on `WIN-CORP-001` |
+| `autopilot-managed-apps-installed-sanitized.png` | Uploaded | Shows required apps installed after Autopilot enrollment |
+| `company-portal-installed-apps-after-autopilot-sanitized.png` | Uploaded | Shows Company Portal installed apps after Autopilot |
 
 ---
 
@@ -504,7 +546,7 @@ This is useful real-world troubleshooting evidence because Microsoft 365 Apps de
 Observed troubleshooting approach:
 
 ```text
-Keep WIN-CORP-001 powered on
+Keep the managed Windows device powered on
 Confirm internet connectivity
 Manually sync the device
 Wait for Intune and Office installation processing
@@ -589,22 +631,21 @@ C:\Program Files\Microsoft Office 15
 
 ## Autopilot Validation Notes
 
-This lab prepares the Microsoft 365 Apps deployment.
+The Windows Autopilot validation has been completed.
 
-The future Autopilot lab will validate whether apps and policies apply after a device is provisioned.
-
-Expected future flow:
+Validated flow:
 
 ```text
-WIN-AUTOPILOT-001 starts OOBE
--> user01 signs in
--> device joins Microsoft Entra ID
--> device enrolls into Intune
--> required app assignments apply
--> Microsoft 365 Apps install
+WIN-AUTOPILOT-001 was registered with Windows Autopilot
+-> Autopilot profile was assigned
+-> Device completed OOBE with user01
+-> Device enrolled into Intune as WINAUTO452
+-> Required app assignments applied
+-> Microsoft 365 Apps installed
+-> Company Portal showed installed apps
 ```
 
-The Microsoft 365 Apps deployment can be referenced later from:
+The Autopilot lab is documented here:
 
 ```text
 02-device-enrollment/windows-autopilot-user-driven-enrollment.md
@@ -660,7 +701,9 @@ Before uploading screenshots, hide or blur:
 | Microsoft 365 Apps assigned to pilot group | Completed |
 | Required install intent reached `WIN-CORP-001` | Completed |
 | Microsoft 365 Apps installed status verified | Completed |
-| Future Autopilot validation prepared | Completed |
+| Autopilot validation completed | Completed |
+| Microsoft 365 Apps installed after Autopilot | Completed |
+| Company Portal installed apps verified after Autopilot | Completed |
 | Screenshots uploaded | Completed |
 | Documentation updated with final evidence | Completed |
 
@@ -668,10 +711,19 @@ Before uploading screenshots, hide or blur:
 
 ## Next Step
 
-Continue to the next related lab:
+Continue to endpoint security policy labs.
+
+Recommended next lab:
 
 ```text
-02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+06-endpoint-security/windows-defender-antivirus-policy.md
 ```
 
-This next lab will show how a corporate Windows device can be provisioned with Windows Autopilot and later receive required apps such as Microsoft 365 Apps from Intune.
+Follow-on endpoint security labs:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
+06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
+```
