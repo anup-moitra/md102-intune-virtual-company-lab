@@ -8,13 +8,13 @@ This file tracks the planned implementation sequence for the MD-102 Intune virtu
 
 The purpose of this roadmap is to keep the lab project organized as each section is created, tested, documented, and updated in GitHub.
 
-This roadmap will be updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration, application deployment, endpoint security, monitoring, and troubleshooting labs.
+This roadmap is updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration, application deployment, endpoint security, monitoring, BYOD enrollment, and troubleshooting labs.
 
 ---
 
 ## Current Project Status
 
-The project has completed the foundation documentation, the first identity lab, the first Windows device enrollment lab, Microsoft Store app deployment, Win32 7-Zip app deployment, Microsoft 365 Apps deployment, and Windows Autopilot user-driven enrollment.
+The project has completed the foundation documentation, identity and group setup, Windows OOBE enrollment, Windows Autopilot user-driven enrollment, Windows BYOD enrollment, Microsoft Store app deployment, Win32 7-Zip app deployment, Microsoft 365 Apps deployment, and the first endpoint security policy labs.
 
 Completed work:
 
@@ -24,10 +24,22 @@ Completed work:
 - Lab implementation roadmap documented
 - Microsoft Entra ID users and groups created
 - user01 license assignment completed
+- user03 license assignment verified for BYOD testing
 - Automatic MDM enrollment reviewed for Windows enrollment and Autopilot
+- Automatic MDM enrollment scoped for BYOD users using `GRP-BYOD-Users`
 - Microsoft Entra device join settings reviewed
-- Windows OOBE enrollment for WIN-CORP-001 completed
+- Windows OOBE enrollment for `WIN-CORP-001` completed
 - Intune enrollment issue documented and resolved with manual MDM enrollment
+- Windows Autopilot device group prepared
+- Windows Autopilot deployment profile created and assigned
+- Autopilot hardware hash imported into Intune
+- Autopilot profile status verified as Assigned
+- Autopilot OOBE sign-in completed by user01
+- Autopilot device enrolled into Intune as a corporate device
+- Autopilot device compliance verified as Compliant
+- Required apps verified after Autopilot enrollment
+- Windows BYOD enrollment for `WIN-BYOD-001` completed
+- Windows BYOD device verified as Intune managed, Personal, and Compliant
 - Microsoft Store app deployment completed
 - Required Microsoft Store apps verified in Company Portal
 - Available Microsoft Store apps verified in Company Portal
@@ -39,28 +51,24 @@ Completed work:
 - Microsoft 365 Apps deployment completed
 - Microsoft 365 Apps assigned as Required to `GRP-Pilot-Users`
 - Microsoft 365 Apps install status verified as Installed
-- Windows Autopilot device group prepared
-- Windows Autopilot deployment profile created and assigned
-- Autopilot hardware hash imported into Intune
-- Autopilot profile status verified as Assigned
-- Autopilot OOBE sign-in completed by user01
-- Autopilot device enrolled into Intune as a corporate device
-- Autopilot device compliance verified as Compliant
-- Required apps verified after Autopilot enrollment
+- Microsoft Defender Antivirus endpoint security policy completed
+- Windows Firewall endpoint security policy completed
+- BitLocker encryption endpoint security policy completed
+- BitLocker encryption validated locally using `manage-bde -status`
 
 Current focus:
 
-- Continue to endpoint security labs:
-  - Defender Antivirus
-  - Windows Firewall
-  - BitLocker
+- Continue remaining BYOD enrollment labs:
+  - Android BYOD enrollment
+  - iOS BYOD enrollment
+- Continue remaining endpoint security labs:
   - Attack Surface Reduction
   - Windows Security Baseline
 - Continue updating GitHub documentation as screenshots and validation are completed
 - Keep roadmap, README, device inventory, and related lab files aligned after each completed lab
 
 > [!NOTE]
-> The project is not being completed strictly in folder order. Microsoft Store app deployment, Win32 app deployment, Microsoft 365 Apps deployment, and Windows Autopilot were completed before some compliance, Conditional Access, configuration profile, and endpoint security labs. This roadmap reflects the actual hands-on progress.
+> The project is not being completed strictly in folder order. Microsoft Store app deployment, Win32 app deployment, Microsoft 365 Apps deployment, Windows Autopilot, endpoint security, and Windows BYOD were completed before some compliance, Conditional Access, configuration profile, mobile BYOD, and remote action labs. This roadmap reflects the actual hands-on progress.
 
 ---
 
@@ -76,7 +84,7 @@ Current focus:
 | Phase 5 | Create Microsoft Entra ID users documentation | Completed |
 | Phase 6 | Create Microsoft Entra ID groups documentation | Completed |
 | Phase 7 | Assign Intune licenses to lab users | Completed |
-| Phase 8 | Configure automatic MDM enrollment | Completed / reviewed during Autopilot |
+| Phase 8 | Configure automatic MDM enrollment | Completed / reviewed |
 | Phase 9 | Enroll corporate Windows device WIN-CORP-001 | Completed |
 | Phase 10 | Create Windows basic compliance policy | Planned |
 | Phase 11 | Create Conditional Access policy in Report-only mode | Planned |
@@ -86,20 +94,20 @@ Current focus:
 | Phase 15 | Deploy Microsoft Store apps | Completed |
 | Phase 16 | Deploy Win32 app using Intune | Completed |
 | Phase 17 | Deploy Microsoft 365 Apps | Completed |
-| Phase 18 | Configure Defender Antivirus policy | Next |
-| Phase 19 | Configure Windows Firewall policy | Planned |
-| Phase 20 | Configure BitLocker encryption policy | Planned |
+| Phase 18 | Configure Defender Antivirus policy | Completed |
+| Phase 19 | Configure Windows Firewall policy | Completed |
+| Phase 20 | Configure BitLocker encryption policy | Completed |
 | Phase 21 | Configure Windows Autopilot | Completed |
-| Phase 22 | Test Windows BYOD enrollment | Planned |
-| Phase 23 | Test Android BYOD enrollment | Planned |
+| Phase 22 | Test Windows BYOD enrollment | Completed |
+| Phase 23 | Test Android BYOD enrollment | Next |
 | Phase 24 | Test iOS BYOD enrollment | Planned |
-| Phase 25 | Configure Attack Surface Reduction policy | Planned |
+| Phase 25 | Configure Attack Surface Reduction policy | Next / Planned |
 | Phase 26 | Configure Windows Security Baseline | Planned |
 | Phase 27 | Test remote actions and monitoring | Planned |
 | Phase 28 | Create troubleshooting documentation | Planned |
 
 > [!NOTE]
-> Phase 8 is marked as completed/reviewed because automatic MDM enrollment was reviewed again during Windows Autopilot preparation. The earlier Windows OOBE enrollment issue remains documented in the Windows OOBE enrollment lab as a troubleshooting scenario.
+> Phase 8 is marked as completed/reviewed because automatic MDM enrollment was reviewed during Windows OOBE enrollment, Windows Autopilot preparation, and Windows BYOD enrollment. The earlier Windows OOBE enrollment issue remains documented in the Windows OOBE enrollment lab as a troubleshooting scenario.
 
 ---
 
@@ -125,11 +133,13 @@ This section documents:
 - Lab admin account
 - Standard test users
 - Pilot users
+- BYOD users
 - Microsoft Entra ID security groups
 - Group assignment strategy
 - License assignment plan
 - Screenshots for identity setup
 - Pilot group usage for app deployment and Autopilot targeting
+- BYOD group usage for Windows BYOD enrollment
 
 ### 02 - Device Enrollment
 
@@ -137,8 +147,8 @@ This section documents:
 |---|---|
 | 02-device-enrollment/windows-oobe-enrollment.md | Completed |
 | 02-device-enrollment/windows-autopilot-user-driven-enrollment.md | Completed |
-| 02-device-enrollment/windows-byod-enrollment.md | Planned |
-| 02-device-enrollment/android-byod-enrollment.md | Planned |
+| 02-device-enrollment/windows-byod-enrollment.md | Completed |
+| 02-device-enrollment/android-byod-enrollment.md | Next |
 | 02-device-enrollment/ios-byod-enrollment.md | Planned |
 
 This section documents Windows corporate enrollment, Windows Autopilot, and BYOD enrollment scenarios.
@@ -149,7 +159,7 @@ The Windows OOBE enrollment lab is completed for:
 WIN-CORP-001
 ```
 
-The lab also documents the troubleshooting path where the device initially showed `MDM: None` in Microsoft Entra ID and was later enrolled into Intune using manual MDM enrollment.
+The lab documents the troubleshooting path where the device initially showed `MDM: None` in Microsoft Entra ID and was later enrolled into Intune using manual MDM enrollment.
 
 The Windows Autopilot user-driven enrollment lab is completed for:
 
@@ -161,6 +171,19 @@ Observed Autopilot result:
 
 ```text
 Autopilot device enrolled successfully, appeared in Intune as corporate-owned, and reported compliant.
+```
+
+The Windows BYOD enrollment lab is completed for:
+
+```text
+WIN-BYOD-001
+```
+
+Observed Windows BYOD result:
+
+```text
+WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
+The device appeared as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
 ```
 
 Autopilot validation included:
@@ -179,6 +202,19 @@ Autopilot validation included:
 - Corporate ownership validation
 - Compliance validation
 - App deployment validation after enrollment
+
+Windows BYOD validation included:
+
+- user03 license assignment check
+- user03 BYOD group membership check
+- Automatic MDM enrollment scope review
+- Windows personally owned device enrollment restriction check
+- `WIN-BYOD-001` device preparation
+- Windows work or school account connection
+- MDM enrollment from Windows Settings
+- Manual device sync
+- Intune Windows device list verification
+- Intune device overview verification
 
 ### 03 - Configuration Profiles
 
@@ -276,21 +312,26 @@ This lab can further document the Company Portal user self-service app experienc
 
 | File | Status |
 |---|---|
-| 06-endpoint-security/windows-defender-antivirus-policy.md | Next |
-| 06-endpoint-security/windows-firewall-policy.md | Planned |
-| 06-endpoint-security/bitlocker-encryption-policy.md | Planned |
-| 06-endpoint-security/attack-surface-reduction-policy.md | Planned |
+| 06-endpoint-security/windows-defender-antivirus-policy.md | Completed |
+| 06-endpoint-security/windows-firewall-policy.md | Completed |
+| 06-endpoint-security/bitlocker-encryption-policy.md | Completed |
+| 06-endpoint-security/attack-surface-reduction-policy.md | Next |
 | 06-endpoint-security/windows-security-baseline.md | Planned |
 
-This section will document Microsoft Defender, Firewall, BitLocker, Attack Surface Reduction, and Security Baseline labs.
+This section documents Microsoft Defender Antivirus, Windows Firewall, BitLocker, Attack Surface Reduction, and Security Baseline labs.
 
-Recommended endpoint security sequence:
+Completed endpoint security work:
 
 ```text
 Defender Antivirus
 -> Windows Firewall
 -> BitLocker encryption
--> Attack Surface Reduction
+```
+
+Recommended next endpoint security sequence:
+
+```text
+Attack Surface Reduction
 -> Windows Security Baseline
 ```
 
@@ -355,6 +396,23 @@ This section will document repeatable troubleshooting checklists and realistic s
 | 31 | Verify Autopilot device in Intune as corporate/compliant | Completed |
 | 32 | Verify required apps installed after Autopilot | Completed |
 | 33 | Update Autopilot documentation with screenshots | Completed |
+| 34 | Create Microsoft Defender Antivirus endpoint security policy | Completed |
+| 35 | Assign Defender Antivirus policy to `GRP-Autopilot-Devices` | Completed |
+| 36 | Verify Defender Antivirus policy status on `WINAUTO452` | Completed |
+| 37 | Create Windows Firewall endpoint security policy | Completed |
+| 38 | Assign Windows Firewall policy to `GRP-Autopilot-Devices` | Completed |
+| 39 | Verify Windows Firewall policy status on `WINAUTO452` | Completed |
+| 40 | Create BitLocker encryption policy | Completed |
+| 41 | Assign BitLocker policy to `GRP-Autopilot-Devices` | Completed |
+| 42 | Verify BitLocker policy status on `WINAUTO452` | Completed |
+| 43 | Verify local BitLocker encryption with `manage-bde -status` | Completed |
+| 44 | Prepare Windows BYOD user and group targeting | Completed |
+| 45 | Configure MDM user scope for `GRP-BYOD-Users` | Completed |
+| 46 | Confirm Windows personally owned enrollment is allowed | Completed |
+| 47 | Enroll `WIN-BYOD-001` using Windows MDM enrollment | Completed |
+| 48 | Perform manual sync from Windows Settings | Completed |
+| 49 | Verify `WIN-BYOD-001` in Intune as Personal, Compliant, and managed by Intune | Completed |
+| 50 | Update Windows BYOD documentation with screenshots | Completed |
 
 ---
 
@@ -362,17 +420,18 @@ This section will document repeatable troubleshooting checklists and realistic s
 
 | Step | Lab Task | Status |
 |---|---|---|
-| 1 | Prepare Defender Antivirus policy lab | Next |
-| 2 | Create Defender Antivirus policy in Intune | Planned |
-| 3 | Assign Defender Antivirus policy to pilot users/devices | Planned |
-| 4 | Verify policy status from Intune | Planned |
-| 5 | Verify policy effect on Windows endpoint | Planned |
-| 6 | Capture sanitized screenshots | Planned |
-| 7 | Update GitHub documentation | Planned |
-| 8 | Continue to Windows Firewall policy lab | Planned |
-| 9 | Continue to BitLocker encryption policy lab | Planned |
-| 10 | Continue to Attack Surface Reduction policy lab | Planned |
-| 11 | Continue to Windows Security Baseline lab | Planned |
+| 1 | Prepare Android BYOD enrollment lab | Next |
+| 2 | Verify Android enrollment restrictions | Planned |
+| 3 | Install and sign in to Company Portal on Android | Planned |
+| 4 | Complete Android Enterprise personally owned work profile enrollment | Planned |
+| 5 | Verify Android BYOD device in Intune | Planned |
+| 6 | Capture sanitized Android BYOD screenshots | Planned |
+| 7 | Update GitHub documentation for Android BYOD | Planned |
+| 8 | Prepare iOS BYOD enrollment lab | Planned |
+| 9 | Configure Attack Surface Reduction policy in Audit mode | Planned |
+| 10 | Assign ASR policy to a pilot device group | Planned |
+| 11 | Verify ASR policy reporting | Planned |
+| 12 | Continue to Windows Security Baseline lab | Planned |
 
 ---
 
@@ -443,14 +502,21 @@ screenshots/sanitized/endpoint-security/
 | Device inventory created | Completed |
 | Lab roadmap created | Completed |
 | Identity and groups lab | Completed |
-| First Windows enrollment lab | Completed |
+| Windows OOBE enrollment lab | Completed |
+| Windows Autopilot enrollment lab | Completed |
+| Windows BYOD enrollment lab | Completed |
 | Microsoft Store app deployment lab | Completed |
 | Win32 app deployment lab | Completed |
 | Microsoft 365 Apps deployment lab | Completed |
-| Autopilot enrollment lab | Completed |
+| Defender Antivirus endpoint security lab | Completed |
+| Windows Firewall endpoint security lab | Completed |
+| BitLocker encryption endpoint security lab | Completed |
+| Android BYOD enrollment lab | Next |
+| iOS BYOD enrollment lab | Planned |
+| Attack Surface Reduction policy lab | Next / Planned |
+| Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
 | Configuration profile labs | Planned |
-| Endpoint security labs | Next |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting labs | Planned |
 
@@ -458,26 +524,31 @@ screenshots/sanitized/endpoint-security/
 
 ## Next Step
 
-Continue to endpoint security policy labs.
-
-Recommended next lab:
+Recommended next lab option 1:
 
 ```text
-06-endpoint-security/windows-defender-antivirus-policy.md
+02-device-enrollment/android-byod-enrollment.md
 ```
 
-Recommended endpoint security sequence:
+Recommended next lab option 2:
 
 ```text
-Defender Antivirus
--> Windows Firewall
--> BitLocker
--> Attack Surface Reduction
+06-endpoint-security/attack-surface-reduction-policy.md
+```
+
+Recommended sequence if continuing BYOD:
+
+```text
+Android BYOD enrollment
+-> iOS BYOD enrollment
+-> BYOD compliance policy testing
+-> Conditional Access BYOD testing
+```
+
+Recommended sequence if continuing endpoint security:
+
+```text
+Attack Surface Reduction policy
 -> Windows Security Baseline
-```
-
-Alternative planning focus:
-
-```text
-Attack Surface Reduction / Security Baseline planning
+-> Remote actions and monitoring
 ```
