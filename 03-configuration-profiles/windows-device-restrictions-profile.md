@@ -14,7 +14,7 @@ This lab validates that:
 - A removable storage restriction can be configured through Intune.
 - The policy can be assigned to a pilot device group.
 - The target Windows device can receive the policy after Intune sync.
-- USB/removable storage access can be tested on the endpoint.
+- USB/removable storage access can be blocked on the endpoint.
 - Policy status can be reviewed from the Intune admin center.
 
 ---
@@ -58,7 +58,7 @@ Create Intune configuration profile
 | Device ownership | Corporate |
 | Device enrollment type | Windows Autopilot |
 | Primary user | user01 |
-| Current lab status | In progress |
+| Current lab status | Completed |
 
 ---
 
@@ -96,7 +96,7 @@ USB webcam
 
 ## Prerequisites
 
-Before starting this lab, the following should already be completed:
+Before starting this lab, the following were completed:
 
 - Microsoft Entra ID users created.
 - Microsoft Entra ID groups created.
@@ -199,7 +199,7 @@ Target test device:
 WINAUTO452
 ```
 
-This keeps the restriction limited to a controlled pilot corporate device instead of applying it broadly to all users or all devices.
+This kept the restriction limited to a controlled pilot corporate device instead of applying it broadly to all users or all devices.
 
 ---
 
@@ -215,20 +215,48 @@ CFG-WIN-Block-USB-Storage
 
 ---
 
-### Step 6: Checked Initial Policy Assignment Status
+### Step 6: Verified Initial Policy Assignment Status
 
-Initial Intune assignment status showed:
+Initial Intune assignment status showed the target device as pending.
 
-```text
-Device: WINAUTO452
-Assignment status: Pending
-```
-
-This means the device had not yet fully checked in and reported the final policy result at the time of review.
+This was expected because the device had not yet fully checked in and reported the final policy result at the time of first review.
 
 ---
 
-## Current Test Result
+### Step 7: Verified Policy Success in Intune
+
+After device check-in and report refresh, the Intune policy report showed:
+
+```text
+Device: WINAUTO452
+Check-in status: Success
+Succeeded: 1
+Error: 0
+Conflict: 0
+Not applicable: 0
+In progress: 0
+```
+
+This confirmed that the USB storage block policy was successfully delivered to the target Windows device.
+
+---
+
+### Step 8: Tested USB Storage Access on Endpoint
+
+A removable USB storage device was connected to `WINAUTO452`.
+
+When attempting to open the removable drive, Windows displayed:
+
+```text
+D:\ is not accessible.
+Access is denied.
+```
+
+This confirmed that removable USB storage access was blocked successfully.
+
+---
+
+## Test Result
 
 | Test Item | Result |
 |---|---|
@@ -237,113 +265,28 @@ This means the device had not yet fully checked in and reported the final policy
 | All Removable Storage classes: Deny all access configured | Completed |
 | Policy assigned to pilot group | Completed |
 | Target device listed in assignment report | Completed |
-| Initial device assignment status | Pending |
-| Manual sync completed | Pending |
-| USB storage blocked on endpoint | Pending |
-| Final Intune policy status verified | Pending |
-| Final lab result | In progress |
+| Policy status changed from pending to success | Completed |
+| USB storage blocked on endpoint | Completed |
+| Final Intune policy status verified | Completed |
+| Final lab result | Completed |
 
 ---
 
 ## Expected Result
 
-After the device checks in and receives the policy:
+After this lab:
 
-- `WINAUTO452` should receive the Intune configuration profile.
-- The profile status should eventually change from `Pending` to `Success`.
-- Removable USB storage access should be blocked on the endpoint.
-- A user should not be able to open or use removable storage normally.
-- The result should be documented with sanitized screenshots.
+- `WINAUTO452` received the Intune configuration profile.
+- The profile status changed to `Success`.
+- Removable USB storage access was blocked on the endpoint.
+- A user could not open the removable USB drive.
+- The result was documented with sanitized screenshots.
 
-Expected endpoint behavior:
-
-```text
-USB drive appears but access is denied
-or
-USB drive cannot be opened
-or
-Windows blocks removable storage access
-```
-
----
-
-## Validation Steps
-
-### Step 1: Sync the Target Device
-
-On `WINAUTO452`, sync the device from Windows Settings:
+Observed endpoint behavior:
 
 ```text
-Settings
--> Accounts
--> Access work or school
--> Connected work account
--> Info
--> Sync
-```
-
-Alternative Intune sync path:
-
-```text
-Intune admin center
--> Devices
--> Windows
--> WINAUTO452
--> Sync
-```
-
----
-
-### Step 2: Restart the Device
-
-Restart:
-
-```text
-WINAUTO452
-```
-
-Then sign in again and wait several minutes for policy processing.
-
----
-
-### Step 3: Refresh Intune Policy Report
-
-In Intune, open:
-
-```text
-Devices
--> Configuration
--> CFG-WIN-Block-USB-Storage
--> Device assignment status
-```
-
-Click:
-
-```text
-Generate again
-```
-
-Expected final status:
-
-```text
-Success
-```
-
----
-
-### Step 4: Test USB Storage Access
-
-On `WINAUTO452`:
-
-1. Insert a USB flash drive.
-2. Open File Explorer.
-3. Try to open the removable drive.
-4. Confirm whether access is blocked.
-
-Expected result:
-
-```text
-USB/removable storage access is blocked.
+D:\ is not accessible.
+Access is denied.
 ```
 
 ---
@@ -372,87 +315,72 @@ screenshots/sanitized/configuration-profiles/
 
 ![Assignment to Autopilot Device Group](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-assignment-sanitized.png)
 
+### Intune Device Status Success
+
+![Intune Device Status Success](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-device-status-success-sanitized.png)
+
+### Endpoint USB Access Denied Test
+
+![Endpoint USB Access Denied Test](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-endpoint-after-test-sanitized.png.png)
+
 > [!NOTE]
 > Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
+>
+> The endpoint validation screenshot currently uses the uploaded filename `windows-usb-storage-block-endpoint-after-test-sanitized.png.png`. If the file is later renamed to remove the extra `.png`, update the image link in this Markdown file.
 
 ---
 
 ## Uploaded Screenshot Files
 
-The following screenshots have been uploaded and linked:
+The following screenshots were uploaded and linked:
 
 ```text
 windows-usb-storage-block-create-profile-sanitized.png
 windows-usb-storage-block-settings-picker-sanitized.png
 windows-usb-storage-block-setting-enabled-sanitized.png
 windows-usb-storage-block-assignment-sanitized.png
-```
-
----
-
-## Pending Screenshots
-
-The following screenshots should be added after final policy validation:
-
-```text
 windows-usb-storage-block-device-status-success-sanitized.png
-windows-usb-storage-block-manual-sync-sanitized.png
-windows-usb-storage-block-endpoint-after-test-sanitized.png
-```
-
-Optional screenshot if captured before policy enforcement:
-
-```text
-windows-usb-storage-block-endpoint-before-test-sanitized.png
+windows-usb-storage-block-endpoint-after-test-sanitized.png.png
 ```
 
 ---
 
 ## Troubleshooting Notes
 
-### Policy shows Pending
+### Policy initially showed Pending
 
-If the policy shows:
+The policy initially showed:
 
 ```text
 Assignment status: Pending
 ```
 
-Possible causes:
+This was expected because the target device had not yet checked in and reported the final policy result.
 
-1. The target device has not checked in with Intune yet.
-2. The Intune report has not refreshed yet.
-3. The device was offline.
-4. The policy was recently created and needs more time.
-5. The target device is not correctly included in the assigned group.
+Recommended actions used:
 
-Recommended actions:
+1. Confirmed `WINAUTO452` was included in `GRP-Autopilot-Devices`.
+2. Waited for device check-in/report refresh.
+3. Checked the Intune device configuration profile status again.
 
-1. Confirm `WINAUTO452` is in `GRP-Autopilot-Devices`.
-2. Sync the device manually.
-3. Restart the device.
-4. Wait 5-15 minutes.
-5. Click `Generate again` in the Intune report.
-6. Recheck the policy assignment status.
+Final result:
 
-### USB is still accessible after policy assignment
+```text
+Check-in status: Success
+```
 
-If USB storage remains accessible:
+### Endpoint USB access test
 
-1. Confirm the setting is configured as `Enabled`.
-2. Confirm the policy is assigned to the correct group.
-3. Confirm the device is included in the assigned group.
-4. Perform a manual sync.
-5. Restart the device.
-6. Test again after sign-in.
-7. Check policy status in Intune.
-8. Review local event logs if needed.
+The endpoint validation confirmed that a removable USB drive was visible in File Explorer, but access was denied when the user attempted to open it.
 
-### Policy applies but testing is unclear
+Observed message:
 
-Some USB devices may present differently depending on hardware type.
+```text
+D:\ is not accessible.
+Access is denied.
+```
 
-Test with a simple USB flash drive if possible.
+This confirmed the policy worked as expected.
 
 ---
 
@@ -496,26 +424,31 @@ Before uploading screenshots, hide or blur:
 | Policy assigned to pilot device group | Completed |
 | Initial screenshots added | Completed |
 | Target device appears in assignment report | Completed |
-| Initial policy status | Pending |
-| Manual sync validation | Pending |
-| Endpoint USB test | Pending |
-| Final Intune success status | Pending |
-| Final validation screenshots added | Pending |
+| Final Intune success status | Completed |
+| Endpoint USB access denied test | Completed |
+| Final validation screenshots added | Completed |
+| Lab completed | Completed |
 
 ---
 
 ## Next Step
 
-Complete validation on the target device:
+This lab is completed.
+
+Recommended next configuration/profile cleanup:
 
 ```text
-Sync WINAUTO452
-Restart WINAUTO452
-Generate Intune report again
-Confirm policy status changes from Pending to Success
-Test USB flash drive access
-Capture sanitized screenshots
-Update this file from In progress to Completed
+03-configuration-profiles/windows-corporate-wallpaper-policy.md
 ```
 
-After validation, update the final test result and screenshot links.
+Recommended next new lab option:
+
+```text
+06-endpoint-security/attack-surface-reduction-policy.md
+```
+
+or:
+
+```text
+02-device-enrollment/android-byod-enrollment.md
+```
