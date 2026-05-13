@@ -1,12 +1,21 @@
 # Windows Autopilot User-Driven Enrollment
 
-This file documents the Windows Autopilot user-driven enrollment lab for the MD-102 Intune virtual company project.
+## Lab status
+
+**Status:** Completed  
+**Lab category:** Device enrollment  
+**Enrollment method:** Windows Autopilot user-driven enrollment  
+**Join type:** Microsoft Entra joined  
+**Management platform:** Microsoft Intune  
+**Target user:** user01  
+**Autopilot device group:** GRP-Autopilot-Devices  
+**Final enrolled device:** WINAUTO452  
 
 ---
 
-## Objective
+## Lab objective
 
-The objective of this lab is to manually register a Windows device with Windows Autopilot and use a user-driven Autopilot deployment profile to enroll the device into Microsoft Intune.
+The objective of this lab is to manually register a Windows device with Windows Autopilot and complete a user-driven Autopilot enrollment into Microsoft Intune.
 
 This lab validates that:
 
@@ -16,83 +25,23 @@ This lab validates that:
 - A dynamic Autopilot device group can target imported Autopilot devices.
 - A Windows Autopilot deployment profile can be created and assigned.
 - A targeted Autopilot device can receive the assigned profile.
-- User 01 can sign in during Windows OOBE.
+- user01 can sign in during Windows OOBE.
 - The device can join Microsoft Entra ID.
 - The device can enroll into Microsoft Intune.
 - The device can appear in Intune as a corporate Windows device.
-- The device can report compliant after enrollment.
 - Required apps can be delivered after Autopilot enrollment.
 
 ---
 
-## Lab Context
+## Why this lab matters
 
-This lab is part of the MD-102 Intune virtual company project.
+Windows Autopilot is used to provision corporate Windows devices without traditional manual imaging.
 
-The virtual company, **Contoso Startup Lab**, uses Microsoft Entra ID and Microsoft Intune to manage corporate Windows devices.
+In older deployment models, IT teams often prepared devices by manually installing Windows, joining the domain, installing apps, and applying settings.
 
-This Autopilot lab builds on earlier completed work:
+With Windows Autopilot, the device can start from the Windows out-of-box experience, identify itself through its hardware hash, receive a cloud-assigned deployment profile, and enroll into Intune automatically after the user signs in.
 
-| Requirement | Status |
-|---|---|
-| Microsoft Intune tenant available | Completed |
-| Microsoft Entra ID users created | Completed |
-| Intune licenses assigned | Completed |
-| Automatic MDM enrollment configured | Completed |
-| Microsoft Entra join settings reviewed | Completed |
-| Autopilot device group prepared | Completed |
-| Microsoft Store apps deployed | Completed |
-| Win32 7-Zip app deployment completed | Completed |
-| Microsoft 365 Apps deployment created | Completed |
-| Autopilot test device available | Completed |
-
----
-
-## Tenant Preparation
-
-Before the Autopilot device was provisioned, the tenant enrollment settings were reviewed.
-
-The two key preparation areas were:
-
-```text
-Automatic MDM enrollment
-Microsoft Entra device join settings
-```
-
-These settings matter because Autopilot depends on Microsoft Entra ID and Intune working together during OOBE.
-
-Simple flow:
-
-```text
-User signs in during OOBE
--> Device joins Microsoft Entra ID
--> Automatic MDM enrollment sends the device to Intune
--> Intune applies apps, profiles, and policies
-```
-
-### Automatic MDM Enrollment
-
-Automatic MDM enrollment controls whether eligible Microsoft Entra users can automatically enroll Windows devices into Microsoft Intune.
-
-This was reviewed before the Autopilot enrollment test.
-
-### Microsoft Entra Device Join Settings
-
-Microsoft Entra device join settings control which users can join devices to Microsoft Entra ID.
-
-This was reviewed to confirm that the Autopilot user-driven flow could complete with the test user.
-
----
-
-## Important Concept
-
-Windows Autopilot is used to provision Windows devices during the out-of-box experience, also known as OOBE.
-
-Traditional device setup usually requires an admin to manually configure Windows, join the device, install apps, and apply settings.
-
-With Autopilot, the device contacts Microsoft cloud services during OOBE, identifies itself through its hardware hash, downloads the assigned Autopilot profile, and starts the organization-managed setup flow.
-
-Simple flow:
+Simple Autopilot flow:
 
 ```text
 Device starts at Windows OOBE
@@ -102,47 +51,89 @@ Device starts at Windows OOBE
 -> User signs in with Microsoft Entra ID account
 -> Device joins Microsoft Entra ID
 -> Device enrolls into Microsoft Intune
--> Intune applies apps, policies, and compliance settings
+-> Intune applies apps, profiles, and policies
 ```
+
+This is a core modern endpoint provisioning workflow for MD-102 and Intune administration.
 
 ---
 
-## Lab Environment
+## Lab environment
 
 | Item | Value |
 |---|---|
+| Virtual company | Contoso Startup Lab |
 | Autopilot deployment type | User-driven |
 | Join type | Microsoft Entra joined |
 | Device ownership | Corporate |
 | Enrollment platform | Windows 11 |
-| Test user | User 01 |
-| User sign-in account | User 01 lab account |
-| Autopilot device group | `GRP-Autopilot-Devices` |
-| Deployment profile | `APUserDrivenEntraJoinPilot` |
-| Device name template | `WINAUTO%RAND:3%` |
-| Final enrolled device name | `WINAUTO452` |
 | Management platform | Microsoft Intune |
+| Test user | user01 |
+| Autopilot device group | GRP-Autopilot-Devices |
+| Deployment profile | APUserDrivenEntraJoinPilot |
+| Device name template | WINAUTO%RAND:3% |
+| Final enrolled device name | WINAUTO452 |
 | Final device status | Managed, corporate, compliant |
 
 ---
 
-## Autopilot Device Group
+## Prerequisites
 
-The Autopilot device was targeted through a dedicated Autopilot device group.
+Before starting this lab, the following were completed:
+
+- Microsoft Intune tenant available.
+- Microsoft Entra ID users created.
+- user01 license assigned.
+- Automatic MDM enrollment reviewed.
+- Microsoft Entra device join settings reviewed.
+- Autopilot device group prepared.
+- Autopilot test device available.
+- Hardware hash collection method prepared.
+- Required application deployments created for post-enrollment validation.
+
+Completed dependency labs included:
+
+```text
+01-identity-and-groups/users-and-groups.md
+05-application-deployment/microsoft-store-app-deployment.md
+05-application-deployment/win32-app-deployment-7zip.md
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+---
+
+## Configuration flow
+
+```text
+Review automatic MDM enrollment
+-> Review Microsoft Entra device join settings
+-> Prepare Autopilot device group
+-> Collect hardware hash from Windows OOBE
+-> Import hardware hash CSV into Intune
+-> Create Autopilot deployment profile
+-> Assign profile to GRP-Autopilot-Devices
+-> Wait for profile status to show Assigned
+-> Complete Windows OOBE as user01
+-> Verify Intune enrollment, ownership, compliance, and apps
+```
+
+---
+
+## Autopilot design summary
+
+### Autopilot device group
+
+The Autopilot device was targeted through a dedicated device group.
 
 | Setting | Value |
 |---|---|
-| Group name | `GRP-Autopilot-Devices` |
+| Group name | GRP-Autopilot-Devices |
 | Group type | Security |
 | Membership type | Dynamic device |
 | Purpose | Target Windows Autopilot deployment profile to registered Autopilot devices |
 | Used for | Autopilot profile assignment |
 
-This group was used to assign the Autopilot deployment profile safely to the imported Autopilot device.
-
-The dynamic group rule was validated before the profile assignment completed.
-
-Observed result:
+Observed group flow:
 
 ```text
 Imported Autopilot device
@@ -153,13 +144,11 @@ Imported Autopilot device
 
 ---
 
-## Autopilot Deployment Profile
-
-The following Windows Autopilot deployment profile was used.
+### Autopilot deployment profile
 
 | Setting | Value |
 |---|---|
-| Profile name | `APUserDrivenEntraJoinPilot` |
+| Profile name | APUserDrivenEntraJoinPilot |
 | Platform | Windows PC |
 | Deployment mode | User-driven |
 | Join to Microsoft Entra ID as | Microsoft Entra joined |
@@ -171,14 +160,14 @@ The following Windows Autopilot deployment profile was used.
 | Language / region | Operating system default |
 | Automatically configure keyboard | Yes |
 | Apply device name template | Yes |
-| Device name template | `WINAUTO%RAND:3%` |
-| Assigned group | `GRP-Autopilot-Devices` |
+| Device name template | WINAUTO%RAND:3% |
+| Assigned group | GRP-Autopilot-Devices |
 
 ---
 
-## Device Naming Result
+### Device naming result
 
-The Autopilot profile used a device name template:
+The Autopilot profile used this device name template:
 
 ```text
 WINAUTO%RAND:3%
@@ -190,11 +179,50 @@ After enrollment, the device appeared in Intune as:
 WINAUTO452
 ```
 
-This proves that the Autopilot naming template was applied successfully during provisioning.
+This confirmed that the Autopilot naming template applied successfully during provisioning.
 
 ---
 
-## Hardware Hash Collection
+## Steps performed
+
+### Step 1 - Reviewed automatic MDM enrollment
+
+Automatic MDM enrollment was reviewed to confirm that eligible users could enroll Windows devices into Microsoft Intune.
+
+This setting is important because during Autopilot user-driven enrollment, the user signs in with a Microsoft Entra ID account and the device must automatically enroll into Intune.
+
+Simple flow:
+
+```text
+User signs in during OOBE
+-> Device joins Microsoft Entra ID
+-> Automatic MDM enrollment sends the device to Intune
+-> Intune applies apps, profiles, and policies
+```
+
+---
+
+### Step 2 - Reviewed Microsoft Entra device join settings
+
+Microsoft Entra device join settings were reviewed to confirm that the test user could join devices to Microsoft Entra ID.
+
+This was required for the user-driven Autopilot flow.
+
+---
+
+### Step 3 - Prepared the Autopilot device group
+
+The Autopilot device group was prepared:
+
+```text
+GRP-Autopilot-Devices
+```
+
+This group was used to assign the Windows Autopilot deployment profile to imported Autopilot devices.
+
+---
+
+### Step 4 - Collected the hardware hash
 
 The Autopilot test laptop was prepared from the Windows OOBE screen.
 
@@ -221,7 +249,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
 Install-Script -Name Get-WindowsAutopilotInfo -Force
 ```
 
-The following command was used to generate the hardware hash CSV:
+The following command generated the hardware hash CSV:
 
 ```powershell
 Get-WindowsAutopilotInfo -OutputFile AutopilotHWID.csv
@@ -238,7 +266,7 @@ C:\HWID\AutopilotHWID.csv
 
 ---
 
-## Autopilot Device Import
+### Step 5 - Imported the Autopilot hardware hash CSV
 
 The hardware hash CSV was imported into Intune from:
 
@@ -259,7 +287,7 @@ Imported CSV file:
 AutopilotHWID.csv
 ```
 
-After import and sync, the device appeared in the Autopilot devices list.
+After import and sync, the device appeared in the Windows Autopilot devices list.
 
 | Item | Result |
 |---|---|
@@ -272,7 +300,21 @@ After import and sync, the device appeared in the Autopilot devices list.
 
 ---
 
-## Profile Assignment
+### Step 6 - Created the Autopilot deployment profile
+
+A Windows Autopilot user-driven deployment profile was created.
+
+Profile name:
+
+```text
+APUserDrivenEntraJoinPilot
+```
+
+The profile was configured for Microsoft Entra joined user-driven deployment.
+
+---
+
+### Step 7 - Assigned the Autopilot deployment profile
 
 The Autopilot deployment profile was assigned to:
 
@@ -296,15 +338,15 @@ This confirmed that the Autopilot profile was assigned successfully.
 
 ---
 
-## Autopilot OOBE Enrollment Test
+### Step 8 - Completed user-driven OOBE enrollment
 
-After the profile status showed **Assigned**, the test device was restarted into the Windows out-of-box experience.
+After the profile status showed `Assigned`, the test device was restarted into the Windows out-of-box experience.
 
 During OOBE:
 
 1. The device connected to the internet.
 2. The assigned Autopilot profile was downloaded.
-3. User 01 signed in using the lab Microsoft Entra ID account.
+3. user01 signed in using the lab Microsoft Entra ID account.
 4. The device joined Microsoft Entra ID.
 5. The device enrolled into Microsoft Intune.
 6. The device reached the Windows desktop.
@@ -315,7 +357,7 @@ During OOBE:
 
 ---
 
-## Post-Enrollment Verification
+### Step 9 - Verified the enrolled device in Intune
 
 After the device reached the Windows desktop, validation was performed from Intune.
 
@@ -332,21 +374,19 @@ Observed result:
 
 | Field | Result |
 |---|---|
-| Device name | `WINAUTO452` |
+| Device name | WINAUTO452 |
 | Managed by | Intune |
 | Ownership | Corporate |
 | Compliance | Compliant |
 | Operating system | Windows |
-| Primary user | User 01 |
+| Primary user | user01 |
 | Last check-in | Updated after enrollment |
-
-This confirms the Autopilot-enrolled device was successfully managed by Intune.
 
 ---
 
-## Application Deployment Validation After Autopilot
+### Step 10 - Verified app deployment after Autopilot
 
-After Autopilot enrollment, the device also received application assignments from Intune.
+After Autopilot enrollment, the device received application assignments from Intune.
 
 Observed app deployment results included:
 
@@ -360,43 +400,102 @@ Observed app deployment results included:
 | ChatGPT | Available | Available for install |
 | WhatsApp | Available | Available for install |
 
-The detailed Microsoft 365 Apps deployment validation is documented separately in:
+---
+
+## Validation
+
+### Tenant readiness validation
+
+Validation confirmed that:
+
+- Automatic MDM enrollment was reviewed.
+- Microsoft Entra device join settings were reviewed.
+- user01 was prepared for Autopilot sign-in.
+- user01 had the required license for enrollment and management.
+
+---
+
+### Autopilot registration validation
+
+Validation confirmed that:
+
+- The hardware hash was collected successfully.
+- The hardware hash CSV was imported into Intune.
+- The imported device appeared in Windows Autopilot devices.
+- The Autopilot device became associated with the target deployment profile.
+
+---
+
+### Profile assignment validation
+
+Validation confirmed that:
+
+- The Autopilot deployment profile was assigned to `GRP-Autopilot-Devices`.
+- The imported Autopilot device changed from `Not assigned` to `Assigned`.
+- The device was ready for user-driven OOBE provisioning.
+
+---
+
+### Enrollment validation
+
+Validation confirmed that:
+
+- user01 completed the Windows OOBE sign-in.
+- The device joined Microsoft Entra ID.
+- The device enrolled into Microsoft Intune.
+- The device appeared as `WINAUTO452`.
+- The device showed as corporate-owned.
+- The device showed as compliant.
+
+---
+
+### Post-enrollment app validation
+
+Validation confirmed that required apps installed or became available after Autopilot enrollment.
+
+This validated the full modern endpoint flow:
 
 ```text
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+Autopilot enrollment
+-> Microsoft Entra join
+-> Intune enrollment
+-> Required Store apps
+-> Required Win32 apps
+-> Microsoft 365 Apps
+-> Company Portal validation
 ```
 
 ---
 
-## Test Result
+## Final test result
 
-| Test item | Result |
+| Validation item | Status |
 |---|---|
-| Automatic MDM enrollment reviewed | Successful |
-| Microsoft Entra join settings reviewed | Successful |
-| Autopilot device group dynamic rule configured | Successful |
-| Autopilot device group rule validation completed | Successful |
-| Autopilot device group membership confirmed | Successful |
-| Autopilot deployment profile created | Successful |
-| Autopilot OOBE settings configured | Successful |
-| Autopilot device group targeted | Successful |
-| Hardware hash collected | Successful |
-| Hardware hash CSV imported | Successful |
-| Autopilot device appeared in Intune | Successful |
-| Autopilot profile assigned | Successful |
-| User 01 signed in during OOBE | Successful |
-| Device joined Microsoft Entra ID | Successful |
-| Device enrolled into Intune | Successful |
-| Device appeared in Windows devices | Successful |
-| Device ownership showed corporate | Successful |
-| Device compliance showed compliant | Successful |
-| Required app deployment after Autopilot | Successful |
-| Microsoft 365 Apps deployment after Autopilot | Successful |
-| Final lab result | Successful |
+| Automatic MDM enrollment reviewed | Completed |
+| Microsoft Entra join settings reviewed | Completed |
+| Autopilot device group dynamic rule configured | Completed |
+| Autopilot device group rule validation completed | Completed |
+| Autopilot device group membership confirmed | Completed |
+| Autopilot deployment profile created | Completed |
+| Autopilot OOBE settings configured | Completed |
+| Autopilot device group targeted | Completed |
+| Hardware hash collected | Completed |
+| Hardware hash CSV imported | Completed |
+| Autopilot device appeared in Intune | Completed |
+| Autopilot profile assigned | Completed |
+| user01 signed in during OOBE | Completed |
+| Device joined Microsoft Entra ID | Completed |
+| Device enrolled into Intune | Completed |
+| Device appeared in Windows devices | Completed |
+| Device ownership showed corporate | Completed |
+| Device compliance showed compliant | Completed |
+| Required app deployment after Autopilot | Completed |
+| Microsoft 365 Apps deployment after Autopilot | Completed |
+| Final lab result | Completed |
 
 ---
 
-## Screenshots
+## Screenshots captured
 
 Screenshots are stored in:
 
@@ -462,9 +561,7 @@ screenshots/sanitized/identity-and-groups/
 
 ---
 
-## Screenshot Folder Path
-
-Final screenshot paths used in this lab:
+## Screenshot file list
 
 ```text
 screenshots/sanitized/device-enrollment/autopilot-automatic-mdm-enrollment-sanitized.png
@@ -484,7 +581,23 @@ screenshots/sanitized/device-enrollment/autopilot-device-overview-sanitized.png
 
 ---
 
-## Troubleshooting Notes
+## Related labs
+
+This Autopilot lab connects to these completed application deployment labs:
+
+| Lab file | Relationship |
+|---|---|
+| `01-identity-and-groups/users-and-groups.md` | Provides `user01` and `GRP-Autopilot-Devices` |
+| `05-application-deployment/microsoft-store-app-deployment.md` | Provides required and available Store app deployment validation |
+| `05-application-deployment/win32-app-deployment-7zip.md` | Provides Win32 app deployment validation |
+| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Provides Microsoft 365 Apps post-Autopilot validation |
+| `06-endpoint-security/windows-defender-antivirus-policy.md` | Later uses `WINAUTO452` for endpoint security targeting |
+| `06-endpoint-security/windows-firewall-policy.md` | Later uses `WINAUTO452` for endpoint security targeting |
+| `06-endpoint-security/bitlocker-encryption-policy.md` | Later uses `WINAUTO452` for endpoint security targeting |
+
+---
+
+## Troubleshooting notes
 
 ### Autopilot profile status shows Not assigned
 
@@ -495,6 +608,8 @@ If the imported Autopilot device shows `Not assigned`, check that:
 3. Autopilot devices have been synced.
 4. Enough time has passed for assignment processing.
 
+---
+
 ### Dynamic group membership does not update
 
 If the imported Autopilot device does not appear in `GRP-Autopilot-Devices`, check that:
@@ -504,6 +619,8 @@ If the imported Autopilot device does not appear in `GRP-Autopilot-Devices`, che
 3. The device exists in Windows Autopilot devices.
 4. The dynamic rule validation shows the expected result.
 5. Enough time has passed for Microsoft Entra ID group processing.
+
+---
 
 ### Autopilot profile status takes time to update
 
@@ -518,6 +635,8 @@ Refresh the Autopilot devices page
 Confirm profile status changes to Assigned
 ```
 
+---
+
 ### Device does not show organization setup during OOBE
 
 Check that:
@@ -527,16 +646,20 @@ Check that:
 3. The Autopilot profile status showed `Assigned` before continuing OOBE.
 4. The device was not already fully set up before the Autopilot profile was assigned.
 
+---
+
 ### Device does not appear in Intune after OOBE
 
 Check that:
 
-1. User 01 has an Intune license.
-2. Automatic MDM enrollment includes User 01.
+1. user01 has an Intune license.
+2. Automatic MDM enrollment includes user01.
 3. Enrollment restrictions allow Windows enrollment.
 4. Microsoft Entra device join settings allow the user to join devices.
 5. The device has internet access.
 6. The device completed OOBE successfully.
+
+---
 
 ### Apps show Waiting for install status
 
@@ -552,7 +675,34 @@ Recommended actions:
 
 ---
 
-## Security and Privacy Notes
+## Enterprise reflection
+
+Windows Autopilot is valuable in enterprise environments because it reduces the need for traditional imaging and manual device preparation.
+
+A production-ready Autopilot design should include:
+
+- Clear device naming standards.
+- Separate pilot and production Autopilot groups.
+- Dynamic device group rules for imported Autopilot devices.
+- User-driven deployment profiles for standard corporate provisioning.
+- Required security policies assigned early in the enrollment process.
+- Required apps assigned carefully so provisioning does not become too slow.
+- A documented troubleshooting process for assignment, OOBE, enrollment, and app deployment issues.
+
+Recommended rollout model:
+
+```text
+IT pilot devices
+-> Small business pilot group
+-> New hire devices
+-> Wider corporate device provisioning
+```
+
+This lab follows a pilot-first model by using `GRP-Autopilot-Devices` and validating the result on a single test endpoint before expanding the design.
+
+---
+
+## Security and privacy notes
 
 This is a public learning repository.
 
@@ -584,73 +734,37 @@ Before uploading screenshots, hide or blur:
 
 ---
 
-## Current Lab Status
+## Key learning outcomes
 
-Completed:
+This lab demonstrated how to:
 
-- Automatic MDM enrollment reviewed.
-- Microsoft Entra join settings reviewed.
-- Autopilot device group prepared.
-- Dynamic Autopilot device group rule configured.
-- Dynamic group rule validation captured.
-- Autopilot device group membership confirmed.
-- Autopilot deployment profile created.
-- Autopilot OOBE settings configured.
-- Hardware hash collected from OOBE device.
-- Autopilot hardware hash CSV imported into Intune.
-- Autopilot device appeared in Windows Autopilot devices.
-- Autopilot deployment profile assigned successfully.
-- User 01 completed OOBE sign-in.
-- Device joined Microsoft Entra ID.
-- Device enrolled into Microsoft Intune.
-- Device appeared in Intune Windows devices as `WINAUTO452`.
-- Device ownership displayed as corporate.
-- Device compliance displayed as compliant.
-- Required apps installed after Autopilot enrollment.
-- Microsoft 365 Apps installed after Autopilot enrollment.
-- Sanitized screenshots added.
+- Prepare a tenant for Windows Autopilot enrollment.
+- Review automatic MDM enrollment settings.
+- Review Microsoft Entra device join settings.
+- Collect a Windows Autopilot hardware hash.
+- Import a hardware hash CSV into Intune.
+- Create a Windows Autopilot user-driven deployment profile.
+- Assign an Autopilot deployment profile to a dynamic device group.
+- Wait for Autopilot profile assignment.
+- Complete Windows OOBE with a Microsoft Entra ID user.
+- Validate Microsoft Entra join and Intune enrollment.
+- Confirm corporate ownership in Intune.
+- Confirm post-enrollment app deployment.
+- Document a modern endpoint provisioning workflow professionally.
 
 ---
 
-## Related Labs
+## Lab conclusion
 
-This Autopilot lab connects to the following completed application deployment labs:
+The Windows Autopilot user-driven enrollment lab was completed successfully.
 
-```text
-05-application-deployment/microsoft-store-app-deployment.md
-05-application-deployment/win32-app-deployment-7zip.md
-05-application-deployment/microsoft-365-apps-autopilot-deployment.md
-```
-
-Together, these labs prove this full modern endpoint flow:
+Final result:
 
 ```text
-Autopilot enrollment
--> Microsoft Entra join
--> Intune enrollment
--> Required Store apps
--> Required Win32 apps
--> Microsoft 365 Apps
--> Company Portal validation
-```
-
----
-
-## Next Step
-
-Continue to endpoint security policy labs.
-
-Recommended next lab:
-
-```text
-06-endpoint-security/windows-defender-antivirus-policy.md
-```
-
-Follow-on endpoint security labs:
-
-```text
-06-endpoint-security/windows-firewall-policy.md
-06-endpoint-security/bitlocker-encryption-policy.md
-06-endpoint-security/attack-surface-reduction-policy.md
-06-endpoint-security/windows-security-baseline.md
+The test device was registered with Windows Autopilot.
+The Autopilot deployment profile was assigned successfully.
+user01 completed the OOBE sign-in experience.
+The device joined Microsoft Entra ID and enrolled into Microsoft Intune.
+The device appeared in Intune as WINAUTO452 with corporate ownership and compliant status.
+Required applications were delivered after Autopilot enrollment.
 ```
