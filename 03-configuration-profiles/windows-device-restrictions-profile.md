@@ -1,12 +1,21 @@
 # Windows Device Restrictions Profile
 
-This file documents a Microsoft Intune device configuration profile used to block removable USB storage access on a corporate Windows test device.
+## Lab status
+
+**Status:** Completed  
+**Lab category:** Configuration profiles  
+**Platform:** Windows 10 and later  
+**Management platform:** Microsoft Intune  
+**Target endpoint:** WINAUTO452  
+**Primary user:** user01  
+**Target group:** GRP-Autopilot-Devices  
+**Configuration profile name:** CFG-WIN-Block-USB-Storage  
 
 ---
 
-## Objective
+## Lab objective
 
-Create a Windows device restrictions configuration profile in Microsoft Intune to block access to removable USB storage devices on a pilot corporate Windows device.
+The objective of this lab is to create a Windows device restrictions configuration profile in Microsoft Intune to block access to removable USB storage devices on a corporate Windows test device.
 
 This lab validates that:
 
@@ -17,9 +26,15 @@ This lab validates that:
 - USB/removable storage access can be blocked on the endpoint.
 - Policy status can be reviewed from the Intune admin center.
 
+Final result:
+
+```text
+USB/removable storage access was blocked successfully on WINAUTO452.
+```
+
 ---
 
-## Why This Lab Matters
+## Why this lab matters
 
 In real organizations, administrators may need to prevent users from copying company data to USB flash drives or external removable storage.
 
@@ -32,37 +47,56 @@ Blocking removable storage helps reduce the risk of:
 
 This lab demonstrates a common endpoint security and device restriction scenario using Microsoft Intune.
 
-Simple flow:
-
-```text
-Create Intune configuration profile
--> Configure removable storage restriction
--> Assign policy to pilot device group
--> Sync target Windows device
--> Test USB storage access
--> Verify policy status in Intune
-```
+In a real environment, this type of policy is usually deployed carefully to pilot groups first because removable storage restrictions can affect user workflows.
 
 ---
 
-## Lab Environment
+## Lab environment
 
 | Item | Value |
 |---|---|
 | Management platform | Microsoft Intune |
 | Profile type | Settings catalog |
 | Platform | Windows 10 and later |
-| Policy name | CFG-WIN-Block-USB-Storage |
-| Target group | GRP-Autopilot-Devices |
-| Test device | WINAUTO452 |
+| Policy name | `CFG-WIN-Block-USB-Storage` |
+| Target group | `GRP-Autopilot-Devices` |
+| Test device | `WINAUTO452` |
 | Device ownership | Corporate |
 | Device enrollment type | Windows Autopilot |
-| Primary user | user01 |
+| Primary user | `user01` |
 | Current lab status | Completed |
 
 ---
 
-## Policy Summary
+## Prerequisites
+
+Before starting this lab, the following were completed:
+
+- Microsoft Entra ID users created.
+- Microsoft Entra ID groups created.
+- Windows Autopilot device enrolled.
+- Test device `WINAUTO452` available in Microsoft Intune.
+- `GRP-Autopilot-Devices` group available.
+- `WINAUTO452` included in the target assignment group.
+- Device able to sync with Microsoft Intune.
+- A USB flash drive or removable storage device available for testing.
+
+---
+
+## Deployment / Configuration flow
+
+Simple deployment flow:
+
+```text
+Create Intune Settings catalog profile
+-> Configure removable storage restriction
+-> Assign policy to pilot device group
+-> Sync target Windows device
+-> Verify policy status in Intune
+-> Test USB storage access on endpoint
+```
+
+Policy configuration summary:
 
 | Setting | Value |
 |---|---|
@@ -94,24 +128,9 @@ USB webcam
 
 ---
 
-## Prerequisites
+## Steps performed
 
-Before starting this lab, the following were completed:
-
-- Microsoft Entra ID users created.
-- Microsoft Entra ID groups created.
-- Windows Autopilot device enrolled.
-- Test device `WINAUTO452` available in Microsoft Intune.
-- `GRP-Autopilot-Devices` group available.
-- `WINAUTO452` included in the target assignment group.
-- Device able to sync with Microsoft Intune.
-- A USB flash drive or removable storage device available for testing.
-
----
-
-## Steps Performed
-
-### Step 1: Opened Microsoft Intune Admin Center
+### Step 1: Opened Microsoft Intune admin center
 
 Opened:
 
@@ -137,7 +156,7 @@ Profile type: Settings catalog
 
 ---
 
-### Step 2: Configured Basics
+### Step 2: Configured profile basics
 
 Policy name configured as:
 
@@ -153,7 +172,7 @@ Blocks access to removable USB storage devices on corporate Windows pilot device
 
 ---
 
-### Step 3: Added Removable Storage Restriction Setting
+### Step 3: Added removable storage restriction setting
 
 Navigation used inside the Settings catalog:
 
@@ -185,7 +204,7 @@ This setting was selected to block removable storage access on the target Window
 
 ---
 
-### Step 4: Assigned Policy to Pilot Device Group
+### Step 4: Assigned policy to pilot device group
 
 The policy was assigned to:
 
@@ -203,7 +222,7 @@ This kept the restriction limited to a controlled pilot corporate device instead
 
 ---
 
-### Step 5: Created the Configuration Profile
+### Step 5: Created the configuration profile
 
 The profile was reviewed and created in Microsoft Intune.
 
@@ -215,7 +234,7 @@ CFG-WIN-Block-USB-Storage
 
 ---
 
-### Step 6: Verified Initial Policy Assignment Status
+### Step 6: Verified initial policy assignment status
 
 Initial Intune assignment status showed the target device as pending.
 
@@ -223,7 +242,7 @@ This was expected because the device had not yet fully checked in and reported t
 
 ---
 
-### Step 7: Verified Policy Success in Intune
+### Step 7: Verified policy success in Intune
 
 After device check-in and report refresh, the Intune policy report showed:
 
@@ -241,7 +260,7 @@ This confirmed that the USB storage block policy was successfully delivered to t
 
 ---
 
-### Step 8: Tested USB Storage Access on Endpoint
+### Step 8: Tested USB storage access on endpoint
 
 A removable USB storage device was connected to `WINAUTO452`.
 
@@ -256,9 +275,42 @@ This confirmed that removable USB storage access was blocked successfully.
 
 ---
 
-## Test Result
+## Validation
 
-| Test Item | Result |
+Validation was completed in two places:
+
+1. Microsoft Intune policy reporting
+2. Windows endpoint user experience
+
+### Intune validation
+
+The Intune device status report showed:
+
+```text
+Check-in status: Success
+Succeeded: 1
+Error: 0
+Conflict: 0
+Not applicable: 0
+In progress: 0
+```
+
+### Endpoint validation
+
+The removable USB drive was visible in File Explorer, but access was blocked when the user attempted to open the drive.
+
+Observed message:
+
+```text
+D:\ is not accessible.
+Access is denied.
+```
+
+---
+
+## Final test result
+
+| Validation item | Status |
 |---|---|
 | Settings catalog profile created | Completed |
 | USB/removable storage restriction setting found | Completed |
@@ -268,19 +320,8 @@ This confirmed that removable USB storage access was blocked successfully.
 | Policy status changed from pending to success | Completed |
 | USB storage blocked on endpoint | Completed |
 | Final Intune policy status verified | Completed |
+| Endpoint validation completed | Completed |
 | Final lab result | Completed |
-
----
-
-## Expected Result
-
-After this lab:
-
-- `WINAUTO452` received the Intune configuration profile.
-- The profile status changed to `Success`.
-- Removable USB storage access was blocked on the endpoint.
-- A user could not open the removable USB drive.
-- The result was documented with sanitized screenshots.
 
 Observed endpoint behavior:
 
@@ -291,7 +332,7 @@ Access is denied.
 
 ---
 
-## Screenshots
+## Screenshots captured
 
 Screenshots are stored in:
 
@@ -323,14 +364,7 @@ screenshots/sanitized/configuration-profiles/
 
 ![Endpoint USB Access Denied Test](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-endpoint-after-test-sanitized.png)
 
-> [!NOTE]
-> Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
-
----
-
-## Uploaded Screenshot Files
-
-The following screenshots were uploaded and linked:
+### Uploaded screenshot files
 
 ```text
 windows-usb-storage-block-create-profile-sanitized.png
@@ -341,9 +375,12 @@ windows-usb-storage-block-device-status-success-sanitized.png
 windows-usb-storage-block-endpoint-after-test-sanitized.png
 ```
 
+> [!NOTE]
+> Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
+
 ---
 
-## Troubleshooting Notes
+## Troubleshooting notes
 
 ### Policy initially showed Pending
 
@@ -380,9 +417,59 @@ Access is denied.
 
 This confirmed the policy worked as expected.
 
+### Testing reminder
+
+When testing removable storage restrictions, use a controlled pilot device first.
+
+This type of restriction should not be broadly deployed without testing because it can affect users who rely on removable storage for business workflows.
+
 ---
 
-## Security and Privacy Notes
+## Enterprise reflection
+
+In a real corporate environment, blocking USB storage can be part of a broader data protection strategy.
+
+This type of control may be used alongside:
+
+- Microsoft Defender for Endpoint
+- Microsoft Purview Data Loss Prevention
+- BitLocker encryption
+- Endpoint security baselines
+- Attack Surface Reduction rules
+- Conditional Access
+- Device compliance policies
+
+A recommended enterprise rollout approach would be:
+
+```text
+Pilot group
+-> IT validation
+-> Business stakeholder review
+-> Limited production ring
+-> Broad production rollout
+```
+
+Important production considerations:
+
+| Consideration | Why it matters |
+|---|---|
+| Pilot testing | Confirms the policy does not disrupt required workflows |
+| Exception handling | Some users or departments may require removable storage |
+| User communication | Users should understand why removable storage is blocked |
+| Monitoring | Admins should track policy success, errors, and conflicts |
+| Data protection alignment | USB blocking should support broader security and compliance goals |
+
+For this lab, the policy was assigned only to the Autopilot test device group:
+
+```text
+GRP-Autopilot-Devices
+```
+
+This follows a safer pilot-based deployment approach.
+
+---
+
+## Security and privacy notes
 
 This is a public learning repository.
 
@@ -412,41 +499,30 @@ Before uploading screenshots, hide or blur:
 
 ---
 
-## Current Status
+## Key learning outcomes
 
-| Task | Status |
-|---|---|
-| windows-device-restrictions-profile.md created | Completed |
-| Device restriction profile created | Completed |
-| USB storage block setting configured | Completed |
-| Policy assigned to pilot device group | Completed |
-| Initial screenshots added | Completed |
-| Target device appears in assignment report | Completed |
-| Final Intune success status | Completed |
-| Endpoint USB access denied test | Completed |
-| Final validation screenshots added | Completed |
-| Lab completed | Completed |
+This lab demonstrated:
+
+- How to create a Windows Settings catalog configuration profile in Microsoft Intune.
+- How to find removable storage settings under Administrative Templates.
+- How to enable `All Removable Storage classes: Deny all access`.
+- How to assign a configuration profile to a pilot device group.
+- How to validate Intune policy success from the admin center.
+- How to test policy behavior directly on a Windows endpoint.
+- How to document endpoint validation with sanitized screenshots.
+- Why USB storage blocking should be deployed carefully in production environments.
 
 ---
 
-## Next Step
+## Lab conclusion
 
-This lab is completed.
+The Windows device restrictions profile was completed successfully.
 
-Recommended next configuration/profile lab:
-
-```text
-03-configuration-profiles/windows-corporate-wallpaper-policy.md
-```
-
-Recommended next new lab option:
+Final result:
 
 ```text
-06-endpoint-security/attack-surface-reduction-policy.md
-```
-
-or:
-
-```text
-02-device-enrollment/android-byod-enrollment.md
+CFG-WIN-Block-USB-Storage applied successfully to WINAUTO452.
+The device reported policy success in Microsoft Intune.
+Removable USB storage access was blocked on the endpoint.
+Windows displayed: D:\ is not accessible. Access is denied.
 ```
