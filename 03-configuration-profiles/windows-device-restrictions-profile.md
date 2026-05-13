@@ -163,6 +163,12 @@ Administrative Templates
 -> Removable Storage Access
 ```
 
+Search term used:
+
+```text
+All Removable Storage classes: Deny all access
+```
+
 Configured setting:
 
 ```text
@@ -344,36 +350,60 @@ USB/removable storage access is blocked.
 
 ## Screenshots
 
-Screenshots should be stored in:
+Screenshots are stored in:
 
 ```text
 screenshots/sanitized/configuration-profiles/
 ```
 
-Recommended screenshot filenames:
+### Create Windows Settings Catalog Profile
+
+![Create Windows Settings Catalog Profile](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-create-profile-sanitized.png)
+
+### Settings Picker - Removable Storage Access
+
+![Settings Picker - Removable Storage Access](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-settings-picker-sanitized.png)
+
+### USB Storage Block Setting Enabled
+
+![USB Storage Block Setting Enabled](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-setting-enabled-sanitized.png)
+
+### Assignment to Autopilot Device Group
+
+![Assignment to Autopilot Device Group](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-assignment-sanitized.png)
+
+> [!NOTE]
+> Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
+
+---
+
+## Uploaded Screenshot Files
+
+The following screenshots have been uploaded and linked:
 
 ```text
-windows-usb-storage-block-profile-basics-sanitized.png
-windows-usb-storage-block-setting-sanitized.png
+windows-usb-storage-block-create-profile-sanitized.png
+windows-usb-storage-block-settings-picker-sanitized.png
+windows-usb-storage-block-setting-enabled-sanitized.png
 windows-usb-storage-block-assignment-sanitized.png
-windows-usb-storage-block-review-create-sanitized.png
-windows-usb-storage-block-device-status-pending-sanitized.png
-windows-usb-storage-block-manual-sync-sanitized.png
-windows-usb-storage-block-device-status-success-sanitized.png
-windows-usb-storage-block-endpoint-before-test-sanitized.png
-windows-usb-storage-block-endpoint-after-test-sanitized.png
 ```
 
 ---
 
-## Screenshot Links
+## Pending Screenshots
 
-Image links will be added after the screenshots are captured, sanitized, and uploaded to GitHub.
+The following screenshots should be added after final policy validation:
 
-Example format:
+```text
+windows-usb-storage-block-device-status-success-sanitized.png
+windows-usb-storage-block-manual-sync-sanitized.png
+windows-usb-storage-block-endpoint-after-test-sanitized.png
+```
 
-```markdown
-![USB storage block setting](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-setting-sanitized.png)
+Optional screenshot if captured before policy enforcement:
+
+```text
+windows-usb-storage-block-endpoint-before-test-sanitized.png
 ```
 
 ---
@@ -464,12 +494,13 @@ Before uploading screenshots, hide or blur:
 | Device restriction profile created | Completed |
 | USB storage block setting configured | Completed |
 | Policy assigned to pilot device group | Completed |
+| Initial screenshots added | Completed |
 | Target device appears in assignment report | Completed |
 | Initial policy status | Pending |
 | Manual sync validation | Pending |
 | Endpoint USB test | Pending |
 | Final Intune success status | Pending |
-| Screenshots added | Pending |
+| Final validation screenshots added | Pending |
 
 ---
 
