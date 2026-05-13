@@ -321,12 +321,10 @@ screenshots/sanitized/configuration-profiles/
 
 ### Endpoint USB Access Denied Test
 
-![Endpoint USB Access Denied Test](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-endpoint-after-test-sanitized.png.png)
+![Endpoint USB Access Denied Test](../screenshots/sanitized/configuration-profiles/windows-usb-storage-block-endpoint-after-test-sanitized.png)
 
 > [!NOTE]
 > Screenshots were sanitized before upload. Tenant names, full email addresses, top-right signed-in account details, and sensitive identifiers were hidden.
->
-> The endpoint validation screenshot currently uses the uploaded filename `windows-usb-storage-block-endpoint-after-test-sanitized.png.png`. If the file is later renamed to remove the extra `.png`, update the image link in this Markdown file.
 
 ---
 
@@ -340,7 +338,7 @@ windows-usb-storage-block-settings-picker-sanitized.png
 windows-usb-storage-block-setting-enabled-sanitized.png
 windows-usb-storage-block-assignment-sanitized.png
 windows-usb-storage-block-device-status-success-sanitized.png
-windows-usb-storage-block-endpoint-after-test-sanitized.png.png
+windows-usb-storage-block-endpoint-after-test-sanitized.png
 ```
 
 ---
@@ -435,7 +433,7 @@ Before uploading screenshots, hide or blur:
 
 This lab is completed.
 
-Recommended next configuration/profile cleanup:
+Recommended next configuration/profile lab:
 
 ```text
 03-configuration-profiles/windows-corporate-wallpaper-policy.md
