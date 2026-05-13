@@ -2,7 +2,7 @@
 
 This repository documents a hands-on Microsoft Intune and MD-102 lab environment.
 
-The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows device enrollment, Windows Autopilot, compliance policies, Conditional Access, application deployment, endpoint security, BYOD enrollment, remote actions, monitoring, and troubleshooting.
+The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows device enrollment, Windows Autopilot, compliance policies, Conditional Access, application deployment, endpoint security, configuration profiles, BYOD enrollment, remote actions, monitoring, and troubleshooting.
 
 ---
 
@@ -16,6 +16,9 @@ This project is designed to show real-world endpoint administration skills, incl
 - Assigning licenses to test users
 - Enrolling Windows devices into Microsoft Intune
 - Troubleshooting Intune enrollment issues
+- Configuring Windows device configuration profiles
+- Deploying corporate device restrictions
+- Deploying corporate desktop personalization settings
 - Configuring compliance policies
 - Testing Conditional Access
 - Deploying applications
@@ -41,6 +44,8 @@ The company includes:
 - Microsoft Entra ID users and groups
 - Microsoft Intune device management
 - Microsoft 365 Apps
+- Configuration profiles
+- Endpoint security policies
 - Conditional Access and compliance controls
 
 Detailed scenario documentation:
@@ -135,6 +140,9 @@ md102-intune-virtual-company-lab/
 | Windows OOBE enrollment lab completed | Completed |
 | Windows Autopilot lab completed | Completed |
 | Windows BYOD enrollment lab completed | Completed |
+| Windows basic configuration profile lab completed | Completed |
+| Corporate wallpaper ADMX configuration profile lab completed | Completed |
+| USB storage block device restrictions lab completed | Completed |
 | Microsoft Store app deployment lab completed | Completed |
 | Win32 app deployment lab completed | Completed |
 | Microsoft 365 Apps deployment lab completed | Completed |
@@ -145,7 +153,7 @@ md102-intune-virtual-company-lab/
 | Attack Surface Reduction policy lab | Next / Planned |
 | Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
-| Configuration profile labs | Planned |
+| Configuration profile labs | Completed / In progress |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting documentation | Planned |
 
@@ -289,6 +297,89 @@ Observed result:
 ```text
 WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
 The device appeared as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
+```
+
+---
+
+### 03 - Windows Basic Configuration Profile
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-basic-configuration-profile.md
+```
+
+Completed work:
+
+- Created a Windows configuration profile using the Settings catalog
+- Configured basic Windows device settings
+- Assigned the profile to the Autopilot device group
+- Synced the target Windows device
+- Verified policy deployment status in Intune
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Windows basic configuration profile was created, assigned, and validated through Microsoft Intune.
+```
+
+---
+
+### 03 - Corporate Wallpaper ADMX Configuration Profile
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-corporate-wallpaper-policy.md
+```
+
+Completed work:
+
+- Rebuilt the corporate wallpaper lab after the earlier Desktop Image Url approach failed
+- Created a PowerShell platform script to stage the wallpaper file locally
+- Downloaded the wallpaper from the GitHub raw image URL
+- Saved the wallpaper under C:\ProgramData\HomeLab\Wallpapers
+- Created an ADMX-backed Desktop Wallpaper user configuration profile
+- Configured the wallpaper path using a normal local Windows file path
+- Assigned the script to GRP-Autopilot-Devices
+- Assigned the wallpaper policy to GRP-Pilot-Users
+- Verified script status as Succeeded on WINAUTO452
+- Verified ADMX wallpaper policy status as Success
+- Confirmed the corporate wallpaper applied on the endpoint
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The corporate wallpaper was staged locally and applied successfully on WINAUTO452 using an ADMX-backed Desktop Wallpaper user policy.
+```
+
+---
+
+### 03 - Windows Device Restrictions: Block USB Storage
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-device-restrictions-profile.md
+```
+
+Completed work:
+
+- Created a Windows Settings catalog configuration profile
+- Configured the removable storage access setting
+- Enabled "All Removable Storage classes: Deny all access"
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified the target device reported policy success
+- Tested USB/removable storage access on WINAUTO452
+- Confirmed Windows blocked access to the removable drive
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WINAUTO452 received the policy successfully, and removable USB storage access was blocked with an "Access is denied" message.
 ```
 
 ---
@@ -489,6 +580,9 @@ Microsoft Entra users and groups
 -> Autopilot OOBE enrollment
 -> Corporate Intune-managed device
 -> Required apps installed after enrollment
+-> Configuration profiles applied
+-> Corporate wallpaper deployed
+-> USB storage restriction validated
 -> Endpoint security policies applied
 -> Defender Antivirus, Firewall, and BitLocker validated
 -> Windows BYOD enrollment validated
@@ -517,6 +611,12 @@ This project demonstrates practical skills in:
 - Personal device ownership validation in Intune
 - Device compliance visibility
 - Conditional Access planning
+- Windows configuration profile deployment
+- Settings catalog profile configuration
+- ADMX-backed policy configuration
+- PowerShell platform script deployment
+- Corporate wallpaper deployment
+- Removable USB storage restriction
 - Microsoft Store app deployment
 - Required app assignment
 - Available app assignment through Company Portal
@@ -570,6 +670,7 @@ Example folders:
 ```text
 screenshots/sanitized/identity-and-groups/
 screenshots/sanitized/device-enrollment/
+screenshots/sanitized/configuration-profiles/
 screenshots/sanitized/application-deployment/
 screenshots/sanitized/endpoint-security/
 ```
