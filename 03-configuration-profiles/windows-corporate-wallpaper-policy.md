@@ -10,6 +10,8 @@
 **Target user:** user01  
 **Script target group:** GRP-Autopilot-Devices  
 **Wallpaper policy target group:** GRP-Pilot-Users  
+**PowerShell script name:** SCRIPT-WIN-Stage-Corporate-Wallpaper  
+**Configuration profile name:** CFG-WIN-Corporate-Wallpaper-ADMX  
 
 ---
 
@@ -17,13 +19,15 @@
 
 The objective of this lab is to deploy a corporate desktop wallpaper to an Autopilot-managed Windows device using Microsoft Intune.
 
-This rebuilt lab uses a cleaner and more reliable approach:
+This lab validates that:
 
-| Component | Purpose |
-|---|---|
-| PowerShell platform script | Downloads and stages the wallpaper image locally under `C:\ProgramData` |
-| ADMX-backed configuration profile | Configures the desktop wallpaper using the local file path |
-| User assignment group | Applies the wallpaper setting to the signed-in user |
+- A PowerShell platform script can be deployed from Intune.
+- A corporate wallpaper image can be downloaded from a GitHub raw URL.
+- The wallpaper image can be staged locally under `C:\ProgramData`.
+- An ADMX-backed Desktop Wallpaper user policy can be configured in Intune.
+- A user-based wallpaper policy can be assigned to a pilot user group.
+- The target Windows device can receive the policy and apply the corporate wallpaper.
+- The final result can be verified from Intune and from the endpoint desktop.
 
 Final result:
 
@@ -33,7 +37,109 @@ Corporate wallpaper was successfully applied on WINAUTO452.
 
 ---
 
-## Why this approach was used
+## Why this lab matters
+
+Many organizations use a standard desktop wallpaper for branding, user communication, or internal campaigns.
+
+Examples include:
+
+- Company branding
+- Security awareness reminders
+- Monthly corporate announcements
+- Device ownership identification
+- Standardized desktop experience
+
+In a real corporate environment, wallpaper deployment needs to be reliable and repeatable. A monthly wallpaper rollout should avoid manual setup on each endpoint.
+
+This lab demonstrates a practical Intune approach:
+
+```text
+Stage wallpaper locally
+-> Apply wallpaper with user policy
+-> Validate result on endpoint
+```
+
+This approach also documents troubleshooting from an earlier failed method and shows how the design was improved.
+
+---
+
+## Lab environment
+
+| Item | Value |
+|---|---|
+| Device name | `WINAUTO452` |
+| Device type | Windows laptop |
+| Device ownership | Corporate |
+| Enrollment method | Windows Autopilot |
+| Management platform | Microsoft Intune |
+| Operating system | Windows 11 Pro |
+| Primary user | `user01` |
+| Wallpaper source | GitHub raw image URL |
+| Local wallpaper path | `C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg` |
+| Script name | `SCRIPT-WIN-Stage-Corporate-Wallpaper` |
+| Configuration profile name | `CFG-WIN-Corporate-Wallpaper-ADMX` |
+| Script assignment group | `GRP-Autopilot-Devices` |
+| Wallpaper policy assignment group | `GRP-Pilot-Users` |
+| Final result | Completed successfully |
+
+---
+
+## Prerequisites
+
+Before starting this lab, the following were completed:
+
+- Microsoft Entra ID users created.
+- Microsoft Entra ID groups created.
+- Test user `user01` created and licensed.
+- `GRP-Pilot-Users` group available.
+- `GRP-Autopilot-Devices` group available.
+- Windows Autopilot device `WINAUTO452` enrolled into Intune.
+- Device available in Microsoft Intune.
+- Device able to sync with Intune.
+- Wallpaper image uploaded to the GitHub repository.
+- Screenshots sanitized before upload to the public GitHub repository.
+
+Wallpaper image location in the repository:
+
+```text
+assets/wallpapers/homelab-corporate-wallpaper.jpg
+```
+
+Raw GitHub URL used by the PowerShell script:
+
+```text
+https://raw.githubusercontent.com/anup-moitra/md102-intune-virtual-company-lab/main/assets/wallpapers/homelab-corporate-wallpaper.jpg
+```
+
+---
+
+## Deployment / Configuration flow
+
+This rebuilt lab uses a two-part deployment model.
+
+| Component | Purpose |
+|---|---|
+| PowerShell platform script | Downloads and stages the wallpaper image locally under `C:\ProgramData` |
+| ADMX-backed configuration profile | Configures the desktop wallpaper using the local file path |
+| User assignment group | Applies the wallpaper setting to the signed-in user |
+
+Deployment flow:
+
+```text
+Create PowerShell staging script
+-> Upload script to Intune
+-> Assign script to Autopilot device group
+-> Script downloads wallpaper to C:\ProgramData
+-> Create Settings Catalog profile
+-> Configure ADMX-backed Desktop Wallpaper user setting
+-> Assign wallpaper policy to pilot user group
+-> Sync device and sign in as target user
+-> Verify script success
+-> Verify policy success
+-> Confirm wallpaper applied on endpoint
+```
+
+### Why this approach was used
 
 The earlier wallpaper approach used the Settings Catalog setting:
 
@@ -64,83 +170,26 @@ This approach uses a normal Windows file path:
 C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg
 ```
 
-This design separates the lab into two clear parts:
+The final successful design separates the lab into two clear responsibilities:
 
 ```text
-Stage wallpaper file locally
--> Apply user wallpaper policy
--> Validate wallpaper on endpoint
+PowerShell script: stage the wallpaper file locally
+ADMX policy: apply the wallpaper for the signed-in user
 ```
 
 ---
 
-## Lab environment
+## Steps performed
 
-| Item | Value |
-|---|---|
-| Device name | WINAUTO452 |
-| Device type | Windows laptop |
-| Device ownership | Corporate |
-| Enrollment method | Windows Autopilot |
-| Management | Microsoft Intune |
-| Operating system | Windows 11 Pro |
-| Primary user | user01 |
-| Wallpaper source | GitHub raw image URL |
-| Local wallpaper path | `C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg` |
-| Script name | `SCRIPT-WIN-Stage-Corporate-Wallpaper` |
-| Configuration profile name | `CFG-WIN-Corporate-Wallpaper-ADMX` |
-| Final result | Completed successfully |
+### Step 1: Created the PowerShell staging script
 
----
-
-## Wallpaper source
-
-The wallpaper image is stored in the GitHub repository under:
-
-```text
-assets/wallpapers/homelab-corporate-wallpaper.jpg
-```
-
-Raw GitHub URL used by the PowerShell script:
-
-```text
-https://raw.githubusercontent.com/anup-moitra/md102-intune-virtual-company-lab/main/assets/wallpapers/homelab-corporate-wallpaper.jpg
-```
-
-The script downloads this image and saves it locally as:
-
-```text
-C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg
-```
-
----
-
-## Deployment flow
-
-```text
-1. Create PowerShell script
-2. Upload script to Intune
-3. Assign script to corporate Autopilot device group
-4. Script downloads wallpaper to C:\ProgramData
-5. Create Settings Catalog profile
-6. Configure ADMX-backed Desktop Wallpaper user setting
-7. Assign wallpaper policy to pilot user group
-8. Sync device and sign in as target user
-9. Verify Intune policy success
-10. Confirm wallpaper applied on endpoint
-```
-
----
-
-## Part 1 - Create the PowerShell staging script
-
-### Script name
+Script filename:
 
 ```text
 Stage-HomeLab-Corporate-Wallpaper.ps1
 ```
 
-### Script content
+Script content:
 
 ```powershell
 $WallpaperUrl = "https://raw.githubusercontent.com/anup-moitra/md102-intune-virtual-company-lab/main/assets/wallpapers/homelab-corporate-wallpaper.jpg"
@@ -162,8 +211,6 @@ else {
 }
 ```
 
-### What the script does
-
 The script performs the following actions:
 
 1. Defines the GitHub raw URL for the wallpaper image.
@@ -175,9 +222,9 @@ The script performs the following actions:
 
 ---
 
-## Part 2 - Deploy the PowerShell script from Intune
+### Step 2: Uploaded the PowerShell script to Intune
 
-### Navigation path
+Navigation path:
 
 ```text
 Microsoft Intune admin center
@@ -188,18 +235,14 @@ Microsoft Intune admin center
 -> Windows 10 and later
 ```
 
-### Script basics
+Script basics:
 
 | Setting | Value |
 |---|---|
 | Name | `SCRIPT-WIN-Stage-Corporate-Wallpaper` |
 | Description | Downloads the HomeLab corporate wallpaper from GitHub and stages it locally under `C:\ProgramData` for the ADMX desktop wallpaper policy. |
 
-![PowerShell script basics](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-basics-sanitized.png)
-
----
-
-### Script settings
+Script settings:
 
 | Setting | Value |
 |---|---|
@@ -208,9 +251,7 @@ Microsoft Intune admin center
 | Enforce script signature check | No |
 | Run script in 64-bit PowerShell Host | Yes |
 
-![PowerShell script settings](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-settings-sanitized.png)
-
-### Why these script settings were used
+Reason for the script settings:
 
 | Setting | Reason |
 |---|---|
@@ -220,7 +261,7 @@ Microsoft Intune admin center
 
 ---
 
-### Script assignment
+### Step 3: Assigned the PowerShell script
 
 The script was assigned to the corporate Autopilot device group:
 
@@ -234,38 +275,34 @@ Target device:
 WINAUTO452
 ```
 
-![PowerShell script assignment](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-assignment-sanitized.png)
+The script assignment was device-based because the script stages the wallpaper file locally on the endpoint.
 
 ---
 
-### Script review and create
-
-The script configuration was reviewed before creation.
-
-![PowerShell script review and create](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-review-create-sanitized.png)
-
----
-
-### Script deployment result
+### Step 4: Verified PowerShell script success
 
 The PowerShell script completed successfully on the target device.
 
 | Item | Result |
 |---|---|
 | Script | `SCRIPT-WIN-Stage-Corporate-Wallpaper` |
-| Device | WINAUTO452 |
-| User | user01 |
+| Device | `WINAUTO452` |
+| User | `user01` |
 | Status | Succeeded |
 | OS version | Windows 11 |
 | Result | Wallpaper staged locally |
 
-![PowerShell script device status success](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-device-status-success-sanitized.png)
+Expected local wallpaper path:
+
+```text
+C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg
+```
 
 ---
 
-## Part 3 - Create the ADMX-backed wallpaper configuration profile
+### Step 5: Created the ADMX-backed wallpaper configuration profile
 
-### Navigation path
+Navigation path:
 
 ```text
 Microsoft Intune admin center
@@ -282,24 +319,18 @@ Selected:
 | Platform | Windows 10 and later |
 | Profile type | Settings catalog |
 
-![Create Settings Catalog profile](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-create-profile-sanitized.png)
-
----
-
-### Profile basics
+Profile basics:
 
 | Setting | Value |
 |---|---|
 | Name | `CFG-WIN-Corporate-Wallpaper-ADMX` |
 | Description | Configures the corporate desktop wallpaper using the ADMX-backed Desktop Wallpaper user setting. |
 
-![ADMX wallpaper profile basics](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-profile-basics-sanitized.png)
-
 ---
 
-## Part 4 - Configure the Desktop Wallpaper ADMX setting
+### Step 6: Configured the Desktop Wallpaper ADMX setting
 
-### Settings Catalog path
+Settings Catalog path:
 
 ```text
 Administrative Templates
@@ -313,7 +344,7 @@ Configured setting:
 Desktop Wallpaper (User)
 ```
 
-### Configuration values
+Configuration values:
 
 | Setting | Value |
 |---|---|
@@ -321,9 +352,7 @@ Desktop Wallpaper (User)
 | Wallpaper Name (User) | `C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg` |
 | Wallpaper Style (User) | Fill |
 
-![ADMX desktop wallpaper setting](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-setting-sanitized.png)
-
-### Important note
+Important configuration note:
 
 This ADMX-backed setting uses a normal Windows file path.
 
@@ -343,7 +372,7 @@ The `file:///` format was part of the older Desktop Image Url approach and was n
 
 ---
 
-## Part 5 - Assign the ADMX wallpaper policy
+### Step 7: Assigned the ADMX wallpaper policy
 
 Because `Desktop Wallpaper (User)` is a user setting, the configuration profile was assigned to a user group.
 
@@ -359,25 +388,15 @@ Target user:
 user01
 ```
 
-![ADMX wallpaper policy assignment](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-assignment-sanitized.png)
+This assignment design matters because the wallpaper setting applies in the signed-in user context.
 
 ---
 
-### ADMX policy review and create
+### Step 8: Synced and restarted the endpoint
 
-The ADMX wallpaper configuration profile was reviewed before creation.
+After the policy was created, the target endpoint was synced and restarted.
 
-![ADMX wallpaper policy review and create](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-review-create-sanitized.png)
-
----
-
-## Part 6 - Validate policy deployment
-
-After the policy was created, the target endpoint was synced and the policy status was reviewed in Intune.
-
-### Sync methods used
-
-From Intune:
+Sync from Intune:
 
 ```text
 Devices
@@ -386,7 +405,7 @@ Devices
 -> Sync
 ```
 
-From the endpoint:
+Sync from the endpoint:
 
 ```text
 Settings
@@ -397,29 +416,44 @@ Settings
 -> Sync
 ```
 
-The device was restarted and the target user signed in again.
+After sync, the device was restarted and `user01` signed in again.
 
 ---
 
-### ADMX policy deployment result
+## Validation
+
+Validation was completed in three places:
+
+1. PowerShell script status in Intune
+2. ADMX wallpaper policy status in Intune
+3. Endpoint desktop visual validation
+
+### Script validation
+
+The PowerShell platform script reported success.
+
+| Item | Result |
+|---|---|
+| Script | `SCRIPT-WIN-Stage-Corporate-Wallpaper` |
+| Target device | `WINAUTO452` |
+| Status | Succeeded |
+| Result | Wallpaper staged locally |
+
+### Policy validation
 
 The configuration profile reported success for the target device.
 
 | Item | Result |
 |---|---|
 | Profile | `CFG-WIN-Corporate-Wallpaper-ADMX` |
-| Target device | WINAUTO452 |
-| Logged-in user | user01 |
+| Target device | `WINAUTO452` |
+| Logged-in user | `user01` |
 | Assignment status | Success |
 | Error | 0 |
 | Conflict | 0 |
 | Result | Wallpaper policy applied |
 
-![ADMX wallpaper device status success](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-device-status-success-sanitized.png)
-
----
-
-## Part 7 - Endpoint validation
+### Endpoint validation
 
 The wallpaper was successfully applied on the endpoint desktop.
 
@@ -434,8 +468,6 @@ Endpoint validation device:
 ```text
 WINAUTO452
 ```
-
-![Corporate wallpaper endpoint validation](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-endpoint-validation-sanitized.png)
 
 ---
 
@@ -456,6 +488,14 @@ WINAUTO452
 | Endpoint wallpaper visually validated | Completed |
 | Final lab result | Completed |
 
+Final observed result:
+
+```text
+SCRIPT-WIN-Stage-Corporate-Wallpaper succeeded on WINAUTO452.
+CFG-WIN-Corporate-Wallpaper-ADMX succeeded on WINAUTO452.
+The corporate wallpaper was visible on the endpoint desktop.
+```
+
 ---
 
 ## Screenshots captured
@@ -466,20 +506,70 @@ All screenshots are stored in:
 screenshots/sanitized/configuration-profiles/
 ```
 
-| Screenshot | Purpose |
-|---|---|
-| `windows-corporate-wallpaper-script-basics-sanitized.png` | PowerShell script basics |
-| `windows-corporate-wallpaper-script-settings-sanitized.png` | PowerShell script settings |
-| `windows-corporate-wallpaper-script-assignment-sanitized.png` | PowerShell script assignment |
-| `windows-corporate-wallpaper-script-review-create-sanitized.png` | PowerShell script review and create |
-| `windows-corporate-wallpaper-script-device-status-success-sanitized.png` | PowerShell script success status |
-| `windows-corporate-wallpaper-admx-create-profile-sanitized.png` | Settings Catalog profile creation |
-| `windows-corporate-wallpaper-admx-profile-basics-sanitized.png` | ADMX wallpaper profile basics |
-| `windows-corporate-wallpaper-admx-setting-sanitized.png` | Desktop Wallpaper ADMX setting |
-| `windows-corporate-wallpaper-admx-assignment-sanitized.png` | ADMX policy assignment |
-| `windows-corporate-wallpaper-admx-review-create-sanitized.png` | ADMX policy review and create |
-| `windows-corporate-wallpaper-admx-device-status-success-sanitized.png` | ADMX policy success status |
-| `windows-corporate-wallpaper-endpoint-validation-sanitized.png` | Endpoint wallpaper validation |
+### PowerShell script basics
+
+![PowerShell script basics](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-basics-sanitized.png)
+
+### PowerShell script settings
+
+![PowerShell script settings](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-settings-sanitized.png)
+
+### PowerShell script assignment
+
+![PowerShell script assignment](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-assignment-sanitized.png)
+
+### PowerShell script review and create
+
+![PowerShell script review and create](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-review-create-sanitized.png)
+
+### PowerShell script device status success
+
+![PowerShell script device status success](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-script-device-status-success-sanitized.png)
+
+### Create Settings Catalog profile
+
+![Create Settings Catalog profile](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-create-profile-sanitized.png)
+
+### ADMX wallpaper profile basics
+
+![ADMX wallpaper profile basics](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-profile-basics-sanitized.png)
+
+### ADMX desktop wallpaper setting
+
+![ADMX desktop wallpaper setting](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-setting-sanitized.png)
+
+### ADMX wallpaper policy assignment
+
+![ADMX wallpaper policy assignment](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-assignment-sanitized.png)
+
+### ADMX wallpaper policy review and create
+
+![ADMX wallpaper policy review and create](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-review-create-sanitized.png)
+
+### ADMX wallpaper device status success
+
+![ADMX wallpaper device status success](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-admx-device-status-success-sanitized.png)
+
+### Corporate wallpaper endpoint validation
+
+![Corporate wallpaper endpoint validation](../screenshots/sanitized/configuration-profiles/windows-corporate-wallpaper-endpoint-validation-sanitized.png)
+
+### Uploaded screenshot files
+
+```text
+windows-corporate-wallpaper-script-basics-sanitized.png
+windows-corporate-wallpaper-script-settings-sanitized.png
+windows-corporate-wallpaper-script-assignment-sanitized.png
+windows-corporate-wallpaper-script-review-create-sanitized.png
+windows-corporate-wallpaper-script-device-status-success-sanitized.png
+windows-corporate-wallpaper-admx-create-profile-sanitized.png
+windows-corporate-wallpaper-admx-profile-basics-sanitized.png
+windows-corporate-wallpaper-admx-setting-sanitized.png
+windows-corporate-wallpaper-admx-assignment-sanitized.png
+windows-corporate-wallpaper-admx-review-create-sanitized.png
+windows-corporate-wallpaper-admx-device-status-success-sanitized.png
+windows-corporate-wallpaper-endpoint-validation-sanitized.png
+```
 
 ---
 
@@ -515,8 +605,6 @@ C:\ProgramData\HomeLab\Wallpapers\homelab-corporate-wallpaper.jpg
 
 The rebuilt approach applied successfully.
 
----
-
 ### Why the script and policy were separated
 
 The wallpaper file must exist locally before the ADMX wallpaper setting can apply it.
@@ -538,6 +626,18 @@ Set desktop wallpaper
 ```
 
 This separation is useful for learning and troubleshooting because it makes the two responsibilities clear.
+
+### Testing reminder
+
+When testing corporate wallpaper deployment, validate both sides:
+
+```text
+Script success
+Policy success
+Endpoint visual result
+```
+
+If the script succeeds but the wallpaper does not apply, check user assignment, user sign-in, policy sync, and whether the local file path matches the policy value.
 
 ---
 
@@ -563,6 +663,20 @@ User group receives the wallpaper policy
 Endpoint confirms the wallpaper applied successfully
 ```
 
+For a production monthly wallpaper rollout, a safer process would be:
+
+```text
+Create approved monthly wallpaper image
+-> Upload to company-controlled storage or package as a managed app
+-> Pilot to IT users
+-> Validate script/app delivery
+-> Validate wallpaper policy
+-> Roll out to production groups
+-> Keep previous wallpaper available for rollback
+```
+
+This lab shows the value of separating file delivery from policy enforcement.
+
 ---
 
 ## Security and privacy notes
@@ -572,6 +686,7 @@ This is a public learning repository.
 Do not publish screenshots that show:
 
 - Full user email addresses
+- Tenant names
 - Tenant IDs
 - Device IDs
 - Object IDs
@@ -594,12 +709,14 @@ This lab demonstrated:
 - How to rebuild a failed Intune wallpaper deployment using a better approach.
 - How to stage a file locally with an Intune PowerShell platform script.
 - How to assign a script to a device group.
+- Why local file staging is separate from user policy application.
 - How to configure the ADMX-backed Desktop Wallpaper user setting.
 - Why user settings should be assigned to user groups.
 - How to validate script success in Intune.
 - How to validate configuration profile success in Intune.
 - How to confirm wallpaper application on the endpoint.
 - How to document troubleshooting and final resolution professionally.
+- How to think about a production-ready corporate wallpaper rollout.
 
 ---
 
@@ -614,3 +731,5 @@ SCRIPT-WIN-Stage-Corporate-Wallpaper succeeded on WINAUTO452.
 CFG-WIN-Corporate-Wallpaper-ADMX succeeded on WINAUTO452.
 The corporate wallpaper was visible on the endpoint desktop.
 ```
+
+This confirms that the rebuilt ADMX-backed wallpaper method worked correctly in the lab environment.
