@@ -14,7 +14,7 @@ This roadmap is updated as the project progresses from initial documentation to 
 
 ## Current Project Status
 
-The project has completed the foundation documentation, identity and group setup, Windows OOBE enrollment, Windows Autopilot user-driven enrollment, Windows BYOD enrollment, Microsoft Store app deployment, Win32 7-Zip app deployment, Microsoft 365 Apps deployment, and the first endpoint security policy labs.
+The project has completed the foundation documentation, identity and group setup, Windows OOBE enrollment, Windows Autopilot user-driven enrollment, Windows BYOD enrollment, Microsoft Store app deployment, Win32 7-Zip app deployment, Microsoft 365 Apps deployment, Windows configuration profile labs, and the first endpoint security policy labs.
 
 Completed work:
 
@@ -40,6 +40,12 @@ Completed work:
 - Required apps verified after Autopilot enrollment
 - Windows BYOD enrollment for `WIN-BYOD-001` completed
 - Windows BYOD device verified as Intune managed, Personal, and Compliant
+- Windows basic configuration profile completed
+- Corporate wallpaper ADMX configuration profile completed
+- Corporate wallpaper staged locally with a PowerShell platform script
+- Corporate wallpaper validated successfully on `WINAUTO452`
+- USB storage block device restrictions profile completed
+- USB/removable storage access denied result validated on `WINAUTO452`
 - Microsoft Store app deployment completed
 - Required Microsoft Store apps verified in Company Portal
 - Available Microsoft Store apps verified in Company Portal
@@ -68,7 +74,7 @@ Current focus:
 - Keep roadmap, README, device inventory, and related lab files aligned after each completed lab
 
 > [!NOTE]
-> The project is not being completed strictly in folder order. Microsoft Store app deployment, Win32 app deployment, Microsoft 365 Apps deployment, Windows Autopilot, endpoint security, and Windows BYOD were completed before some compliance, Conditional Access, configuration profile, mobile BYOD, and remote action labs. This roadmap reflects the actual hands-on progress.
+> The project is not being completed strictly in folder order. Microsoft Store app deployment, Win32 app deployment, Microsoft 365 Apps deployment, Windows Autopilot, endpoint security, configuration profiles, and Windows BYOD were completed before some compliance, Conditional Access, mobile BYOD, and remote action labs. This roadmap reflects the actual hands-on progress.
 
 ---
 
@@ -90,7 +96,9 @@ Current focus:
 | Phase 11 | Create Conditional Access policy in Report-only mode | Planned |
 | Phase 12 | Test compliant corporate Windows sign-in | Planned |
 | Phase 13 | Test unmanaged BYOD sign-in | Planned |
-| Phase 14 | Create basic Windows configuration profile | Planned |
+| Phase 14 | Create basic Windows configuration profile | Completed |
+| Phase 14A | Create corporate wallpaper ADMX configuration profile | Completed |
+| Phase 14B | Create USB storage block device restrictions profile | Completed |
 | Phase 15 | Deploy Microsoft Store apps | Completed |
 | Phase 16 | Deploy Win32 app using Intune | Completed |
 | Phase 17 | Deploy Microsoft 365 Apps | Completed |
@@ -220,11 +228,37 @@ Windows BYOD validation included:
 
 | File | Status |
 |---|---|
-| 03-configuration-profiles/windows-basic-configuration-profile.md | Planned |
-| 03-configuration-profiles/windows-corporate-wallpaper-policy.md | Planned |
-| 03-configuration-profiles/windows-device-restrictions-profile.md | Planned |
+| 03-configuration-profiles/windows-basic-configuration-profile.md | Completed |
+| 03-configuration-profiles/windows-corporate-wallpaper-policy.md | Completed |
+| 03-configuration-profiles/windows-device-restrictions-profile.md | Completed |
 
-This section will document Windows configuration settings pushed by Microsoft Intune.
+This section documents Windows configuration settings pushed by Microsoft Intune.
+
+Completed configuration profile work:
+
+```text
+Windows basic configuration profile
+-> Corporate wallpaper ADMX policy
+-> USB storage block device restrictions policy
+```
+
+Configuration profile validation included:
+
+- Settings Catalog profile creation
+- Assignment to pilot groups
+- Device sync and policy reporting
+- ADMX-backed Desktop Wallpaper user policy
+- PowerShell platform script for wallpaper staging
+- USB/removable storage access restriction
+- Endpoint validation screenshots
+
+Observed configuration profile results:
+
+```text
+The Windows basic configuration profile was created and validated.
+The corporate wallpaper was staged locally and applied successfully using an ADMX-backed user policy.
+The USB storage block policy applied successfully and blocked removable drive access with an Access is denied message.
+```
 
 ### 04 - Compliance and Conditional Access
 
@@ -413,6 +447,12 @@ This section will document repeatable troubleshooting checklists and realistic s
 | 48 | Perform manual sync from Windows Settings | Completed |
 | 49 | Verify `WIN-BYOD-001` in Intune as Personal, Compliant, and managed by Intune | Completed |
 | 50 | Update Windows BYOD documentation with screenshots | Completed |
+| 51 | Create Windows basic configuration profile | Completed |
+| 52 | Create corporate wallpaper ADMX policy | Completed |
+| 53 | Create USB storage block policy | Completed |
+| 54 | Validate USB block endpoint result | Completed |
+| 55 | Validate corporate wallpaper endpoint result | Completed |
+| 56 | Update configuration profile documentation with screenshots | Completed |
 
 ---
 
@@ -486,6 +526,7 @@ Examples:
 ```text
 screenshots/sanitized/identity-and-groups/
 screenshots/sanitized/device-enrollment/
+screenshots/sanitized/configuration-profiles/
 screenshots/sanitized/application-deployment/
 screenshots/sanitized/endpoint-security/
 ```
@@ -505,6 +546,7 @@ screenshots/sanitized/endpoint-security/
 | Windows OOBE enrollment lab | Completed |
 | Windows Autopilot enrollment lab | Completed |
 | Windows BYOD enrollment lab | Completed |
+| Configuration profile labs | Completed |
 | Microsoft Store app deployment lab | Completed |
 | Win32 app deployment lab | Completed |
 | Microsoft 365 Apps deployment lab | Completed |
@@ -516,7 +558,6 @@ screenshots/sanitized/endpoint-security/
 | Attack Surface Reduction policy lab | Next / Planned |
 | Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
-| Configuration profile labs | Planned |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting labs | Planned |
 
