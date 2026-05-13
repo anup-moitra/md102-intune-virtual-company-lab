@@ -313,48 +313,58 @@ Screenshots for this lab are stored in:
 screenshots/sanitized/device-enrollment/
 ```
 
-> [!NOTE]
-> The screenshot filenames below should match the current uploaded files in the repository. If any screenshot was renamed during cleanup, update the Markdown links to match the final sanitized filenames.
+### Windows OOBE region selection
 
-### Windows OOBE work or school setup
+![Windows OOBE region selection](../screenshots/sanitized/device-enrollment/windows-oobe-region-selection-sanitized.png)
 
-![Windows OOBE work or school setup](../screenshots/sanitized/device-enrollment/windows-oobe-work-school-setup-sanitized.png)
+### Windows OOBE device name
+
+![Windows OOBE device name](../screenshots/sanitized/device-enrollment/windows-oobe-device-name-sanitized.png)
+
+### Windows OOBE work or school selection
+
+![Windows OOBE work or school selection](../screenshots/sanitized/device-enrollment/windows-oobe-work-school-selection-sanitized.png)
 
 ### Windows OOBE user sign-in
 
-![Windows OOBE user sign-in](../screenshots/sanitized/device-enrollment/windows-oobe-user-signin-sanitized.png)
+![Windows OOBE user sign-in](../screenshots/sanitized/device-enrollment/windows-oobe-user01-signin-sanitized.png)
 
-### Microsoft Entra joined device validation
+### Windows device name verification
 
-![Microsoft Entra joined device validation](../screenshots/sanitized/device-enrollment/windows-oobe-entra-joined-validation-sanitized.png)
+![Windows device name verification](../screenshots/sanitized/device-enrollment/win-corp-001-device-name-sanitized.png)
 
-### MDM status showing None
+### Access work or school verification
 
-![MDM status showing None](../screenshots/sanitized/device-enrollment/windows-oobe-mdm-none-sanitized.png)
+![Access work or school verification](../screenshots/sanitized/device-enrollment/win-corp-001-access-work-school-sanitized.png)
 
-### Manual MDM enrollment
+### Entra device record with initial MDM status
 
-![Manual MDM enrollment](../screenshots/sanitized/device-enrollment/windows-oobe-manual-mdm-enrollment-sanitized.png)
+![Entra device record with initial MDM status](../screenshots/sanitized/device-enrollment/win-corp-001-entra-device-mdm-none-sanitized.png)
 
-### Intune managed device validation
+### Intune Windows devices list
 
-![Intune managed device validation](../screenshots/sanitized/device-enrollment/windows-oobe-intune-managed-device-sanitized.png)
+![Intune Windows devices list](../screenshots/sanitized/device-enrollment/win-corp-001-intune-windows-devices-list-sanitized.png)
 
-### Compliance visibility
+### Intune device overview
 
-![Compliance visibility](../screenshots/sanitized/device-enrollment/windows-oobe-compliance-visible-sanitized.png)
+![Intune device overview](../screenshots/sanitized/device-enrollment/win-corp-001-intune-overview-sanitized.png)
 
 ### Uploaded screenshot files
 
 ```text
-windows-oobe-work-school-setup-sanitized.png
-windows-oobe-user-signin-sanitized.png
-windows-oobe-entra-joined-validation-sanitized.png
-windows-oobe-mdm-none-sanitized.png
-windows-oobe-manual-mdm-enrollment-sanitized.png
-windows-oobe-intune-managed-device-sanitized.png
-windows-oobe-compliance-visible-sanitized.png
+windows-oobe-region-selection-sanitized.png
+windows-oobe-device-name-sanitized.png
+windows-oobe-work-school-selection-sanitized.png
+windows-oobe-user01-signin-sanitized.png
+win-corp-001-device-name-sanitized.png
+win-corp-001-access-work-school-sanitized.png
+win-corp-001-entra-device-mdm-none-sanitized.png
+win-corp-001-intune-windows-devices-list-sanitized.png
+win-corp-001-intune-overview-sanitized.png
 ```
+
+> [!NOTE]
+> Screenshots were sanitized before upload. Tenant names, full email addresses, device IDs, product IDs, object IDs, serial numbers, and top-right signed-in account details were hidden.
 
 ---
 
