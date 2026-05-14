@@ -8,15 +8,15 @@ This file tracks the lab devices used in the MD-102 Intune virtual company envir
 
 The purpose of this device inventory is to document all planned and active lab devices used for Microsoft Intune, Microsoft Entra ID, Windows Autopilot, BYOD enrollment, compliance, Conditional Access, application deployment, endpoint security, monitoring, and troubleshooting labs.
 
-This file will be updated as devices are enrolled, tested, reset, retired, wiped, or reused for future labs.
+This file is updated as devices are enrolled, tested, reset, retired, wiped, or reused for future labs.
 
 ---
 
-## Device Ownership Types
+## Device ownership types
 
 This lab includes both corporate-owned and personally owned/BYOD devices.
 
-### Corporate-Owned Devices
+### Corporate-owned devices
 
 Corporate-owned devices are managed more strictly because they represent company assets.
 
@@ -32,7 +32,7 @@ These devices can be used for:
 - BitLocker encryption
 - Remote actions
 
-### BYOD Devices
+### BYOD devices
 
 BYOD devices are personally owned test devices used to simulate employee-owned devices.
 
@@ -48,7 +48,7 @@ vs
 Corporate-managed device
 ```
 
-### Autopilot Devices
+### Autopilot devices
 
 Autopilot devices are corporate Windows devices registered with Windows Autopilot for cloud-based provisioning.
 
@@ -65,14 +65,14 @@ These devices are used to test:
 
 ---
 
-## Device Inventory
+## Device inventory
 
-| Device Name | Device Type | Ownership | OS | Enrollment Type | User | Status |
+| Device name | Device type | Ownership | OS | Enrollment type | User | Status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate lab | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested |
-| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Endpoint security tested |
+| WIN-CORP-001 | Laptop | Corporate lab device / Personal in Intune after manual MDM enrollment | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / App deployment tested |
+| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested |
 | WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Intune managed / Personal / Compliant |
-| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android | Android Enterprise personally owned work profile | user03 / BYOD user | Planned |
+| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android 15 | Android Enterprise personally owned work profile | user03 | Enrolled / Intune managed / Personal / Compliant / Work profile created / Authenticator deployed |
 | IOS-BYOD-001 | Mobile | Personal/BYOD | iOS | iOS/iPadOS BYOD enrollment | user03 / BYOD user | Planned |
 
 > [!NOTE]
@@ -82,7 +82,7 @@ These devices are used to test:
 
 ---
 
-## Corporate Windows Device Result
+## Corporate Windows device result
 
 ### WIN-CORP-001
 
@@ -98,10 +98,10 @@ These devices are used to test:
 | Management | Microsoft Intune |
 | Primary user | user01 |
 | Compliance | Compliant |
-| Purpose | Main Windows Intune test device |
-| Current status | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested |
+| Purpose | Main early Windows Intune test device |
+| Current status | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested / Microsoft 365 Apps tested |
 
-This device was used first because it is the main Windows device for the lab.
+This device was used first because it was the main early Windows device for the lab.
 
 It validated:
 
@@ -118,7 +118,7 @@ It validated:
 - Win32 7-Zip app deployment
 - `.intunewin` package deployment through Intune
 - Win32 app install status verification
-- Microsoft 365 Apps deployment preparation
+- Microsoft 365 Apps deployment preparation and validation
 
 The detailed Windows enrollment lab is documented here:
 
@@ -146,21 +146,25 @@ The detailed Microsoft 365 Apps deployment lab is documented here:
 
 ---
 
-## Application Deployment Tested on WIN-CORP-001
+## Application deployment tested on WIN-CORP-001
 
-`WIN-CORP-001` was used to validate Microsoft Store app deployment with Microsoft Intune.
+`WIN-CORP-001` was used to validate application deployment with Microsoft Intune.
 
 | App deployment item | Result |
 |---|---|
-| Application deployment tested | Microsoft Store apps |
+| Microsoft Store apps | Completed |
+| Win32 app | Completed |
+| Microsoft 365 Apps | Completed |
 | Assignment group used | GRP-Pilot-Users |
 | Required apps installed | Company Portal, VLC UWP, Slack |
 | Available apps visible in Company Portal | ChatGPT, WhatsApp |
+| Win32 app installed | 7-Zip |
+| Microsoft 365 Apps status | Installed |
 | Device sync performed | Completed |
 | Company Portal verification | Completed |
 | Final app deployment result | Successful |
 
-Required apps tested:
+Required Microsoft Store apps tested:
 
 ```text
 Company Portal
@@ -168,14 +172,24 @@ VLC UWP
 Slack
 ```
 
-Available apps tested:
+Available Microsoft Store apps tested:
 
 ```text
 ChatGPT
 WhatsApp
 ```
 
-This proves that the device can receive both automatic app installs and self-service Company Portal app assignments.
+Win32 app tested:
+
+```text
+7-Zip
+```
+
+Microsoft 365 Apps tested:
+
+```text
+Microsoft 365 Apps for Windows 10 and later
+```
 
 Simple flow validated:
 
@@ -185,40 +199,13 @@ Apps created in Intune
 -> WIN-CORP-001 synced with Intune
 -> Required apps installed automatically
 -> Available apps appeared in Company Portal
+-> Win32 app installed through Intune Management Extension
+-> Microsoft 365 Apps installed
 ```
 
 ---
 
-## Win32 App Deployment Tested on WIN-CORP-001
-
-`WIN-CORP-001` was used to validate Win32 application deployment with Microsoft Intune.
-
-| App deployment item | Result |
-|---|---|
-| Application deployment tested | Win32 app |
-| App deployed | 7-Zip |
-| Package format | `.intunewin` |
-| Assignment group used | `GRP-Pilot-Users` |
-| Assignment type | Required |
-| Install status | Completed |
-| Final app deployment result | Successful |
-
-This proves that the device can receive Win32 app deployments through the Intune Management Extension.
-
-Simple flow validated:
-
-```text
-7-Zip installer prepared
--> Installer packaged as .intunewin
--> Win32 app uploaded to Intune
--> App assigned as Required to GRP-Pilot-Users
--> WIN-CORP-001 received the app deployment
--> Intune install status was verified
-```
-
----
-
-## Windows Autopilot Device Result
+## Windows Autopilot device result
 
 ### WIN-AUTOPILOT-001 / WINAUTO452
 
@@ -237,9 +224,10 @@ Simple flow validated:
 | Autopilot profile | APUserDrivenEntraJoinPilot |
 | Compliance | Compliant |
 | Apps verified | Store apps, Win32 7-Zip, Microsoft 365 Apps |
+| Configuration profiles verified | Basic Windows profile, corporate wallpaper, USB storage block |
 | Endpoint security verified | Defender Antivirus, Windows Firewall, BitLocker |
-| Purpose | Windows Autopilot provisioning and endpoint security test |
-| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Endpoint security tested |
+| Purpose | Windows Autopilot provisioning, configuration profile, app deployment, and endpoint security test |
+| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested |
 
 This device was used to test Windows Autopilot from hardware hash import to completed provisioning.
 
@@ -260,6 +248,9 @@ The lab validated:
 - Win32 7-Zip deployment after Autopilot
 - Microsoft 365 Apps deployment after Autopilot
 - Company Portal installed apps validation
+- Windows basic configuration profile validation
+- Corporate wallpaper ADMX policy validation
+- USB/removable storage block validation
 - Defender Antivirus endpoint security policy validation
 - Windows Firewall endpoint security policy validation
 - BitLocker encryption policy validation
@@ -268,7 +259,7 @@ Final Autopilot result:
 
 ```text
 WIN-AUTOPILOT-001 was provisioned with Windows Autopilot and appeared in Intune as WINAUTO452.
-The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, and successfully received endpoint security policies.
+The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, received configuration profiles, and successfully received endpoint security policies.
 ```
 
 The detailed Windows Autopilot lab is documented here:
@@ -281,6 +272,14 @@ The detailed Microsoft 365 Apps Autopilot validation lab is documented here:
 
 ```text
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+The configuration profile labs are documented here:
+
+```text
+03-configuration-profiles/windows-basic-configuration-profile.md
+03-configuration-profiles/windows-corporate-wallpaper-policy.md
+03-configuration-profiles/windows-device-restrictions-profile.md
 ```
 
 The endpoint security labs are documented here:
@@ -296,7 +295,7 @@ The endpoint security labs are documented here:
 
 ---
 
-## Application Deployment Verified After Autopilot
+## Application deployment verified after Autopilot
 
 `WINAUTO452` was used to validate app deployment after Windows Autopilot enrollment.
 
@@ -337,7 +336,39 @@ Autopilot enrollment completed
 
 ---
 
-## Endpoint Security Tested on WINAUTO452
+## Configuration profiles tested on WINAUTO452
+
+`WINAUTO452` was used to validate Windows configuration profile deployment from Microsoft Intune.
+
+| Configuration profile lab | Result |
+|---|---|
+| Windows basic configuration profile | Completed / Success |
+| Corporate wallpaper ADMX policy | Completed / Success |
+| USB storage block policy | Completed / Success |
+
+The completed configuration profile flow was:
+
+```text
+Autopilot device enrolled
+-> Device added to GRP-Autopilot-Devices
+-> User included in GRP-Pilot-Users where needed
+-> Windows configuration profile applied
+-> Corporate wallpaper staged and applied
+-> USB removable storage blocked
+-> Intune policy status verified
+-> Endpoint result validated
+```
+
+Observed results:
+
+```text
+The corporate wallpaper applied successfully on WINAUTO452.
+USB/removable storage access was blocked with an Access is denied result.
+```
+
+---
+
+## Endpoint security tested on WINAUTO452
 
 `WINAUTO452` was used to validate the first endpoint security policies in Microsoft Intune.
 
@@ -361,11 +392,18 @@ Autopilot device enrolled
 -> Local BitLocker status verified with manage-bde
 ```
 
+Observed result:
+
+```text
+WINAUTO452 reported Success for Defender Antivirus, Windows Firewall, and BitLocker policies.
+BitLocker local status showed Fully Encrypted, 100.0% encrypted, and Protection On.
+```
+
 This proves that the Autopilot-managed corporate device can receive endpoint security policies from Intune.
 
 ---
 
-## Windows BYOD Device Result
+## Windows BYOD device result
 
 ### WIN-BYOD-001
 
@@ -415,7 +453,81 @@ The detailed Windows BYOD enrollment lab is documented here:
 02-device-enrollment/windows-byod-enrollment.md
 ```
 
-### Optional Future BYOD Comparison
+---
+
+## Android BYOD device result
+
+### ANDROID-BYOD-001
+
+| Item | Value |
+|---|---|
+| Device name | ANDROID-BYOD-001 |
+| Device type | Mobile |
+| Ownership | Personal/BYOD |
+| Operating system | Android 15 |
+| Device model | moto g34 5G |
+| Enrollment method | Android Enterprise personally owned work profile |
+| Management | Microsoft Intune |
+| Primary user | user03 |
+| BYOD group | GRP-BYOD-Users |
+| Compliance | Compliant |
+| Intune ownership | Personal |
+| App deployment test | Microsoft Authenticator |
+| Purpose | Android BYOD work profile enrollment test |
+| Current status | Enrolled / Intune managed / Personal / Compliant / Work profile created / Authenticator deployed |
+
+This device was used to test Android Enterprise personally owned work profile enrollment.
+
+The lab validated:
+
+- Managed Google Play connection to Intune
+- Android Enterprise work profile enrollment
+- Personally owned Android enrollment
+- Company Portal sign-in
+- Work profile creation
+- Intune Android device visibility
+- Personal ownership in Intune
+- Compliance status in Intune
+- Microsoft Authenticator required app assignment
+- Managed Google Play app installation inside the Work profile
+
+Final Android BYOD result:
+
+```text
+ANDROID-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Android Enterprise work profile device.
+The device appeared in Intune as Personal, Intune managed, and Compliant.
+Microsoft Authenticator installed successfully inside the Android Work profile.
+```
+
+The detailed Android BYOD enrollment lab is documented here:
+
+```text
+02-device-enrollment/android-byod-enrollment.md
+```
+
+---
+
+## Planned iOS BYOD device
+
+### IOS-BYOD-001
+
+| Item | Planned value |
+|---|---|
+| Device name | IOS-BYOD-001 |
+| Device type | Mobile |
+| Ownership | Personal/BYOD |
+| Operating system | iOS |
+| Enrollment method | iOS/iPadOS BYOD enrollment |
+| Management | Microsoft Intune |
+| Test user | user03 / BYOD user |
+| Purpose | iOS BYOD enrollment test |
+| Current status | Planned |
+
+This device will be used to test iOS/iPadOS BYOD enrollment and privacy-aware mobile device management.
+
+---
+
+## Optional future BYOD comparison
 
 A second Windows BYOD device is not currently active in the inventory.
 
@@ -429,47 +541,11 @@ WIN-BYOD-002 = Optional unmanaged BYOD comparison device
 
 ---
 
-## Mobile BYOD Device Plan
-
-### ANDROID-BYOD-001
-
-| Item | Planned Value |
-|---|---|
-| Device name | ANDROID-BYOD-001 |
-| Device type | Mobile |
-| Ownership | Personal/BYOD |
-| Operating system | Android |
-| Enrollment method | Android Enterprise personally owned work profile |
-| Management | Microsoft Intune |
-| Test user | user03 / BYOD user |
-| Purpose | Android BYOD work profile test |
-| Current status | Planned |
-
-This device will be used to test separation between personal apps/data and work apps/data using Android Enterprise personally owned work profile.
-
-### IOS-BYOD-001
-
-| Item | Planned Value |
-|---|---|
-| Device name | IOS-BYOD-001 |
-| Device type | Mobile |
-| Ownership | Personal/BYOD |
-| Operating system | iOS |
-| Enrollment method | iOS/iPadOS enrollment |
-| Management | Microsoft Intune |
-| Test user | user03 / BYOD user |
-| Purpose | iOS BYOD enrollment test |
-| Current status | Planned |
-
-This device will be used to test iOS/iPadOS BYOD enrollment and privacy-aware mobile device management.
-
----
-
-## Device Naming Convention
+## Device naming convention
 
 The lab uses simple names to make screenshots and documentation easier to understand.
 
-| Naming Pattern | Meaning |
+| Naming pattern | Meaning |
 |---|---|
 | WIN-CORP-### | Corporate Windows device |
 | WIN-AUTOPILOT-### | Windows Autopilot test device |
@@ -491,7 +567,7 @@ IOS-BYOD-001
 
 ---
 
-## Device Lifecycle Tracking
+## Device lifecycle tracking
 
 Each device may move through several states during the lab.
 
@@ -503,7 +579,9 @@ Each device may move through several states during the lab.
 | Compliant | Device meets compliance rules |
 | Corporate | Device is treated as a corporate-owned device in Intune |
 | Personal | Device is treated as a personally owned/BYOD device in Intune |
+| Work profile created | Android Enterprise work profile exists |
 | App deployment tested | Device has been used for Intune app deployment validation |
+| Configuration profiles tested | Device has received configuration profiles |
 | Endpoint security tested | Device has received endpoint security policies |
 | Autopilot enrolled | Device completed Windows Autopilot provisioning |
 | Noncompliant | Device fails compliance rules |
@@ -513,11 +591,11 @@ Each device may move through several states during the lab.
 
 ---
 
-## Screenshot Folder Mapping
+## Screenshot folder mapping
 
 Screenshots for device-related labs should be stored in the matching sanitized screenshot folders.
 
-| Lab Area | Screenshot Folder |
+| Lab area | Screenshot folder |
 |---|---|
 | Windows enrollment | screenshots/sanitized/device-enrollment/ |
 | Autopilot enrollment | screenshots/sanitized/device-enrollment/ |
@@ -525,13 +603,14 @@ Screenshots for device-related labs should be stored in the matching sanitized s
 | Compliance testing | screenshots/sanitized/compliance/ |
 | Conditional Access testing | screenshots/sanitized/conditional-access/ |
 | Application deployment | screenshots/sanitized/application-deployment/ |
+| Configuration profiles | screenshots/sanitized/configuration-profiles/ |
 | Endpoint security | screenshots/sanitized/endpoint-security/ |
 | Remote actions | screenshots/sanitized/remote-actions-and-monitoring/ |
 | Troubleshooting | screenshots/sanitized/troubleshooting/ |
 
 ---
 
-## Security and Privacy Notes
+## Security and privacy notes
 
 This is a public learning repository.
 
@@ -546,6 +625,8 @@ Do not upload:
 - Object IDs
 - Autopilot hardware hashes
 - BitLocker recovery keys
+- Android IMEI numbers
+- Phone numbers
 - Internal IP addresses
 - Unsanitized screenshots
 - Production company data
@@ -561,10 +642,12 @@ Before uploading screenshots, hide or blur:
 - Hardware hashes
 - Recovery keys
 - Tokens or QR codes
+- Android identifiers
+- Phone numbers
 
 ---
 
-## Current Status
+## Current status
 
 | Task | Status |
 |---|---|
@@ -573,11 +656,8 @@ Before uploading screenshots, hide or blur:
 | WIN-CORP-001 enrolled in Intune | Completed |
 | WIN-CORP-001 compliance visible | Completed |
 | WIN-CORP-001 Microsoft Store app deployment tested | Completed |
-| Required apps installed on WIN-CORP-001 | Completed |
-| Available apps visible in Company Portal on WIN-CORP-001 | Completed |
 | WIN-CORP-001 Win32 7-Zip deployment tested | Completed |
-| Win32 app install status verified on WIN-CORP-001 | Completed |
-| Microsoft 365 Apps deployment tested | Completed |
+| WIN-CORP-001 Microsoft 365 Apps deployment tested | Completed |
 | Autopilot device documented | Completed |
 | WIN-AUTOPILOT-001 registered with Autopilot | Completed |
 | WIN-AUTOPILOT-001 provisioned as WINAUTO452 | Completed |
@@ -585,6 +665,9 @@ Before uploading screenshots, hide or blur:
 | WINAUTO452 ownership verified as Corporate | Completed |
 | WINAUTO452 compliance verified | Completed |
 | WINAUTO452 app deployment verified | Completed |
+| WINAUTO452 configuration profiles verified | Completed |
+| WINAUTO452 corporate wallpaper verified | Completed |
+| WINAUTO452 USB storage block verified | Completed |
 | WINAUTO452 Defender Antivirus policy verified | Completed |
 | WINAUTO452 Windows Firewall policy verified | Completed |
 | WINAUTO452 BitLocker encryption policy verified | Completed |
@@ -592,26 +675,31 @@ Before uploading screenshots, hide or blur:
 | WIN-BYOD-001 enrolled in Intune | Completed |
 | WIN-BYOD-001 ownership verified as Personal | Completed |
 | WIN-BYOD-001 compliance verified | Completed |
-| Android BYOD device documented | Planned |
+| ANDROID-BYOD-001 Android BYOD enrollment documented | Completed |
+| ANDROID-BYOD-001 enrolled in Intune | Completed |
+| ANDROID-BYOD-001 ownership verified as Personal | Completed |
+| ANDROID-BYOD-001 compliance verified | Completed |
+| ANDROID-BYOD-001 work profile verified | Completed |
+| Microsoft Authenticator deployed to Android Work profile | Completed |
 | iOS BYOD device documented | Planned |
 
 ---
 
-## Next Step
+## Next step
 
-Recommended next BYOD lab:
-
-```text
-02-device-enrollment/android-byod-enrollment.md
-```
-
-Alternative next endpoint security lab:
+Recommended next endpoint security lab:
 
 ```text
 06-endpoint-security/attack-surface-reduction-policy.md
 ```
 
-Follow-on endpoint security labs:
+Alternative next BYOD lab:
+
+```text
+02-device-enrollment/ios-byod-enrollment.md
+```
+
+Follow-on endpoint security lab:
 
 ```text
 06-endpoint-security/windows-security-baseline.md
