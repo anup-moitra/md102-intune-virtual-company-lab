@@ -2,11 +2,11 @@
 
 This repository documents a hands-on Microsoft Intune and MD-102 lab environment.
 
-The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows device enrollment, Windows Autopilot, compliance policies, Conditional Access, application deployment, endpoint security, configuration profiles, BYOD enrollment, remote actions, monitoring, and troubleshooting.
+The project simulates a small company using Microsoft Entra ID, Microsoft Intune, Windows device enrollment, Windows Autopilot, BYOD enrollment, configuration profiles, application deployment, endpoint security, compliance policies, Conditional Access, remote actions, monitoring, and troubleshooting.
 
 ---
 
-## Project Goal
+## Project goal
 
 The goal of this project is to build practical Microsoft Intune administration experience and document each lab in a professional GitHub portfolio format.
 
@@ -15,21 +15,23 @@ This project is designed to show real-world endpoint administration skills, incl
 - Creating and managing Microsoft Entra ID users and groups
 - Assigning licenses to test users
 - Enrolling Windows devices into Microsoft Intune
+- Enrolling BYOD Windows and Android devices
 - Troubleshooting Intune enrollment issues
 - Configuring Windows device configuration profiles
 - Deploying corporate device restrictions
 - Deploying corporate desktop personalization settings
-- Configuring compliance policies
-- Testing Conditional Access
-- Deploying applications
+- Deploying Microsoft Store apps
+- Deploying Win32 apps
+- Deploying Microsoft 365 Apps
+- Using Windows Autopilot for corporate provisioning
 - Managing endpoint security settings
-- Using Windows Autopilot
-- Supporting BYOD scenarios
-- Monitoring and troubleshooting devices
+- Validating Defender Antivirus, Firewall, and BitLocker policies
+- Planning compliance policies and Conditional Access
+- Planning remote actions, monitoring, and troubleshooting workflows
 
 ---
 
-## Virtual Company Scenario
+## Virtual company scenario
 
 The lab company is called **Contoso Startup Lab**.
 
@@ -40,13 +42,14 @@ The company includes:
 - Corporate-owned Windows laptops
 - Personal/BYOD Windows laptops
 - Android BYOD devices
-- iOS BYOD devices
+- Planned iOS BYOD devices
 - Microsoft Entra ID users and groups
 - Microsoft Intune device management
 - Microsoft 365 Apps
 - Configuration profiles
 - Endpoint security policies
-- Conditional Access and compliance controls
+- Planned compliance and Conditional Access controls
+- Planned remote actions and monitoring workflows
 
 Detailed scenario documentation:
 
@@ -56,7 +59,7 @@ Detailed scenario documentation:
 
 ---
 
-## Lab Sections
+## Lab sections
 
 | Section | Area |
 |---|---|
@@ -72,7 +75,7 @@ Detailed scenario documentation:
 
 ---
 
-## Repository Structure
+## Repository structure
 
 ```text
 md102-intune-virtual-company-lab/
@@ -126,7 +129,7 @@ md102-intune-virtual-company-lab/
 
 ---
 
-## Current Project Status
+## Current project status
 
 | Task | Status |
 |---|---|
@@ -136,30 +139,31 @@ md102-intune-virtual-company-lab/
 | Company scenario documented | Completed |
 | Device inventory documented | Completed |
 | Lab roadmap documented | Completed |
-| Identity and groups lab completed | Completed |
-| Windows OOBE enrollment lab completed | Completed |
-| Windows Autopilot lab completed | Completed |
-| Windows BYOD enrollment lab completed | Completed |
-| Windows basic configuration profile lab completed | Completed |
-| Corporate wallpaper ADMX configuration profile lab completed | Completed |
-| USB storage block device restrictions lab completed | Completed |
-| Microsoft Store app deployment lab completed | Completed |
-| Win32 app deployment lab completed | Completed |
-| Microsoft 365 Apps deployment lab completed | Completed |
-| Defender Antivirus endpoint security lab completed | Completed |
-| Windows Firewall endpoint security lab completed | Completed |
-| BitLocker encryption endpoint security lab completed | Completed |
-| Android BYOD enrollment lab | Next / Planned |
+| Identity and groups lab | Completed |
+| Windows OOBE enrollment lab | Completed |
+| Windows Autopilot user-driven enrollment lab | Completed |
+| Windows BYOD enrollment lab | Completed |
+| Android BYOD work profile enrollment lab | Completed |
+| Windows basic configuration profile lab | Completed |
+| Corporate wallpaper ADMX configuration profile lab | Completed |
+| USB storage block device restrictions lab | Completed |
+| Microsoft Store app deployment lab | Completed |
+| Win32 7-Zip app deployment lab | Completed |
+| Microsoft 365 Apps deployment lab | Completed |
+| Defender Antivirus endpoint security lab | Completed |
+| Windows Firewall endpoint security lab | Completed |
+| BitLocker encryption endpoint security lab | Completed |
+| iOS BYOD enrollment lab | Planned |
 | Attack Surface Reduction policy lab | Next / Planned |
 | Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
-| Configuration profile labs | Completed / In progress |
+| Company Portal self-service app lab | Optional / Planned |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting documentation | Planned |
 
 ---
 
-## Completed Labs
+## Completed labs
 
 ### 01 - Identity and Groups
 
@@ -177,7 +181,8 @@ Completed work:
 - Assigned license to user01
 - Created pilot assignment group
 - Prepared Autopilot device group
-- Used GRP-Pilot-Users for app deployment targeting
+- Prepared BYOD user group
+- Used groups for later enrollment, app, configuration, and security policy targeting
 - Added sanitized screenshots
 
 Observed result:
@@ -297,6 +302,43 @@ Observed result:
 ```text
 WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
 The device appeared as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
+```
+
+---
+
+### 02 - Android BYOD Enrollment with Work Profile
+
+Documented in:
+
+```text
+02-device-enrollment/android-byod-enrollment.md
+```
+
+Completed work:
+
+- Connected Managed Google Play to Intune
+- Confirmed Android Enterprise personally owned work profile enrollment was allowed
+- Confirmed personally owned Android enrollment was allowed
+- Enrolled the Android BYOD test device using Company Portal
+- Created a separate Android Work profile
+- Verified the Android device in Intune
+- Confirmed ownership as Personal
+- Confirmed compliance as Compliant
+- Assigned Microsoft Authenticator as a required Managed Google Play app
+- Confirmed Microsoft Authenticator installed in the Android Work profile
+- Added sanitized screenshots
+
+Final enrolled Android BYOD device:
+
+```text
+ANDROID-BYOD-001
+```
+
+Observed result:
+
+```text
+ANDROID-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Android Enterprise work profile device.
+Microsoft Authenticator was deployed successfully to the Android Work profile.
 ```
 
 ---
@@ -566,40 +608,40 @@ The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protect
 
 ---
 
-## Completed Modern Endpoint Deployment Flow
+## Completed modern endpoint deployment flow
 
-The completed labs now demonstrate this full modern endpoint management chain:
+The completed labs now demonstrate this modern endpoint management chain:
 
 ```text
 Microsoft Entra users and groups
 -> Intune enrollment
+-> Windows OOBE enrollment
+-> Windows Autopilot registration and provisioning
+-> Windows BYOD enrollment
+-> Android BYOD work profile enrollment
 -> Microsoft Store app deployment
 -> Win32 app deployment
 -> Microsoft 365 Apps deployment
--> Windows Autopilot registration
--> Autopilot OOBE enrollment
--> Corporate Intune-managed device
--> Required apps installed after enrollment
 -> Configuration profiles applied
 -> Corporate wallpaper deployed
 -> USB storage restriction validated
 -> Endpoint security policies applied
 -> Defender Antivirus, Firewall, and BitLocker validated
--> Windows BYOD enrollment validated
--> Company Portal and Windows Settings validation
 ```
 
 This creates a strong real-world portfolio scenario for MD-102 preparation.
 
 ---
 
-## Skills This Project Demonstrates
+## Skills this project demonstrates
 
 This project demonstrates practical skills in:
 
 - Microsoft Intune administration
 - Microsoft Entra ID user and group management
 - Windows device enrollment
+- Windows BYOD enrollment
+- Android Enterprise BYOD work profile enrollment
 - Intune enrollment troubleshooting
 - Automatic MDM enrollment review and configuration
 - Windows Autopilot preparation
@@ -607,7 +649,6 @@ This project demonstrates practical skills in:
 - Windows Autopilot deployment profile configuration
 - Windows Autopilot user-driven enrollment
 - Corporate device provisioning
-- Windows BYOD enrollment
 - Personal device ownership validation in Intune
 - Device compliance visibility
 - Conditional Access planning
@@ -626,38 +667,51 @@ This project demonstrates practical skills in:
 - Win32 app detection rule configuration
 - Microsoft 365 Apps deployment
 - Post-Autopilot app deployment validation
-- Company Portal app validation
+- Managed Google Play app deployment
 - Microsoft Defender Antivirus policy deployment
 - Windows Firewall policy deployment
 - BitLocker encryption policy deployment
 - Endpoint security policy reporting
 - Attack Surface Reduction policy planning
 - Windows Security Baseline planning
-- Android and iOS BYOD management planning
+- iOS BYOD management planning
 - Device monitoring and reports planning
 - Intune troubleshooting documentation
 
 ---
 
-## How to Use This Repository
+## How to use this repository
 
 This repository is updated as each lab is completed.
 
-Each lab document includes:
+Each completed lab document should follow this standard format:
 
-- Objective
-- Lab environment
-- Why the lab matters
-- Prerequisites
-- Steps performed
-- Test result
-- Screenshots
-- Troubleshooting notes
-- Security and privacy notes
+```text
+# Lab Title
+
+## Lab status
+## Lab objective
+## Why this lab matters
+## Lab environment
+## Prerequisites
+## Configuration flow
+## Steps performed
+## Validation
+## Final test result
+## Screenshots captured
+## Troubleshooting notes
+## Enterprise reflection
+## Security and privacy notes
+## Related labs
+## Key learning outcomes
+## Lab conclusion
+```
+
+Some older or planned files may be updated as the project progresses.
 
 ---
 
-## Screenshot Storage
+## Screenshot storage
 
 Sanitized screenshots are stored under:
 
@@ -677,7 +731,7 @@ screenshots/sanitized/endpoint-security/
 
 ---
 
-## Privacy and Security
+## Privacy and security
 
 This is a public learning repository.
 
@@ -693,6 +747,8 @@ Do not upload sensitive information, including:
 - Autopilot hardware hashes
 - BitLocker recovery keys
 - Internal IP addresses
+- IMEI numbers
+- Phone numbers
 - Unsanitized screenshots
 - Production company data
 
@@ -700,25 +756,19 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ---
 
-## Next Step
+## Next step
 
 The next recommended lab can follow either of these paths.
 
-### Option 1 - Continue BYOD Enrollment
-
-```text
-02-device-enrollment/android-byod-enrollment.md
-```
-
-Then continue with:
+### Option 1 - Continue BYOD enrollment
 
 ```text
 02-device-enrollment/ios-byod-enrollment.md
 ```
 
-This path keeps the project focused on completing the remaining BYOD enrollment labs after finishing Windows BYOD enrollment.
+This path completes the remaining planned BYOD enrollment scenario.
 
-### Option 2 - Continue Endpoint Security
+### Option 2 - Continue endpoint security
 
 ```text
 06-endpoint-security/attack-surface-reduction-policy.md
@@ -730,12 +780,10 @@ Then continue with:
 06-endpoint-security/windows-security-baseline.md
 ```
 
-This path continues the endpoint security sequence after Defender Antivirus, Windows Firewall, and BitLocker.
-
 Recommended next choice:
 
 ```text
-Android BYOD enrollment or Attack Surface Reduction policy
+Attack Surface Reduction policy or iOS BYOD enrollment
 ```
 
 ---
