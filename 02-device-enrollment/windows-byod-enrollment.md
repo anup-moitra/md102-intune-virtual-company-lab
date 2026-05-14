@@ -1,32 +1,44 @@
 # Windows BYOD Enrollment
 
-This lab documents Windows bring-your-own-device (BYOD) enrollment into Microsoft Intune.
+## Lab status
+
+**Status:** Completed  
+**Lab category:** Device enrollment  
+**Platform:** Windows  
+**Management platform:** Microsoft Intune  
+**Identity platform:** Microsoft Entra ID  
+**BYOD test user:** user03  
+**BYOD user group:** GRP-BYOD-Users  
+**Test device:** WIN-BYOD-001  
+**Enrollment method:** Windows MDM enrollment from Settings  
+**Final ownership:** Personal  
+**Final result:** Windows BYOD device enrolled successfully into Microsoft Intune  
 
 ---
 
-## Objective
+## Lab objective
 
-Enroll a personally owned Windows device into Microsoft Intune using a standard BYOD user account.
+The objective of this lab is to enroll a personally owned Windows device into Microsoft Intune using a standard BYOD user account.
 
 This lab validates that:
 
 - A BYOD user can be targeted for Windows MDM enrollment.
-- Windows personal device enrollment is allowed in Intune enrollment restrictions.
-- A Windows device can be enrolled into Intune as a personal device.
+- Windows personal device enrollment can be allowed in Intune enrollment restrictions.
+- A Windows device can be enrolled into Intune as a personally owned device.
 - The enrolled device appears in Intune as managed by Intune.
-- The device ownership is shown as Personal.
-- The device can sync with Intune from Windows Settings.
-- The device can be used for future BYOD compliance, app, and policy testing.
+- The device ownership shows as `Personal`.
+- The device can manually sync with Intune from Windows Settings.
+- The device can be used for future BYOD compliance, app, and Conditional Access testing.
 
 ---
 
-## Why This Lab Matters
+## Why this lab matters
 
-In a real organization, not every Windows device is corporate-owned.
+In real organizations, not every Windows device is corporate-owned.
 
-Some users may use a personal laptop to access work resources. This is called BYOD.
+Some users may access work resources from a personally owned Windows laptop. This scenario is called bring-your-own-device, or BYOD.
 
-With Intune, administrators can allow controlled access from personal devices while still applying management, compliance, and security requirements.
+With Microsoft Intune, administrators can allow controlled access from personal devices while still applying management, compliance, and security requirements.
 
 Simple flow:
 
@@ -37,11 +49,11 @@ User signs in with work account
 -> Admin can apply BYOD policies and compliance rules
 ```
 
-This is different from a corporate Autopilot device, which is normally treated as organization-owned.
+This is different from a corporate Windows Autopilot device, which is normally organization-owned and more strictly managed.
 
 ---
 
-## Lab Environment
+## Lab environment
 
 | Item | Value |
 |---|---|
@@ -54,31 +66,15 @@ This is different from a corporate Autopilot device, which is normally treated a
 | Device ownership | Personal |
 | Operating system | Windows |
 | Enrollment method | Windows MDM enrollment from Settings |
-| Current status | Completed |
-
----
-
-## Test User and Group
-
-The BYOD enrollment test used:
-
-```text
-user03
-```
-
-The user was added to:
-
-```text
-GRP-BYOD-Users
-```
-
-This group was used to scope Windows MDM enrollment for BYOD testing.
+| Final Intune management state | Managed by Intune |
+| Final compliance state | Compliant |
+| Final lab status | Completed |
 
 ---
 
 ## Prerequisites
 
-Before enrolling the device, the following items were confirmed:
+Before enrolling the device, the following prerequisites were confirmed:
 
 - `user03` existed as a Microsoft Entra ID user.
 - `user03` had an Intune-capable license assigned.
@@ -86,12 +82,30 @@ Before enrolling the device, the following items were confirmed:
 - Automatic MDM enrollment included `GRP-BYOD-Users`.
 - Windows personal device enrollment was allowed in Intune enrollment restrictions.
 - The test device was renamed to `WIN-BYOD-001`.
+- The device had internet access.
+- The device could reach Microsoft cloud services.
 
 ---
 
-## Admin Configuration Review
+## Configuration flow
 
-### Step 1: Confirmed User 03 License Assignment
+```text
+Verify user03 license
+-> Verify user03 BYOD group membership
+-> Scope automatic MDM enrollment to GRP-BYOD-Users
+-> Confirm Windows personally owned enrollment is allowed
+-> Prepare WIN-BYOD-001
+-> Add work account from Windows Settings
+-> Complete MDM enrollment
+-> Sync device
+-> Validate device in Intune
+```
+
+---
+
+## Steps performed
+
+### Step 1 - Confirmed user03 license assignment
 
 Opened:
 
@@ -105,7 +119,9 @@ Microsoft 365 admin center
 
 Confirmed that `user03` had the required Intune-capable license assigned.
 
-### Step 2: Confirmed User 03 BYOD Group Membership
+---
+
+### Step 2 - Confirmed user03 BYOD group membership
 
 Opened:
 
@@ -123,7 +139,9 @@ Confirmed that `user03` was a member of:
 GRP-BYOD-Users
 ```
 
-### Step 3: Configured Automatic MDM Enrollment Scope
+---
+
+### Step 3 - Configured automatic MDM enrollment scope
 
 Opened:
 
@@ -143,9 +161,9 @@ Configured:
 | Selected group | GRP-BYOD-Users |
 | Disable MDM enrollment when adding work or school account on Windows | No |
 
-This ensured that users in `GRP-BYOD-Users` could enroll Windows devices into Intune MDM.
+---
 
-### Step 4: Confirmed Windows Personal Enrollment Was Allowed
+### Step 4 - Confirmed Windows personal enrollment was allowed
 
 Opened:
 
@@ -165,13 +183,9 @@ Confirmed the Windows platform restriction settings:
 | Windows (MDM) platform | Allow |
 | Windows personally owned | Allow |
 
-This allowed personally owned Windows devices to enroll into Intune.
-
 ---
 
-## Device Preparation
-
-### Step 5: Verified Device Name
+### Step 5 - Prepared the Windows BYOD device
 
 On the Windows test device, the device name was confirmed as:
 
@@ -179,29 +193,17 @@ On the Windows test device, the device name was confirmed as:
 WIN-BYOD-001
 ```
 
-The hostname was also verified from Command Prompt using:
+The hostname was also verified from Command Prompt:
 
 ```cmd
 hostname
 ```
 
-### Step 6: Checked Access Work or School Before Enrollment
-
-Opened:
-
-```text
-Settings
--> Accounts
--> Access work or school
-```
-
-Before enrollment, no work or school account was connected.
+Before enrollment, the Access work or school page showed that no work or school account was connected.
 
 ---
 
-## Enrollment Steps Performed
-
-### Step 7: Added Work or School Account
+### Step 6 - Added work or school account
 
 On the Windows device, opened:
 
@@ -218,17 +220,17 @@ Signed in using:
 user03
 ```
 
-The initial connection added the work account to the device.
-
 Observed message:
 
 ```text
 Account added to this device
 ```
 
-### Step 8: Observed Work Account Connected Only
+---
 
-After the first connection, the account appeared as a work or school account, but the device management options were limited.
+### Step 7 - Observed work account connected only
+
+After the first connection, the account appeared as a work or school account, but device management options were limited.
 
 The account showed:
 
@@ -237,11 +239,13 @@ Disconnect this account
 Manage your account
 ```
 
-This indicated that the account connection existed, but the Intune MDM management view was not yet visible.
+This indicated that the account connection existed, but the full Intune MDM management view was not yet visible.
 
-### Step 9: Completed MDM Enrollment
+---
 
-The Windows MDM enrollment flow was then completed from Settings using:
+### Step 8 - Completed MDM enrollment
+
+The Windows MDM enrollment flow was completed from Settings using:
 
 ```text
 Settings
@@ -258,7 +262,9 @@ Connected to HomeLAB MDM
 Managed by HomeLAB
 ```
 
-### Step 10: Performed Manual Device Sync
+---
+
+### Step 9 - Performed manual device sync
 
 Opened:
 
@@ -272,13 +278,9 @@ Settings
 
 A manual sync was started from the device.
 
-This confirmed the Windows device could communicate with Intune MDM.
-
 ---
 
-## Intune Validation
-
-### Step 11: Verified Device in Windows Devices List
+### Step 10 - Verified device in Intune Windows devices list
 
 Opened:
 
@@ -300,7 +302,9 @@ The device appeared in the Windows devices list as:
 | OS | Windows |
 | Primary user | user03 |
 
-### Step 12: Verified Device Overview
+---
+
+### Step 11 - Verified Intune device overview
 
 Opened the device record for:
 
@@ -322,9 +326,56 @@ The device overview confirmed:
 
 ---
 
-## Test Result
+## Validation
 
-| Test Item | Result |
+### User and group validation
+
+Validation confirmed that:
+
+- `user03` existed in Microsoft Entra ID.
+- `user03` had an Intune-capable license.
+- `user03` was a member of `GRP-BYOD-Users`.
+- `GRP-BYOD-Users` was used for BYOD enrollment targeting.
+
+---
+
+### Enrollment settings validation
+
+Validation confirmed that:
+
+- Automatic MDM enrollment was scoped to `GRP-BYOD-Users`.
+- Windows MDM enrollment was allowed.
+- Windows personally owned enrollment was allowed.
+
+---
+
+### Endpoint validation
+
+Validation confirmed that:
+
+- The test device was named `WIN-BYOD-001`.
+- A work account was added from Windows Settings.
+- MDM enrollment was completed from Windows Settings.
+- The device showed as connected to HomeLAB MDM.
+- Manual sync was available and completed from Windows Settings.
+
+---
+
+### Intune validation
+
+Validation confirmed that:
+
+- `WIN-BYOD-001` appeared in the Intune Windows devices list.
+- The device showed `Managed by: Intune`.
+- The device ownership showed `Personal`.
+- The device compliance showed `Compliant`.
+- The primary user showed as `user03`.
+
+---
+
+## Final test result
+
+| Validation item | Status |
 |---|---|
 | user03 license assigned | Completed |
 | user03 added to GRP-BYOD-Users | Completed |
@@ -338,6 +389,9 @@ The device overview confirmed:
 | Device managed by Intune | Completed |
 | Device ownership shown as Personal | Completed |
 | Device compliance shown as Compliant | Completed |
+| Primary user shown as user03 | Completed |
+| Screenshots captured and uploaded | Completed |
+| Final lab result | Completed |
 
 Observed final result:
 
@@ -347,7 +401,7 @@ WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned W
 
 ---
 
-## Microsoft Entra ID Observation
+## Microsoft Entra ID observation
 
 The main validation for this lab was completed in Microsoft Intune.
 
@@ -362,15 +416,9 @@ Primary user: user03
 
 The Microsoft Entra device record was not used as the primary validation point for this lab because the final working enrollment path used Windows MDM enrollment from Settings.
 
-This is documented as a real-world observation:
-
-```text
-A Windows device can be successfully enrolled and managed in Intune even when the clearest validation evidence is available from the Intune device record rather than the Microsoft Entra device details page.
-```
-
 ---
 
-## Screenshots
+## Screenshots captured
 
 Screenshots are stored in:
 
@@ -428,7 +476,7 @@ screenshots/sanitized/device-enrollment/
 
 ---
 
-## Screenshot Files
+## Screenshot file list
 
 ```text
 windows-byod-user03-license-sanitized.png
@@ -447,15 +495,15 @@ win-byod-001-intune-overview-sanitized.png
 
 ---
 
-## Troubleshooting Notes
+## Troubleshooting notes
 
-### Issue: Work account connected but Intune sync was not visible
+### Work account connected but Intune sync was not visible
 
 During the first attempt, the account was added successfully, but the Access work or school page showed only a connected work account view.
 
 Expected Intune management options such as device management information and sync were not immediately visible.
 
-Resolution:
+Resolution path used:
 
 ```text
 Settings
@@ -473,7 +521,9 @@ Managed by HomeLAB
 
 The device then appeared in Intune as managed by Intune.
 
-### Issue: Entra device details were not the main validation source
+---
+
+### Microsoft Entra device details were not the main validation source
 
 The primary validation for this BYOD lab was the Intune device record.
 
@@ -490,7 +540,52 @@ This was sufficient to confirm successful Windows BYOD Intune enrollment.
 
 ---
 
-## Security and Privacy Notes
+### Device does not appear in Intune
+
+If a BYOD device does not appear in Intune:
+
+1. Confirm the user has an Intune-capable license.
+2. Confirm the user is in the group included in MDM user scope.
+3. Confirm Windows personally owned enrollment is allowed.
+4. Confirm the device has internet access.
+5. Complete the `Enroll only in device management` flow.
+6. Sync from Access work or school.
+7. Check the Intune Windows devices list again.
+
+---
+
+## Enterprise reflection
+
+Windows BYOD enrollment is useful when users need to access work resources from personally owned Windows devices.
+
+In production, BYOD should usually be managed differently from corporate devices.
+
+Recommended enterprise considerations:
+
+| Area | BYOD approach |
+|---|---|
+| Ownership | Personal |
+| Enrollment scope | Controlled BYOD user group |
+| Apps | Prefer available/self-service or required only where justified |
+| Compliance | Require basic health and security checks |
+| Conditional Access | Require compliant device or app protection where appropriate |
+| Privacy | Avoid overly aggressive device management |
+| Remote actions | Use caution with wipe/retire actions |
+| Security | Balance protection with user privacy |
+
+A good production design might use:
+
+```text
+GRP-BYOD-Users
+-> BYOD enrollment restrictions
+-> BYOD compliance policy
+-> Conditional Access in report-only mode
+-> Gradual enforcement after validation
+```
+
+---
+
+## Security and privacy notes
 
 This is a public learning repository.
 
@@ -520,51 +615,53 @@ Before uploading screenshots, hide or blur:
 - Wi-Fi MAC address
 - Ethernet MAC address
 - IP address
-- Any sensitive account or authentication information
+- Authentication prompts or sensitive account information
 
 ---
 
-## Related Labs
+## Related labs
 
 | Lab file | Relationship |
 |---|---|
 | `01-identity-and-groups/users-and-groups.md` | Provides `user03` and `GRP-BYOD-Users` |
 | `02-device-enrollment/windows-oobe-enrollment.md` | Documents corporate-style Windows enrollment troubleshooting |
 | `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Documents corporate Autopilot enrollment |
-| `02-device-enrollment/android-byod-enrollment.md` | Planned mobile BYOD enrollment lab |
-| `02-device-enrollment/ios-byod-enrollment.md` | Planned mobile BYOD enrollment lab |
+| `02-device-enrollment/android-byod-enrollment.md` | Android Enterprise BYOD work profile comparison lab |
+| `02-device-enrollment/ios-byod-enrollment.md` | iOS/iPadOS BYOD enrollment lab with admin prerequisites completed |
+| `04-compliance-and-conditional-access/windows-basic-compliance-policy.md` | Planned future compliance testing |
+| `04-compliance-and-conditional-access/conditional-access-compliant-device.md` | Planned future Conditional Access testing |
 
 ---
 
-## Current Status
+## Key learning outcomes
 
-| Task | Status |
-|---|---|
-| windows-byod-enrollment.md created | Completed |
-| User and group prerequisites verified | Completed |
-| MDM user scope configured | Completed |
-| Windows personal enrollment allowed | Completed |
-| WIN-BYOD-001 enrolled | Completed |
-| Device sync verified | Completed |
-| Intune device list validation completed | Completed |
-| Intune device overview validation completed | Completed |
-| Screenshots added | Completed |
+This lab demonstrated how to:
+
+- Prepare a BYOD user for Windows enrollment.
+- Use a BYOD-specific Microsoft Entra group.
+- Scope automatic MDM enrollment to selected users.
+- Confirm Windows personally owned enrollment is allowed.
+- Enroll a personally owned Windows device from Settings.
+- Complete MDM enrollment using `Enroll only in device management`.
+- Sync an enrolled BYOD device.
+- Validate Intune management state.
+- Confirm personal ownership in Intune.
+- Compare BYOD enrollment with corporate Autopilot enrollment.
 
 ---
 
-## Next Step
+## Lab conclusion
 
-Continue with the next BYOD enrollment lab:
+The Windows BYOD enrollment lab was completed successfully.
 
-```text
-02-device-enrollment/android-byod-enrollment.md
-```
-
-Recommended follow-on sequence:
+Final result:
 
 ```text
-Android BYOD enrollment
--> iOS BYOD enrollment
--> BYOD compliance policy testing
--> Conditional Access BYOD testing
+WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows device.
+The device appeared as managed by Intune.
+The ownership showed Personal.
+The compliance state showed Compliant.
+The primary user showed user03.
 ```
+
+This confirms that the lab tenant can support personally owned Windows BYOD enrollment through Microsoft Intune.
