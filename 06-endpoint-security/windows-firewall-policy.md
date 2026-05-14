@@ -1,12 +1,24 @@
 # Windows Firewall Policy with Intune
 
-This lab documents the creation and validation of a **Windows Firewall endpoint security policy** in Microsoft Intune for the MD-102 Intune virtual company project.
+## Lab status
 
-The policy was assigned to the Autopilot device group and successfully applied to the Autopilot-enrolled Windows device `WINAUTO452`.
+**Status:** Completed  
+**Lab category:** Endpoint security  
+**Platform:** Windows  
+**Management platform:** Microsoft Intune  
+**Policy area:** Endpoint security  
+**Policy type:** Firewall  
+**Profile:** Windows Firewall  
+**Assignment group:** GRP-Autopilot-Devices  
+**Validation device:** WINAUTO452  
+**Enrollment method:** Windows Autopilot user-driven enrollment  
+**Final result:** Windows Firewall policy applied successfully  
 
-## Objective
+---
 
-Create, assign, and validate a Windows Firewall policy using Microsoft Intune Endpoint security.
+## Lab objective
+
+The objective of this lab is to create, assign, and validate a Windows Firewall policy using Microsoft Intune Endpoint security.
 
 This lab validates that:
 
@@ -16,13 +28,15 @@ This lab validates that:
 - The Autopilot device `WINAUTO452` can receive and report the policy as successful.
 - Intune policy reporting can confirm policy deployment status.
 
-## Lab Context
+---
 
-This lab is part of the MD-102 Intune virtual company project.
+## Why this lab matters
 
-The virtual company uses Microsoft Intune to manage corporate Windows devices and apply endpoint security settings after Windows Autopilot enrollment.
+Windows Firewall helps reduce the attack surface of a Windows device by controlling inbound and outbound network traffic.
 
-This lab continues the endpoint security sequence after the Microsoft Defender Antivirus policy lab.
+In a real environment, endpoint administrators usually enable firewall protection across managed corporate devices to help block unauthorized network connections and reduce exposure to network-based threats.
+
+This lab demonstrates a beginner-friendly firewall baseline before moving into more advanced endpoint security controls such as BitLocker, Attack Surface Reduction, and Windows Security Baselines.
 
 Simple security flow:
 
@@ -36,15 +50,9 @@ Windows Autopilot device enrolled
 -> Intune reports Success
 ```
 
-## Why This Lab Matters
+---
 
-Windows Firewall helps reduce the attack surface of a Windows device by controlling inbound and outbound network traffic.
-
-In a real environment, endpoint administrators usually enable firewall protection across managed corporate devices to help block unauthorized network connections and reduce exposure to network-based threats.
-
-This lab demonstrates a beginner-friendly firewall baseline before moving into more advanced endpoint security controls such as BitLocker, Attack Surface Reduction, and Windows Security Baselines.
-
-## Lab Environment
+## Lab environment
 
 | Item | Value |
 |---|---|
@@ -59,20 +67,25 @@ This lab demonstrates a beginner-friendly firewall baseline before moving into m
 | Policy type | Firewall |
 | Profile | Windows Firewall |
 | Platform | Windows |
+| Final policy status | Success |
 
-## Policy Details
+---
 
-| Setting | Value |
-|---|---|
-| Policy name | WIN-Autopilot-Windows-Firewall-Policy |
-| Description | Windows Firewall endpoint security policy for MD-102 Intune lab testing on Windows Autopilot devices. |
-| Platform | Windows |
-| Profile | Windows Firewall |
-| Assignment | GRP-Autopilot-Devices |
-| Target device | WINAUTO452 |
-| Policy result | Success |
+## Prerequisites
 
-## Assignment Design
+Before starting this lab, the following were required:
+
+- Microsoft Intune tenant available.
+- Windows Autopilot device enrolled.
+- `WINAUTO452` available in Intune.
+- `WINAUTO452` included in `GRP-Autopilot-Devices`.
+- Device able to sync with Intune.
+- Endpoint security policy permissions available in Intune.
+- Sanitized screenshots prepared for GitHub documentation.
+
+---
+
+## Policy design
 
 The policy was assigned to the device group:
 
@@ -88,8 +101,6 @@ WINAUTO452
 
 This assignment model is better for this lab than assigning to a user group because the policy follows the device rather than any device where the user signs in.
 
-Simple comparison:
-
 | Assignment type | Behavior |
 |---|---|
 | User group assignment | Policy follows the user across devices |
@@ -97,7 +108,21 @@ Simple comparison:
 
 For this lab, the device group approach is cleaner because Defender Antivirus, Windows Firewall, and BitLocker are endpoint security controls intended for the managed Autopilot device.
 
-## Firewall Settings Configured
+### Policy details
+
+| Setting | Value |
+|---|---|
+| Policy name | WIN-Autopilot-Windows-Firewall-Policy |
+| Description | Windows Firewall endpoint security policy for MD-102 Intune lab testing on Windows Autopilot devices. |
+| Platform | Windows |
+| Profile | Windows Firewall |
+| Assignment | GRP-Autopilot-Devices |
+| Target device | WINAUTO452 |
+| Policy result | Success |
+
+---
+
+## Firewall settings configured
 
 The policy enabled Windows Firewall for the main Windows network profiles.
 
@@ -117,9 +142,26 @@ The policy enabled Windows Firewall for the main Windows network profiles.
 > [!NOTE]
 > This lab focused on enabling and validating Windows Firewall profile protection. Custom firewall rules were not created in this lab.
 
-## Steps Performed
+---
 
-### 1. Opened Endpoint Security Firewall
+## Configuration flow
+
+```text
+Open Endpoint security Firewall
+-> Create Windows Firewall policy
+-> Configure policy basics
+-> Enable Firewall for Domain, Private, and Public profiles
+-> Assign policy to GRP-Autopilot-Devices
+-> Create policy
+-> Sync WINAUTO452
+-> Validate device status in Intune
+```
+
+---
+
+## Steps performed
+
+### Step 1 - Opened Endpoint security Firewall
 
 The Microsoft Intune admin center was opened.
 
@@ -133,7 +175,9 @@ Intune admin center
 
 The Firewall page showed the Windows Firewall policy area and the option to create a policy.
 
-### 2. Created a New Firewall Policy
+---
+
+### Step 2 - Created a new Firewall policy
 
 The following profile was selected:
 
@@ -149,7 +193,9 @@ The following options were not selected:
 | Windows Firewall Rules | Used for specific inbound/outbound firewall rules, not needed for this baseline lab |
 | Windows Hyper-V Firewall Rules | Used for Hyper-V container-specific firewall scenarios |
 
-### 3. Entered Policy Basics
+---
+
+### Step 3 - Entered policy basics
 
 The policy was named:
 
@@ -163,7 +209,9 @@ Description used:
 Windows Firewall endpoint security policy for MD-102 Intune lab testing on Windows Autopilot devices.
 ```
 
-### 4. Configured Firewall Settings
+---
+
+### Step 4 - Configured Firewall settings
 
 The policy was configured to enable Windows Firewall across the main network profiles.
 
@@ -175,17 +223,23 @@ Enable Private Network Firewall: True
 Enable Public Network Firewall: True
 ```
 
-The default inbound action was left as **Block**, while outbound traffic was left as **Allow**. This is a safe beginner baseline because it keeps normal outbound connectivity working while keeping unsolicited inbound traffic blocked.
+The default inbound action was left as **Block**, while outbound traffic was left as **Allow**.
+
+This is a safe beginner baseline because it keeps normal outbound connectivity working while keeping unsolicited inbound traffic blocked.
 
 Shielded mode was left disabled because it can be too restrictive for a beginner lab and may impact connectivity.
 
-### 5. Left Scope Tags as Default
+---
+
+### Step 5 - Left scope tags as default
 
 The default scope tag was used.
 
 No custom scope tag was required for this lab.
 
-### 6. Assigned the Policy
+---
+
+### Step 6 - Assigned the policy
 
 The policy was assigned to:
 
@@ -199,13 +253,17 @@ This group contained:
 WINAUTO452
 ```
 
-### 7. Reviewed and Created the Policy
+---
+
+### Step 7 - Reviewed and created the policy
 
 The policy was reviewed and created in Intune.
 
 The Review + create screenshot was not required for this lab because the policy list and device status screenshots provide stronger final evidence.
 
-### 8. Verified Policy in Firewall Policy List
+---
+
+### Step 8 - Verified policy in Firewall policy list
 
 After creation, the policy appeared under:
 
@@ -217,7 +275,9 @@ Endpoint security
 
 The policy list showed the firewall policy as assigned.
 
-### 9. Verified Device Status in Intune
+---
+
+### Step 9 - Verified device status in Intune
 
 The policy status report showed the following result:
 
@@ -235,41 +295,84 @@ The device row showed:
 WINAUTO452 = Success
 ```
 
-## Test Result
+---
 
-| Test item | Result |
+## Validation
+
+### Policy creation validation
+
+Validation confirmed that:
+
+- The Firewall endpoint security blade was used.
+- The platform was set to Windows.
+- The profile was set to Windows Firewall.
+- The policy appeared in the Firewall policy list.
+
+---
+
+### Firewall settings validation
+
+Validation confirmed that:
+
+- Domain network firewall was enabled.
+- Private network firewall was enabled.
+- Public network firewall was enabled.
+- Default inbound action was configured as Block.
+- Default outbound action was configured as Allow.
+- No custom firewall rules were created for this baseline lab.
+
+---
+
+### Assignment validation
+
+Validation confirmed that:
+
+- The policy was assigned to `GRP-Autopilot-Devices`.
+- `WINAUTO452` was included in the target device group.
+
+---
+
+### Device status validation
+
+Validation confirmed that:
+
+- `WINAUTO452` received the policy.
+- Intune reported device status as Success.
+- There were no error, conflict, or pending results for the target device.
+
+---
+
+## Final test result
+
+| Validation item | Status |
 |---|---|
-| Firewall policy created | Successful |
-| Platform selected as Windows | Successful |
-| Windows Firewall profile selected | Successful |
-| Domain network firewall enabled | Successful |
-| Private network firewall enabled | Successful |
-| Public network firewall enabled | Successful |
-| Policy assigned to GRP-Autopilot-Devices | Successful |
-| Target device | WINAUTO452 |
-| Intune policy status | Success |
-| Lab result | Completed |
+| Firewall policy created | Completed |
+| Platform selected as Windows | Completed |
+| Windows Firewall profile selected | Completed |
+| Domain network firewall enabled | Completed |
+| Private network firewall enabled | Completed |
+| Public network firewall enabled | Completed |
+| Policy assigned to GRP-Autopilot-Devices | Completed |
+| Target device WINAUTO452 received policy | Completed |
+| Intune policy status reported Success | Completed |
+| Screenshots captured and uploaded | Completed |
+| Final lab result | Completed |
 
-## What This Proves
-
-This lab proves that Microsoft Intune can deploy Windows Firewall settings through Endpoint security policies to an Autopilot-enrolled corporate Windows device.
-
-Simple explanation:
+Observed final result:
 
 ```text
-Admin created Windows Firewall policy in Intune
--> Policy assigned to GRP-Autopilot-Devices
--> WINAUTO452 received the policy
--> Intune reported policy status as Success
--> Firewall baseline deployment was validated
+The Windows Firewall policy applied successfully to WINAUTO452 through Microsoft Intune Endpoint security.
 ```
 
-This confirms that `WINAUTO452` is now managed by Intune and receiving endpoint security policies after Autopilot enrollment.
+---
 
-## Screenshots
+## Screenshots captured
 
-> [!NOTE]
-> Screenshots must be sanitized before upload. Hide tenant names, full email addresses, admin account details, device IDs, serial numbers, object IDs, IP addresses, and any sensitive information.
+Screenshots are stored in:
+
+```text
+screenshots/sanitized/endpoint-security/
+```
 
 ### Create Firewall profile
 
@@ -295,15 +398,9 @@ This confirms that `WINAUTO452` is now managed by Intune and receiving endpoint 
 
 ![Firewall device status WINAUTO452 succeeded](../screenshots/sanitized/endpoint-security/firewall-device-status-winauto452-succeeded-sanitized.png)
 
-## Screenshot Folder Path
+---
 
-Screenshots for this lab are stored in:
-
-```text
-screenshots/sanitized/endpoint-security/
-```
-
-Screenshot filenames used:
+## Screenshot file list
 
 ```text
 firewall-profile-create-sanitized.png
@@ -314,7 +411,9 @@ firewall-policy-list-sanitized.png
 firewall-device-status-winauto452-succeeded-sanitized.png
 ```
 
-## Troubleshooting Notes
+---
+
+## Troubleshooting notes
 
 ### Device status shows Pending
 
@@ -341,6 +440,8 @@ Intune admin center
 -> Sync
 ```
 
+---
+
 ### Policy does not apply
 
 If the policy does not apply, check:
@@ -352,13 +453,17 @@ If the policy does not apply, check:
 5. The device has internet connectivity.
 6. There are no conflicting firewall policies.
 
+---
+
 ### Firewall policy conflicts
 
 If a conflict appears, check whether another Intune policy, security baseline, or local policy is configuring the same Windows Firewall settings.
 
-## Security Notes
+---
 
-This lab enabled Windows Firewall across Domain, Private, and Public profiles.
+## Enterprise reflection
+
+Windows Firewall should be enabled and monitored across managed corporate Windows devices.
 
 For production environments:
 
@@ -366,37 +471,91 @@ For production environments:
 - Avoid blocking outbound traffic unless there is a tested business requirement.
 - Avoid enabling shielded mode without validating remote management and network access.
 - Create custom firewall rules only after confirming the required ports, protocols, applications, and network profiles.
+- Monitor Success, Error, Pending, and Conflict status in Intune.
 
-## Current Lab Status
-
-Completed:
-
-- Windows Firewall endpoint security policy created
-- Windows platform selected
-- Windows Firewall profile selected
-- Domain network firewall enabled
-- Private network firewall enabled
-- Public network firewall enabled
-- Policy assigned to `GRP-Autopilot-Devices`
-- Policy appeared in the Firewall policy list
-- `WINAUTO452` reported policy status as Success
-- Screenshots uploaded to GitHub path `screenshots/sanitized/endpoint-security/`
-
-## Next Step
-
-Continue to the next endpoint security lab:
+A safer rollout model is:
 
 ```text
-06-endpoint-security/bitlocker-encryption-policy.md
+Pilot device group
+-> Validate connectivity
+-> Validate Intune reporting
+-> Expand to production device groups
 ```
 
-After BitLocker, continue to:
+This lab follows that same model by targeting:
 
 ```text
-06-endpoint-security/attack-surface-reduction-policy.md
+GRP-Autopilot-Devices
 ```
 
-## References
+---
 
-- Microsoft Learn: Firewall policy for endpoint security in Intune
-- Microsoft Learn: Firewall policy settings for endpoint security in Intune
+## Security and privacy notes
+
+This is a public learning repository.
+
+Do not upload screenshots that show:
+
+- Full user email addresses
+- Tenant IDs
+- Device IDs
+- Object IDs
+- Serial numbers
+- Internal IP addresses
+- MAC addresses
+- Passwords
+- MFA prompts
+- Unsanitized tenant information
+- Production company data
+
+Before uploading screenshots, hide or blur:
+
+- Top-right signed-in admin account
+- Tenant/domain name
+- Full user principal names
+- Device identifiers
+- Serial numbers
+- Any private endpoint details
+
+---
+
+## Related labs
+
+| Lab file | Relationship |
+|---|---|
+| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Provides the Autopilot-enrolled corporate device WINAUTO452 |
+| `06-endpoint-security/windows-defender-antivirus-policy.md` | Previous endpoint security policy |
+| `06-endpoint-security/bitlocker-encryption-policy.md` | Next endpoint security policy |
+| `06-endpoint-security/attack-surface-reduction-policy.md` | Planned advanced endpoint security lab |
+| `06-endpoint-security/windows-security-baseline.md` | Planned security baseline lab |
+
+---
+
+## Key learning outcomes
+
+This lab demonstrated how to:
+
+- Create a Windows Firewall endpoint security policy.
+- Enable Firewall for Domain, Private, and Public profiles.
+- Assign endpoint security policies to a device group.
+- Validate policy success from Intune reporting.
+- Understand the difference between Firewall baseline settings and custom Firewall rules.
+- Use an Autopilot-enrolled device for endpoint security testing.
+
+---
+
+## Lab conclusion
+
+The Windows Firewall policy lab was completed successfully.
+
+Final result:
+
+```text
+Windows Firewall endpoint security policy was created in Intune.
+Domain, Private, and Public firewall profiles were enabled.
+The policy was assigned to GRP-Autopilot-Devices.
+WINAUTO452 received the policy successfully.
+Intune reported device status as Success.
+```
+
+This confirms that the Autopilot-enrolled Windows device is receiving firewall security settings from Microsoft Intune.
