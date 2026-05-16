@@ -10,26 +10,24 @@ The project simulates a small company using Microsoft Entra ID, Microsoft Intune
 
 The goal of this project is to build practical Microsoft Intune administration experience and document each lab in a professional GitHub portfolio format.
 
-This project demonstrates real-world endpoint administration skills, including:
+This project is designed to show real-world endpoint administration skills, including:
 
-- Microsoft Entra ID user and group management
-- Intune device enrollment
-- Windows Autopilot provisioning
-- Windows BYOD enrollment
-- Android Enterprise BYOD work profile enrollment
-- iOS/iPadOS BYOD enrollment preparation
-- Microsoft Store app deployment
-- Win32 app deployment
-- Microsoft 365 Apps deployment
-- Android Managed Google Play app deployment
-- Windows configuration profiles
-- Corporate wallpaper deployment
-- USB storage restriction policy
-- Microsoft Defender Antivirus policy
-- Windows Firewall policy
-- BitLocker encryption policy
-- Future Attack Surface Reduction and Security Baseline testing
-- Future compliance, Conditional Access, remote actions, monitoring, and troubleshooting labs
+- Creating and managing Microsoft Entra ID users and groups
+- Assigning licenses to test users
+- Enrolling Windows devices into Microsoft Intune
+- Enrolling BYOD Windows and Android devices
+- Troubleshooting Intune enrollment issues
+- Configuring Windows device configuration profiles
+- Deploying corporate device restrictions
+- Deploying corporate desktop personalization settings
+- Deploying Microsoft Store apps
+- Deploying Win32 apps
+- Deploying Microsoft 365 Apps
+- Using Windows Autopilot for corporate provisioning
+- Managing endpoint security settings
+- Validating Defender Antivirus, Firewall, and BitLocker policies
+- Planning compliance policies and Conditional Access
+- Planning remote actions, monitoring, and troubleshooting workflows
 
 ---
 
@@ -44,7 +42,7 @@ The company includes:
 - Corporate-owned Windows laptops
 - Personal/BYOD Windows laptops
 - Android BYOD devices
-- iOS/iPadOS BYOD devices
+- Planned iOS BYOD devices
 - Microsoft Entra ID users and groups
 - Microsoft Intune device management
 - Microsoft 365 Apps
@@ -107,7 +105,6 @@ md102-intune-virtual-company-lab/
 │   ├── microsoft-store-app-deployment.md
 │   ├── win32-app-deployment-7zip.md
 │   ├── microsoft-365-apps-autopilot-deployment.md
-│   ├── android-managed-google-play-app-deployment.md
 │   └── company-portal-self-service-apps.md
 ├── 06-endpoint-security/
 │   ├── windows-defender-antivirus-policy.md
@@ -128,7 +125,7 @@ md102-intune-virtual-company-lab/
 ```
 
 > [!NOTE]
-> Some files are planned future labs and will be completed as the hands-on project progresses.
+> Some files in the structure are planned future labs. They will be added or updated as the hands-on project progresses.
 
 ---
 
@@ -147,17 +144,16 @@ md102-intune-virtual-company-lab/
 | Windows Autopilot user-driven enrollment lab | Completed |
 | Windows BYOD enrollment lab | Completed |
 | Android BYOD work profile enrollment lab | Completed |
-| iOS BYOD enrollment lab | In Progress / Admin prerequisites completed |
 | Windows basic configuration profile lab | Completed |
 | Corporate wallpaper ADMX configuration profile lab | Completed |
 | USB storage block device restrictions lab | Completed |
 | Microsoft Store app deployment lab | Completed |
 | Win32 7-Zip app deployment lab | Completed |
 | Microsoft 365 Apps deployment lab | Completed |
-| Android Managed Google Play app deployment lab | Completed |
 | Defender Antivirus endpoint security lab | Completed |
 | Windows Firewall endpoint security lab | Completed |
 | BitLocker encryption endpoint security lab | Completed |
+| iOS BYOD enrollment lab | Planned |
 | Attack Surface Reduction policy lab | Next / Planned |
 | Windows Security Baseline lab | Planned |
 | Compliance and Conditional Access labs | Planned |
@@ -183,51 +179,273 @@ Completed work:
 - Created Microsoft Entra ID security groups
 - Configured group memberships
 - Assigned license to user01
-- Prepared pilot assignment group
+- Created pilot assignment group
 - Prepared Autopilot device group
 - Prepared BYOD user group
-- Reused groups for enrollment, apps, configuration profiles, and endpoint security targeting
+- Used groups for later enrollment, app, configuration, and security policy targeting
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Lab users and groups were created and prepared for Intune policy, app, and enrollment testing.
+```
 
 ---
 
-### 02 - Device Enrollment
+### 02 - Windows OOBE Enrollment
 
-Completed enrollment labs:
+Documented in:
 
-| Lab | File | Result |
-|---|---|---|
-| Windows OOBE enrollment | `02-device-enrollment/windows-oobe-enrollment.md` | WIN-CORP-001 enrolled and visible in Intune |
-| Windows Autopilot user-driven enrollment | `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | WINAUTO452 enrolled as corporate-owned and compliant |
-| Windows BYOD enrollment | `02-device-enrollment/windows-byod-enrollment.md` | WIN-BYOD-001 enrolled as personal, Intune managed, and compliant |
-| Android BYOD enrollment | `02-device-enrollment/android-byod-enrollment.md` | ANDROID-BYOD-001 enrolled with Android Enterprise work profile |
-| iOS BYOD enrollment | `02-device-enrollment/ios-byod-enrollment.md` | Admin prerequisites completed; physical iPhone/iPad enrollment pending |
+```text
+02-device-enrollment/windows-oobe-enrollment.md
+```
+
+Completed work:
+
+- Reimaged a spare Windows 11 device
+- Named the device WIN-CORP-001 during OOBE
+- Selected work or school setup
+- Signed in as user01
+- Verified Microsoft Entra join
+- Troubleshot initial MDM status of None
+- Triggered manual MDM enrollment
+- Verified the device in Microsoft Intune
+- Confirmed device compliance visibility
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WIN-CORP-001 appeared in Intune as managed by Intune and compliant.
+```
+
+Ownership note:
+
+```text
+Intune displayed the device ownership as Personal after manual MDM enrollment.
+This was later compared with Windows Autopilot corporate ownership behavior.
+```
 
 ---
 
-### 03 - Configuration Profiles
+### 02 - Windows Autopilot User-Driven Enrollment
 
-Completed configuration profile labs:
+Documented in:
 
-| Lab | File | Result |
-|---|---|---|
-| Windows basic configuration profile | `03-configuration-profiles/windows-basic-configuration-profile.md` | Created and validated |
-| Corporate wallpaper ADMX policy | `03-configuration-profiles/windows-corporate-wallpaper-policy.md` | Wallpaper staged and applied successfully |
-| USB storage block policy | `03-configuration-profiles/windows-device-restrictions-profile.md` | USB/removable storage blocked successfully |
+```text
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
+```
+
+Completed work:
+
+- Reviewed automatic MDM enrollment settings
+- Reviewed Microsoft Entra device join settings
+- Created and validated Autopilot device group targeting
+- Collected Windows Autopilot hardware hash from the test device
+- Imported the hardware hash CSV into Intune
+- Created a Windows Autopilot user-driven deployment profile
+- Configured Microsoft Entra joined Autopilot profile settings
+- Assigned the Autopilot profile to GRP-Autopilot-Devices
+- Waited for the Autopilot profile status to show Assigned
+- Signed in during OOBE as user01
+- Completed Autopilot provisioning
+- Verified the device in Intune as corporate-owned
+- Verified Intune management and compliance status
+- Verified required apps installed after Autopilot enrollment
+- Added sanitized screenshots
+
+Final enrolled Autopilot device:
+
+```text
+WINAUTO452
+```
+
+Observed result:
+
+```text
+The Autopilot device completed user-driven enrollment, joined Microsoft Entra ID, enrolled into Microsoft Intune, appeared as a corporate device, and received required app deployments.
+```
 
 ---
 
-### 05 - Application Deployment
+### 02 - Windows BYOD Enrollment
 
-Completed application deployment labs:
+Documented in:
 
-| Lab | File | Result |
-|---|---|---|
-| Microsoft Store app deployment | `05-application-deployment/microsoft-store-app-deployment.md` | Required and available Store apps validated |
-| Win32 7-Zip app deployment | `05-application-deployment/win32-app-deployment-7zip.md` | 7-Zip packaged as `.intunewin` and deployed |
-| Microsoft 365 Apps deployment | `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Microsoft 365 Apps installed and validated after Autopilot |
-| Android Managed Google Play app deployment | `05-application-deployment/android-managed-google-play-app-deployment.md` | Outlook and Teams installed in Android Work profile |
+```text
+02-device-enrollment/windows-byod-enrollment.md
+```
 
-Microsoft Store required apps tested:
+Completed work:
+
+- Verified user03 license assignment
+- Verified user03 membership in GRP-BYOD-Users
+- Configured automatic MDM enrollment scope for GRP-BYOD-Users
+- Confirmed Windows personally owned device enrollment was allowed
+- Prepared and renamed the test device as WIN-BYOD-001
+- Added the work account from Windows Settings
+- Completed Windows MDM enrollment from Settings
+- Performed manual device sync
+- Verified the device in the Intune Windows devices list
+- Verified the Intune device overview
+- Added sanitized screenshots
+
+Final enrolled BYOD device:
+
+```text
+WIN-BYOD-001
+```
+
+Observed result:
+
+```text
+WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
+The device appeared as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
+```
+
+---
+
+### 02 - Android BYOD Enrollment with Work Profile
+
+Documented in:
+
+```text
+02-device-enrollment/android-byod-enrollment.md
+```
+
+Completed work:
+
+- Connected Managed Google Play to Intune
+- Confirmed Android Enterprise personally owned work profile enrollment was allowed
+- Confirmed personally owned Android enrollment was allowed
+- Enrolled the Android BYOD test device using Company Portal
+- Created a separate Android Work profile
+- Verified the Android device in Intune
+- Confirmed ownership as Personal
+- Confirmed compliance as Compliant
+- Assigned Microsoft Authenticator as a required Managed Google Play app
+- Confirmed Microsoft Authenticator installed in the Android Work profile
+- Added sanitized screenshots
+
+Final enrolled Android BYOD device:
+
+```text
+ANDROID-BYOD-001
+```
+
+Observed result:
+
+```text
+ANDROID-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Android Enterprise work profile device.
+Microsoft Authenticator was deployed successfully to the Android Work profile.
+```
+
+---
+
+### 03 - Windows Basic Configuration Profile
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-basic-configuration-profile.md
+```
+
+Completed work:
+
+- Created a Windows configuration profile using the Settings catalog
+- Configured basic Windows device settings
+- Assigned the profile to the Autopilot device group
+- Synced the target Windows device
+- Verified policy deployment status in Intune
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Windows basic configuration profile was created, assigned, and validated through Microsoft Intune.
+```
+
+---
+
+### 03 - Corporate Wallpaper ADMX Configuration Profile
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-corporate-wallpaper-policy.md
+```
+
+Completed work:
+
+- Rebuilt the corporate wallpaper lab after the earlier Desktop Image Url approach failed
+- Created a PowerShell platform script to stage the wallpaper file locally
+- Downloaded the wallpaper from the GitHub raw image URL
+- Saved the wallpaper under C:\ProgramData\HomeLab\Wallpapers
+- Created an ADMX-backed Desktop Wallpaper user configuration profile
+- Configured the wallpaper path using a normal local Windows file path
+- Assigned the script to GRP-Autopilot-Devices
+- Assigned the wallpaper policy to GRP-Pilot-Users
+- Verified script status as Succeeded on WINAUTO452
+- Verified ADMX wallpaper policy status as Success
+- Confirmed the corporate wallpaper applied on the endpoint
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The corporate wallpaper was staged locally and applied successfully on WINAUTO452 using an ADMX-backed Desktop Wallpaper user policy.
+```
+
+---
+
+### 03 - Windows Device Restrictions: Block USB Storage
+
+Documented in:
+
+```text
+03-configuration-profiles/windows-device-restrictions-profile.md
+```
+
+Completed work:
+
+- Created a Windows Settings catalog configuration profile
+- Configured the removable storage access setting
+- Enabled "All Removable Storage classes: Deny all access"
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified the target device reported policy success
+- Tested USB/removable storage access on WINAUTO452
+- Confirmed Windows blocked access to the removable drive
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WINAUTO452 received the policy successfully, and removable USB storage access was blocked with an "Access is denied" message.
+```
+
+---
+
+### 05 - Microsoft Store App Deployment
+
+Documented in:
+
+```text
+05-application-deployment/microsoft-store-app-deployment.md
+```
+
+Completed work:
+
+- Created Microsoft Store apps using **Microsoft Store app (new)**
+- Assigned required apps to GRP-Pilot-Users
+- Assigned available/self-service apps to GRP-Pilot-Users
+- Synced WIN-CORP-001 after app assignment
+- Verified Company Portal installation status in Intune
+- Verified required apps installed in Company Portal
+- Verified available apps appeared in Company Portal with an install option
+- Added sanitized screenshots
+
+Required apps tested:
 
 ```text
 Company Portal
@@ -235,37 +453,157 @@ VLC UWP
 Slack
 ```
 
-Microsoft Store available apps tested:
+Available apps tested:
 
 ```text
 ChatGPT
 WhatsApp
 ```
 
-Android Managed Google Play apps tested:
+Observed result:
 
 ```text
-Microsoft Outlook
-Microsoft Teams
+Required apps installed automatically.
+Available apps appeared in Company Portal for user self-service installation.
 ```
 
 ---
 
-### 06 - Endpoint Security
+### 05 - Win32 App Deployment: 7-Zip
 
-Completed endpoint security labs:
-
-| Lab | File | Result |
-|---|---|---|
-| Defender Antivirus policy | `06-endpoint-security/windows-defender-antivirus-policy.md` | Success on WINAUTO452 |
-| Windows Firewall policy | `06-endpoint-security/windows-firewall-policy.md` | Success on WINAUTO452 |
-| BitLocker encryption policy | `06-endpoint-security/bitlocker-encryption-policy.md` | Fully Encrypted / Protection On |
-
-Planned endpoint security labs:
+Documented in:
 
 ```text
-06-endpoint-security/attack-surface-reduction-policy.md
-06-endpoint-security/windows-security-baseline.md
+05-application-deployment/win32-app-deployment-7zip.md
+```
+
+Completed work:
+
+- Prepared 7-Zip Win32 source folder
+- Packaged the installer as `.intunewin`
+- Uploaded the Win32 app to Microsoft Intune
+- Configured install and uninstall commands
+- Configured file-based detection rule
+- Assigned the app as Required to GRP-Pilot-Users
+- Verified install status in Intune
+- Verified local endpoint installation
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+7-Zip was deployed as a Win32 app using Microsoft Intune.
+```
+
+---
+
+### 05 - Microsoft 365 Apps Deployment
+
+Documented in:
+
+```text
+05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+```
+
+Completed work:
+
+- Verified user01 licensing for Microsoft 365 Apps
+- Created Microsoft 365 Apps deployment in Intune
+- Configured Microsoft 365 Apps using XML data
+- Used the Microsoft 365 Apps for business product ID
+- Assigned Microsoft 365 Apps as Required to GRP-Pilot-Users
+- Verified required install intent reached the managed Windows device
+- Verified Microsoft 365 Apps installed status in Intune
+- Validated Microsoft 365 Apps deployment after Autopilot enrollment
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Microsoft 365 Apps installed successfully through Intune and were validated as part of the post-Autopilot app deployment flow.
+```
+
+---
+
+### 06 - Microsoft Defender Antivirus Policy
+
+Documented in:
+
+```text
+06-endpoint-security/windows-defender-antivirus-policy.md
+```
+
+Completed work:
+
+- Created a Microsoft Defender Antivirus endpoint security policy
+- Selected Windows as the platform
+- Selected Microsoft Defender Antivirus as the profile
+- Configured core Defender Antivirus settings
+- Enabled PUA protection
+- Configured threat remediation actions
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Defender Antivirus policy applied successfully to the Autopilot-enrolled corporate Windows device WINAUTO452.
+```
+
+---
+
+### 06 - Windows Firewall Policy
+
+Documented in:
+
+```text
+06-endpoint-security/windows-firewall-policy.md
+```
+
+Completed work:
+
+- Created a Windows Firewall endpoint security policy
+- Selected Windows as the platform
+- Selected Windows Firewall as the profile
+- Enabled Firewall for Domain, Private, and Public profiles
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Windows Firewall policy applied successfully to WINAUTO452 through Microsoft Intune Endpoint security.
+```
+
+---
+
+### 06 - BitLocker Encryption Policy
+
+Documented in:
+
+```text
+06-endpoint-security/bitlocker-encryption-policy.md
+```
+
+Completed work:
+
+- Checked local BitLocker status before policy deployment
+- Created a BitLocker disk encryption policy in Intune
+- Configured silent BitLocker encryption settings
+- Configured recovery password storage settings
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy status as Success
+- Verified local encryption status using manage-bde
+- Confirmed the OS drive was fully encrypted and protection was on
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+BitLocker was enabled successfully on WINAUTO452.
+The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protection On.
 ```
 
 ---
@@ -284,12 +622,14 @@ Microsoft Entra users and groups
 -> Microsoft Store app deployment
 -> Win32 app deployment
 -> Microsoft 365 Apps deployment
--> Android Managed Google Play app deployment
 -> Configuration profiles applied
 -> Corporate wallpaper deployed
 -> USB storage restriction validated
+-> Endpoint security policies applied
 -> Defender Antivirus, Firewall, and BitLocker validated
 ```
+
+This creates a strong real-world portfolio scenario for MD-102 preparation.
 
 ---
 
@@ -302,24 +642,40 @@ This project demonstrates practical skills in:
 - Windows device enrollment
 - Windows BYOD enrollment
 - Android Enterprise BYOD work profile enrollment
-- iOS/iPadOS enrollment preparation
-- Apple MDM Push Certificate setup
-- Windows Autopilot preparation and deployment
-- Microsoft Store app deployment
-- Win32 app packaging and deployment
-- Microsoft 365 Apps deployment
-- Android Managed Google Play app deployment
+- Intune enrollment troubleshooting
+- Automatic MDM enrollment review and configuration
+- Windows Autopilot preparation
+- Windows Autopilot hardware hash import
+- Windows Autopilot deployment profile configuration
+- Windows Autopilot user-driven enrollment
+- Corporate device provisioning
+- Personal device ownership validation in Intune
+- Device compliance visibility
+- Conditional Access planning
 - Windows configuration profile deployment
+- Settings catalog profile configuration
 - ADMX-backed policy configuration
 - PowerShell platform script deployment
 - Corporate wallpaper deployment
-- USB/removable storage restriction
+- Removable USB storage restriction
+- Microsoft Store app deployment
+- Required app assignment
+- Available app assignment through Company Portal
+- Win32 app deployment
+- Win32 app packaging with `.intunewin`
+- Win32 app install and uninstall command configuration
+- Win32 app detection rule configuration
+- Microsoft 365 Apps deployment
+- Post-Autopilot app deployment validation
+- Managed Google Play app deployment
 - Microsoft Defender Antivirus policy deployment
 - Windows Firewall policy deployment
 - BitLocker encryption policy deployment
 - Endpoint security policy reporting
-- Compliance and Conditional Access planning
-- Remote actions and monitoring planning
+- Attack Surface Reduction policy planning
+- Windows Security Baseline planning
+- iOS BYOD management planning
+- Device monitoring and reports planning
 - Intune troubleshooting documentation
 
 ---
@@ -350,6 +706,8 @@ Each completed lab document should follow this standard format:
 ## Key learning outcomes
 ## Lab conclusion
 ```
+
+Some older or planned files may be updated as the project progresses.
 
 ---
 
@@ -389,7 +747,7 @@ Do not upload sensitive information, including:
 - Autopilot hardware hashes
 - BitLocker recovery keys
 - Internal IP addresses
-- Android IMEI numbers
+- IMEI numbers
 - Phone numbers
 - Unsanitized screenshots
 - Production company data
@@ -400,16 +758,38 @@ All screenshots must be sanitized before uploading to GitHub.
 
 ## Next step
 
-Recommended next lab:
+The next recommended lab can follow either of these paths.
 
-```text
-06-endpoint-security/attack-surface-reduction-policy.md
-```
-
-Alternative next lab:
+### Option 1 - Continue BYOD enrollment
 
 ```text
 02-device-enrollment/ios-byod-enrollment.md
 ```
 
-The iOS BYOD lab has admin prerequisites completed, but physical iPhone/iPad enrollment is still pending.
+This path completes the remaining planned BYOD enrollment scenario.
+
+### Option 2 - Continue endpoint security
+
+```text
+06-endpoint-security/attack-surface-reduction-policy.md
+```
+
+Then continue with:
+
+```text
+06-endpoint-security/windows-security-baseline.md
+```
+
+Recommended next choice:
+
+```text
+Attack Surface Reduction policy or iOS BYOD enrollment
+```
+
+---
+
+## Notes
+
+This project is for learning, portfolio building, and MD-102 preparation.
+
+The environment, company name, users, devices, and screenshots are fictional, test-only, or sanitized.
