@@ -92,7 +92,7 @@ md102-intune-virtual-company-lab/
 │   ├── windows-autopilot-user-driven-enrollment.md
 │   ├── windows-byod-enrollment.md
 │   ├── android-byod-enrollment.md
-│   └── ios-byod-enrollment.md
+│   └── ios-byod-enrollment.md                          [in progress]
 ├── 03-configuration-profiles/
 │   ├── windows-basic-configuration-profile.md
 │   ├── windows-corporate-wallpaper-policy.md
@@ -106,27 +106,27 @@ md102-intune-virtual-company-lab/
 │   ├── microsoft-store-app-deployment.md
 │   ├── win32-app-deployment-7zip.md
 │   ├── microsoft-365-apps-autopilot-deployment.md
-│   └── company-portal-self-service-apps.md
+│   └── company-portal-self-service-apps.md             [planned]
 ├── 06-endpoint-security/
 │   ├── windows-defender-antivirus-policy.md
 │   ├── windows-firewall-policy.md
 │   ├── bitlocker-encryption-policy.md
-│   ├── attack-surface-reduction-policy.md
-│   └── windows-security-baseline.md
-├── 07-remote-actions-and-monitoring/
-│   ├── device-sync-remote-actions.md
-│   ├── restart-retire-wipe-actions.md
-│   ├── collect-diagnostics.md
-│   └── device-monitoring-and-reports.md
-└── 08-troubleshooting/
-    ├── intune-enrollment-troubleshooting.md
-    ├── conditional-access-troubleshooting.md
-    ├── office-app-signin-troubleshooting.md
-    └── autopilot-motherboard-replacement-troubleshooting.md
+│   ├── attack-surface-reduction-policy.md              [planned]
+│   └── windows-security-baseline.md                    [planned]
+├── 07-remote-actions-and-monitoring/                   [planned]
+│   ├── device-sync-remote-actions.md                   [planned]
+│   ├── restart-retire-wipe-actions.md                  [planned]
+│   ├── collect-diagnostics.md                          [planned]
+│   └── device-monitoring-and-reports.md                [planned]
+└── 08-troubleshooting/                                 [planned]
+    ├── intune-enrollment-troubleshooting.md             [planned]
+    ├── conditional-access-troubleshooting.md            [planned]
+    ├── office-app-signin-troubleshooting.md             [planned]
+    └── autopilot-motherboard-replacement-troubleshooting.md [planned]
 ```
 
 > [!NOTE]
-> Some files in the structure are planned future labs. They will be added or updated as the hands-on project progresses.
+> Files marked `[planned]` do not exist yet and will be added as labs are completed. Files marked `[in progress]` have admin prerequisites completed but are pending physical device availability.
 
 ---
 
