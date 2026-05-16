@@ -26,6 +26,7 @@ These devices can be used for:
 - Microsoft Intune enrollment
 - Windows Autopilot
 - Compliance policies
+- Conditional Access testing
 - Configuration profiles
 - Required app deployment
 - Endpoint security policies
@@ -45,8 +46,19 @@ Unmanaged personal device
 vs
 Enrolled personal/BYOD device
 vs
-Corporate-managed device
+Managed but noncompliant BYOD device
+vs
+Corporate-managed compliant device
 ```
+
+This project uses BYOD testing to show that a device can be:
+
+```text
+Managed by Intune = Yes
+Compliant = No
+```
+
+This distinction is important because Conditional Access can require a device to be compliant before allowing Microsoft 365 access.
 
 ### Autopilot devices
 
@@ -62,6 +74,8 @@ These devices are used to test:
 - Automatic Intune enrollment
 - App and policy deployment after enrollment
 - Corporate ownership after provisioning
+- Compliance policy validation
+- Conditional Access compliant-device validation
 
 ---
 
@@ -70,13 +84,16 @@ These devices are used to test:
 | Device name | Device type | Ownership | OS | Enrollment type | User | Status |
 |---|---|---|---|---|---|---|
 | WIN-CORP-001 | Laptop | Corporate lab device / Personal in Intune after manual MDM enrollment | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / App deployment tested |
-| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Intune managed / Personal / Compliant |
+| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested / Compliance and Conditional Access validated |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Intune managed / Personal / Used for BYOD compliance and Conditional Access testing / Temporarily marked Noncompliant for lab validation |
 | ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android 15 | Android Enterprise personally owned work profile | user03 | Enrolled / Intune managed / Personal / Compliant / Work profile created / Authenticator, Outlook, and Teams deployed |
 | IOS-BYOD-001 | Mobile | Personal/BYOD | iOS/iPadOS | Company Portal enrollment planned | user04 | In Progress / Admin prerequisites completed / Physical enrollment pending |
 
 > [!NOTE]
 > During the Windows OOBE lab, Intune displayed `WIN-CORP-001` ownership as `Personal` after manual MDM enrollment. This is documented in the Windows OOBE enrollment lab and was later compared with Windows Autopilot corporate ownership behavior.
+
+> [!NOTE]
+> `WIN-BYOD-001` was initially enrolled and shown as compliant after Windows BYOD enrollment. It was later intentionally made noncompliant using a temporary compliance policy so that Conditional Access report-only and enforced-mode behavior could be validated.
 
 ---
 
@@ -146,8 +163,9 @@ Related labs:
 | Apps verified | Store apps, Win32 7-Zip, Microsoft 365 Apps |
 | Configuration profiles verified | Basic Windows profile, corporate wallpaper, USB storage block |
 | Endpoint security verified | Defender Antivirus, Windows Firewall, BitLocker |
-| Purpose | Windows Autopilot provisioning, configuration profile, app deployment, and endpoint security test |
-| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested |
+| Compliance and Conditional Access verified | Windows compliance policy and report-only compliant-device Conditional Access test |
+| Purpose | Windows Autopilot provisioning, configuration profile, app deployment, endpoint security, compliance, and Conditional Access test |
+| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested / Compliance and Conditional Access validated |
 
 This device validated:
 
@@ -168,12 +186,15 @@ This device validated:
 - Defender Antivirus endpoint security policy validation
 - Windows Firewall endpoint security policy validation
 - BitLocker encryption policy validation
+- Windows basic compliance policy validation
+- Secure Boot remediation for compliance
+- Conditional Access report-only compliant-device validation
 
 Final Autopilot result:
 
 ```text
 WIN-AUTOPILOT-001 was provisioned with Windows Autopilot and appeared in Intune as WINAUTO452.
-The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, received configuration profiles, and successfully received endpoint security policies.
+The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, received configuration profiles, received endpoint security policies, passed Windows compliance validation, and satisfied the Conditional Access compliant-device report-only test.
 ```
 
 Related labs:
@@ -183,6 +204,8 @@ Related labs:
 03-configuration-profiles/windows-basic-configuration-profile.md
 03-configuration-profiles/windows-corporate-wallpaper-policy.md
 03-configuration-profiles/windows-device-restrictions-profile.md
+04-compliance-and-conditional-access/windows-basic-compliance-policy.md
+04-compliance-and-conditional-access/conditional-access-compliant-device.md
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
 06-endpoint-security/windows-defender-antivirus-policy.md
 06-endpoint-security/windows-firewall-policy.md
@@ -208,23 +231,48 @@ Related labs:
 | Management | Microsoft Intune |
 | Primary user | user03 |
 | BYOD group | GRP-BYOD-Users |
-| Compliance | Compliant |
+| Initial compliance result | Compliant after Windows BYOD enrollment |
+| Later compliance test result | Temporarily marked Noncompliant for lab validation |
 | Intune ownership | Personal |
-| Purpose | Windows BYOD enrollment test |
-| Current status | Enrolled / Intune managed / Personal / Compliant |
+| Purpose | Windows BYOD enrollment, BYOD compliance testing, and Conditional Access blocking validation |
+| Current status | Enrolled / Intune managed / Personal / Used for BYOD compliance and Conditional Access testing / Temporarily marked Noncompliant for lab validation |
 
-Final Windows BYOD result:
+Initial Windows BYOD result:
 
 ```text
 WIN-BYOD-001 enrolled successfully into Microsoft Intune as a personally owned Windows BYOD device.
 The device appeared in Intune as managed by Intune, ownership Personal, compliance Compliant, and primary user user03.
 ```
 
-Related lab:
+Later compliance and Conditional Access result:
+
+```text
+WIN-BYOD-001 was intentionally marked Noncompliant using a temporary Windows compliance policy.
+The device was then used to validate both report-only and enforced Conditional Access behavior.
+The report-only test showed Failure for the noncompliant BYOD device.
+The enforced-mode test blocked Microsoft 365 access because the device did not satisfy the Require compliant device grant control.
+```
+
+This device validated:
+
+- Windows BYOD enrollment from Settings
+- Personal ownership behavior in Intune
+- Intune management for a BYOD Windows device
+- Initial compliant BYOD state
+- Temporary noncompliance using a high minimum OS version compliance policy
+- Conditional Access report-only failure for a managed but noncompliant BYOD device
+- Conditional Access enforced blocking for a noncompliant BYOD device
+
+Related labs:
 
 ```text
 02-device-enrollment/windows-byod-enrollment.md
+04-compliance-and-conditional-access/managed-noncompliant-device-test.md
+04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md
 ```
+
+> [!NOTE]
+> The noncompliant state for `WIN-BYOD-001` was created intentionally for lab validation. It does not mean the original BYOD enrollment lab failed. The device was first enrolled successfully, then later used as a controlled negative-test device.
 
 ---
 
@@ -343,14 +391,16 @@ Related lab:
 | Admin prerequisites completed | Portal-side prerequisites are complete, but physical device validation is pending |
 | Enrolled | Device enrolled into Intune |
 | Compliant | Device meets compliance rules |
+| Noncompliant | Device fails compliance rules |
+| Temporarily marked Noncompliant | Device was intentionally made noncompliant for controlled lab validation |
 | Corporate | Device is treated as a corporate-owned device in Intune |
 | Personal | Device is treated as a personally owned/BYOD device in Intune |
 | Work profile created | Android Enterprise work profile exists |
 | App deployment tested | Device has been used for Intune app deployment validation |
 | Configuration profiles tested | Device has received configuration profiles |
 | Endpoint security tested | Device has received endpoint security policies |
+| Compliance and Conditional Access validated | Device has been used for compliance and Conditional Access testing |
 | Autopilot enrolled | Device completed Windows Autopilot provisioning |
-| Noncompliant | Device fails compliance rules |
 | Retired | Device removed from Intune |
 | Wiped | Device reset |
 | Discarded | Device no longer used |
@@ -364,13 +414,15 @@ Related lab:
 | Windows enrollment | screenshots/sanitized/device-enrollment/ |
 | Autopilot enrollment | screenshots/sanitized/device-enrollment/ |
 | BYOD enrollment | screenshots/sanitized/device-enrollment/ |
-| Compliance testing | screenshots/sanitized/compliance/ |
-| Conditional Access testing | screenshots/sanitized/conditional-access/ |
+| Compliance and Conditional Access | screenshots/sanitized/compliance-and-conditional-access/ |
 | Application deployment | screenshots/sanitized/application-deployment/ |
 | Configuration profiles | screenshots/sanitized/configuration-profiles/ |
 | Endpoint security | screenshots/sanitized/endpoint-security/ |
 | Remote actions | screenshots/sanitized/remote-actions-and-monitoring/ |
 | Troubleshooting | screenshots/sanitized/troubleshooting/ |
+
+> [!NOTE]
+> The 04 lab screenshots use the combined folder `screenshots/sanitized/compliance-and-conditional-access/` because compliance policy testing and Conditional Access testing are part of the same project section.
 
 ---
 
@@ -406,25 +458,32 @@ Do not upload:
 | WIN-CORP-001 enrollment documented | Completed |
 | WINAUTO452 Autopilot enrollment documented | Completed |
 | WIN-BYOD-001 Windows BYOD enrollment documented | Completed |
+| WIN-BYOD-001 noncompliant BYOD Conditional Access testing documented | Completed |
 | ANDROID-BYOD-001 Android BYOD enrollment documented | Completed |
 | ANDROID-BYOD-001 Managed Google Play app deployment documented | Completed |
 | IOS-BYOD-001 admin prerequisites documented | In Progress / Admin prerequisites completed |
 | iOS/iPadOS physical device enrollment | Pending |
 | WINAUTO452 configuration profiles verified | Completed |
 | WINAUTO452 endpoint security policies verified | Completed |
+| WINAUTO452 Windows compliance policy verified | Completed |
+| Conditional Access compliant-device report-only validation | Completed |
+| Conditional Access noncompliant BYOD report-only validation | Completed |
+| Conditional Access enforced mode blocking validation | Completed |
 
 ---
 
 ## Next step
 
-Recommended next endpoint security lab:
+Recommended next documentation lab:
 
 ```text
-06-endpoint-security/attack-surface-reduction-policy.md
+08-troubleshooting/conditional-access-troubleshooting.md
 ```
 
-Alternative BYOD continuation:
+Alternative next hands-on lab:
 
 ```text
-02-device-enrollment/ios-byod-enrollment.md
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
 ```
+
+The device inventory is now aligned with the completed compliance and Conditional Access labs.
