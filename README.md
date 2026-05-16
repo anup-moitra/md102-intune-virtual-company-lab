@@ -26,7 +26,7 @@ This project is designed to show real-world endpoint administration skills, incl
 - Using Windows Autopilot for corporate provisioning
 - Managing endpoint security settings
 - Validating Defender Antivirus, Firewall, and BitLocker policies
-- Planning compliance policies and Conditional Access
+- Deploying and validating compliance policies and Conditional Access
 - Planning remote actions, monitoring, and troubleshooting workflows
 
 ---
@@ -48,7 +48,8 @@ The company includes:
 - Microsoft 365 Apps
 - Configuration profiles
 - Endpoint security policies
-- Planned compliance and Conditional Access controls
+- Compliance policies for device health validation
+- Conditional Access for identity and device-based access control
 - Planned remote actions and monitoring workflows
 
 Detailed scenario documentation:
@@ -150,13 +151,17 @@ md102-intune-virtual-company-lab/
 | Microsoft Store app deployment lab | Completed |
 | Win32 7-Zip app deployment lab | Completed |
 | Microsoft 365 Apps deployment lab | Completed |
+| Android Managed Google Play app deployment lab | Completed |
 | Defender Antivirus endpoint security lab | Completed |
 | Windows Firewall endpoint security lab | Completed |
 | BitLocker encryption endpoint security lab | Completed |
-| iOS BYOD enrollment lab | Planned |
+| Windows basic compliance policy lab | Completed |
+| Conditional Access compliant device lab | Completed |
+| Managed noncompliant device test lab | Completed |
+| Conditional Access enforced mode test lab | Completed |
+| iOS BYOD enrollment lab | In Progress |
 | Attack Surface Reduction policy lab | Next / Planned |
 | Windows Security Baseline lab | Planned |
-| Compliance and Conditional Access labs | Planned |
 | Company Portal self-service app lab | Optional / Planned |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting documentation | Planned |
@@ -608,6 +613,145 @@ The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protect
 
 ---
 
+### 05 - Android Managed Google Play App Deployment
+
+Documented in:
+
+```text
+05-application-deployment/android-managed-google-play-app-deployment.md
+```
+
+Completed work:
+
+- Connected Managed Google Play to the Intune tenant
+- Approved Microsoft Outlook and Microsoft Teams in Managed Google Play
+- Assigned Outlook as Required to GRP-BYOD-Users
+- Assigned Teams as Required to GRP-BYOD-Users
+- Verified the Android BYOD device received the required app assignments
+- Confirmed Outlook and Teams installed into the Android Work profile
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Microsoft Outlook and Microsoft Teams were deployed successfully through Managed Google Play
+to the Android Enterprise work profile on ANDROID-BYOD-001.
+```
+
+---
+
+### 04 - Windows Basic Compliance Policy
+
+Documented in:
+
+```text
+04-compliance-and-conditional-access/windows-basic-compliance-policy.md
+```
+
+Completed work:
+
+- Created a Windows compliance policy in Microsoft Intune
+- Configured compliance settings including BitLocker, Secure Boot, Code Integrity, Firewall, TPM, Antivirus, Antispyware, and Real-time protection
+- Assigned the policy to GRP-Autopilot-Devices
+- Triggered a device sync on WINAUTO452
+- Verified per-setting compliance status in Intune
+- Troubleshot Secure Boot compliance using PowerShell
+- Confirmed WINAUTO452 reported as Compliant
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WINAUTO452 evaluated the compliance policy and reported as Compliant in Microsoft Intune.
+```
+
+---
+
+### 04 - Conditional Access: Compliant Device Policy (Report-Only)
+
+Documented in:
+
+```text
+04-compliance-and-conditional-access/conditional-access-compliant-device.md
+```
+
+Completed work:
+
+- Created a Conditional Access policy requiring a compliant device for Microsoft 365 access
+- Targeted GRP-Pilot-Users and Microsoft 365 / Office 365 cloud apps
+- Scoped the policy to the Windows device platform
+- Set the policy to Report-only mode for safe testing
+- Signed in to a Microsoft 365 app from WINAUTO452
+- Verified the sign-in succeeded in Report-only mode
+- Reviewed the sign-in log and confirmed the CA policy reported a success result
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Conditional Access compliant device policy evaluated successfully in Report-only mode.
+Access was not blocked. The sign-in log confirmed the policy would have been satisfied.
+```
+
+---
+
+### 04 - Managed Noncompliant Device Test
+
+Documented in:
+
+```text
+04-compliance-and-conditional-access/managed-noncompliant-device-test.md
+```
+
+Completed work:
+
+- Confirmed WIN-BYOD-001 initial compliance state
+- Created a test compliance policy with an impossible minimum OS version requirement
+- Assigned the test policy to GRP-BYOD-Users
+- Verified WIN-BYOD-001 became noncompliant in Intune
+- Confirmed the Conditional Access Report-only policy captured the noncompliant state
+- Verified the sign-in log showed the CA policy would have failed for the noncompliant BYOD device
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WIN-BYOD-001 became noncompliant after receiving the test compliance policy.
+The Conditional Access Report-only log confirmed the policy would have blocked access
+due to the noncompliant device state.
+```
+
+---
+
+### 04 - Conditional Access: Enforced Mode Test
+
+Documented in:
+
+```text
+04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md
+```
+
+Completed work:
+
+- Verified WIN-BYOD-001 noncompliant state before testing
+- Created a Conditional Access policy requiring a compliant device in Report-only mode
+- Disabled Security Defaults to allow Conditional Access enforcement
+- Switched the Conditional Access policy from Report-only to On (enforced mode)
+- Attempted to sign in to Microsoft 365 from the noncompliant WIN-BYOD-001 device as user03
+- Confirmed access was blocked with a Conditional Access error
+- Reviewed the sign-in logs and verified the CA policy blocked the authentication
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Access to Microsoft 365 was blocked for user03 on the noncompliant WIN-BYOD-001 device.
+The sign-in log confirmed the Conditional Access policy enforced the compliant device requirement
+and blocked the sign-in attempt.
+```
+
+---
+
 ## Completed modern endpoint deployment flow
 
 The completed labs now demonstrate this modern endpoint management chain:
@@ -622,11 +766,16 @@ Microsoft Entra users and groups
 -> Microsoft Store app deployment
 -> Win32 app deployment
 -> Microsoft 365 Apps deployment
+-> Android Managed Google Play app deployment
 -> Configuration profiles applied
 -> Corporate wallpaper deployed
 -> USB storage restriction validated
 -> Endpoint security policies applied
 -> Defender Antivirus, Firewall, and BitLocker validated
+-> Windows compliance policy deployed and evaluated
+-> Conditional Access report-only mode tested
+-> Managed noncompliant device behaviour validated
+-> Conditional Access enforced mode tested and access blocked
 ```
 
 This creates a strong real-world portfolio scenario for MD-102 preparation.
@@ -651,7 +800,11 @@ This project demonstrates practical skills in:
 - Corporate device provisioning
 - Personal device ownership validation in Intune
 - Device compliance visibility
-- Conditional Access planning
+- Compliance policy configuration and evaluation
+- Conditional Access policy creation
+- Conditional Access report-only mode testing
+- Conditional Access enforced mode testing and validation
+- Noncompliant device behaviour validation
 - Windows configuration profile deployment
 - Settings catalog profile configuration
 - ADMX-backed policy configuration
@@ -760,13 +913,13 @@ All screenshots must be sanitized before uploading to GitHub.
 
 The next recommended lab can follow either of these paths.
 
-### Option 1 - Continue BYOD enrollment
+### Option 1 - Complete iOS BYOD enrollment
 
 ```text
 02-device-enrollment/ios-byod-enrollment.md
 ```
 
-This path completes the remaining planned BYOD enrollment scenario.
+Admin prerequisites are already completed. This path finishes the remaining BYOD enrollment scenario when a physical iPhone or iPad is available.
 
 ### Option 2 - Continue endpoint security
 
@@ -780,10 +933,16 @@ Then continue with:
 06-endpoint-security/windows-security-baseline.md
 ```
 
+### Option 3 - Begin remote actions and monitoring
+
+```text
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
+```
+
 Recommended next choice:
 
 ```text
-Attack Surface Reduction policy or iOS BYOD enrollment
+Attack Surface Reduction policy or remote actions and monitoring
 ```
 
 ---
