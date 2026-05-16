@@ -8,13 +8,13 @@ This file tracks the planned implementation sequence for the MD-102 Intune virtu
 
 The purpose of this roadmap is to keep the lab project organized as each section is created, tested, documented, and updated in GitHub.
 
-This roadmap is updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration, application deployment, endpoint security, BYOD enrollment, monitoring, and troubleshooting labs.
+This roadmap will be updated as the project progresses from initial documentation to hands-on Microsoft Intune configuration and troubleshooting labs.
 
 ---
 
-## Current project status
+## Current Project Status
 
-The project has completed the foundation documentation, identity and group setup, Windows enrollment labs, Windows Autopilot user-driven enrollment, Windows BYOD enrollment, Android BYOD work profile enrollment, iOS/iPadOS enrollment admin prerequisites, application deployment labs, Windows configuration profile labs, and the first endpoint security policy labs.
+The project has completed the foundation documentation, the first identity lab, and the first Windows device enrollment lab.
 
 Completed work:
 
@@ -24,48 +24,18 @@ Completed work:
 - Lab implementation roadmap documented
 - Microsoft Entra ID users and groups created
 - user01 license assignment completed
-- user03 license assignment verified for BYOD testing
-- user04 license verified for iOS/iPadOS BYOD testing
-- Automatic MDM enrollment reviewed for Windows enrollment and Autopilot
-- Automatic MDM enrollment scoped for BYOD users using `GRP-BYOD-Users`
-- Microsoft Entra device join settings reviewed
-- Windows OOBE enrollment for `WIN-CORP-001` completed
-- Windows Autopilot user-driven enrollment for `WINAUTO452` completed
-- Windows BYOD enrollment for `WIN-BYOD-001` completed
-- Android BYOD enrollment for `ANDROID-BYOD-001` completed
-- Android Enterprise personally owned work profile created
-- Android BYOD device verified as Intune managed, Personal, and Compliant
-- Microsoft Authenticator deployed to the Android Work profile
-- Android Managed Google Play app deployment completed
-- Microsoft Outlook and Microsoft Teams installed in Android Work profile
-- iOS/iPadOS admin prerequisites completed
-- Apple MDM Push Certificate created and active in Intune
-- Windows basic configuration profile completed
-- Corporate wallpaper ADMX configuration profile completed
-- USB storage block device restrictions profile completed
-- Microsoft Store app deployment completed
-- Win32 7-Zip app deployment completed
-- Microsoft 365 Apps deployment completed
-- Microsoft Defender Antivirus endpoint security policy completed
-- Windows Firewall endpoint security policy completed
-- BitLocker encryption endpoint security policy completed
-- BitLocker encryption validated locally using `manage-bde -status`
+- Windows OOBE enrollment for WIN-CORP-001 completed
+- Intune enrollment issue documented and resolved with manual MDM enrollment
 
 Current focus:
 
-- Continue endpoint security:
-  - Attack Surface Reduction
-  - Windows Security Baseline
-- Complete iOS/iPadOS physical BYOD enrollment when a device is available
-- Begin Compliance and Conditional Access labs after endpoint security/BYOD cleanup
-- Keep roadmap, README, device inventory, and related lab files aligned after each completed lab
-
-> [!NOTE]
-> The project is not being completed strictly in folder order. Microsoft Store app deployment, Win32 app deployment, Microsoft 365 Apps deployment, Windows Autopilot, endpoint security, configuration profiles, Windows BYOD, Android BYOD, and Android app deployment were completed before some compliance, Conditional Access, iOS device enrollment, and remote action labs.
+- Continue with Windows Autopilot user-driven enrollment
+- Compare manual OOBE enrollment with Autopilot provisioning
+- Continue building the device enrollment section
 
 ---
 
-## Implementation phases
+## Implementation Phases
 
 | Phase | Task | Status |
 |---|---|---|
@@ -77,94 +47,87 @@ Current focus:
 | Phase 5 | Create Microsoft Entra ID users documentation | Completed |
 | Phase 6 | Create Microsoft Entra ID groups documentation | Completed |
 | Phase 7 | Assign Intune licenses to lab users | Completed |
-| Phase 8 | Configure/review automatic MDM enrollment | Completed / reviewed |
+| Phase 8 | Configure automatic MDM enrollment | In progress |
 | Phase 9 | Enroll corporate Windows device WIN-CORP-001 | Completed |
 | Phase 10 | Create Windows basic compliance policy | Planned |
 | Phase 11 | Create Conditional Access policy in Report-only mode | Planned |
 | Phase 12 | Test compliant corporate Windows sign-in | Planned |
-| Phase 13 | Test unmanaged/BYOD sign-in behavior | Planned |
-| Phase 14 | Create basic Windows configuration profile | Completed |
-| Phase 14A | Create corporate wallpaper ADMX configuration profile | Completed |
-| Phase 14B | Create USB storage block device restrictions profile | Completed |
-| Phase 15 | Deploy Microsoft Store apps | Completed |
-| Phase 16 | Deploy Win32 app using Intune | Completed |
-| Phase 17 | Deploy Microsoft 365 Apps | Completed |
-| Phase 18 | Configure Defender Antivirus policy | Completed |
-| Phase 19 | Configure Windows Firewall policy | Completed |
-| Phase 20 | Configure BitLocker encryption policy | Completed |
-| Phase 21 | Configure Windows Autopilot | Completed |
-| Phase 22 | Test Windows BYOD enrollment | Completed |
-| Phase 23 | Test Android BYOD enrollment | Completed |
-| Phase 23A | Deploy Android Managed Google Play apps | Completed |
-| Phase 24 | Prepare iOS/iPadOS BYOD enrollment | In Progress / Admin prerequisites completed |
-| Phase 24A | Complete physical iOS/iPadOS BYOD enrollment | Pending |
-| Phase 25 | Configure Attack Surface Reduction policy | Next / Planned |
+| Phase 13 | Test unmanaged BYOD sign-in | Planned |
+| Phase 14 | Create basic Windows configuration profile | Planned |
+| Phase 15 | Deploy Microsoft Store apps | Planned |
+| Phase 16 | Deploy Win32 app using Intune | Planned |
+| Phase 17 | Configure Defender Antivirus policy | Planned |
+| Phase 18 | Configure Windows Firewall policy | Planned |
+| Phase 19 | Configure BitLocker encryption policy | Planned |
+| Phase 20 | Configure Windows Autopilot | Planned |
+| Phase 21 | Deploy Microsoft 365 Apps | Planned |
+| Phase 22 | Test Windows BYOD enrollment | Planned |
+| Phase 23 | Test Android BYOD enrollment | Planned |
+| Phase 24 | Test iOS BYOD enrollment | Planned |
+| Phase 25 | Configure Attack Surface Reduction policy | Planned |
 | Phase 26 | Configure Windows Security Baseline | Planned |
 | Phase 27 | Test remote actions and monitoring | Planned |
 | Phase 28 | Create troubleshooting documentation | Planned |
 
+> [!NOTE]
+> Automatic MDM enrollment is marked as `In progress` because the first Windows OOBE lab required manual MDM enrollment troubleshooting. The issue is documented in the Windows OOBE enrollment lab.
+
 ---
 
-## Section roadmap
+## Section Roadmap
 
 ### 00 - Project Overview
 
 | File | Status |
 |---|---|
-| README.md | Completed / Updated |
-| 00-project-overview/company-scenario.md | Completed / Updated |
-| 00-project-overview/device-inventory.md | Completed / Updated |
-| 00-project-overview/lab-implementation-roadmap.md | Completed / Updated |
-
----
+| README.md | Completed |
+| 00-project-overview/company-scenario.md | Completed |
+| 00-project-overview/device-inventory.md | Completed |
+| 00-project-overview/lab-implementation-roadmap.md | Completed |
 
 ### 01 - Identity and Groups
 
 | File | Status |
 |---|---|
-| 01-identity-and-groups/users-and-groups.md | Completed / Standardized |
+| 01-identity-and-groups/users-and-groups.md | Completed |
 
----
+This section documents:
+
+- Lab admin account
+- Standard test users
+- Pilot users
+- Microsoft Entra ID security groups
+- Group assignment strategy
+- License assignment plan
+- Initial screenshots for identity setup
 
 ### 02 - Device Enrollment
 
 | File | Status |
 |---|---|
 | 02-device-enrollment/windows-oobe-enrollment.md | Completed |
-| 02-device-enrollment/windows-autopilot-user-driven-enrollment.md | Completed / Standardized |
-| 02-device-enrollment/windows-byod-enrollment.md | Completed / Standardized |
-| 02-device-enrollment/android-byod-enrollment.md | Completed / Standardized |
-| 02-device-enrollment/ios-byod-enrollment.md | In Progress / Admin prerequisites completed |
+| 02-device-enrollment/windows-autopilot-user-driven-enrollment.md | Planned |
+| 02-device-enrollment/windows-byod-enrollment.md | Planned |
+| 02-device-enrollment/android-byod-enrollment.md | Planned |
+| 02-device-enrollment/ios-byod-enrollment.md | Planned |
 
-Completed enrollment results:
+This section documents Windows corporate enrollment, Windows Autopilot, and BYOD enrollment scenarios.
+
+The Windows OOBE enrollment lab is completed for:
 
 ```text
-WIN-CORP-001 = Enrolled and visible in Intune
-WINAUTO452 = Autopilot enrolled, corporate-owned, and compliant
-WIN-BYOD-001 = Enrolled as personal Windows BYOD device
-ANDROID-BYOD-001 = Enrolled as Android Enterprise personally owned work profile device
-IOS-BYOD-001 = Admin prerequisites completed, physical enrollment pending
+WIN-CORP-001
 ```
 
----
+The lab also documents the troubleshooting path where the device initially showed `MDM: None` in Microsoft Entra ID and was later enrolled into Intune using manual MDM enrollment.
 
 ### 03 - Configuration Profiles
 
 | File | Status |
 |---|---|
-| 03-configuration-profiles/windows-basic-configuration-profile.md | Completed |
-| 03-configuration-profiles/windows-corporate-wallpaper-policy.md | Completed / Standardized |
-| 03-configuration-profiles/windows-device-restrictions-profile.md | Completed |
-
-Observed configuration profile results:
-
-```text
-The Windows basic configuration profile was created and validated.
-The corporate wallpaper was staged locally and applied successfully using an ADMX-backed user policy.
-The USB storage block policy applied successfully and blocked removable drive access with an Access is denied message.
-```
-
----
+| 03-configuration-profiles/windows-basic-configuration-profile.md | Planned |
+| 03-configuration-profiles/windows-corporate-wallpaper-policy.md | Planned |
+| 03-configuration-profiles/windows-device-restrictions-profile.md | Planned |
 
 ### 04 - Compliance and Conditional Access
 
@@ -175,76 +138,24 @@ The USB storage block policy applied successfully and blocked removable drive ac
 | 04-compliance-and-conditional-access/managed-noncompliant-device-test.md | Planned |
 | 04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md | Planned |
 
-Recommended sequence:
-
-```text
-Create basic Windows compliance policy
--> Validate compliant Windows device
--> Create Conditional Access policy in report-only mode
--> Test compliant device sign-in
--> Test noncompliant or unmanaged device behavior
--> Move from report-only to enforced mode after validation
-```
-
----
-
 ### 05 - Application Deployment
 
 | File | Status |
 |---|---|
-| 05-application-deployment/microsoft-store-app-deployment.md | Completed / Standardized |
-| 05-application-deployment/win32-app-deployment-7zip.md | Completed / Standardized |
-| 05-application-deployment/microsoft-365-apps-autopilot-deployment.md | Completed / Standardized |
-| 05-application-deployment/android-managed-google-play-app-deployment.md | Completed / Standardized |
-| 05-application-deployment/company-portal-self-service-apps.md | Optional / Planned |
-
-Completed application deployment work:
-
-```text
-Microsoft Store apps
--> Win32 7-Zip app
--> Microsoft 365 Apps
--> Android Managed Google Play apps
-```
-
-Observed app deployment results:
-
-```text
-Required Microsoft Store apps installed automatically.
-Available Microsoft Store apps appeared in Company Portal.
-7-Zip was packaged as .intunewin and deployed through Intune.
-Microsoft 365 Apps installed successfully and were validated after Autopilot.
-Outlook and Teams installed inside the Android Work profile.
-```
-
----
+| 05-application-deployment/microsoft-store-app-deployment.md | Planned |
+| 05-application-deployment/win32-app-deployment-7zip.md | Planned |
+| 05-application-deployment/microsoft-365-apps-autopilot-deployment.md | Planned |
+| 05-application-deployment/company-portal-self-service-apps.md | Planned |
 
 ### 06 - Endpoint Security
 
 | File | Status |
 |---|---|
-| 06-endpoint-security/windows-defender-antivirus-policy.md | Completed / Standardized |
-| 06-endpoint-security/windows-firewall-policy.md | Completed / Standardized |
-| 06-endpoint-security/bitlocker-encryption-policy.md | Completed / Standardized |
-| 06-endpoint-security/attack-surface-reduction-policy.md | Next / Planned |
+| 06-endpoint-security/windows-defender-antivirus-policy.md | Planned |
+| 06-endpoint-security/windows-firewall-policy.md | Planned |
+| 06-endpoint-security/bitlocker-encryption-policy.md | Planned |
+| 06-endpoint-security/attack-surface-reduction-policy.md | Planned |
 | 06-endpoint-security/windows-security-baseline.md | Planned |
-
-Completed endpoint security work:
-
-```text
-Defender Antivirus
--> Windows Firewall
--> BitLocker encryption
-```
-
-Recommended next endpoint security sequence:
-
-```text
-Attack Surface Reduction
--> Windows Security Baseline
-```
-
----
 
 ### 07 - Remote Actions and Monitoring
 
@@ -254,8 +165,6 @@ Attack Surface Reduction
 | 07-remote-actions-and-monitoring/restart-retire-wipe-actions.md | Planned |
 | 07-remote-actions-and-monitoring/collect-diagnostics.md | Planned |
 | 07-remote-actions-and-monitoring/device-monitoring-and-reports.md | Planned |
-
----
 
 ### 08 - Troubleshooting
 
@@ -268,86 +177,43 @@ Attack Surface Reduction
 
 ---
 
-## Completed hands-on lab sequence
+## First Hands-On Lab Sequence
 
-| Step | Lab task | Status |
+| Step | Lab Task | Status |
 |---|---|---|
 | 1 | Create Microsoft Entra ID lab users | Completed |
 | 2 | Create Microsoft Entra ID security groups | Completed |
 | 3 | Assign Intune licenses to test users | Completed |
-| 4 | Configure/review automatic MDM enrollment | Completed / reviewed |
+| 4 | Configure automatic MDM enrollment | In progress |
 | 5 | Enroll WIN-CORP-001 through Windows OOBE | Completed |
-| 6 | Deploy Microsoft Store apps | Completed |
-| 7 | Package and deploy Win32 7-Zip | Completed |
-| 8 | Deploy Microsoft 365 Apps | Completed |
-| 9 | Configure Windows Autopilot | Completed |
-| 10 | Complete Autopilot enrollment on WINAUTO452 | Completed |
-| 11 | Create Microsoft Defender Antivirus policy | Completed |
-| 12 | Create Windows Firewall policy | Completed |
-| 13 | Create BitLocker encryption policy | Completed |
-| 14 | Validate BitLocker with `manage-bde -status` | Completed |
-| 15 | Enroll WIN-BYOD-001 as Windows BYOD device | Completed |
-| 16 | Create Windows basic configuration profile | Completed |
-| 17 | Create corporate wallpaper ADMX policy | Completed |
-| 18 | Create USB storage block policy | Completed |
-| 19 | Validate USB block endpoint result | Completed |
-| 20 | Validate corporate wallpaper endpoint result | Completed |
-| 21 | Connect Managed Google Play to Intune | Completed |
-| 22 | Enroll ANDROID-BYOD-001 as Android work profile device | Completed |
-| 23 | Deploy Microsoft Authenticator to Android Work profile | Completed |
-| 24 | Deploy Outlook and Teams with Managed Google Play | Completed |
-| 25 | Create Apple MDM Push Certificate for iOS/iPadOS enrollment | Completed |
-| 26 | Upload and activate Apple MDM Push Certificate in Intune | Completed |
-| 27 | Complete physical iOS/iPadOS enrollment | Pending |
-| 28 | Configure Attack Surface Reduction policy in Audit mode | Next |
+| 6 | Confirm WIN-CORP-001 appears in Intune | Completed |
+| 7 | Create a basic Windows compliance policy | Planned |
+| 8 | Confirm WIN-CORP-001 reports compliant | Planned |
+| 9 | Create Conditional Access policy in Report-only mode | Planned |
+| 10 | Test compliant corporate device access | Planned |
+| 11 | Test unmanaged BYOD access | Planned |
 
 ---
 
-## Upcoming hands-on lab sequence
+## Documentation Rules
 
-| Step | Lab task | Status |
-|---|---|---|
-| 1 | Configure Attack Surface Reduction policy in Audit mode | Next |
-| 2 | Assign ASR policy to a pilot device group | Planned |
-| 3 | Verify ASR policy reporting | Planned |
-| 4 | Document ASR validation and screenshots | Planned |
-| 5 | Continue to Windows Security Baseline lab | Planned |
-| 6 | Complete physical iOS/iPadOS BYOD enrollment when device is available | Pending |
-| 7 | Create Windows basic compliance policy | Planned |
-| 8 | Create Conditional Access policy in report-only mode | Planned |
-| 9 | Validate compliant and noncompliant access behavior | Planned |
-| 10 | Start remote actions and monitoring labs | Planned |
-
----
-
-## Documentation rules
-
-Each completed lab file should follow a consistent structure:
+Each lab file should follow a consistent structure:
 
 ```text
-# Lab Title
-
-## Lab status
-## Lab objective
-## Why this lab matters
-## Lab environment
-## Prerequisites
-## Configuration flow
-## Steps performed
-## Validation
-## Final test result
-## Screenshots captured
-## Troubleshooting notes
-## Enterprise reflection
-## Security and privacy notes
-## Related labs
-## Key learning outcomes
-## Lab conclusion
+Objective
+Lab environment
+Why this lab matters
+Prerequisites
+Steps performed
+Test result
+Screenshots
+Troubleshooting notes
+Security and privacy notes
 ```
 
 ---
 
-## Screenshot rules
+## Screenshot Rules
 
 All screenshots must be sanitized before uploading to GitHub.
 
@@ -362,9 +228,6 @@ Do not upload screenshots that show:
 - Object IDs
 - Autopilot hardware hashes
 - BitLocker recovery keys
-- Android IMEI numbers
-- iOS serial numbers
-- Phone numbers
 - Internal IP addresses
 - Production company data
 
@@ -374,53 +237,29 @@ Screenshots should be stored in:
 screenshots/sanitized/
 ```
 
-Use subfolders for each lab area.
-
 ---
 
-## Current status summary
+## Current Status Summary
 
 | Area | Status |
 |---|---|
 | Repository created | Completed |
-| README created | Completed / Updated |
-| Company scenario created | Completed / Updated |
-| Device inventory created | Completed / Updated |
-| Lab roadmap created | Completed / Updated |
-| Identity and groups lab | Completed / Standardized |
-| Windows OOBE enrollment lab | Completed |
-| Windows Autopilot enrollment lab | Completed / Standardized |
-| Windows BYOD enrollment lab | Completed / Standardized |
-| Android BYOD enrollment lab | Completed / Standardized |
-| iOS/iPadOS BYOD enrollment lab | In Progress / Admin prerequisites completed |
-| Configuration profile labs | Completed |
-| Microsoft Store app deployment lab | Completed / Standardized |
-| Win32 app deployment lab | Completed / Standardized |
-| Microsoft 365 Apps deployment lab | Completed / Standardized |
-| Android Managed Google Play app deployment lab | Completed / Standardized |
-| Defender Antivirus endpoint security lab | Completed / Standardized |
-| Windows Firewall endpoint security lab | Completed / Standardized |
-| BitLocker encryption endpoint security lab | Completed / Standardized |
-| Attack Surface Reduction policy lab | Next / Planned |
-| Windows Security Baseline lab | Planned |
-| Compliance and Conditional Access labs | Planned |
-| Remote actions and monitoring labs | Planned |
-| Troubleshooting labs | Planned |
+| README created | Completed |
+| Company scenario created | Completed |
+| Device inventory created | Completed |
+| Lab roadmap created | Completed |
+| Identity and groups lab | Completed |
+| First Windows enrollment lab | Completed |
+| Autopilot enrollment lab | Planned |
 
 ---
 
-## Next step
+## Next Step
 
-Recommended next lab option 1:
-
-```text
-06-endpoint-security/attack-surface-reduction-policy.md
-```
-
-Recommended next lab option 2:
+Continue to the Windows Autopilot user-driven enrollment lab:
 
 ```text
-02-device-enrollment/ios-byod-enrollment.md
+02-device-enrollment/windows-autopilot-user-driven-enrollment.md
 ```
 
-The iOS/iPadOS lab already has admin prerequisites completed. Physical device enrollment should be finished when a test iPhone/iPad is available.
+This will compare manual Windows OOBE enrollment with the Autopilot provisioning experience.
