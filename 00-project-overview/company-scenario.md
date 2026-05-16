@@ -25,6 +25,8 @@ The company represents a modern cloud-managed workplace that uses:
 - Managed Google Play for Android Enterprise BYOD app deployment
 - Apple MDM Push Certificate for iOS/iPadOS enrollment preparation
 - Endpoint security policies for device protection
+- Compliance policies for device health validation
+- Conditional Access for identity and device-based access control
 
 This lab environment simulates common endpoint administration tasks such as:
 
@@ -35,7 +37,9 @@ This lab environment simulates common endpoint administration tasks such as:
 - Configuration profiles
 - Application deployment
 - Endpoint security
-- Compliance and Conditional Access planning
+- Compliance policy deployment
+- Conditional Access report-only validation
+- Conditional Access enforced mode testing
 - Remote actions and monitoring
 - Troubleshooting documentation
 
@@ -71,8 +75,12 @@ The company wants to support:
 - Required business app deployment
 - Optional self-service app deployment through Company Portal
 - Managed Google Play app deployment to Android Work profiles
-- Endpoint security baselines for corporate Windows devices
-- Future compliance and Conditional Access enforcement
+- Endpoint security policies for corporate Windows devices
+- Device compliance validation using Microsoft Intune
+- Conditional Access report-only testing before enforcement
+- Conditional Access enforced blocking for noncompliant devices
+- Remote actions and monitoring workflows
+- Troubleshooting documentation
 
 ---
 
@@ -81,8 +89,8 @@ The company wants to support:
 | Device type | Ownership | Platform | Purpose |
 |---|---|---|---|
 | Corporate laptops | Company-owned | Windows 11 | Managed endpoint testing |
-| Autopilot laptops | Company-owned | Windows 11 | Autopilot provisioning and corporate endpoint security |
-| BYOD laptops | Personally owned | Windows 11 | Windows BYOD enrollment testing |
+| Autopilot laptops | Company-owned | Windows 11 | Autopilot provisioning, compliance, app deployment, and endpoint security validation |
+| BYOD laptops | Personally owned | Windows 11 | Windows BYOD enrollment, compliance, and Conditional Access testing |
 | BYOD mobile devices | Personally owned | Android Enterprise | Android work profile testing |
 | BYOD mobile devices | Personally owned | iOS/iPadOS | iOS BYOD enrollment testing |
 
@@ -93,8 +101,8 @@ The company wants to support:
 | Device name | Device type | Ownership | Operating system | Current use / result |
 |---|---|---|---|---|
 | WIN-CORP-001 | Laptop | Personal in Intune after manual MDM enrollment | Windows 11 | OOBE enrollment, Intune management, compliance visibility, and app deployment testing |
-| WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot enrollment, configuration profiles, app deployment, and endpoint security validation |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows BYOD enrollment validation |
+| WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot enrollment, configuration profiles, app deployment, endpoint security validation, and compliance policy validation |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows BYOD enrollment completed; initially compliant, later intentionally marked noncompliant for Conditional Access report-only and enforced blocking tests |
 | ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android 15 | Android Enterprise personally owned work profile enrollment and Managed Google Play app deployment |
 | IOS-BYOD-001 | Mobile | Personal/BYOD | iOS/iPadOS | Admin prerequisites completed; physical enrollment pending |
 
@@ -122,9 +130,9 @@ The lab identity setup includes:
 | User type | Example account | Purpose |
 |---|---|---|
 | Lab administrator | admin01 | Tenant and Intune administration |
-| Main pilot user | user01 | Primary Windows, Autopilot, app, and policy test user |
+| Main pilot user | user01 | Primary Windows, Autopilot, app, compliance, and policy test user |
 | Windows test user | user02 | Additional Windows policy testing |
-| BYOD test user | user03 | Windows BYOD and Android BYOD testing |
+| BYOD test user | user03 | Windows BYOD, Android BYOD, compliance, and Conditional Access testing |
 | iOS BYOD test user | user04 | iOS/iPadOS BYOD enrollment preparation |
 | Policy test user | user05 | Future policy testing |
 
@@ -137,7 +145,7 @@ The lab identity setup includes:
 | GRP-All-Lab-Users | General lab targeting |
 | GRP-Pilot-Users | Pilot testing and user-based assignments |
 | GRP-Windows-Users | Windows user targeting |
-| GRP-BYOD-Users | BYOD enrollment and BYOD app targeting |
+| GRP-BYOD-Users | BYOD enrollment, BYOD app targeting, and Conditional Access testing |
 | GRP-Mobile-Users | Mobile device/user targeting |
 | GRP-IT-Admins | Lab admin targeting |
 | GRP-Autopilot-Devices | Autopilot device and device-based policy targeting |
@@ -166,10 +174,13 @@ The main goals are to:
 - Configure Microsoft Defender Antivirus policy
 - Configure Windows Firewall policy
 - Configure BitLocker disk encryption policy
+- Create Windows compliance policies
+- Remediate compliance failures such as Secure Boot
+- Test Conditional Access in report-only mode
+- Test managed noncompliant BYOD access behavior
+- Test Conditional Access enforced blocking for noncompliant devices
 - Test Attack Surface Reduction policy
 - Test Windows Security Baseline policy
-- Create compliance policies
-- Test Conditional Access in report-only mode before enforcement
 - Use remote actions such as sync, restart, retire, wipe, and collect diagnostics
 - Review Intune monitoring and reporting
 - Document troubleshooting scenarios
@@ -201,6 +212,10 @@ Completed so far:
 - Microsoft Defender Antivirus endpoint security policy
 - Windows Firewall endpoint security policy
 - BitLocker encryption endpoint security policy
+- Windows basic compliance policy
+- Conditional Access compliant-device report-only test
+- Managed noncompliant BYOD test
+- Conditional Access enforced mode test
 
 ---
 
@@ -226,6 +241,10 @@ USB storage access blocked
 Defender Antivirus policy applied
 Windows Firewall policy applied
 BitLocker encryption enabled
+Windows compliance policy applied
+Secure Boot remediation completed
+Device reported compliant in Intune
+Conditional Access report-only compliant-device test succeeded
 ```
 
 ### WIN-BYOD-001
@@ -234,8 +253,11 @@ BitLocker encryption enabled
 Windows BYOD enrollment completed
 Device appeared in Intune
 Ownership showed Personal
-Compliance showed Compliant
 Primary user showed user03
+Initial compliance showed Compliant
+Temporary compliance policy intentionally marked the device Noncompliant
+Conditional Access report-only test showed Failure for the noncompliant device
+Conditional Access enforced mode blocked Microsoft 365 access because the device was noncompliant
 ```
 
 ### ANDROID-BYOD-001
@@ -299,8 +321,28 @@ Outlook and Teams installed inside the Android Work profile through Managed Goog
 | Microsoft Defender Antivirus policy | `06-endpoint-security/windows-defender-antivirus-policy.md` | Completed |
 | Windows Firewall policy | `06-endpoint-security/windows-firewall-policy.md` | Completed |
 | BitLocker encryption policy | `06-endpoint-security/bitlocker-encryption-policy.md` | Completed |
-| Attack Surface Reduction policy | `06-endpoint-security/attack-surface-reduction-policy.md` | Next / Planned |
+| Attack Surface Reduction policy | `06-endpoint-security/attack-surface-reduction-policy.md` | Planned |
 | Windows Security Baseline | `06-endpoint-security/windows-security-baseline.md` | Planned |
+
+---
+
+## Compliance and Conditional Access progress
+
+| Lab | Result |
+|---|---|
+| Windows basic compliance policy | Completed |
+| Conditional Access compliant device report-only test | Completed |
+| Managed noncompliant BYOD test | Completed |
+| Conditional Access enforced mode test | Completed |
+
+Detailed lab files:
+
+| Lab | File | Result |
+|---|---|---|
+| Windows basic compliance policy | `04-compliance-and-conditional-access/windows-basic-compliance-policy.md` | WINAUTO452 became compliant after Secure Boot remediation |
+| Conditional Access compliant device | `04-compliance-and-conditional-access/conditional-access-compliant-device.md` | Report-only result showed Success for compliant device |
+| Managed noncompliant device test | `04-compliance-and-conditional-access/managed-noncompliant-device-test.md` | Report-only result showed Failure for noncompliant BYOD device |
+| Conditional Access enforced mode test | `04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md` | Access was blocked for noncompliant BYOD device |
 
 ---
 
@@ -309,6 +351,7 @@ Outlook and Teams installed inside the Android Work profile through Managed Goog
 | BYOD scenario | Lab file | Result |
 |---|---|---|
 | Windows BYOD enrollment | `02-device-enrollment/windows-byod-enrollment.md` | Completed |
+| Windows BYOD noncompliance testing | `04-compliance-and-conditional-access/managed-noncompliant-device-test.md` | Completed |
 | Android BYOD work profile enrollment | `02-device-enrollment/android-byod-enrollment.md` | Completed |
 | iOS/iPadOS BYOD enrollment | `02-device-enrollment/ios-byod-enrollment.md` | In Progress / Admin prerequisites completed |
 
@@ -336,6 +379,10 @@ Microsoft Entra users and groups
 -> Defender Antivirus policy
 -> Windows Firewall policy
 -> BitLocker encryption policy
+-> Windows compliance policy
+-> Conditional Access report-only validation
+-> Managed noncompliant BYOD test
+-> Conditional Access enforced mode blocking test
 ```
 
 ---
@@ -344,11 +391,11 @@ Microsoft Entra users and groups
 
 | Area | Lab file | Status |
 |---|---|---|
-| Endpoint Security | `06-endpoint-security/attack-surface-reduction-policy.md` | Next / Planned |
-| Device Enrollment | `02-device-enrollment/ios-byod-enrollment.md` | In Progress / Device enrollment pending |
-| Endpoint Security | `06-endpoint-security/windows-security-baseline.md` | Planned |
-| Compliance and Conditional Access | `04-compliance-and-conditional-access/windows-basic-compliance-policy.md` | Planned |
+| Troubleshooting | `08-troubleshooting/conditional-access-troubleshooting.md` | Recommended next |
 | Remote Actions and Monitoring | `07-remote-actions-and-monitoring/device-sync-remote-actions.md` | Planned |
+| Endpoint Security | `06-endpoint-security/attack-surface-reduction-policy.md` | Planned |
+| Endpoint Security | `06-endpoint-security/windows-security-baseline.md` | Planned |
+| Device Enrollment | `02-device-enrollment/ios-byod-enrollment.md` | In Progress / Device enrollment pending |
 
 ---
 
@@ -397,9 +444,12 @@ Do not upload:
 | Defender Antivirus policy lab | Completed |
 | Windows Firewall policy lab | Completed |
 | BitLocker encryption policy lab | Completed |
-| Attack Surface Reduction policy lab | Next / Planned |
+| Windows basic compliance policy lab | Completed |
+| Conditional Access compliant-device report-only lab | Completed |
+| Managed noncompliant BYOD Conditional Access lab | Completed |
+| Conditional Access enforced mode lab | Completed |
+| Attack Surface Reduction policy lab | Planned |
 | Windows Security Baseline lab | Planned |
-| Compliance and Conditional Access labs | Planned |
 | Remote actions and monitoring labs | Planned |
 | Troubleshooting documentation | Planned |
 
@@ -407,16 +457,16 @@ Do not upload:
 
 ## Next step
 
-Recommended next endpoint security lab:
+Recommended next documentation lab:
 
 ```text
-06-endpoint-security/attack-surface-reduction-policy.md
+08-troubleshooting/conditional-access-troubleshooting.md
 ```
 
-Alternative BYOD continuation:
+Alternative next hands-on lab:
 
 ```text
-02-device-enrollment/ios-byod-enrollment.md
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
 ```
 
-The iOS/iPadOS lab already has admin prerequisites completed. It should be finished when a physical iPhone/iPad test device is available.
+The Conditional Access hands-on labs are now complete, so the next logical step is to document how to troubleshoot blocked sign-ins and read Conditional Access sign-in log results.
