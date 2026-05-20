@@ -27,8 +27,12 @@ This project is designed to show real-world endpoint administration skills, incl
 - Using Windows Autopilot for corporate provisioning
 - Managing endpoint security settings
 - Validating Defender Antivirus, Firewall, and BitLocker policies
+- Configuring Attack Surface Reduction Rules in Audit mode
+- Deploying and troubleshooting a Windows Security Baseline
 - Deploying and validating compliance policies and Conditional Access
-- Planning remote actions, monitoring, and troubleshooting workflows
+- Executing and monitoring remote actions
+- Using Intune monitoring reports
+- Documenting real troubleshooting case studies
 
 ---
 
@@ -51,7 +55,8 @@ The company includes:
 - Endpoint security policies
 - Compliance policies for device health validation
 - Conditional Access for identity and device-based access control
-- Planned remote actions and monitoring workflows
+- Remote actions and monitoring workflows
+- Troubleshooting documentation
 
 Detailed scenario documentation:
 
@@ -93,7 +98,7 @@ md102-intune-virtual-company-lab/
 │   ├── windows-autopilot-user-driven-enrollment.md
 │   ├── windows-byod-enrollment.md
 │   ├── android-byod-enrollment.md
-│   └── ios-byod-enrollment.md                          [in progress]
+│   └── ios-byod-enrollment.md                          [in progress — admin prerequisites completed]
 ├── 03-configuration-profiles/
 │   ├── windows-basic-configuration-profile.md
 │   ├── windows-corporate-wallpaper-policy.md
@@ -107,28 +112,27 @@ md102-intune-virtual-company-lab/
 │   ├── microsoft-store-app-deployment.md
 │   ├── win32-app-deployment-7zip.md
 │   ├── microsoft-365-apps-autopilot-deployment.md
-│   ├── android-managed-google-play-app-deployment.md
-│   └── company-portal-self-service-apps.md             [optional / planned]
+│   └── android-managed-google-play-app-deployment.md
 ├── 06-endpoint-security/
 │   ├── windows-defender-antivirus-policy.md
 │   ├── windows-firewall-policy.md
 │   ├── bitlocker-encryption-policy.md
-│   ├── attack-surface-reduction-policy.md              [planned]
-│   └── windows-security-baseline.md                    [planned]
-├── 07-remote-actions-and-monitoring/                   [planned]
-│   ├── device-sync-remote-actions.md                   [planned]
-│   ├── restart-retire-wipe-actions.md                  [planned]
-│   ├── collect-diagnostics.md                          [planned]
-│   └── device-monitoring-and-reports.md                [planned]
-└── 08-troubleshooting/                                 [planned]
-    ├── intune-enrollment-troubleshooting.md             [planned]
-    ├── configuration-policy-conflict-troubleshooting.md [planned]
-    ├── remote-actions-diagnostics-troubleshooting.md    [planned]
-    └── troubleshooting-summary.md                       [planned]
+│   ├── attack-surface-reduction-policy.md
+│   └── windows-security-baseline.md
+├── 07-remote-actions-and-monitoring/
+│   ├── device-sync-remote-actions.md
+│   ├── restart-retire-wipe-actions.md
+│   ├── collect-diagnostics.md
+│   └── device-monitoring-and-reports.md
+└── 08-troubleshooting/
+    ├── intune-enrollment-troubleshooting.md
+    ├── configuration-policy-conflict-troubleshooting.md
+    ├── remote-actions-diagnostics-troubleshooting.md
+    └── troubleshooting-summary.md
 ```
 
 > [!NOTE]
-> Files marked `[planned]` do not exist yet or are planned for future expansion. Files marked `[in progress]` have admin prerequisites completed but are pending physical device availability or final validation. The Android Managed Google Play app deployment lab is now included in the application deployment section because that file exists in the repository and the lab is completed.
+> `ios-byod-enrollment.md` is marked in progress because the admin prerequisites are completed but the physical device enrollment step is pending hardware availability. All other files in the repository are completed.
 
 ---
 
@@ -157,16 +161,21 @@ md102-intune-virtual-company-lab/
 | Defender Antivirus endpoint security lab | Completed |
 | Windows Firewall endpoint security lab | Completed |
 | BitLocker encryption endpoint security lab | Completed |
+| Attack Surface Reduction policy lab | Completed |
+| Windows Security Baseline lab | Completed |
 | Windows basic compliance policy lab | Completed |
 | Conditional Access compliant device lab | Completed |
 | Managed noncompliant device test lab | Completed |
 | Conditional Access enforced mode test lab | Completed |
-| iOS BYOD enrollment lab | In Progress |
-| Attack Surface Reduction policy lab | Next / Planned |
-| Windows Security Baseline lab | Planned |
-| Company Portal self-service app lab | Optional / Planned |
-| Remote actions and monitoring labs | Planned |
-| Troubleshooting documentation | Planned |
+| Device sync remote actions lab | Completed |
+| Restart, Retire, and Wipe remote actions lab | Completed |
+| Collect diagnostics remote action lab | Completed |
+| Device monitoring and reports lab | Completed |
+| Intune enrollment troubleshooting case study | Completed |
+| Configuration policy conflict troubleshooting case study | Completed |
+| Remote actions diagnostics troubleshooting case study | Completed |
+| Troubleshooting summary | Completed |
+| iOS BYOD enrollment lab | In Progress — admin prerequisites completed, pending physical device |
 
 ---
 
@@ -642,6 +651,77 @@ The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protect
 
 ---
 
+### 06 - Attack Surface Reduction Policy
+
+Documented in:
+
+```text
+06-endpoint-security/attack-surface-reduction-policy.md
+```
+
+Completed work:
+
+- Created an Attack Surface Reduction endpoint security policy
+- Selected Windows as the platform and Attack Surface Reduction Rules as the profile
+- Named the policy ASR-WIN-Audit-Mode-Pilot
+- Configured selected ASR rules in Audit mode
+- Assigned the policy to GRP-Autopilot-Devices
+- Verified WINAUTO452 reported policy assignment status as Success
+- Validated ASR rule configuration locally using PowerShell Get-MpPreference
+- Added sanitized screenshots
+
+ASR rules configured in Audit mode:
+
+```text
+Block Office applications from creating executable content
+Block credential stealing from the Windows local security authority subsystem
+Block JavaScript or VBScript from launching downloaded executable content
+Block executable content from email client and webmail
+Block abuse of exploited vulnerable signed drivers
+Use advanced protection against ransomware
+Block all Office applications from creating child processes
+```
+
+Observed result:
+
+```text
+The ASR policy deployed successfully to WINAUTO452 in Audit mode.
+PowerShell confirmed ASR rule IDs and action values were present on the endpoint.
+```
+
+---
+
+### 06 - Windows Security Baseline
+
+Documented in:
+
+```text
+06-endpoint-security/windows-security-baseline.md
+```
+
+Completed work:
+
+- Created a Windows Security Baseline profile named WIN-Security-Baseline-Pilot
+- Reviewed baseline configuration sections
+- Assigned the baseline to GRP-Autopilot-Devices
+- Monitored initial Pending and Conflict reporting
+- Identified Firewall and Defender conflicts with existing dedicated endpoint security policies
+- Remediated overlapping settings by setting them to Not configured
+- Identified a Device Guard and VBS error (error code 65000)
+- Remediated Device Guard and virtualization-based security settings to Not configured
+- Synced the device and regenerated the baseline report
+- Verified final device assignment status as Success
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+WIN-Security-Baseline-Pilot applied successfully to WINAUTO452 after conflict and error remediation.
+The final baseline device assignment status showed Success.
+```
+
+---
+
 ### 04 - Windows Basic Compliance Policy
 
 Documented in:
@@ -754,9 +834,254 @@ and blocked the sign-in attempt.
 
 ---
 
+### 07 - Device Sync Remote Actions
+
+Documented in:
+
+```text
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
+```
+
+Completed work:
+
+- Opened WINAUTO452 from the Intune admin center
+- Verified device compliance, ownership, and management state
+- Triggered the Sync remote action from the device overview page
+- Confirmed the sync initiated notification in Intune
+- Verified the device last check-in time updated after sync
+- Performed a local sync from Windows Settings
+- Confirmed local sync success on the endpoint
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The Intune Sync remote action was initiated successfully.
+The device last check-in time updated after the remote sync.
+Local Windows sync from Settings completed successfully.
+```
+
+---
+
+### 07 - Restart, Retire, and Wipe Remote Actions
+
+Documented in:
+
+```text
+07-remote-actions-and-monitoring/restart-retire-wipe-actions.md
+```
+
+Completed work:
+
+- Opened WINAUTO452 from the Intune admin center
+- Located the Restart action under the Remote actions menu
+- Triggered Restart on WINAUTO452 and monitored action status from Pending to Complete
+- Reviewed the Remove data menu including Retire, Wipe, Fresh start, and Autopilot reset
+- Initiated Retire on WINAUTO452 and reviewed the confirmation dialog
+- Initiated Wipe on WIN-CORP-001 and reviewed the confirmation dialog
+- Verified all action notifications in Intune
+- Confirmed final action results from the Device Actions report
+- Observed WIN-CORP-001 device page showed Not found after Wipe completed
+- Added sanitized screenshots
+
+Devices used:
+
+```text
+WINAUTO452 — Restart and Retire actions
+WIN-CORP-001 — Wipe action
+```
+
+Observed result:
+
+```text
+Restart, Retire, and Wipe actions were all initiated and confirmed.
+The Device Actions report showed all three actions as Complete.
+WIN-CORP-001 was no longer accessible after the Wipe action completed.
+```
+
+---
+
+### 07 - Collect Diagnostics Remote Action
+
+Documented in:
+
+```text
+07-remote-actions-and-monitoring/collect-diagnostics.md
+```
+
+Completed work:
+
+- Opened WINAUTO452 from the Intune admin center
+- Selected the Collect diagnostics remote action from the device overview
+- Confirmed the diagnostics collection request
+- Monitored the action result from the device-level Device action status tab
+- Verified Collect diagnostics showed as Complete
+- Reviewed tenant device diagnostics settings under Tenant administration
+- Confirmed diagnostic ZIP was excluded from GitHub as sensitive data
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Collect diagnostics completed successfully for WINAUTO452.
+The device-level Device action status confirmed the action as Complete.
+Tenant device diagnostics settings were confirmed as enabled.
+```
+
+---
+
+### 07 - Device Monitoring and Reports
+
+Documented in:
+
+```text
+07-remote-actions-and-monitoring/device-monitoring-and-reports.md
+```
+
+Completed work:
+
+- Reviewed the Devices overview dashboard
+- Reviewed the Windows devices inventory list
+- Opened the WINAUTO452 device overview page and reviewed compliance, ownership, and management state
+- Reviewed the device-level Device action status tab
+- Navigated to the Devices Monitor report list
+- Reviewed the Device Actions monitoring report at the tenant level
+- Reviewed the Noncompliant devices report
+- Reviewed configuration policy assignment status for a selected Defender Antivirus policy
+- Added sanitized screenshots
+
+Reports reviewed:
+
+```text
+Devices overview
+Windows devices list
+Device overview
+Device action status
+Devices Monitor report list
+Device Actions report
+Noncompliant devices report
+Configuration policy assignment status
+```
+
+Observed result:
+
+```text
+WINAUTO452 appeared as Intune-managed, corporate-owned, and compliant.
+Device action history, noncompliant device reports, and policy assignment status were all validated from Intune monitoring views.
+```
+
+---
+
+### 08 - Intune Enrollment Troubleshooting
+
+Documented in:
+
+```text
+08-troubleshooting/intune-enrollment-troubleshooting.md
+```
+
+Issue observed:
+
+```text
+WIN-CORP-001 joined Microsoft Entra ID during OOBE.
+The Microsoft Entra device record initially showed MDM: None.
+The device was not immediately visible as managed by Intune.
+```
+
+Resolution:
+
+```text
+Manual MDM enrollment was completed from Windows Settings.
+The device appeared in Intune as managed by Intune and compliant.
+```
+
+Key learning:
+
+```text
+Microsoft Entra joined does not automatically mean Intune managed.
+Both identity join state and MDM management state must be validated separately.
+```
+
+---
+
+### 08 - Configuration Policy Conflict Troubleshooting
+
+Documented in:
+
+```text
+08-troubleshooting/configuration-policy-conflict-troubleshooting.md
+```
+
+Issue observed:
+
+```text
+The Windows Security Baseline initially reported Conflict and Error states on WINAUTO452.
+Firewall and Defender related settings conflicted with existing dedicated endpoint security policies.
+Enable Virtualization Based Security showed Error code 65000.
+```
+
+Resolution:
+
+```text
+Overlapping Firewall and Defender baseline settings were changed to Not configured.
+Device Guard and VBS related settings were changed to Not configured.
+After device sync, the final baseline assignment status showed Success.
+```
+
+Key learning:
+
+```text
+Security baselines are broad policy packages and can overlap with dedicated endpoint security policies.
+The administrator must decide which policy owns each setting and resolve conflicts intentionally.
+```
+
+---
+
+### 08 - Remote Actions Diagnostics Troubleshooting
+
+Documented in:
+
+```text
+08-troubleshooting/remote-actions-diagnostics-troubleshooting.md
+```
+
+Issue observed:
+
+```text
+During the Collect Diagnostics lab, the expected Device diagnostics report path referenced in Microsoft documentation was not visible in the same way in the lab tenant.
+```
+
+Resolution:
+
+```text
+The action was validated using the device-level Device action status tab.
+Tenant diagnostics settings were also reviewed under Tenant administration.
+```
+
+Key learning:
+
+```text
+Cloud admin portal layouts can vary across tenants and over time.
+Validate remote action results using available device-level and tenant-level evidence when a specific report view is not visible.
+```
+
+---
+
+### 08 - Troubleshooting Summary
+
+Documented in:
+
+```text
+08-troubleshooting/troubleshooting-summary.md
+```
+
+This file summarizes all real troubleshooting scenarios documented during the project, including the common troubleshooting pattern used across all labs, evidence handling rules, and privacy notes.
+
+---
+
 ## Completed modern endpoint deployment flow
 
-The completed labs now demonstrate this modern endpoint management chain:
+The completed labs demonstrate this full modern endpoint management chain:
 
 ```text
 Microsoft Entra users and groups
@@ -774,10 +1099,17 @@ Microsoft Entra users and groups
 -> USB storage restriction validated
 -> Endpoint security policies applied
 -> Defender Antivirus, Firewall, and BitLocker validated
+-> Attack Surface Reduction Rules deployed in Audit mode
+-> Windows Security Baseline deployed and troubleshot to Success
 -> Windows compliance policy deployed and evaluated
 -> Conditional Access report-only mode tested
 -> Managed noncompliant device behaviour validated
 -> Conditional Access enforced mode tested and access blocked
+-> Device sync remote action executed and validated
+-> Restart, Retire, and Wipe remote actions executed and confirmed
+-> Collect diagnostics remote action completed
+-> Intune monitoring reports reviewed
+-> Real troubleshooting case studies documented
 ```
 
 This creates a strong real-world portfolio scenario for MD-102 preparation.
@@ -826,20 +1158,31 @@ This project demonstrates practical skills in:
 - Microsoft Defender Antivirus policy deployment
 - Windows Firewall policy deployment
 - BitLocker encryption policy deployment
+- Attack Surface Reduction policy deployment in Audit mode
+- ASR rule endpoint validation using PowerShell
+- Windows Security Baseline deployment and troubleshooting
+- Security baseline conflict identification and remediation
+- Device Guard and VBS error investigation
 - Endpoint security policy reporting
-- Attack Surface Reduction policy planning
-- Windows Security Baseline planning
-- iOS BYOD management planning
-- Device monitoring and reports planning
+- Device sync remote action
+- Restart remote action
+- Retire remote action
+- Wipe remote action
+- Remote action status monitoring from device and tenant views
+- Collect diagnostics remote action
+- Intune device monitoring and reporting
+- Device inventory review
+- Device Actions report review
+- Noncompliant devices report review
+- Configuration policy assignment status review
 - Intune troubleshooting documentation
+- Real-world troubleshooting case study writing
 
 ---
 
 ## How to use this repository
 
-This repository is updated as each lab is completed.
-
-Each completed lab document should follow this standard format:
+Each completed lab document follows this standard format:
 
 ```text
 # Lab Title
@@ -862,7 +1205,7 @@ Each completed lab document should follow this standard format:
 ## Lab conclusion
 ```
 
-Some older or planned files may be updated as the project progresses.
+Some files may use slight variations of this structure based on the lab type. Troubleshooting files use a case study format instead.
 
 ---
 
@@ -874,14 +1217,16 @@ Sanitized screenshots are stored under:
 screenshots/sanitized/
 ```
 
-Example folders:
+Folders:
 
 ```text
 screenshots/sanitized/identity-and-groups/
 screenshots/sanitized/device-enrollment/
 screenshots/sanitized/configuration-profiles/
 screenshots/sanitized/application-deployment/
+screenshots/sanitized/compliance-and-conditional-access/
 screenshots/sanitized/endpoint-security/
+screenshots/sanitized/remote-actions-and-monitoring/
 ```
 
 ---
@@ -904,48 +1249,11 @@ Do not upload sensitive information, including:
 - Internal IP addresses
 - IMEI numbers
 - Phone numbers
+- Diagnostic ZIP packages
 - Unsanitized screenshots
 - Production company data
 
 All screenshots must be sanitized before uploading to GitHub.
-
----
-
-## Next step
-
-The next recommended lab can follow either of these paths.
-
-### Option 1 - Complete iOS BYOD enrollment
-
-```text
-02-device-enrollment/ios-byod-enrollment.md
-```
-
-Admin prerequisites are already completed. This path finishes the remaining BYOD enrollment scenario when a physical iPhone or iPad is available.
-
-### Option 2 - Continue endpoint security
-
-```text
-06-endpoint-security/attack-surface-reduction-policy.md
-```
-
-Then continue with:
-
-```text
-06-endpoint-security/windows-security-baseline.md
-```
-
-### Option 3 - Begin remote actions and monitoring
-
-```text
-07-remote-actions-and-monitoring/device-sync-remote-actions.md
-```
-
-Recommended next choice:
-
-```text
-Attack Surface Reduction policy or remote actions and monitoring
-```
 
 ---
 
@@ -954,3 +1262,11 @@ Attack Surface Reduction policy or remote actions and monitoring
 This project is for learning, portfolio building, and MD-102 preparation.
 
 The environment, company name, users, devices, and screenshots are fictional, test-only, or sanitized.
+
+The one remaining in-progress item is:
+
+```text
+02-device-enrollment/ios-byod-enrollment.md
+```
+
+Admin prerequisites for iOS BYOD enrollment are completed. The physical device enrollment step is pending hardware availability.
