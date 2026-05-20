@@ -23,6 +23,7 @@ This project is designed to show real-world endpoint administration skills, incl
 - Deploying Microsoft Store apps
 - Deploying Win32 apps
 - Deploying Microsoft 365 Apps
+- Deploying Android Managed Google Play apps
 - Using Windows Autopilot for corporate provisioning
 - Managing endpoint security settings
 - Validating Defender Antivirus, Firewall, and BitLocker policies
@@ -106,7 +107,8 @@ md102-intune-virtual-company-lab/
 │   ├── microsoft-store-app-deployment.md
 │   ├── win32-app-deployment-7zip.md
 │   ├── microsoft-365-apps-autopilot-deployment.md
-│   └── company-portal-self-service-apps.md             [planned]
+│   ├── android-managed-google-play-app-deployment.md
+│   └── company-portal-self-service-apps.md             [optional / planned]
 ├── 06-endpoint-security/
 │   ├── windows-defender-antivirus-policy.md
 │   ├── windows-firewall-policy.md
@@ -120,13 +122,13 @@ md102-intune-virtual-company-lab/
 │   └── device-monitoring-and-reports.md                [planned]
 └── 08-troubleshooting/                                 [planned]
     ├── intune-enrollment-troubleshooting.md             [planned]
-    ├── conditional-access-troubleshooting.md            [planned]
-    ├── office-app-signin-troubleshooting.md             [planned]
-    └── autopilot-motherboard-replacement-troubleshooting.md [planned]
+    ├── configuration-policy-conflict-troubleshooting.md [planned]
+    ├── remote-actions-diagnostics-troubleshooting.md    [planned]
+    └── troubleshooting-summary.md                       [planned]
 ```
 
 > [!NOTE]
-> Files marked `[planned]` do not exist yet and will be added as labs are completed. Files marked `[in progress]` have admin prerequisites completed but are pending physical device availability.
+> Files marked `[planned]` do not exist yet or are planned for future expansion. Files marked `[in progress]` have admin prerequisites completed but are pending physical device availability or final validation. The Android Managed Google Play app deployment lab is now included in the application deployment section because that file exists in the repository and the lab is completed.
 
 ---
 
@@ -530,6 +532,33 @@ Microsoft 365 Apps installed successfully through Intune and were validated as p
 
 ---
 
+### 05 - Android Managed Google Play App Deployment
+
+Documented in:
+
+```text
+05-application-deployment/android-managed-google-play-app-deployment.md
+```
+
+Completed work:
+
+- Connected Managed Google Play to the Intune tenant
+- Approved Microsoft Outlook and Microsoft Teams in Managed Google Play
+- Assigned Outlook as Required to GRP-BYOD-Users
+- Assigned Teams as Required to GRP-BYOD-Users
+- Verified the Android BYOD device received the required app assignments
+- Confirmed Outlook and Teams installed into the Android Work profile
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+Microsoft Outlook and Microsoft Teams were deployed successfully through Managed Google Play
+to the Android Enterprise work profile on ANDROID-BYOD-001.
+```
+
+---
+
 ### 06 - Microsoft Defender Antivirus Policy
 
 Documented in:
@@ -609,33 +638,6 @@ Observed result:
 ```text
 BitLocker was enabled successfully on WINAUTO452.
 The operating system drive showed Fully Encrypted, 100.0% encrypted, and Protection On.
-```
-
----
-
-### 05 - Android Managed Google Play App Deployment
-
-Documented in:
-
-```text
-05-application-deployment/android-managed-google-play-app-deployment.md
-```
-
-Completed work:
-
-- Connected Managed Google Play to the Intune tenant
-- Approved Microsoft Outlook and Microsoft Teams in Managed Google Play
-- Assigned Outlook as Required to GRP-BYOD-Users
-- Assigned Teams as Required to GRP-BYOD-Users
-- Verified the Android BYOD device received the required app assignments
-- Confirmed Outlook and Teams installed into the Android Work profile
-- Added sanitized screenshots
-
-Observed result:
-
-```text
-Microsoft Outlook and Microsoft Teams were deployed successfully through Managed Google Play
-to the Android Enterprise work profile on ANDROID-BYOD-001.
 ```
 
 ---
