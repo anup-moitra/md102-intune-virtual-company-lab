@@ -2,7 +2,7 @@
 
 This file tracks the implementation sequence for the MD-102 Intune virtual company lab.
 
-The roadmap is now updated to reflect the current project state after completing the Compliance and Conditional Access labs in Section 04.
+The roadmap is updated to reflect the current project state after completing the Compliance and Conditional Access labs in Section 04 and after creating the initial troubleshooting documentation under Section 08.
 
 ---
 
@@ -23,7 +23,7 @@ This file helps track:
 
 The project has progressed beyond the early Windows enrollment stage.
 
-The lab environment now includes completed work across identity, enrollment, configuration profiles, application deployment, endpoint security, compliance policies, and Conditional Access testing.
+The lab environment now includes completed work across identity, enrollment, configuration profiles, application deployment, endpoint security, compliance policies, Conditional Access testing, and initial troubleshooting documentation.
 
 Completed major areas:
 
@@ -50,11 +50,12 @@ Completed major areas:
 - Conditional Access report-only compliant device test
 - Managed noncompliant BYOD device test
 - Conditional Access enforced mode test
+- Initial troubleshooting documentation
 
 Current focus:
 
-- Clean up tracking documentation so README and roadmap match the completed labs
-- Continue with Conditional Access troubleshooting documentation
+- Keep README and roadmap tracking documentation aligned with the actual repository folders
+- Continue expanding the existing troubleshooting documentation under `08-troubleshooting`
 - Continue with remote actions and monitoring labs
 - Later return to optional iOS physical device enrollment, Attack Surface Reduction, and Windows Security Baseline labs
 
@@ -73,7 +74,7 @@ Current focus:
 | Phase 06 | Core endpoint security policies | Completed |
 | Phase 07 | Compliance and Conditional Access | Completed |
 | Phase 08 | Remote actions and monitoring | Planned |
-| Phase 09 | Troubleshooting documentation | Planned |
+| Phase 09 | Troubleshooting documentation | In Progress |
 | Phase 10 | Advanced endpoint security | Planned |
 | Phase 11 | Optional device platform expansion | Planned |
 
@@ -122,8 +123,10 @@ Current focus:
 | Configure Attack Surface Reduction policy | Planned |
 | Configure Windows Security Baseline | Planned |
 | Test remote actions and monitoring | Planned |
-| Create Conditional Access troubleshooting documentation | Recommended next |
-| Create general Intune troubleshooting documentation | Planned |
+| Create troubleshooting summary documentation | Created |
+| Create Intune enrollment troubleshooting documentation | Created |
+| Create configuration policy conflict troubleshooting documentation | Created |
+| Create remote actions diagnostics troubleshooting documentation | Created |
 
 ---
 
@@ -299,23 +302,24 @@ This section will validate common Intune administrator actions such as device sy
 
 | File | Status |
 |---|---|
-| `08-troubleshooting/intune-enrollment-troubleshooting.md` | Planned |
-| `08-troubleshooting/conditional-access-troubleshooting.md` | Recommended next |
-| `08-troubleshooting/office-app-signin-troubleshooting.md` | Planned |
-| `08-troubleshooting/autopilot-motherboard-replacement-troubleshooting.md` | Planned |
+| `08-troubleshooting/troubleshooting-summary.md` | Created |
+| `08-troubleshooting/intune-enrollment-troubleshooting.md` | Created |
+| `08-troubleshooting/configuration-policy-conflict-troubleshooting.md` | Created |
+| `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` | Created |
 
-This section will document troubleshooting scenarios based on real lab behavior.
+This section documents troubleshooting scenarios based on real lab behavior.
 
-Recommended first troubleshooting lab:
+Current troubleshooting coverage:
 
-```text
-08-troubleshooting/conditional-access-troubleshooting.md
-```
+| Troubleshooting area | File |
+|---|---|
+| Troubleshooting overview and summary | `08-troubleshooting/troubleshooting-summary.md` |
+| Intune enrollment issues | `08-troubleshooting/intune-enrollment-troubleshooting.md` |
+| Configuration policy conflicts | `08-troubleshooting/configuration-policy-conflict-troubleshooting.md` |
+| Remote actions and diagnostics | `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` |
 
-Reason:
-
-- The Section 04 labs already produced report-only success, report-only failure, and enforced block examples.
-- These are strong source scenarios for a practical Conditional Access troubleshooting document.
+> [!NOTE]
+> The roadmap now matches the actual `08-troubleshooting` folder. A separate `conditional-access-troubleshooting.md` file is not currently part of the repository. Conditional Access troubleshooting can be added later if needed, or summarized inside `troubleshooting-summary.md`.
 
 ---
 
@@ -372,9 +376,10 @@ Microsoft Entra users and groups
 -> Compliance policy evaluation
 -> Conditional Access report-only testing
 -> Conditional Access enforced blocking
+-> Initial troubleshooting documentation
 ```
 
-This is a strong MD-102 style project flow because it connects identity, device management, app deployment, security policy, compliance, and access control.
+This is a strong MD-102 style project flow because it connects identity, device management, app deployment, security policy, compliance, access control, and troubleshooting.
 
 ---
 
@@ -465,11 +470,12 @@ screenshots/sanitized/troubleshooting/
 | Application deployment | Completed |
 | Core endpoint security | Completed |
 | Compliance and Conditional Access | Completed |
+| Initial troubleshooting documentation | Created |
 | iOS/iPadOS physical enrollment | Pending |
 | Attack Surface Reduction | Planned |
 | Windows Security Baseline | Planned |
 | Remote actions and monitoring | Planned |
-| Troubleshooting documentation | Planned |
+| Troubleshooting documentation expansion | In Progress |
 
 ---
 
@@ -478,26 +484,26 @@ screenshots/sanitized/troubleshooting/
 Recommended next lab:
 
 ```text
-08-troubleshooting/conditional-access-troubleshooting.md
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
 ```
 
 Why this should be next:
 
-- The Section 04 Conditional Access labs are completed.
-- You already captured report-only success, report-only failure, and enforced failure evidence.
-- This makes Conditional Access troubleshooting the most natural follow-up lab.
+- The lab now has multiple enrolled Windows devices.
+- Device sync and remote actions are practical daily Intune administrator tasks.
+- This will strengthen the operational administration side of the project.
 
 Alternative next lab:
 
 ```text
-07-remote-actions-and-monitoring/device-sync-remote-actions.md
+08-troubleshooting/troubleshooting-summary.md
 ```
 
 Why this is also a good next option:
 
-- The lab now has multiple enrolled Windows devices.
-- Device sync and remote actions are practical daily Intune admin tasks.
-- This will strengthen the operational administration side of the project.
+- The troubleshooting folder already exists.
+- The current troubleshooting files can be expanded and linked to completed labs.
+- This keeps the documentation section clean and aligned with the actual repository structure.
 
 ---
 
