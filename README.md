@@ -176,4 +176,4 @@ Sanitized screenshots are stored under `screenshots/sanitized/` and organized by
 
 ## Notes
 
-This project is for learning, portfolio building, and MD-102 exam preparation. The environment, company name, users, devices, and screenshots are all fictional, test-only, or sanitized.
+This project is for learning, portfolio building, and MD-102 exam preparation. The environment, company name, users, and devices are fictional or test-only. Screenshots are sanitized lab evidence captured during hands-on work.
