@@ -368,6 +368,37 @@ Windows configuration profiles applied successfully, the corporate wallpaper was
 
 ---
 
+### 04 - Compliance and Conditional Access
+
+Documented in:
+
+```text
+04-compliance-and-conditional-access/windows-basic-compliance-policy.md
+04-compliance-and-conditional-access/conditional-access-compliant-device.md
+04-compliance-and-conditional-access/managed-noncompliant-device-test.md
+04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md
+```
+
+Completed work:
+
+- Created a Windows compliance policy
+- Verified compliant state for the corporate Windows device
+- Created Conditional Access policy in Report-only mode
+- Validated Report-only success for a compliant device
+- Created a managed noncompliant BYOD device test
+- Validated Report-only failure for a noncompliant device
+- Switched Conditional Access to enforced mode
+- Confirmed Microsoft 365 access was blocked for the noncompliant BYOD device
+- Added sanitized screenshots
+
+Observed result:
+
+```text
+The compliance and Conditional Access flow was validated end to end, from compliant device access to noncompliant device blocking.
+```
+
+---
+
 ### 05 - Application Deployment
 
 Documented in:
@@ -430,37 +461,6 @@ Endpoint security policies were created, assigned, monitored, troubleshot, and v
 
 ---
 
-### 04 - Compliance and Conditional Access
-
-Documented in:
-
-```text
-04-compliance-and-conditional-access/windows-basic-compliance-policy.md
-04-compliance-and-conditional-access/conditional-access-compliant-device.md
-04-compliance-and-conditional-access/managed-noncompliant-device-test.md
-04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md
-```
-
-Completed work:
-
-- Created a Windows compliance policy
-- Verified compliant state for the corporate Windows device
-- Created Conditional Access policy in Report-only mode
-- Validated Report-only success for a compliant device
-- Created a managed noncompliant BYOD device test
-- Validated Report-only failure for a noncompliant device
-- Switched Conditional Access to enforced mode
-- Confirmed Microsoft 365 access was blocked for the noncompliant BYOD device
-- Added sanitized screenshots
-
-Observed result:
-
-```text
-The compliance and Conditional Access flow was validated end to end, from compliant device access to noncompliant device blocking.
-```
-
----
-
 ### 07 - Remote Actions and Monitoring
 
 Documented in:
@@ -497,7 +497,7 @@ Important lifecycle note:
 ```text
 WINAUTO452 was retired during the final remote actions lab.
 WIN-CORP-001 was wiped during the final remote actions lab.
-The final device lifecycle state should be tracked in 00-project-overview/device-inventory.md.
+The final device lifecycle state is tracked in 00-project-overview/device-inventory.md.
 ```
 
 ---
@@ -623,9 +623,9 @@ This project demonstrates practical skills in:
 
 ---
 
-## How to Use This Repository
+## Lab Documentation Format
 
-Each completed lab document generally follows this structure:
+Each completed lab document generally follows a consistent structure:
 
 ```text
 # Lab Title
@@ -652,7 +652,7 @@ Some older files may use slightly different section names, but the overall docum
 
 ---
 
-## Screenshot Storage
+## Screenshot Evidence
 
 Sanitized screenshots are stored under:
 
@@ -660,26 +660,27 @@ Sanitized screenshots are stored under:
 screenshots/sanitized/
 ```
 
-Screenshot folder examples:
+Screenshots are organized by lab area, such as:
 
 ```text
-screenshots/sanitized/identity-and-groups/
-screenshots/sanitized/device-enrollment/
-screenshots/sanitized/configuration-profiles/
-screenshots/sanitized/compliance-and-conditional-access/
-screenshots/sanitized/application-deployment/
-screenshots/sanitized/endpoint-security/
-screenshots/sanitized/remote-actions-and-monitoring/
-screenshots/sanitized/troubleshooting/
+identity-and-groups/
+device-enrollment/
+configuration-profiles/
+compliance-and-conditional-access/
+application-deployment/
+endpoint-security/
+remote-actions-and-monitoring/
 ```
+
+Troubleshooting case studies reuse screenshots from the related source lab folders.
 
 ---
 
 ## Privacy and Security
 
-This is a public learning repository.
+This is a public learning and portfolio repository. Screenshots are included to demonstrate hands-on Intune administration work.
 
-Do not upload sensitive information, including:
+All screenshots in this repository are sanitized before upload. Sensitive information has been removed or blurred, including:
 
 - Real tenant IDs
 - Full real email addresses
@@ -693,46 +694,24 @@ Do not upload sensitive information, including:
 - Internal IP addresses
 - IMEI numbers
 - Phone numbers
-- Unsanitized screenshots
+- Unsanitized diagnostic package contents
 - Production company data
 
-All screenshots must be sanitized before uploading to GitHub.
+This keeps the repository safe to share publicly while still showing real lab evidence and practical hands-on experience.
 
 ---
 
-## Remaining Work
+## Optional Future Work
 
-Most hands-on labs are completed. The remaining work is limited to final cleanup and optional platform expansion.
+The main MD-102 Intune lab project is complete across identity, enrollment, configuration profiles, application deployment, endpoint security, compliance, Conditional Access, remote actions, monitoring, and troubleshooting.
+
+The only optional future expansion is:
 
 | Item | Status |
 |---|---|
-| Final README cleanup | Completed in this version |
-| Update lab roadmap to match completed labs | Pending |
-| Update device inventory with final Retired/Wiped lifecycle states | Pending |
-| Optional iOS BYOD physical enrollment | Pending hardware availability |
-| Final GitHub link and image review | Recommended |
+| iOS/iPadOS BYOD physical enrollment | Pending hardware availability |
 
----
-
-## Recommended Next Step
-
-Recommended next documentation cleanup:
-
-```text
-00-project-overview/lab-implementation-roadmap.md
-```
-
-Then update:
-
-```text
-00-project-overview/device-inventory.md
-```
-
-Optional future lab:
-
-```text
-02-device-enrollment/ios-byod-enrollment.md
-```
+The iOS/iPadOS admin prerequisites are already documented. Physical enrollment requires access to an iPhone or iPad.
 
 ---
 
