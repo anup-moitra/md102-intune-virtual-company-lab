@@ -2,26 +2,27 @@
 
 This file tracks the implementation sequence for the MD-102 Intune virtual company lab.
 
-The roadmap reflects the completed state of the project across all sections, including identity, enrollment, configuration profiles, application deployment, endpoint security, compliance, Conditional Access, remote actions, monitoring, and troubleshooting.
+The roadmap reflects the completed state of the project across identity, device enrollment, configuration profiles, application deployment, endpoint security, compliance, Conditional Access, remote actions, monitoring, and troubleshooting.
 
 ---
 
 ## Purpose
 
-The purpose of this roadmap is to keep the MD-102 lab project organized and to document how each section connects to the full Microsoft Intune and Microsoft Entra endpoint management flow.
+The purpose of this roadmap is to keep the MD-102 lab project organized and to show how each section connects to the full Microsoft Intune and Microsoft Entra endpoint management flow.
 
 This file tracks:
 
 - Which labs are completed
-- Which labs are in progress
-- How each lab connects to the overall project sequence
-- The full hands-on lab steps completed across all sections
+- Which labs are still in progress
+- Which labs are intentionally removed from scope
+- How the labs connect to the overall endpoint management project
+- The final hands-on sequence completed across the repository
 
 ---
 
 ## Current Project Status
 
-The project is complete across all major sections.
+The project is complete across all major hands-on sections.
 
 Completed areas:
 
@@ -65,7 +66,15 @@ One item remains in progress:
 02-device-enrollment/ios-byod-enrollment.md
 ```
 
-Admin prerequisites for iOS BYOD enrollment are completed. Physical iPhone/iPad enrollment is pending hardware availability.
+Admin prerequisites for iOS/iPadOS BYOD enrollment are completed. Physical iPhone/iPad enrollment is pending hardware availability.
+
+One previously planned item was removed from scope:
+
+```text
+05-application-deployment/company-portal-self-service-apps.md
+```
+
+This was removed because self-service app behavior was already covered in the Microsoft Store app deployment lab.
 
 ---
 
@@ -76,17 +85,17 @@ Admin prerequisites for iOS BYOD enrollment are completed. Physical iPhone/iPad 
 | Phase 00 | GitHub repository and project structure | Completed |
 | Phase 01 | Project overview documentation | Completed |
 | Phase 02 | Identity and groups | Completed |
-| Phase 03 | Device enrollment | Completed — iOS physical enrollment pending |
+| Phase 03 | Device enrollment | Completed - iOS physical enrollment pending |
 | Phase 04 | Configuration profiles | Completed |
 | Phase 05 | Application deployment | Completed |
-| Phase 06 | Core endpoint security policies | Completed |
+| Phase 06 | Endpoint security policies | Completed |
 | Phase 07 | Compliance and Conditional Access | Completed |
-| Phase 08 | Advanced endpoint security | Completed |
-| Phase 09 | Remote actions and monitoring | Completed |
-| Phase 10 | Troubleshooting documentation | Completed |
+| Phase 08 | Remote actions and monitoring | Completed |
+| Phase 09 | Troubleshooting documentation | Completed |
+| Phase 10 | Optional iOS/iPadOS physical enrollment | Pending hardware availability |
 
 > [!NOTE]
-> Device enrollment is marked as completed with one exception. Windows OOBE, Windows Autopilot, Windows BYOD, and Android BYOD are all fully completed. iOS/iPadOS admin prerequisites are completed, but physical iPhone/iPad enrollment is pending hardware availability.
+> Device enrollment is marked as completed with one exception. Windows OOBE, Windows Autopilot, Windows BYOD, and Android BYOD are completed. iOS/iPadOS admin prerequisites are completed, but physical iPhone/iPad enrollment is pending hardware availability.
 
 ---
 
@@ -109,7 +118,7 @@ Admin prerequisites for iOS BYOD enrollment are completed. Physical iPhone/iPad 
 | Test Windows BYOD enrollment | Completed |
 | Test Android BYOD enrollment | Completed |
 | Prepare iOS/iPadOS BYOD enrollment prerequisites | Completed |
-| Complete physical iOS/iPadOS BYOD enrollment | Pending — hardware required |
+| Complete physical iOS/iPadOS BYOD enrollment | Pending - hardware required |
 | Create Windows basic configuration profile | Completed |
 | Deploy corporate wallpaper policy | Completed |
 | Deploy USB storage restriction policy | Completed |
@@ -135,10 +144,11 @@ Admin prerequisites for iOS BYOD enrollment are completed. Physical iPhone/iPad 
 | Execute wipe remote action | Completed |
 | Execute collect diagnostics remote action | Completed |
 | Review Intune device monitoring and reports | Completed |
-| Create troubleshooting summary documentation | Completed |
 | Create Intune enrollment troubleshooting documentation | Completed |
 | Create configuration policy conflict troubleshooting documentation | Completed |
 | Create remote actions diagnostics troubleshooting documentation | Completed |
+| Create troubleshooting summary documentation | Completed |
+| Remove Company Portal self-service app lab from scope | Completed |
 
 ---
 
@@ -148,10 +158,10 @@ Admin prerequisites for iOS BYOD enrollment are completed. Physical iPhone/iPad 
 
 | File | Status |
 |---|---|
-| `README.md` | Completed |
+| `README.md` | Completed / updated |
 | `00-project-overview/company-scenario.md` | Completed |
-| `00-project-overview/device-inventory.md` | Completed |
-| `00-project-overview/lab-implementation-roadmap.md` | Completed |
+| `00-project-overview/device-inventory.md` | Completed / final lifecycle cleanup pending |
+| `00-project-overview/lab-implementation-roadmap.md` | Completed / updated |
 
 This section documents the project structure, virtual company scenario, lab inventory, and implementation tracking.
 
@@ -171,7 +181,7 @@ Completed work:
 - Microsoft Entra ID security groups created
 - Group assignment strategy documented
 - License assignment completed
-- Groups used across enrollment, apps, configuration profiles, endpoint security, compliance, and Conditional Access
+- Groups reused across enrollment, apps, configuration profiles, endpoint security, compliance, Conditional Access, and remote actions
 
 ---
 
@@ -183,19 +193,20 @@ Completed work:
 | `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Completed |
 | `02-device-enrollment/windows-byod-enrollment.md` | Completed |
 | `02-device-enrollment/android-byod-enrollment.md` | Completed |
-| `02-device-enrollment/ios-byod-enrollment.md` | In Progress — admin prerequisites completed |
+| `02-device-enrollment/ios-byod-enrollment.md` | In Progress - admin prerequisites completed |
 
-Enrolled devices:
+Completed enrollment results:
 
 | Device | Enrollment type | Result |
 |---|---|---|
-| WIN-CORP-001 | Windows OOBE corporate enrollment | Enrolled in Intune |
-| WINAUTO452 | Windows Autopilot user-driven enrollment | Enrolled and managed by Intune |
+| WIN-CORP-001 | Windows OOBE / corporate enrollment | Enrolled in Intune, later wiped during remote actions lab |
+| WINAUTO452 | Windows Autopilot user-driven enrollment | Enrolled and managed by Intune, later retired during remote actions lab |
 | WIN-BYOD-001 | Windows BYOD enrollment | Enrolled as personal device |
 | ANDROID-BYOD-001 | Android Enterprise BYOD work profile | Work profile enrolled |
+| IOS-BYOD-001 | iOS/iPadOS BYOD | Admin prerequisites completed, physical device pending |
 
 > [!NOTE]
-> The iOS/iPadOS lab has admin prerequisites completed, including Apple MDM push certificate preparation. Physical iPhone/iPad enrollment is pending hardware availability.
+> The iOS/iPadOS lab has admin prerequisites completed, including Apple MDM push certificate preparation. Physical iPhone/iPad enrollment remains pending.
 
 ---
 
@@ -207,7 +218,7 @@ Enrolled devices:
 | `03-configuration-profiles/windows-corporate-wallpaper-policy.md` | Completed |
 | `03-configuration-profiles/windows-device-restrictions-profile.md` | Completed |
 
-Results:
+Completed results:
 
 | Lab | Result |
 |---|---|
@@ -226,16 +237,16 @@ Results:
 | `04-compliance-and-conditional-access/managed-noncompliant-device-test.md` | Completed |
 | `04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md` | Completed |
 
-Results:
+Completed compliance and Conditional Access results:
 
 | Lab | Result |
 |---|---|
-| Windows basic compliance policy | WINAUTO452 became Compliant |
-| Conditional Access compliant device — Report-only | Report-only result showed Success for compliant device |
+| Windows basic compliance policy | WINAUTO452 became compliant |
+| Conditional Access compliant device test | Report-only result showed Success for compliant device |
 | Managed noncompliant device test | Report-only result showed Failure for noncompliant BYOD device |
 | Conditional Access enforced mode test | Access was blocked for noncompliant BYOD device |
 
-Completed compliance and access control flow:
+Completed flow:
 
 ```text
 Intune compliance policy
@@ -255,8 +266,9 @@ Intune compliance policy
 | `05-application-deployment/win32-app-deployment-7zip.md` | Completed |
 | `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Completed |
 | `05-application-deployment/android-managed-google-play-app-deployment.md` | Completed |
+| `05-application-deployment/company-portal-self-service-apps.md` | Removed from scope |
 
-Results:
+Completed application deployment results:
 
 | Lab | Result |
 |---|---|
@@ -264,6 +276,7 @@ Results:
 | Win32 7-Zip app deployment | 7-Zip packaged as `.intunewin` and deployed |
 | Microsoft 365 Apps deployment | Microsoft 365 Apps installed and validated after Autopilot |
 | Android Managed Google Play app deployment | Outlook and Teams installed in Android Work profile |
+| Company Portal self-service app lab | Removed because self-service app behavior was already demonstrated in Microsoft Store app deployment |
 
 ---
 
@@ -277,15 +290,15 @@ Results:
 | `06-endpoint-security/attack-surface-reduction-policy.md` | Completed |
 | `06-endpoint-security/windows-security-baseline.md` | Completed |
 
-Results:
+Completed endpoint security results:
 
 | Lab | Result |
 |---|---|
 | Defender Antivirus policy | Success on WINAUTO452 |
 | Windows Firewall policy | Success on WINAUTO452 |
-| BitLocker encryption policy | Fully Encrypted, Protection On |
-| Attack Surface Reduction policy | Deployed in Audit mode, Success on WINAUTO452, validated via PowerShell |
-| Windows Security Baseline | Conflicts and errors identified and remediated, final status Success |
+| BitLocker encryption policy | Fully encrypted, Protection On |
+| Attack Surface Reduction policy | Deployed in Audit mode, Success on WINAUTO452, validated with PowerShell |
+| Windows Security Baseline | Conflicts and Error 65000 investigated, remediated, final status Success |
 
 ---
 
@@ -298,13 +311,13 @@ Results:
 | `07-remote-actions-and-monitoring/collect-diagnostics.md` | Completed |
 | `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Completed |
 
-Results:
+Completed remote actions and monitoring results:
 
 | Lab | Result |
 |---|---|
 | Device sync remote action | Sync initiated from Intune and verified from local Windows Settings |
-| Restart, Retire, and Wipe actions | All three actions initiated and confirmed in Device Actions report |
-| Collect diagnostics | Action completed, result verified from Device action status tab |
+| Restart, Retire, and Wipe actions | All actions confirmed in Device Actions report |
+| Collect diagnostics | Action completed and verified from Device action status |
 | Device monitoring and reports | Device inventory, action history, noncompliant devices report, and policy assignment status reviewed |
 
 Remote actions tested:
@@ -323,18 +336,18 @@ Remote actions tested:
 
 | File | Status |
 |---|---|
-| `08-troubleshooting/troubleshooting-summary.md` | Completed |
 | `08-troubleshooting/intune-enrollment-troubleshooting.md` | Completed |
 | `08-troubleshooting/configuration-policy-conflict-troubleshooting.md` | Completed |
 | `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` | Completed |
+| `08-troubleshooting/troubleshooting-summary.md` | Completed |
 
 Troubleshooting coverage:
 
 | Case study | Issue | Resolution |
 |---|---|---|
-| Intune enrollment troubleshooting | Device joined Entra ID but MDM showed None | Manual MDM enrollment completed |
-| Configuration policy conflict troubleshooting | Security Baseline reported Conflict and Error 65000 | Overlapping settings set to Not configured |
-| Remote actions diagnostics troubleshooting | Expected Device diagnostics report path not visible in tenant | Action validated using device-level Device action status |
+| Intune enrollment troubleshooting | Device joined Microsoft Entra ID but MDM showed None | Manual MDM enrollment completed |
+| Configuration policy conflict troubleshooting | Security Baseline reported Conflict and Error 65000 | Overlapping or unsupported settings set to Not configured |
+| Remote actions diagnostics troubleshooting | Expected Device diagnostics report path was not visible in the same way in the tenant | Action validated using device-level Device action status and tenant settings |
 
 ---
 
@@ -352,43 +365,44 @@ Troubleshooting coverage:
 | 8 | Enroll WINAUTO452 using Autopilot | Completed |
 | 9 | Enroll WIN-BYOD-001 as Windows BYOD device | Completed |
 | 10 | Enroll Android BYOD work profile | Completed |
-| 11 | Deploy Windows configuration profiles | Completed |
-| 12 | Deploy Microsoft Store apps | Completed |
-| 13 | Deploy Win32 7-Zip app | Completed |
-| 14 | Deploy Microsoft 365 Apps | Completed |
-| 15 | Deploy Android Managed Google Play apps | Completed |
-| 16 | Configure Defender Antivirus policy | Completed |
-| 17 | Configure Windows Firewall policy | Completed |
-| 18 | Configure BitLocker encryption policy | Completed |
-| 19 | Configure Attack Surface Reduction policy in Audit mode | Completed |
-| 20 | Deploy Windows Security Baseline and remediate conflicts | Completed |
-| 21 | Create Windows basic compliance policy | Completed |
-| 22 | Validate compliant device state | Completed |
-| 23 | Create Conditional Access report-only policy | Completed |
-| 24 | Validate report-only success for compliant device | Completed |
-| 25 | Create managed noncompliant BYOD test | Completed |
-| 26 | Validate report-only failure for noncompliant BYOD device | Completed |
-| 27 | Create enforced Conditional Access policy | Completed |
-| 28 | Validate access blocked for noncompliant BYOD device | Completed |
-| 29 | Execute device sync remote action from Intune | Completed |
-| 30 | Validate local Windows sync from Settings | Completed |
-| 31 | Execute restart remote action on WINAUTO452 | Completed |
-| 32 | Execute retire remote action on WINAUTO452 | Completed |
-| 33 | Execute wipe remote action on WIN-CORP-001 | Completed |
-| 34 | Validate all remote actions in Device Actions report | Completed |
-| 35 | Execute collect diagnostics remote action | Completed |
-| 36 | Validate diagnostics from Device action status tab | Completed |
-| 37 | Review Intune device monitoring and reports | Completed |
-| 38 | Document Intune enrollment troubleshooting case study | Completed |
-| 39 | Document configuration policy conflict troubleshooting case study | Completed |
-| 40 | Document remote actions diagnostics troubleshooting case study | Completed |
-| 41 | Complete troubleshooting summary | Completed |
+| 11 | Complete iOS/iPadOS admin prerequisites | Completed |
+| 12 | Deploy Windows configuration profiles | Completed |
+| 13 | Deploy Microsoft Store apps | Completed |
+| 14 | Deploy Win32 7-Zip app | Completed |
+| 15 | Deploy Microsoft 365 Apps | Completed |
+| 16 | Deploy Android Managed Google Play apps | Completed |
+| 17 | Configure Defender Antivirus policy | Completed |
+| 18 | Configure Windows Firewall policy | Completed |
+| 19 | Configure BitLocker encryption policy | Completed |
+| 20 | Configure Attack Surface Reduction policy in Audit mode | Completed |
+| 21 | Deploy Windows Security Baseline and remediate conflicts | Completed |
+| 22 | Create Windows basic compliance policy | Completed |
+| 23 | Validate compliant device state | Completed |
+| 24 | Create Conditional Access report-only policy | Completed |
+| 25 | Validate report-only success for compliant device | Completed |
+| 26 | Create managed noncompliant BYOD test | Completed |
+| 27 | Validate report-only failure for noncompliant BYOD device | Completed |
+| 28 | Create enforced Conditional Access policy | Completed |
+| 29 | Validate access blocked for noncompliant BYOD device | Completed |
+| 30 | Execute device sync remote action from Intune | Completed |
+| 31 | Validate local Windows sync from Settings | Completed |
+| 32 | Execute restart remote action on WINAUTO452 | Completed |
+| 33 | Execute retire remote action on WINAUTO452 | Completed |
+| 34 | Execute wipe remote action on WIN-CORP-001 | Completed |
+| 35 | Validate all remote actions in Device Actions report | Completed |
+| 36 | Execute collect diagnostics remote action | Completed |
+| 37 | Validate diagnostics from Device action status | Completed |
+| 38 | Review Intune device monitoring and reports | Completed |
+| 39 | Document Intune enrollment troubleshooting case study | Completed |
+| 40 | Document configuration policy conflict troubleshooting case study | Completed |
+| 41 | Document remote actions diagnostics troubleshooting case study | Completed |
+| 42 | Complete troubleshooting summary | Completed |
 
 ---
 
 ## Completed Modern Endpoint Management Flow
 
-The completed labs demonstrate this full Microsoft Intune and Microsoft Entra endpoint management chain:
+The completed labs demonstrate this Microsoft Intune and Microsoft Entra endpoint management chain:
 
 ```text
 Microsoft Entra users and groups
@@ -398,6 +412,7 @@ Microsoft Entra users and groups
 -> Windows Autopilot provisioning
 -> Windows BYOD enrollment
 -> Android BYOD work profile enrollment
+-> iOS/iPadOS admin prerequisites
 -> Configuration profiles applied
 -> Application deployment
 -> Endpoint security policies
@@ -422,21 +437,21 @@ Microsoft Entra users and groups
 | Repository setup | Completed |
 | Project overview | Completed |
 | Identity and groups | Completed |
-| Device enrollment | Completed — iOS physical enrollment pending |
+| Device enrollment | Completed - iOS physical enrollment pending |
 | Configuration profiles | Completed |
 | Application deployment | Completed |
-| Core endpoint security | Completed |
-| Advanced endpoint security | Completed |
+| Endpoint security | Completed |
 | Compliance and Conditional Access | Completed |
 | Remote actions and monitoring | Completed |
 | Troubleshooting documentation | Completed |
-| iOS/iPadOS physical enrollment | Pending — hardware required |
+| iOS/iPadOS physical enrollment | Pending - hardware required |
+| Final device inventory lifecycle cleanup | Pending |
 
 ---
 
 ## Documentation Rules
 
-Each lab file follows this standard structure:
+Each lab file should follow a consistent structure:
 
 ```text
 # Lab Title
@@ -459,7 +474,7 @@ Each lab file follows this standard structure:
 ## Lab conclusion
 ```
 
-Troubleshooting files use a case study format instead of the standard lab structure.
+Troubleshooting files use a case study format instead of the standard lab format.
 
 ---
 
@@ -505,14 +520,30 @@ screenshots/sanitized/remote-actions-and-monitoring/
 
 ---
 
-## Notes
+## Final Remaining Items
 
-This roadmap is current and reflects the completed state of the project.
+The core hands-on MD-102 lab project is completed.
 
-The one remaining action item is physical iOS/iPadOS device enrollment:
+Remaining documentation/future items:
+
+| Item | Status |
+|---|---|
+| Update device inventory with final lifecycle states | Pending |
+| Optional physical iOS/iPadOS enrollment | Pending hardware availability |
+| Final GitHub visual review | Recommended |
+
+---
+
+## Notes for Future Updates
+
+Update this roadmap whenever a new lab is added or an optional pending item is completed.
+
+When a file is added or updated, also check:
 
 ```text
-02-device-enrollment/ios-byod-enrollment.md
+README.md
+00-project-overview/device-inventory.md
+00-project-overview/lab-implementation-roadmap.md
 ```
 
-All other labs are completed and documented. If new labs are added in the future, this roadmap and the README should both be updated to reflect the new status.
+This roadmap is currently aligned with the completed lab project, except for the pending device inventory lifecycle cleanup and optional physical iOS/iPadOS enrollment.
