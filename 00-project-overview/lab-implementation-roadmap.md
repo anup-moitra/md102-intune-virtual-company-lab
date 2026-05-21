@@ -117,11 +117,3 @@ This file tracks the implementation sequence and file completion status for the 
 | `08-troubleshooting/troubleshooting-summary.md` | Completed |
 
 ---
-
-## Scope Notes
-
-**Removed from scope:** `company-portal-self-service-apps.md` — self-service app behavior through Company Portal was already demonstrated as part of the Microsoft Store app deployment lab. A separate lab would have been redundant.
-
-**Pending:** `ios-byod-enrollment.md` — Apple MDM Push Certificate is created and active, iOS/iPadOS enrollment is allowed, and the test user is prepared. Physical iPhone or iPad is required to complete the enrollment steps.
-
-**Future:** If the iOS/iPadOS physical enrollment is completed, no other files need to be updated — the lab file and device inventory are the only two places that need changing.
