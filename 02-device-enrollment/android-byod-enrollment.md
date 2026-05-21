@@ -217,17 +217,6 @@ In production, Android BYOD should be managed with a privacy-aware approach that
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user03 and GRP-BYOD-Users |
-| `02-device-enrollment/windows-byod-enrollment.md` | Windows BYOD enrollment for comparison |
-| `02-device-enrollment/ios-byod-enrollment.md` | iOS BYOD enrollment (same BYOD pattern, different platform) |
-| `05-application-deployment/android-managed-google-play-app-deployment.md` | Extends Android app deployment coverage |
-
----
-
 ## Key Learning Outcomes
 
 - How to connect Managed Google Play to Microsoft Intune
