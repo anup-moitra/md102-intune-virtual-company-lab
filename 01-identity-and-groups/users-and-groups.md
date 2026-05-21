@@ -229,24 +229,6 @@ The pattern used here — start with a pilot group, validate, then expand — is
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-oobe-enrollment.md` | Uses `user01` |
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Uses `GRP-Autopilot-Devices` and `user01` |
-| `02-device-enrollment/windows-byod-enrollment.md` | Uses `user03` and `GRP-BYOD-Users` |
-| `03-configuration-profiles/windows-corporate-wallpaper-policy.md` | Uses `GRP-Pilot-Users` |
-| `03-configuration-profiles/windows-device-restrictions-profile.md` | Uses `GRP-Autopilot-Devices` |
-| `05-application-deployment/microsoft-store-app-deployment.md` | Uses `GRP-Pilot-Users` |
-| `05-application-deployment/win32-app-deployment-7zip.md` | Uses `GRP-Pilot-Users` |
-| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Uses `GRP-Pilot-Users` |
-| `06-endpoint-security/windows-defender-antivirus-policy.md` | Uses `GRP-Autopilot-Devices` |
-| `06-endpoint-security/windows-firewall-policy.md` | Uses `GRP-Autopilot-Devices` |
-| `06-endpoint-security/bitlocker-encryption-policy.md` | Uses `GRP-Autopilot-Devices` |
-
----
-
 ## Key Learning Outcomes
 
 - How to create users and security groups in Microsoft Entra ID
