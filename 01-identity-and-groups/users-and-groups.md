@@ -218,12 +218,7 @@ Screenshots are stored in `screenshots/sanitized/identity-and-groups/`.
 
 ## Enterprise Reflection
 
-In production, identity and group design should be planned before any Intune deployment begins. A well-structured group strategy lets administrators:
-
-- Pilot policies safely before broad rollout
-- Separate user-based and device-based assignments cleanly
-- Reuse the same groups across apps, compliance, configuration, and security policies
-- Troubleshoot targeting issues more quickly
+In production, identity and group design should be planned before any Intune deployment begins. A well-structured group strategy lets administrators pilot policies safely before broad rollout, separate user-based and device-based assignments cleanly, and reuse the same groups across apps, compliance, configuration, and security policies.
 
 The pattern used here — start with a pilot group, validate, then expand — is the same approach used in real enterprise Intune deployments.
 
