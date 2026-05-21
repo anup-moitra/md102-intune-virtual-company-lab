@@ -6,9 +6,9 @@ This file tracks the lab devices used in the MD-102 Intune virtual company envir
 
 ## Purpose
 
-The purpose of this device inventory is to document all planned and active lab devices used for Microsoft Intune, Microsoft Entra ID, Windows Autopilot, BYOD enrollment, compliance, Conditional Access, application deployment, endpoint security, monitoring, and troubleshooting labs.
+The purpose of this device inventory is to document all planned, active, retired, wiped, and optional lab devices used for Microsoft Intune, Microsoft Entra ID, Windows Autopilot, BYOD enrollment, compliance, Conditional Access, application deployment, endpoint security, monitoring, remote actions, and troubleshooting labs.
 
-This file is updated as devices are enrolled, tested, reset, retired, wiped, or reused for future labs.
+This file should be updated whenever a device is enrolled, reused, reset, retired, wiped, or removed from active testing.
 
 ---
 
@@ -32,12 +32,11 @@ These devices can be used for:
 - Endpoint security policies
 - BitLocker encryption
 - Remote actions
+- Device monitoring and reporting
 
 ### BYOD devices
 
 BYOD devices are personally owned test devices used to simulate employee-owned devices.
-
-These devices should receive lighter, privacy-aware management.
 
 BYOD testing helps compare:
 
@@ -76,28 +75,32 @@ These devices are used to test:
 - Corporate ownership after provisioning
 - Compliance policy validation
 - Conditional Access compliant-device validation
+- Remote actions and monitoring
 
 ---
 
-## Device inventory
+## Current device inventory
 
-| Device name | Device type | Ownership | OS | Enrollment type | User | Status |
+| Device name | Device type | Ownership | OS | Enrollment type | User | Current lifecycle status |
 |---|---|---|---|---|---|---|
-| WIN-CORP-001 | Laptop | Corporate lab device / Personal in Intune after manual MDM enrollment | Windows 11 | OOBE + Entra joined + Intune | user01 | Enrolled / Compliant / App deployment tested |
-| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Entra join | user01 | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested / Compliance and Conditional Access validated |
-| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Intune managed / Personal / Used for BYOD compliance and Conditional Access testing / Temporarily marked Noncompliant for lab validation |
-| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android 15 | Android Enterprise personally owned work profile | user03 | Enrolled / Intune managed / Personal / Compliant / Work profile created / Authenticator, Outlook, and Teams deployed |
+| WIN-CORP-001 | Laptop | Corporate lab device / Personal in Intune after manual MDM enrollment | Windows 11 | OOBE + Entra joined + manual Intune MDM enrollment | user01 | Wiped during remote actions lab |
+| WIN-AUTOPILOT-001 / WINAUTO452 | Laptop | Corporate | Windows 11 | Windows Autopilot user-driven Microsoft Entra join | user01 | Retired during remote actions lab |
+| WIN-BYOD-001 | Laptop | Personal/BYOD | Windows 11 | Windows MDM enrollment from Settings | user03 | Enrolled / Used for BYOD compliance and Conditional Access testing / Temporarily marked Noncompliant for lab validation |
+| ANDROID-BYOD-001 | Mobile | Personal/BYOD | Android 15 | Android Enterprise personally owned work profile | user03 | Enrolled / Compliant / Work profile created / Authenticator, Outlook, and Teams deployed |
 | IOS-BYOD-001 | Mobile | Personal/BYOD | iOS/iPadOS | Company Portal enrollment planned | user04 | In Progress / Admin prerequisites completed / Physical enrollment pending |
 
 > [!NOTE]
-> During the Windows OOBE lab, Intune displayed `WIN-CORP-001` ownership as `Personal` after manual MDM enrollment. This is documented in the Windows OOBE enrollment lab and was later compared with Windows Autopilot corporate ownership behavior.
+> `WIN-CORP-001` was successfully enrolled and used for early Windows enrollment and app deployment labs. It was later wiped during the Restart, Retire, and Wipe remote actions lab.
+
+> [!NOTE]
+> `WINAUTO452` was successfully provisioned through Windows Autopilot and used for configuration profiles, endpoint security, compliance, Conditional Access, remote actions, diagnostics, and monitoring labs. It was later retired during the Restart, Retire, and Wipe remote actions lab.
 
 > [!NOTE]
 > `WIN-BYOD-001` was initially enrolled and shown as compliant after Windows BYOD enrollment. It was later intentionally made noncompliant using a temporary compliance policy so that Conditional Access report-only and enforced-mode behavior could be validated.
 
 ---
 
-## Corporate Windows device result
+## Corporate Windows device lifecycle
 
 ### WIN-CORP-001
 
@@ -106,15 +109,15 @@ These devices are used to test:
 | Device name | WIN-CORP-001 |
 | Device type | Laptop |
 | Lab ownership | Corporate lab device |
-| Intune ownership | Personal |
+| Intune ownership during enrollment | Personal |
 | Operating system | Windows 11 |
 | Enrollment method | OOBE + manual MDM trigger |
 | Join type | Microsoft Entra joined |
 | Management | Microsoft Intune |
 | Primary user | user01 |
-| Compliance | Compliant |
-| Purpose | Main early Windows Intune test device |
-| Current status | Enrolled / Compliant / Microsoft Store apps tested / Win32 7-Zip tested / Microsoft 365 Apps tested |
+| Initial compliance | Compliant |
+| Purpose | Early Windows Intune test device |
+| Final lifecycle status | Wiped during remote actions lab |
 
 This device validated:
 
@@ -130,6 +133,16 @@ This device validated:
 - Available app visibility in Company Portal
 - Win32 7-Zip app deployment
 - Microsoft 365 Apps deployment preparation and validation
+- Wipe remote action validation
+
+Final lifecycle result:
+
+```text
+WIN-CORP-001 was used successfully for enrollment and app deployment labs.
+During the remote actions lab, the device received the Wipe action.
+The Device Actions report showed Wipe as Complete.
+After the Wipe action completed, the opened device page returned a Not found message.
+```
 
 Related labs:
 
@@ -138,11 +151,13 @@ Related labs:
 05-application-deployment/microsoft-store-app-deployment.md
 05-application-deployment/win32-app-deployment-7zip.md
 05-application-deployment/microsoft-365-apps-autopilot-deployment.md
+07-remote-actions-and-monitoring/restart-retire-wipe-actions.md
+08-troubleshooting/intune-enrollment-troubleshooting.md
 ```
 
 ---
 
-## Windows Autopilot device result
+## Windows Autopilot device lifecycle
 
 ### WIN-AUTOPILOT-001 / WINAUTO452
 
@@ -159,13 +174,14 @@ Related labs:
 | Primary user | user01 |
 | Autopilot group | GRP-Autopilot-Devices |
 | Autopilot profile | APUserDrivenEntraJoinPilot |
-| Compliance | Compliant |
+| Compliance during active testing | Compliant |
 | Apps verified | Store apps, Win32 7-Zip, Microsoft 365 Apps |
 | Configuration profiles verified | Basic Windows profile, corporate wallpaper, USB storage block |
-| Endpoint security verified | Defender Antivirus, Windows Firewall, BitLocker |
+| Endpoint security verified | Defender Antivirus, Windows Firewall, BitLocker, Attack Surface Reduction, Windows Security Baseline |
 | Compliance and Conditional Access verified | Windows compliance policy and report-only compliant-device Conditional Access test |
-| Purpose | Windows Autopilot provisioning, configuration profile, app deployment, endpoint security, compliance, and Conditional Access test |
-| Current status | Autopilot enrolled / Intune managed / Corporate / Compliant / Apps installed / Configuration profiles tested / Endpoint security tested / Compliance and Conditional Access validated |
+| Remote actions verified | Sync, Restart, Retire, Collect diagnostics |
+| Purpose | Main corporate Windows lab device |
+| Final lifecycle status | Retired during remote actions lab |
 
 This device validated:
 
@@ -174,7 +190,7 @@ This device validated:
 - Autopilot device group targeting
 - Autopilot deployment profile creation
 - Autopilot deployment profile assignment
-- Windows OOBE sign-in with `user01`
+- Windows OOBE sign-in with user01
 - Microsoft Entra join
 - Automatic Microsoft Intune enrollment
 - Corporate device ownership
@@ -186,15 +202,25 @@ This device validated:
 - Defender Antivirus endpoint security policy validation
 - Windows Firewall endpoint security policy validation
 - BitLocker encryption policy validation
+- Attack Surface Reduction policy validation in Audit mode
+- Windows Security Baseline deployment and troubleshooting
 - Windows basic compliance policy validation
 - Secure Boot remediation for compliance
 - Conditional Access report-only compliant-device validation
+- Device sync remote action
+- Restart remote action
+- Collect diagnostics remote action
+- Device monitoring and reports
+- Retire remote action validation
 
 Final Autopilot result:
 
 ```text
 WIN-AUTOPILOT-001 was provisioned with Windows Autopilot and appeared in Intune as WINAUTO452.
 The device was managed by Microsoft Intune, marked as Corporate, showed Compliant, received required app deployments, received configuration profiles, received endpoint security policies, passed Windows compliance validation, and satisfied the Conditional Access compliant-device report-only test.
+
+During the final remote actions lab, WINAUTO452 received Restart and Retire remote actions.
+The Device Actions report showed Restart and Retire as Complete.
 ```
 
 Related labs:
@@ -210,6 +236,14 @@ Related labs:
 06-endpoint-security/windows-defender-antivirus-policy.md
 06-endpoint-security/windows-firewall-policy.md
 06-endpoint-security/bitlocker-encryption-policy.md
+06-endpoint-security/attack-surface-reduction-policy.md
+06-endpoint-security/windows-security-baseline.md
+07-remote-actions-and-monitoring/device-sync-remote-actions.md
+07-remote-actions-and-monitoring/restart-retire-wipe-actions.md
+07-remote-actions-and-monitoring/collect-diagnostics.md
+07-remote-actions-and-monitoring/device-monitoring-and-reports.md
+08-troubleshooting/configuration-policy-conflict-troubleshooting.md
+08-troubleshooting/remote-actions-diagnostics-troubleshooting.md
 ```
 
 > [!IMPORTANT]
@@ -235,7 +269,7 @@ Related labs:
 | Later compliance test result | Temporarily marked Noncompliant for lab validation |
 | Intune ownership | Personal |
 | Purpose | Windows BYOD enrollment, BYOD compliance testing, and Conditional Access blocking validation |
-| Current status | Enrolled / Intune managed / Personal / Used for BYOD compliance and Conditional Access testing / Temporarily marked Noncompliant for lab validation |
+| Current status | Enrolled / Used for BYOD compliance and Conditional Access testing |
 
 Initial Windows BYOD result:
 
@@ -401,9 +435,21 @@ Related lab:
 | Endpoint security tested | Device has received endpoint security policies |
 | Compliance and Conditional Access validated | Device has been used for compliance and Conditional Access testing |
 | Autopilot enrolled | Device completed Windows Autopilot provisioning |
-| Retired | Device removed from Intune |
-| Wiped | Device reset |
+| Retired | Device removed from Intune management |
+| Wiped | Device reset or removed through wipe action |
 | Discarded | Device no longer used |
+
+---
+
+## Remote action lifecycle summary
+
+| Device | Remote action | Result | Related lab |
+|---|---|---|---|
+| WINAUTO452 | Sync | Completed | `07-remote-actions-and-monitoring/device-sync-remote-actions.md` |
+| WINAUTO452 | Restart | Completed | `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` |
+| WINAUTO452 | Retire | Completed | `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` |
+| WINAUTO452 | Collect diagnostics | Completed | `07-remote-actions-and-monitoring/collect-diagnostics.md` |
+| WIN-CORP-001 | Wipe | Completed | `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` |
 
 ---
 
@@ -419,7 +465,7 @@ Related lab:
 | Configuration profiles | screenshots/sanitized/configuration-profiles/ |
 | Endpoint security | screenshots/sanitized/endpoint-security/ |
 | Remote actions | screenshots/sanitized/remote-actions-and-monitoring/ |
-| Troubleshooting | screenshots/sanitized/troubleshooting/ |
+| Troubleshooting | Screenshots reused from the source lab folders |
 
 > [!NOTE]
 > The 04 lab screenshots use the combined folder `screenshots/sanitized/compliance-and-conditional-access/` because compliance policy testing and Conditional Access testing are part of the same project section.
@@ -445,6 +491,7 @@ Do not upload:
 - iOS serial numbers
 - Phone numbers
 - Internal IP addresses
+- Diagnostic ZIP package contents
 - Unsanitized screenshots
 - Production company data
 
@@ -456,34 +503,35 @@ Do not upload:
 |---|---|
 | Device inventory file created | Completed |
 | WIN-CORP-001 enrollment documented | Completed |
+| WIN-CORP-001 app deployment documented | Completed |
+| WIN-CORP-001 wipe lifecycle documented | Completed |
 | WINAUTO452 Autopilot enrollment documented | Completed |
+| WINAUTO452 configuration profiles verified | Completed |
+| WINAUTO452 endpoint security policies verified | Completed |
+| WINAUTO452 Windows compliance policy verified | Completed |
+| WINAUTO452 remote actions lifecycle documented | Completed |
+| WINAUTO452 retire lifecycle documented | Completed |
 | WIN-BYOD-001 Windows BYOD enrollment documented | Completed |
 | WIN-BYOD-001 noncompliant BYOD Conditional Access testing documented | Completed |
 | ANDROID-BYOD-001 Android BYOD enrollment documented | Completed |
 | ANDROID-BYOD-001 Managed Google Play app deployment documented | Completed |
 | IOS-BYOD-001 admin prerequisites documented | In Progress / Admin prerequisites completed |
 | iOS/iPadOS physical device enrollment | Pending |
-| WINAUTO452 configuration profiles verified | Completed |
-| WINAUTO452 endpoint security policies verified | Completed |
-| WINAUTO452 Windows compliance policy verified | Completed |
-| Conditional Access compliant-device report-only validation | Completed |
-| Conditional Access noncompliant BYOD report-only validation | Completed |
-| Conditional Access enforced mode blocking validation | Completed |
 
 ---
 
 ## Next step
 
-Recommended next documentation lab:
+Recommended next project cleanup task:
 
 ```text
-08-troubleshooting/conditional-access-troubleshooting.md
+Final visual review of README.md, lab-implementation-roadmap.md, and device-inventory.md after upload.
 ```
 
-Alternative next hands-on lab:
+Optional future hands-on lab:
 
 ```text
-07-remote-actions-and-monitoring/device-sync-remote-actions.md
+02-device-enrollment/ios-byod-enrollment.md
 ```
 
-The device inventory is now aligned with the completed compliance and Conditional Access labs.
+This optional lab requires a physical iPhone or iPad.
