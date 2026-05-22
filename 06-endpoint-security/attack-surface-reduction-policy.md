@@ -1,121 +1,44 @@
 # Attack Surface Reduction Policy
 
-This file documents the Microsoft Intune Attack Surface Reduction Rules policy configured for the MD-102 Intune virtual company lab.
+## Lab Status
+
+| Field | Value |
+|---|---|
+| Status | Completed |
+| Lab category | Endpoint security |
+| Policy name | ASR-WIN-Audit-Mode-Pilot |
+| Policy type | Attack Surface Reduction Rules |
+| Platform | Windows |
+| Deployment mode | Audit |
+| Assignment group | GRP-Autopilot-Devices |
+| Test device | WINAUTO452 |
+| Validation method | Intune device status and PowerShell |
 
 ---
 
-## Objective
+## Lab Objective
 
-Create and validate an Attack Surface Reduction policy in Microsoft Intune using **Audit** mode for a pilot Windows device.
-
-This lab validates that:
-
-- Attack Surface Reduction Rules can be configured from the Intune admin center.
-- ASR rules can be assigned to a pilot device group.
-- The policy can deploy successfully to a managed Windows device.
-- ASR rule configuration can be verified locally on the endpoint using PowerShell.
-- Audit mode can be used first to evaluate rule impact before moving to enforcement.
+Create an Attack Surface Reduction policy in Audit mode, assign it to the pilot device group, verify successful deployment in Intune, and validate ASR rule configuration locally on the endpoint using PowerShell.
 
 ---
 
 ## Why This Lab Matters
 
-Attack Surface Reduction Rules help reduce common malware and attacker behaviors on Windows endpoints.
-
-Instead of immediately blocking activity, this lab uses **Audit** mode first. Audit mode is useful in real environments because it lets administrators evaluate possible impact before changing rules to Block or Warn mode.
-
-Simple deployment flow:
-
-```text
-Create ASR policy in Intune
--> Configure selected ASR rules in Audit mode
--> Assign policy to pilot device group
--> Device receives policy
--> Verify policy status in Intune
--> Validate ASR rule configuration locally with PowerShell
-```
-
-This is a safer real-world approach because endpoint security policies should usually be piloted before broad enforcement.
-
----
-
-## Lab Environment
-
-| Item | Value |
-|---|---|
-| Management platform | Microsoft Intune |
-| Policy area | Endpoint security |
-| Policy type | Attack surface reduction |
-| Platform | Windows |
-| Profile | Attack Surface Reduction Rules |
-| Policy name | ASR-WIN-Audit-Mode-Pilot |
-| Policy mode | Audit |
-| Assignment group | GRP-Autopilot-Devices |
-| Test device | WINAUTO452 |
-| Device platform | Windows |
-| Validation method | Intune device status and PowerShell |
-| Current status | Completed |
+ASR rules reduce common attacker and malware behaviors on Windows endpoints. Audit mode is the safe first step — it records what the rules *would* have blocked without disrupting users or systems, giving administrators time to review impact before moving to Block or Warn mode.
 
 ---
 
 ## Prerequisites
 
-Before starting this lab, the following should be completed:
-
-- Microsoft Intune tenant available.
-- Windows test device enrolled in Intune.
-- Test device assigned to the pilot device group.
-- Microsoft Defender Antivirus available on the Windows device.
-- Endpoint security policy permissions available in Intune.
-- Screenshots captured and sanitized before upload.
-
----
-
-## Important Notes
-
-This lab uses **Audit** mode only.
-
-Audit mode was selected to safely validate policy deployment without immediately blocking user or system activity.
-
-Future enforcement can be tested later by changing selected rules from:
-
-```text
-Audit
-```
-
-to:
-
-```text
-Block
-```
-
-or:
-
-```text
-Warn
-```
-
-Only after reviewing audit results and business impact.
-
----
-
-## Policy Configuration Summary
-
-| Setting | Value |
-|---|---|
-| Policy name | ASR-WIN-Audit-Mode-Pilot |
-| Platform | Windows |
-| Profile | Attack Surface Reduction Rules |
-| Assignment | GRP-Autopilot-Devices |
-| Deployment mode | Audit |
-| Device status | Success |
-| Endpoint validation | Completed |
+- WINAUTO452 enrolled in Intune and member of GRP-Autopilot-Devices
+- Microsoft Defender Antivirus active on the endpoint
+- Endpoint security policy permissions available in Intune
 
 ---
 
 ## ASR Rules Configured
 
-The following ASR rules were configured in **Audit** mode:
+All rules were set to **Audit** mode.
 
 | ASR Rule | Mode |
 |---|---|
@@ -129,265 +52,107 @@ The following ASR rules were configured in **Audit** mode:
 
 ---
 
+## Configuration Flow
+
+```text
+Create ASR policy in Endpoint security
+-> Configure ASR rules in Audit mode
+-> Assign to GRP-Autopilot-Devices
+-> Verify device status in Intune
+-> Validate ASR rule configuration on endpoint with PowerShell
+```
+
+---
+
 ## Steps Performed
 
-### Step 1: Opened Attack Surface Reduction Policy Area
+### Step 1 — Created and configured the ASR policy
 
-Opened the Intune admin center and navigated to:
-
-```text
-Endpoint security
--> Attack surface reduction
--> Create Policy
-```
-
-Selected:
+Navigated to:
 
 ```text
-Platform: Windows
-Profile: Attack Surface Reduction Rules
+Endpoint security -> Attack surface reduction -> Create Policy
 ```
+
+Selected Windows platform and Attack Surface Reduction Rules profile. Named the policy `ASR-WIN-Audit-Mode-Pilot` and configured the rules in the table above, all set to Audit mode.
+
+![ASR policy profile creation](../screenshots/sanitized/endpoint-security/asr-policy-01-create-profile-sanitized.png)
+
+![ASR policy basics](../screenshots/sanitized/endpoint-security/asr-policy-02-basics-sanitized.png)
+
+![ASR rules configured in Audit mode](../screenshots/sanitized/endpoint-security/asr-policy-03-rules-audit-mode-sanitized.png)
 
 ---
 
-### Step 2: Configured Policy Basics
+### Step 2 — Assigned and created the policy
 
-Configured the policy basics:
+Assigned to `GRP-Autopilot-Devices` and created the policy.
 
-```text
-Name: ASR-WIN-Audit-Mode-Pilot
-Description: Audit mode Attack Surface Reduction policy for pilot Windows devices. This policy is used to validate ASR rule deployment before enforcement.
-```
+![ASR policy assignment](../screenshots/sanitized/endpoint-security/asr-policy-04-assignment-sanitized.png)
 
----
-
-### Step 3: Configured ASR Rules in Audit Mode
-
-Configured selected Attack Surface Reduction Rules using **Audit** mode.
-
-Audit mode was selected to observe how the rules would behave before enforcing them in block mode.
+![ASR policy review and create](../screenshots/sanitized/endpoint-security/asr-policy-05-review-create-sanitized.png)
 
 ---
 
-### Step 4: Assigned the Policy
+### Step 3 — Verified policy deployment status
 
-Assigned the policy to the pilot device group:
+After device check-in, the Intune device status report showed:
 
-```text
-GRP-Autopilot-Devices
-```
+| Device | Assignment status |
+|---|---|
+| WINAUTO452 | Success |
 
-The group was used to target a limited test device scope before expanding policy deployment.
-
----
-
-### Step 5: Reviewed and Created the Policy
-
-Reviewed the policy configuration and confirmed:
-
-- Policy name
-- Description
-- ASR rule settings
-- Assignment group
-- Audit mode configuration
-
-The policy was then created.
+![ASR policy device status success](../screenshots/sanitized/endpoint-security/asr-policy-06-device-status-success-sanitized.png)
 
 ---
 
-### Step 6: Verified Policy Deployment Status
+### Step 4 — Validated ASR rules on the endpoint
 
-After policy deployment, the Intune report showed the target device with assignment status:
-
-```text
-Success
-```
-
-The test device shown in the policy status report was:
-
-```text
-WINAUTO452
-```
-
-This confirmed that the ASR policy reached the target device successfully.
-
----
-
-### Step 7: Validated ASR Rules on the Endpoint
-
-On the Windows endpoint, PowerShell was opened as administrator.
-
-The following command was used to verify ASR rule configuration locally:
+On WINAUTO452, opened PowerShell as administrator and ran:
 
 ```powershell
 Get-MpPreference | Select-Object AttackSurfaceReductionRules_Ids, AttackSurfaceReductionRules_Actions
 ```
 
-The output showed ASR rule IDs and corresponding rule actions, confirming that ASR rule settings were present on the endpoint.
-
----
-
-## Expected Result
-
-After completing this lab:
-
-- The ASR policy should exist in Intune.
-- The selected ASR rules should be configured in Audit mode.
-- The policy should be assigned to the pilot device group.
-- The target Windows device should report policy success.
-- PowerShell should show ASR rule IDs and action values on the endpoint.
-- The policy should be ready for later monitoring and possible enforcement testing.
-
----
-
-## Test Result
-
-| Test Item | Result |
-|---|---|
-| ASR policy created | Completed |
-| Policy basics configured | Completed |
-| ASR rules configured in Audit mode | Completed |
-| Policy assigned to GRP-Autopilot-Devices | Completed |
-| Review and create completed | Completed |
-| Device status checked in Intune | Completed |
-| Device assignment status showed Success | Completed |
-| Endpoint PowerShell validation completed | Completed |
-| Final lab result | Completed |
-
----
-
-## Screenshots
-
-Screenshots are stored in:
-
-```text
-screenshots/sanitized/endpoint-security/
-```
-
-### ASR policy profile creation
-
-![ASR policy profile creation](../screenshots/sanitized/endpoint-security/asr-policy-01-create-profile-sanitized.png)
-
-### ASR policy basics
-
-![ASR policy basics](../screenshots/sanitized/endpoint-security/asr-policy-02-basics-sanitized.png)
-
-### ASR rules configured in Audit mode
-
-![ASR rules configured in Audit mode](../screenshots/sanitized/endpoint-security/asr-policy-03-rules-audit-mode-sanitized.png)
-
-### ASR policy assignment
-
-![ASR policy assignment](../screenshots/sanitized/endpoint-security/asr-policy-04-assignment-sanitized.png)
-
-### ASR policy review and create
-
-![ASR policy review and create](../screenshots/sanitized/endpoint-security/asr-policy-05-review-create-sanitized.png)
-
-### ASR policy device status success
-
-![ASR policy device status success](../screenshots/sanitized/endpoint-security/asr-policy-06-device-status-success-sanitized.png)
-
-### ASR endpoint PowerShell validation
+The output showed ASR rule IDs and corresponding action values, confirming the rules were applied on the endpoint.
 
 ![ASR endpoint PowerShell validation](../screenshots/sanitized/endpoint-security/asr-policy-07-endpoint-validation-sanitized.png)
 
-> [!NOTE]
-> Screenshots were sanitized before upload. Tenant names, full email addresses, device IDs, object IDs, serial numbers, and top-right signed-in account details were hidden.
-
 ---
 
-## Screenshot Files
+## Final Test Result
 
-```text
-asr-policy-01-create-profile-sanitized.png
-asr-policy-02-basics-sanitized.png
-asr-policy-03-rules-audit-mode-sanitized.png
-asr-policy-04-assignment-sanitized.png
-asr-policy-05-review-create-sanitized.png
-asr-policy-06-device-status-success-sanitized.png
-asr-policy-07-endpoint-validation-sanitized.png
-```
+| Validation item | Result |
+|---|---|
+| ASR policy created in Intune | Completed |
+| ASR rules configured in Audit mode | Completed |
+| Policy assigned to GRP-Autopilot-Devices | Completed |
+| Device status showed Success | Completed |
+| PowerShell confirmed ASR rule IDs on endpoint | Completed |
 
 ---
 
 ## Troubleshooting Notes
 
-If the ASR policy does not apply:
+**Policy not applying** — confirm the device is enrolled and a member of `GRP-Autopilot-Devices`, Microsoft Defender Antivirus is the active AV provider, and a manual sync has been triggered. Wait for policy check-in and refresh the device status report.
 
-1. Confirm the target device is enrolled in Intune.
-2. Confirm the device is a member of the assigned group.
-3. Confirm Microsoft Defender Antivirus is the active antivirus provider.
-4. Sync the device from Intune or from the Windows device.
-5. Wait for policy check-in and refresh the device status report.
-6. Check for policy conflicts with other ASR policies or security baselines.
+**PowerShell shows no ASR rule IDs** — confirm the Intune policy status shows Success, run PowerShell as administrator, and sync the device before re-running the command. If output is still empty, restart the device and check again.
 
-If PowerShell does not show ASR rule IDs:
-
-1. Confirm the policy status shows success in Intune.
-2. Run PowerShell as administrator.
-3. Re-run the validation command after syncing the device.
-4. Restart the device if policy status is delayed.
-5. Check whether another policy is overriding or conflicting with the ASR settings.
-
-If the policy shows conflict:
-
-1. Review other Endpoint security ASR policies.
-2. Review Security Baseline settings.
-3. Check whether the same ASR rule is configured differently in another policy.
-4. Keep pilot ASR testing scoped to one group where possible.
+**Policy shows Conflict** — check for other ASR policies or Security Baseline settings that configure the same rules differently. Conflicts occur when the same ASR rule ID is set to different values by multiple policies. Keep ASR testing scoped to one group and one policy per pilot phase.
 
 ---
 
-## Security and Privacy Notes
+## Enterprise Reflection
 
-This is a public learning repository.
+Audit mode before enforcement is the recommended production approach for ASR rules. ASR rules can affect legitimate applications — particularly Office macros, scripts, and certain line-of-business software. Reviewing audit logs before switching to Block or Warn mode prevents accidental disruption.
 
-Do not upload:
-
-- Full real email addresses
-- Real tenant names
-- Tenant IDs
-- Device IDs
-- Object IDs
-- Serial numbers
-- Passwords
-- MFA QR codes
-- BitLocker recovery keys
-- Unsanitized screenshots
-
-Before uploading screenshots, hide or blur:
-
-- Top-right signed-in admin account
-- Tenant or domain name
-- Full user principal names
-- Device IDs
-- Object IDs
-- Serial numbers
-- Any sensitive endpoint identifiers
+When moving toward enforcement, change individual rules incrementally rather than switching all rules to Block at once. This makes it easier to identify which rule is causing issues if users report problems.
 
 ---
 
-## Current Status
+## Key Learning Outcomes
 
-| Task | Status |
-|---|---|
-| attack-surface-reduction-policy.md created | Completed |
-| ASR policy created in Intune | Completed |
-| ASR rules configured in Audit mode | Completed |
-| Policy assigned to pilot device group | Completed |
-| Device status verified | Completed |
-| Endpoint PowerShell validation completed | Completed |
-| Screenshots added | Completed |
-
----
-
-## Next Step
-
-Continue to the next endpoint security lab:
-
-```text
-06-endpoint-security/windows-security-baseline.md
-```
-
-This next lab will document Windows Security Baseline configuration and compare baseline security settings with individual endpoint security policies.
+- How to create an Attack Surface Reduction policy in Microsoft Intune
+- Why Audit mode should precede enforcement in any ASR deployment
+- How to use `Get-MpPreference` to validate ASR rule IDs and actions locally on a Windows endpoint
+- How policy conflicts between ASR policies and Security Baselines can occur and how to identify them
