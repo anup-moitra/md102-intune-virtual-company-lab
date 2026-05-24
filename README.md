@@ -163,7 +163,7 @@ Lab environment / Prerequisites / Configuration flow
 Steps performed / Validation / Final test result
 Screenshots captured / Troubleshooting notes
 Enterprise reflection / Security and privacy notes
-Related labs / Key learning outcomes / Lab conclusion
+Key learning outcomes / Lab conclusion
 ```
 
 ---
