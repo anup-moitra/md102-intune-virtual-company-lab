@@ -1,197 +1,107 @@
 # Restart, Retire, and Wipe Remote Actions
 
-This lab documents the use of Microsoft Intune remote device actions for Windows devices.
+## Lab Status
 
-The lab validates how remote actions are initiated from the Intune admin center and how their status is confirmed from the device action status page and the Device Actions monitoring report.
-
-> **Important:** Retire and Wipe are destructive or semi-destructive actions. In a production environment, these actions should only be used after confirming device ownership, business impact, backup requirements, and approval. In this lab, the actions were performed in a test environment.
-
----
-
-## Lab Information
-
-| Item | Details |
+| Field | Value |
 |---|---|
-| Lab section | 07 - Remote Actions and Monitoring |
-| Lab file | `restart-retire-wipe-actions.md` |
-| Portal | Microsoft Intune admin center |
-| Primary test device | `WINAUTO452` |
-| Additional test device | `WIN-CORP-001` |
-| Platform | Windows |
-| Management authority | Intune |
-| Main actions tested | Restart, Retire, Wipe |
-| Result | Remote actions completed and validated |
+| Status | Completed |
+| Lab category | Remote actions and monitoring |
+| Primary device | WINAUTO452 |
+| Additional device | WIN-CORP-001 |
+| Actions tested | Restart, Retire, Wipe |
+| Result | All actions completed and validated in Device Actions report |
+
+> [!IMPORTANT]
+> Retire and Wipe are destructive or semi-destructive actions. In production, confirm device ownership, business impact, and approval before executing. Both were performed here in a test environment on dedicated test devices.
 
 ---
 
 ## Lab Objective
 
-The objective of this lab was to validate Intune remote actions by performing and monitoring the following actions:
-
-- Restart a managed Windows device.
-- Review and perform Retire on a managed Windows device.
-- Review and perform Wipe on a separate test Windows device.
-- Confirm remote action status from the device page and the Device Actions report.
+Perform and validate the Restart, Retire, and Wipe remote actions from the Intune admin center. Confirm action completion from the device-level action status and the tenant-level Device Actions report.
 
 ---
 
 ## Why This Lab Matters
 
-In a real endpoint administration role, Intune remote actions are used to support devices without requiring physical access.
+Remote actions let administrators support devices without physical access. The three actions in this lab cover the full range from non-destructive (Restart) to semi-destructive (Retire) to fully destructive (Wipe).
 
-Examples:
-
-| Remote action | Real-world use case |
-|---|---|
-| Restart | Restart a managed device after policy deployment, update installation, or troubleshooting. |
-| Retire | Remove company data and Intune management from a device that is no longer used for work. |
-| Wipe | Factory reset a lost, repurposed, or compromised device. |
-
-These actions are powerful because they can affect device access, user data, and management state. For that reason, every remote action should be verified from Intune monitoring reports.
-
----
-
-## Important Action Difference
-
-| Action | What it does | Data impact | Used in this lab |
-|---|---|---|---|
-| Restart | Sends a restart command to the device. | No data removal. | Yes |
-| Retire | Removes company data and Intune management. Personal data is generally preserved. | Removes work management and corporate data. | Yes |
-| Wipe | Factory resets the device. | Removes personal and company data/settings. | Yes |
+| Action | What it does | Data impact |
+|---|---|---|
+| Restart | Sends a restart command to the device | None |
+| Retire | Removes company data and Intune management; personal data preserved | Removes corporate data and management |
+| Wipe | Factory resets the device | Removes all data and settings |
 
 ---
 
 ## Devices Used
 
-| Device | Action performed | Final observed result |
+| Device | Action | Result |
 |---|---|---|
-| `WINAUTO452` | Restart | Completed |
-| `WINAUTO452` | Retire | Initiated and completed in the Device Actions report |
-| `WIN-CORP-001` | Wipe | Initiated and completed in the Device Actions report |
+| WINAUTO452 | Restart | Completed |
+| WINAUTO452 | Retire | Completed |
+| WIN-CORP-001 | Wipe | Completed |
 
 ---
 
 ## Prerequisites
 
-Before starting this lab, the following items were already completed:
-
-- At least one Windows device was enrolled into Intune.
-- The device appeared under Windows devices.
-- The device had checked in successfully.
-- The account had permission to perform remote actions.
-- Test devices were available for destructive action validation.
+- WINAUTO452 and WIN-CORP-001 enrolled in Intune
+- Admin account has permission to perform remote actions
 
 ---
 
-## Step 1: Open the Windows Device
+## Steps Performed
 
-Navigation path:
+### Step 1 — Opened WINAUTO452 and located remote actions
 
-```text
-Microsoft Intune admin center
--> Devices
--> Windows
--> Windows devices
--> Select device
-```
-
-The primary test device used was:
-
-```text
-WINAUTO452
-```
-
-The device overview page showed the device as Intune-managed and compliant.
+Navigated to `Devices -> Windows -> Windows devices -> WINAUTO452`. Confirmed device state, then opened the Remote actions menu where Restart is located.
 
 ![Device overview](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-01-device-overview.png)
-
----
-
-## Step 2: Locate Restart Under Remote Actions
-
-In the current Intune admin center interface, the Restart action was available under:
-
-```text
-Remote actions
--> Restart
-```
-
-This confirmed that Restart is grouped under the Remote actions menu for the selected Windows device.
 
 ![Remote actions restart menu](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-02-remote-actions-restart-menu.png)
 
 ---
 
-## Step 3: Trigger Restart
+### Step 2 — Triggered Restart on WINAUTO452
 
-The Restart action was initiated for:
-
-```text
-WINAUTO452
-```
-
-After the restart command was sent, the device action status showed the Restart action as pending.
+Initiated the Restart action. The device action status progressed from Pending to Complete.
 
 ![Restart status pending](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-03-restart-status-pending.png)
-
-After the device received and processed the command, the action status changed to Complete.
 
 ![Restart status complete](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-04-restart-status-complete.png)
 
 ---
 
-## Step 4: Review Remove Data Actions
+### Step 3 — Reviewed Remove data menu
 
-The Remove data menu included the following actions:
-
-```text
-Retire
-Wipe
-Fresh start
-Autopilot reset
-```
-
-The menu was reviewed to understand where destructive remote actions are located in the Intune admin center.
+Opened the Remove data menu to confirm where Retire, Wipe, Fresh start, and Autopilot reset are located in the Intune interface.
 
 ![Remove data menu](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-05-remove-data-menu.png)
 
 ---
 
-## Step 5: Retire Action Confirmation
+### Step 4 — Initiated Retire on WINAUTO452
 
-The Retire confirmation dialog was opened for:
-
-```text
-WINAUTO452
-```
-
-The confirmation screen explained that Retire removes company data managed by Intune and that the user's personal data is not removed.
+Opened the Retire confirmation dialog for WINAUTO452. The dialog explained that Retire removes company data and Intune management while preserving personal data. Confirmed and initiated the action.
 
 ![Retire confirmation](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-06-retire-confirmation.png)
-
-The Retire action was initiated and appeared as pending on the device action status page.
 
 ![Retire status pending](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-07-retire-status-pending.png)
 
 ---
 
-## Step 6: Wipe Action Confirmation
+### Step 5 — Initiated Wipe on WIN-CORP-001
 
-The Wipe confirmation dialog was opened for a separate test device:
-
-```text
-WIN-CORP-001
-```
-
-The confirmation screen explained that factory reset returns the device to default settings and removes personal and company data from the device.
+Opened the Wipe confirmation dialog for WIN-CORP-001. The dialog explained that factory reset removes all personal and company data from the device. Confirmed and initiated the action.
 
 ![Wipe confirmation](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-08-wipe-confirmation.png)
 
 ---
 
-## Step 7: Validate Action Notifications
+### Step 6 — Confirmed action notifications
 
-The notification panel showed that multiple remote actions were initiated:
+The Intune notification panel confirmed all three actions were queued:
 
 ```text
 Restart initiated
@@ -199,164 +109,71 @@ Retire initiated
 Wipe initiated
 ```
 
-This confirmed that Intune accepted the remote action requests and queued them for the target devices.
-
 ![Notifications actions initiated](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-09-notifications-actions-initiated.png)
 
 ---
 
-## Step 8: Validate Actions from Device Actions Report
+### Step 7 — Validated completion in Device Actions report
 
-Navigation path:
-
-```text
-Devices
--> Monitor
--> Device actions
-```
-
-The Device Actions report showed the final status for the remote actions.
-
-Observed results:
+Navigated to `Devices -> Monitor -> Device actions`. The report confirmed all actions completed.
 
 | Device | Action | Status |
 |---|---|---|
-| `WIN-CORP-001` | Wipe | Complete |
-| `WINAUTO452` | Retire | Complete |
-| `WINAUTO452` | Restart | Complete |
+| WIN-CORP-001 | Wipe | Complete |
+| WINAUTO452 | Retire | Complete |
+| WINAUTO452 | Restart | Complete |
+
+After the Wipe completed for WIN-CORP-001, the device page returned a Not found message — expected behavior after a wipe/removal workflow.
 
 ![Device actions report complete](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-10-device-actions-report-complete.png)
-
----
-
-## Step 9: Confirm Device Impact After Wipe
-
-After the Wipe action completed for `WIN-CORP-001`, the Intune device record was no longer available from the opened device page and returned a Not found page.
-
-This is expected behavior after a device wipe/removal workflow because the device record or page state can change after the remote action completes.
 
 ![WIN-CORP-001 not found after wipe](../screenshots/sanitized/remote-actions-and-monitoring/restart-retire-wipe-11-win-corp-not-found-after-wipe.png)
 
 ---
 
-## Final Results
+## Final Test Result
 
 | Validation item | Result |
 |---|---|
-| Restart action located under Remote actions | Completed |
-| Restart initiated on WINAUTO452 | Completed |
-| Restart status monitored | Completed |
-| Retire action reviewed and initiated on WINAUTO452 | Completed |
-| Wipe action reviewed and initiated on WIN-CORP-001 | Completed |
-| Device Actions report checked | Completed |
-| Final action status documented | Completed |
-
----
-
-## Key Observations
-
-- Restart appears under the **Remote actions** menu.
-- Retire and Wipe appear under the **Remove data** menu.
-- Device action status can be checked from the individual device page.
-- Tenant-wide remote action history can be checked from **Devices > Monitor > Device actions**.
-- Restart completed successfully for `WINAUTO452`.
-- Retire completed for `WINAUTO452`.
-- Wipe completed for `WIN-CORP-001`.
-- After the Wipe action, the `WIN-CORP-001` device page showed a Not found message.
+| Restart initiated and completed on WINAUTO452 | Completed |
+| Retire initiated and completed on WINAUTO452 | Completed |
+| Wipe initiated and completed on WIN-CORP-001 | Completed |
+| Device Actions report confirmed all actions Complete | Completed |
+| WIN-CORP-001 device page showed Not found after Wipe | Completed |
 
 ---
 
 ## Troubleshooting Notes
 
-### Restart shows Pending
+**Restart stays Pending** — confirm the device is online with internet access, sync from Intune or Windows Settings, and refresh the device action status page. Check the Device Actions report for the latest status.
 
-If Restart remains pending:
+**Retire or Wipe stays Pending** — confirm the device is connected to the internet and has checked in recently. Wait for the device to receive the queued command. Review the Device Actions report. If the device is offline, the action will process when it next connects.
 
-- Confirm the device is online.
-- Confirm the device has internet access.
-- Trigger a device sync from Intune or from Windows Settings.
-- Refresh the Device action status page.
-- Check **Devices > Monitor > Device actions**.
-
-### Retire or Wipe does not complete
-
-If Retire or Wipe remains pending:
-
-- Confirm the device is connected to the internet.
-- Confirm the device has checked in recently.
-- Confirm the device is still enrolled in Intune.
-- Review the Device Actions report.
-- Wait for the device to receive the command.
-
-### Device page shows Not found
-
-If a device page shows Not found after Wipe or Retire:
-
-- Refresh the Windows devices list.
-- Search for the device by name.
-- Check Device Actions report for completion.
-- Confirm whether the device record was removed or reset.
+**Device page shows Not found after Wipe** — this is expected after a Wipe completes and the device record state changes. Search for the device by name in the Windows devices list. Check the Device Actions report for completion evidence.
 
 ---
 
-## Lessons Learned
+## Enterprise Reflection
 
-- Remote actions are not just buttons; they are administrative commands with real device impact.
-- Restart is safe for most active troubleshooting scenarios.
-- Retire and Wipe should be treated as high-impact actions.
-- Device action status is important evidence for confirming whether a remote action was actually processed.
-- Screenshots of confirmation dialogs and Device Actions reports are valuable for audit and troubleshooting documentation.
+In production, the Device Actions report is the audit trail for all remote actions. Before executing Retire or Wipe, always confirm the device name, assigned user, and ownership type — it is easy to select the wrong device from a long list. For corporate-owned devices, Retire removes company access cleanly. For devices that are lost, stolen, or being repurposed, Wipe ensures no data survives.
+
+Restart is safe for active troubleshooting and can be used freely. Retire and Wipe require deliberate confirmation and should follow an internal approval process in most organizations.
 
 ---
 
-## Screenshot Evidence
+## Related Labs
 
-| Screenshot | Description |
+| Lab | Relationship |
 |---|---|
-| `restart-retire-wipe-01-device-overview.png` | WINAUTO452 device overview before remote actions. |
-| `restart-retire-wipe-02-remote-actions-restart-menu.png` | Restart available under Remote actions. |
-| `restart-retire-wipe-03-restart-status-pending.png` | Restart action pending. |
-| `restart-retire-wipe-04-restart-status-complete.png` | Restart action completed. |
-| `restart-retire-wipe-05-remove-data-menu.png` | Retire, Wipe, Fresh start, and Autopilot reset options. |
-| `restart-retire-wipe-06-retire-confirmation.png` | Retire confirmation screen. |
-| `restart-retire-wipe-07-retire-status-pending.png` | Retire action pending on WINAUTO452. |
-| `restart-retire-wipe-08-wipe-confirmation.png` | Wipe confirmation screen for WIN-CORP-001. |
-| `restart-retire-wipe-09-notifications-actions-initiated.png` | Notifications showing Restart, Retire, and Wipe initiated. |
-| `restart-retire-wipe-10-device-actions-report-complete.png` | Device Actions report showing completed actions. |
-| `restart-retire-wipe-11-win-corp-not-found-after-wipe.png` | Device page not found after Wipe action. |
+| `07-remote-actions-and-monitoring/device-sync-remote-actions.md` | Sync — non-destructive action used before these |
+| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Device Actions report reviewed in this lab |
+| `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` | Case study referencing remote action behavior |
 
 ---
 
-## Security and Safety Notes
+## Key Learning Outcomes
 
-For production environments:
-
-- Do not perform Retire or Wipe without approval.
-- Confirm the target device name before sending the action.
-- Confirm the assigned user and ownership.
-- Confirm whether the device is corporate or personal.
-- Export or document action status for audit evidence.
-- Avoid using destructive actions on active production devices unless required.
-
----
-
-## Related Files
-
-```text
-07-remote-actions-and-monitoring/collect-diagnostics.md
-07-remote-actions-and-monitoring/device-monitoring-and-reports.md
-08-troubleshooting/remote-actions-diagnostics-troubleshooting.md
-```
-
----
-
-## Final Lab Status
-
-| Item | Status |
-|---|---|
-| Restart action tested | Completed |
-| Retire action tested | Completed |
-| Wipe action tested | Completed |
-| Device action status validated | Completed |
-| Screenshots captured | Completed |
-| Lab documentation completed | Completed |
+- Where Restart, Retire, and Wipe are located in the Intune admin center (Remote actions vs Remove data menus)
+- The difference in data impact between Restart, Retire, and Wipe
+- How the Device Actions report serves as the audit trail for remote action completion
+- Why a device page returning Not found after Wipe is expected behavior
