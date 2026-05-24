@@ -172,16 +172,6 @@ Monitoring is as important as policy deployment in production Intune environment
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `07-remote-actions-and-monitoring/device-sync-remote-actions.md` | Sync action — keeps device reporting current |
-| `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` | Remote actions visible in the Device Actions report |
-| `07-remote-actions-and-monitoring/collect-diagnostics.md` | Collect diagnostics action visible in Device action status |
-
----
-
 ## Key Learning Outcomes
 
 - How to use the Windows devices list, device overview, and Device action status tab for device-level monitoring
