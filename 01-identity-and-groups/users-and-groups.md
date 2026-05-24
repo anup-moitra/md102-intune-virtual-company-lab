@@ -77,7 +77,7 @@ Without this foundation, no other lab in the project can be targeted correctly.
 | GRP-All-Lab-Users | user01, user02, user03, user04, user05 |
 | GRP-Pilot-Users | user01 |
 | GRP-Windows-Users | user01, user02 |
-| GRP-BYOD-Users | user01, user03 |
+| GRP-BYOD-Users | user03, user04 |
 | GRP-Mobile-Users | user01, user04 |
 | GRP-IT-Admins | admin01 |
 | GRP-Autopilot-Devices | WINAUTO452 (via dynamic device rule) |
