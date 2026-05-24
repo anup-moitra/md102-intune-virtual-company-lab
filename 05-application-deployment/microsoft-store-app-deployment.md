@@ -178,16 +178,6 @@ Always validate on a pilot group first. Also confirm whether user or system inst
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user01 and GRP-Pilot-Users |
-| `05-application-deployment/win32-app-deployment-7zip.md` | Next app deployment lab using Win32 packaging |
-| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Next app deployment lab using Microsoft 365 Apps |
-
----
-
 ## Key Learning Outcomes
 
 - How Required and Available app assignments differ in behavior and Company Portal presentation
