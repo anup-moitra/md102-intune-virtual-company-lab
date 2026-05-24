@@ -183,14 +183,6 @@ BitLocker is a high-impact control — a misconfigured policy or missing recover
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Provides the Autopilot-enrolled corporate device WINAUTO452 |
-
----
-
 ## Key Learning Outcomes
 
 - How to create and configure a BitLocker disk encryption policy in Microsoft Intune
