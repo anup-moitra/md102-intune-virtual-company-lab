@@ -161,16 +161,6 @@ Restart is safe for active troubleshooting and can be used freely. Retire and Wi
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `07-remote-actions-and-monitoring/device-sync-remote-actions.md` | Sync — non-destructive action used before these |
-| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Device Actions report reviewed in this lab |
-| `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` | Case study referencing remote action behavior |
-
----
-
 ## Key Learning Outcomes
 
 - Where Restart, Retire, and Wipe are located in the Intune admin center (Remote actions vs Remove data menus)
