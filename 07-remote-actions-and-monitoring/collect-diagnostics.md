@@ -138,16 +138,6 @@ Collect diagnostics is a non-disruptive first-response tool for remote troublesh
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `07-remote-actions-and-monitoring/device-sync-remote-actions.md` | Sync action — used before collecting diagnostics to ensure latest policy state |
-| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Reviews tenant-level monitoring reports alongside device-level action status |
-| `08-troubleshooting/remote-actions-diagnostics-troubleshooting.md` | Case study using this lab as a reference scenario |
-
----
-
 ## Key Learning Outcomes
 
 - How to trigger and confirm the Collect diagnostics remote action in Intune
