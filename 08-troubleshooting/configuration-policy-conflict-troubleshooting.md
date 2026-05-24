@@ -113,14 +113,3 @@ Open baseline profile
 Security baselines are broad policy packages that frequently overlap with dedicated endpoint security policies. The correct approach is not to remove the dedicated policies — it is to identify the overlap and set the duplicate baseline settings to `Not configured`, keeping the dedicated policy as the owner of that setting.
 
 For Device Guard and VBS errors: setting these to `Not configured` does not remove protection from capable devices. It only stops enforcing the setting on devices that cannot satisfy the requirement.
-
----
-
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `06-endpoint-security/windows-security-baseline.md` | Source lab where this issue occurred |
-| `06-endpoint-security/windows-firewall-policy.md` | Dedicated Firewall policy that conflicted with baseline |
-| `06-endpoint-security/windows-defender-antivirus-policy.md` | Dedicated Defender policy that conflicted with baseline |
-| `08-troubleshooting/troubleshooting-summary.md` | Summary of all troubleshooting case studies |
