@@ -73,7 +73,7 @@ The completed labs cover the full modern endpoint management chain:
 ```
 Entra ID users and groups
   → License assignment
-  → Device enrollment (OOBE / Autopilot / BYOD / Android)
+  → Device enrollment (OOBE / Autopilot / BYOD / Android / iOS admin prerequisites complete — hardware pending)
   → Configuration profiles
   → Application deployment
   → Endpoint security policies (AV, Firewall, BitLocker, ASR, Baseline)
