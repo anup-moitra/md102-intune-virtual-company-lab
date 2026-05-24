@@ -210,17 +210,6 @@ In production, BYOD Windows devices should be managed differently from corporate
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user03 and GRP-BYOD-Users |
-| `02-device-enrollment/android-byod-enrollment.md` | Android BYOD comparison — different platform, same BYOD pattern |
-| `04-compliance-and-conditional-access/managed-noncompliant-device-test.md` | Uses WIN-BYOD-001 to test noncompliant BYOD behaviour |
-| `04-compliance-and-conditional-access/conditional-access-enforced-mode-test.md` | Uses WIN-BYOD-001 to validate CA enforced blocking |
-
----
-
 ## Key Learning Outcomes
 
 - How to scope automatic MDM enrollment to a specific BYOD user group
