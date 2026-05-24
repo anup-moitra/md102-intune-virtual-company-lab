@@ -179,8 +179,11 @@ Microsoft Entra admin center
 -> CA-WIN-Require-Compliant-Device-Enforced
 -> Change state to Report-only or Off -> Save
 ```
+If no equivalent Conditional Access protections exist in the tenant, 
+consider re-enabling Security Defaults to restore basic tenant protection:
 
-If no equivalent Conditional Access protections exist in the tenant, consider re-enabling Security Defaults to restore basic tenant protection.
+Microsoft Entra admin center
+-> Properties -> Manage Security defaults -> Enabled -> Save
 
 ---
 
