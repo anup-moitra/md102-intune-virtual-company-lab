@@ -216,17 +216,6 @@ Win32 app deployment is one of the most important Intune skills because most lin
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user01 and GRP-Pilot-Users |
-| `05-application-deployment/microsoft-store-app-deployment.md` | Previous app deployment lab — Store apps |
-| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Next app deployment lab — Microsoft 365 Apps |
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Validates 7-Zip as a required app after Autopilot enrollment |
-
----
-
 ## Key Learning Outcomes
 
 - How to package an EXE installer as `.intunewin` using the Win32 Content Prep Tool
