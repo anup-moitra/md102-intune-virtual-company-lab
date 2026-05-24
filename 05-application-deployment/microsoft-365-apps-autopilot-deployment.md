@@ -215,15 +215,6 @@ Microsoft 365 Apps deployment is most effective when validated at two points: fi
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user01 and GRP-Pilot-Users |
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Validates Microsoft 365 Apps install after Autopilot enrollment |
-
----
-
 ## Key Learning Outcomes
 
 - How to configure Microsoft 365 Apps deployment in Intune using XML
