@@ -42,6 +42,9 @@ The company supports a mixed device environment: corporate Windows laptops, pers
 | ANDROID-BYOD-001 | Personally owned | Android 15 | Android Enterprise work profile, Managed Google Play app deployment |
 | IOS-BYOD-001 | Personally owned | iOS/iPadOS | Admin prerequisites complete; physical enrollment pending |
 
+> For current device lifecycle states (Active, Retired, Wiped, Pending), 
+> see `00-project-overview/device-inventory.md`.
+
 ---
 
 ## Users
