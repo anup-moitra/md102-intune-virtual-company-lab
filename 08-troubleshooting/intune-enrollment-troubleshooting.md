@@ -111,12 +111,3 @@ Microsoft Entra join and Intune management are not the same. Always verify both 
 - MDM management state — visible in the same record and in the Intune device list
 
 A device showing Entra joined but MDM: None is not managed and cannot receive Intune policies.
-
----
-
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-oobe-enrollment.md` | Source lab where this issue occurred |
-| `08-troubleshooting/troubleshooting-summary.md` | Summary of all troubleshooting case studies |
