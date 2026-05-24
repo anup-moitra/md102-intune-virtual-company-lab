@@ -270,17 +270,6 @@ The pilot-first model used here — validating on a single test device before ex
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `01-identity-and-groups/users-and-groups.md` | Provides user01 and GRP-Autopilot-Devices |
-| `05-application-deployment/microsoft-store-app-deployment.md` | Required Store apps validated after Autopilot enrollment |
-| `05-application-deployment/win32-app-deployment-7zip.md` | Required Win32 app validated after Autopilot enrollment |
-| `05-application-deployment/microsoft-365-apps-autopilot-deployment.md` | Microsoft 365 Apps deployment validated after Autopilot enrollment |
-
----
-
 ## Key Learning Outcomes
 
 - How to collect and import a Windows Autopilot hardware hash
