@@ -1,379 +1,133 @@
-# Device Sync Remote Actions
+# Device Sync Remote Action
 
-This lab documents how to trigger a Windows device sync from the Microsoft Intune admin center and how to perform a local sync from Windows Settings.
+## Lab Status
+
+| Field | Value |
+|---|---|
+| Status | Completed |
+| Lab category | Remote actions and monitoring |
+| Remote action | Sync |
+| Test device | WINAUTO452 |
+| Result | Sync completed — last check-in updated |
 
 ---
 
-## Objective
+## Lab Objective
 
-Use Microsoft Intune remote actions to manually sync an enrolled Windows device and verify that the device checks in successfully.
-
-This lab validates that:
-
-- A Windows device can be opened from the Intune admin center.
-- The Intune **Sync** remote action can be initiated from the device overview page.
-- The device can also be synced locally from Windows Settings.
-- The device last check-in time can update after sync.
-- The device remains compliant and managed by Intune.
+Trigger the Sync remote action on WINAUTO452 from the Intune admin center, verify the last check-in updates, and confirm local sync from Windows Settings.
 
 ---
 
 ## Why This Lab Matters
 
-Remote actions are common in real endpoint administration work.
-
-When a policy, app, compliance rule, or security profile is assigned in Intune, the device may not receive it immediately. A support analyst or Intune administrator can trigger a sync to ask the device to check in and receive the latest policy or configuration.
-
-Simple flow:
-
-```text
-Intune admin center
--> Open managed Windows device
--> Trigger Sync remote action
--> Device receives sync request
--> Device checks in with Intune
--> Latest policies and configurations are evaluated
-```
-
-This is useful when troubleshooting delayed policy deployment, app installation issues, compliance updates, or endpoint security configuration changes.
-
----
-
-## Lab Environment
-
-| Item | Value |
-|---|---|
-| Management platform | Microsoft Intune |
-| Device platform | Windows |
-| Test device | WINAUTO452 |
-| Device ownership | Corporate |
-| Device state | Compliant |
-| Managed by | Intune |
-| Primary user | user01 |
-| Lab section | Remote Actions and Monitoring |
-| Current status | Completed |
+When a policy, app, or compliance rule is assigned in Intune, the device may not receive it immediately. Triggering a sync requests the device to check in and apply the latest configuration. This is one of the most common first steps in Intune troubleshooting.
 
 ---
 
 ## Prerequisites
 
-Before starting this lab, the following should already be completed:
-
-- Windows device enrolled into Microsoft Intune.
-- Device visible in the Intune admin center.
-- Device has internet connectivity.
-- Signed-in admin account has permission to perform Intune remote actions.
-- Device is active or able to receive remote commands.
+- WINAUTO452 enrolled in Intune with internet connectivity
+- Admin account has permission to perform Intune remote actions
 
 ---
 
-## Important Notes
+## Remote Action Reference
 
-This lab uses the safe **Sync** action only.
-
-The following actions were not performed in this lab:
-
-```text
-Retire
-Wipe
-Delete
-Autopilot reset
-Fresh start
-```
-
-Those actions can remove data, reset the device, or remove management. They should be tested separately and carefully in dedicated labs.
-
----
-
-## Remote Action Used
-
-| Remote Action | Purpose | Risk Level |
+| Action | Purpose | Risk |
 |---|---|---|
-| Sync | Requests the device to check in with Intune and apply latest policies/configurations | Low |
+| Sync | Requests the device to check in with Intune and apply latest policies | Low — non-destructive |
 
 ---
 
 ## Steps Performed
 
-### Step 1: Opened the Windows Device in Intune
+### Step 1 — Triggered sync from Intune
 
-Navigation used:
+Navigated to:
 
 ```text
-Microsoft Intune admin center
--> Devices
--> Windows
--> Windows devices
--> WINAUTO452
+Devices -> Windows -> Windows devices -> WINAUTO452
 ```
 
-The device overview page confirmed:
+Confirmed device state (Compliant, Corporate, Intune managed) and noted the last check-in time. Selected Sync from the action bar, confirmed the prompt, and received the notification:
 
-- Device name: `WINAUTO452`
-- Compliance state: `Compliant`
-- Ownership: `Corporate`
-- Managed by: `Intune`
-- Last check-in time was visible before running the sync action.
+```text
+Sync initiated — Sync will occur when the device is notified.
+```
+
+![Device overview before sync](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-01-device-overview-before-sync.png)
+
+![Remote sync confirmation](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-02-remote-sync-confirmation.png)
+
+![Sync initiated notification](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-03-sync-initiated-notification.png)
 
 ---
 
-### Step 2: Triggered Remote Sync from Intune
+### Step 2 — Verified last check-in updated
 
-From the device overview page, the following action was selected:
+After the sync, refreshed the device overview. The last check-in time updated, confirming the device communicated with Intune.
 
-```text
-Sync
-```
-
-Intune displayed a confirmation dialog for the device sync action.
-
-The action confirmed that Intune would attempt to check in with the device and sync current actions or policies.
+![Last check-in after remote sync](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-04-last-check-in-after-remote-sync.png)
 
 ---
 
-### Step 3: Confirmed Sync Action
+### Step 3 — Performed local sync from Windows Settings
 
-The sync action was confirmed by selecting:
-
-```text
-Sync device
-```
-
-After confirmation, the Intune notification panel displayed:
+On WINAUTO452, navigated to:
 
 ```text
-Sync initiated
-Sync will occur when the device is notified.
+Settings -> Accounts -> Access work or school -> Managed by HomeLAB -> Device sync status -> Sync
 ```
 
-This confirmed that the remote sync request was successfully initiated from the Intune admin center.
-
----
-
-### Step 4: Verified Last Check-in After Remote Sync
-
-The device overview was refreshed after the sync action.
-
-The last check-in time updated after the remote sync request.
-
-Observed result:
-
-```text
-Last check-in updated after remote sync
-```
-
-This confirms that the device successfully checked in after the sync request.
-
----
-
-### Step 5: Performed Local Sync from Windows Settings
-
-On the Windows device, local sync was performed from Windows Settings.
-
-Navigation used:
-
-```text
-Settings
--> Accounts
--> Access work or school
--> Managed by HomeLAB
--> Device sync status
--> Sync
-```
-
-The local Windows sync page showed:
+The page confirmed:
 
 ```text
 The sync was successful
 ```
 
-This confirmed that the device could also manually sync from the Windows endpoint side.
-
----
-
-## Expected Result
-
-After this lab:
-
-- The Intune device overview should show the Windows device as managed.
-- The Sync remote action should be available from the device action bar.
-- The sync confirmation prompt should appear.
-- The sync initiated notification should appear in Intune.
-- The last check-in time should update after sync.
-- Local Windows sync should complete successfully.
-
----
-
-## Test Result
-
-| Test Item | Result |
-|---|---|
-| Windows device opened in Intune | Completed |
-| Device status verified as Compliant | Completed |
-| Device verified as Intune managed | Completed |
-| Remote Sync action selected | Completed |
-| Sync confirmation prompt displayed | Completed |
-| Sync action initiated | Completed |
-| Last check-in updated after remote sync | Completed |
-| Local Windows sync completed | Completed |
-| Final lab result | Completed |
-
----
-
-## Screenshots
-
-Screenshots are stored in:
-
-```text
-screenshots/sanitized/remote-actions-and-monitoring/
-```
-
-### Device overview before sync
-
-![Device overview before sync](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-01-device-overview-before-sync.png)
-
-### Remote sync confirmation
-
-![Remote sync confirmation](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-02-remote-sync-confirmation.png)
-
-### Sync initiated notification
-
-![Sync initiated notification](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-03-sync-initiated-notification.png)
-
-### Last check-in after remote sync
-
-![Last check-in after remote sync](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-04-last-check-in-after-remote-sync.png)
-
-### Local Windows sync success
-
 ![Local Windows sync success](../screenshots/sanitized/remote-actions-and-monitoring/device-sync-remote-actions-05-local-windows-sync-success.png)
 
-> [!NOTE]
-> Screenshots were sanitized before upload. Tenant names, full email addresses, serial numbers, device identifiers, account identifiers, and top-right signed-in account details should be hidden before publishing publicly.
-
 ---
 
-## Screenshot Files
+## Final Test Result
 
-```text
-device-sync-remote-actions-01-device-overview-before-sync.png
-device-sync-remote-actions-02-remote-sync-confirmation.png
-device-sync-remote-actions-03-sync-initiated-notification.png
-device-sync-remote-actions-04-last-check-in-after-remote-sync.png
-device-sync-remote-actions-05-local-windows-sync-success.png
-```
-
----
-
-## Observations
-
-The Intune notification confirmed that the remote sync was initiated successfully.
-
-The device action status tab already contained previous actions such as Restart and Collect diagnostics. The newly triggered sync was validated mainly through:
-
-- Sync confirmation dialog
-- Sync initiated notification
-- Updated last check-in time
-- Successful local Windows sync
-
-This is acceptable because device action reporting can take time to update, and the last check-in/local sync evidence confirms that the device communicated with Intune.
+| Validation item | Result |
+|---|---|
+| Remote Sync action triggered from Intune | Completed |
+| Sync initiated notification received | Completed |
+| Last check-in time updated after sync | Completed |
+| Local Windows sync confirmed successful | Completed |
 
 ---
 
 ## Troubleshooting Notes
 
-If the Sync action does not appear:
+**Sync action not visible** — confirm the device is enrolled, the platform supports the action, the admin role has the required permissions, and check whether the action is in the overflow menu.
 
-1. Confirm the device is enrolled in Intune.
-2. Confirm the device platform supports the action.
-3. Check the admin role permissions.
-4. Check whether the action is hidden under the overflow menu.
+**Sync initiated but device doesn't check in** — confirm the device is powered on with internet access. Wait several minutes, refresh the device overview, and perform a local sync from Windows Settings as a secondary confirmation.
 
-If sync is initiated but the device does not check in:
-
-1. Confirm the device is powered on.
-2. Confirm the device has internet connectivity.
-3. Wait several minutes and refresh the device overview.
-4. Perform a local sync from Windows Settings.
-5. Check the device last check-in time again.
-
-If local sync fails:
-
-1. Confirm the work or school account is connected.
-2. Confirm the device is still enrolled.
-3. Confirm the user has a valid Intune-capable license.
-4. Restart the device and try sync again.
-5. Review Intune device troubleshooting information.
+**Local sync fails** — confirm the work or school account is still connected, the device is enrolled, and the user has a valid Intune-capable license. Restart the device and retry.
 
 ---
 
-## Security and Privacy Notes
+## Enterprise Reflection
 
-This is a public learning repository.
-
-Do not upload:
-
-- Full real email addresses
-- Real tenant names
-- Tenant IDs
-- Device IDs
-- Object IDs
-- Serial numbers
-- Exchange IDs
-- Internal IP addresses
-- Passwords
-- MFA codes or QR codes
-- Unsanitized screenshots
-
-Before uploading screenshots, hide or blur:
-
-- Top-right signed-in admin account
-- Tenant or domain name
-- Full user principal names
-- Device identifiers
-- Serial numbers
-- Local account identifiers
-- Organization-specific identifiers
+Sync is the non-destructive first action in any Intune troubleshooting workflow. Before investigating policy failures, app deployment issues, or compliance delays, triggering a sync ensures the device has the latest state from Intune. Both the remote sync from the admin center and the local sync from Windows Settings are valid approaches — the local sync is useful when the device is accessible and the admin wants immediate confirmation.
 
 ---
 
-## References
+## Related Labs
 
-- Microsoft Learn: Device actions in Microsoft Intune  
-  https://learn.microsoft.com/en-us/intune/device-management/actions/
-
-- Microsoft Learn: Sync enrolled device for Windows  
-  https://learn.microsoft.com/en-us/intune/user-help/device-actions/sync-device-windows
-
----
-
-## Current Status
-
-| Task | Status |
+| Lab | Relationship |
 |---|---|
-| device-sync-remote-actions.md created | Completed |
-| Device opened in Intune | Completed |
-| Remote sync initiated from Intune | Completed |
-| Sync notification captured | Completed |
-| Last check-in verified after remote sync | Completed |
-| Local Windows sync verified | Completed |
-| Screenshots added | Completed |
-| Final lab status | Completed |
+| `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` | More impactful remote actions performed after sync validation |
+| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Monitoring views that show device check-in and action status |
 
 ---
 
-## Next Step
+## Key Learning Outcomes
 
-Continue to the next Remote Actions and Monitoring lab:
-
-```text
-07-remote-actions-and-monitoring/restart-retire-wipe-actions.md
-```
-
-Recommended approach for the next lab:
-
-```text
-Start with Restart only
-Document Retire and Wipe as theoretical/safety-aware actions
-Do not wipe or delete the lab device unless intentionally testing device reset behavior
-```
+- How to trigger the Sync remote action from the Intune admin center
+- How to confirm sync success using last check-in time rather than waiting for the device action status report
+- How to perform a local sync from Windows Settings as a secondary validation
+- When sync is the appropriate first troubleshooting step before investigating policy or compliance issues
