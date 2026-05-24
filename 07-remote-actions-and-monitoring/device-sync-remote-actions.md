@@ -116,15 +116,6 @@ Sync is the non-destructive first action in any Intune troubleshooting workflow.
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `07-remote-actions-and-monitoring/restart-retire-wipe-actions.md` | More impactful remote actions performed after sync validation |
-| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Monitoring views that show device check-in and action status |
-
----
-
 ## Key Learning Outcomes
 
 - How to trigger the Sync remote action from the Intune admin center
