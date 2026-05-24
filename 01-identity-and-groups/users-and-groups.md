@@ -140,7 +140,7 @@ Created all planned groups with Group type set to Security.
 
 Added users to groups per the membership table above. Key assignments:
 
-- `user01` → `GRP-All-Lab-Users`, `GRP-BYOD-Users`, `GRP-Mobile-Users`, `GRP-All-Lab-Users`
+- `user01` → `GRP-All-Lab-Users`, `GRP-Mobile-Users`, `GRP-Pilot-Users`, `GRP-Windows-Users`
 - `user03` → `GRP-All-Lab-Users`, `GRP-BYOD-Users`
 - `admin01` → `GRP-IT-Admins`
 
