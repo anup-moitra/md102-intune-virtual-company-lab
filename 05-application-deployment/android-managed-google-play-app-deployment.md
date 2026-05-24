@@ -135,14 +135,6 @@ In production, Managed Google Play is the only approved app delivery mechanism f
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/android-byod-enrollment.md` | Prerequisite — provides the enrolled Android work profile device |
-
----
-
 ## Key Learning Outcomes
 
 - How to add and approve Managed Google Play apps in Microsoft Intune
