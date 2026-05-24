@@ -46,13 +46,3 @@ Across all three case studies, the same basic approach was used:
 ## Evidence Handling
 
 All screenshots in this section are reused from completed labs — no new screenshots were created specifically for troubleshooting documentation. Diagnostic ZIP packages and raw log files are not uploaded to this repository.
-
----
-
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-oobe-enrollment.md` | Source lab for enrollment case study |
-| `06-endpoint-security/windows-security-baseline.md` | Source lab for policy conflict case study |
-| `07-remote-actions-and-monitoring/collect-diagnostics.md` | Source lab for diagnostics case study |
