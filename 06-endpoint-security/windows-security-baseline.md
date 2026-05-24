@@ -199,15 +199,6 @@ In production, set conflicting baseline settings to `Not configured` and let ded
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Provides the Autopilot-enrolled corporate device WINAUTO452 |
-| `08-troubleshooting/configuration-policy-conflict-troubleshooting.md` | Documents this baseline conflict as a case study |
-
----
-
 ## Key Learning Outcomes
 
 - How Security Baseline settings can conflict with dedicated Firewall, Defender, and ASR policies — and how to resolve those conflicts
