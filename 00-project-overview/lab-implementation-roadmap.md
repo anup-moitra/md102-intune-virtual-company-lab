@@ -10,7 +10,7 @@ This file tracks the implementation sequence and file completion status for the 
 |---|---|---|
 | 00 | Repository setup and project overview | Completed |
 | 01 | Identity and groups | Completed |
-| 02 | Device enrollment | Completed — iOS physical enrollment pending |
+| 02 | Device enrollment | In Progress — iOS physical enrollment pending |
 | 03 | Configuration profiles | Completed |
 | 04 | Compliance and Conditional Access | Completed |
 | 05 | Application deployment | Completed |
