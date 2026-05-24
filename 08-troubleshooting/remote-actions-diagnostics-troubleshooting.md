@@ -90,13 +90,3 @@ When a documented report view is not visible in the portal, check the device-lev
 - `Tenant administration -> Device diagnostics` (tenant settings)
 
 Portal UI availability can vary by tenant, licence tier, and portal update state. Document the discrepancy as an observation and use the best available evidence.
-
----
-
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `07-remote-actions-and-monitoring/collect-diagnostics.md` | Source lab where this issue occurred |
-| `07-remote-actions-and-monitoring/device-monitoring-and-reports.md` | Covers monitoring views including Device action status |
-| `08-troubleshooting/troubleshooting-summary.md` | Summary of all troubleshooting case studies |
