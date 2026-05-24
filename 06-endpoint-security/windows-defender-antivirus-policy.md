@@ -156,14 +156,6 @@ Defender Antivirus policies should be assigned to device groups representing cor
 
 ---
 
-## Related Labs
-
-| Lab | Relationship |
-|---|---|
-| `02-device-enrollment/windows-autopilot-user-driven-enrollment.md` | Provides the Autopilot-enrolled corporate device WINAUTO452 |
-
----
-
 ## Key Learning Outcomes
 
 - How to create a Microsoft Defender Antivirus policy using Intune Endpoint security
