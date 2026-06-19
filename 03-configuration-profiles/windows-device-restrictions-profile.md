@@ -161,6 +161,14 @@ USB storage blocking is typically part of a broader data protection strategy alo
 
 ---
 
+## Related Blog Guide
+
+For a full step-by-step walkthrough with additional explanation, screenshots, endpoint testing notes, and troubleshooting guidance, see:
+
+[How to Block USB Storage in Microsoft Intune](https://anupmoitra.com/how-to-block-usb-storage-intune/)
+
+---
+
 ## Key Learning Outcomes
 
 - How to find and configure removable storage settings under Administrative Templates in the Settings catalog
