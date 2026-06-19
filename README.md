@@ -70,7 +70,7 @@ Full scenario: [`00-project-overview/company-scenario.md`](00-project-overview/c
 
 The completed labs cover the full modern endpoint management chain:
 
-```
+```text
 Entra ID users and groups
   → License assignment
   → Device enrollment (OOBE / Autopilot / BYOD / Android / iOS admin prerequisites complete — hardware pending)
@@ -88,7 +88,7 @@ Entra ID users and groups
 
 ## Repository Structure
 
-```
+```text
 md102-intune-virtual-company-lab/
 ├── README.md
 ├── 00-project-overview/
@@ -153,11 +153,17 @@ md102-intune-virtual-company-lab/
 
 ---
 
+## Related Blog Articles
+
+- [How to Block USB Storage in Microsoft Intune](https://anupmoitra.com/how-to-block-usb-storage-intune/) — companion guide for the USB storage restriction lab using Microsoft Intune Settings Catalog and endpoint validation.
+
+---
+
 ## Lab Document Format
 
 Each lab document follows a consistent structure:
 
-```
+```text
 Lab status / Lab objective / Why this lab matters
 Lab environment / Prerequisites / Configuration flow
 Steps performed / Validation / Final test result
